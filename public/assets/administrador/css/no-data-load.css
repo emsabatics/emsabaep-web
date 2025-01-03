@@ -1,0 +1,38 @@
+.no-data{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imgadvice {
+    width: 160px;
+    height: auto;
+}
+
+.imgHistoria{
+    height: auto;
+    width: 45%;
+}
+
+.imgpicmain{
+    width: 300px;
+    height: auto;
+}
+  
+.imgadvice img,
+.imgHistoria img,
+.imgpicmain img{
+    width: 100%;
+    height: 100%;
+}
+
+.mensaje-noticia{
+    font-size: 18px;
+    font-family: inherit;
+    text-align: justify;
+}
+
+.mensaje-noticia strong{
+    color: #fe0000;
+    border-bottom: 2px solid #00b6e8;
+}

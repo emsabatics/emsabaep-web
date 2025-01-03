@@ -1,0 +1,149 @@
+.container .card-design-general {
+    /*background-color: #f5f5f5;*/
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 15px auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.container .card-design-general .col {
+    padding: 0 1em 1em 1em;
+    text-align: center;
+}
+
+.container .card-design-general .service-card {
+    width: 100%;
+    height: 100%;
+    padding: 1em 1.5em;
+    border-radius: 5px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
+    transition: 0.5s;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    background: #fff;
+}
+
+.container .card-design-general .service-card::after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#294067, rgb(19 53 123));
+    position: absolute;
+    left: 0%;
+    top: -98%;
+    z-index: -2;
+    transition: all 0.4s cubic-bezier(0.77, -0.04, 0, 0.99);
+}
+
+.container .card-design-general .service-card .setColImgCard{
+    display: flex;
+    justify-content: center;
+    /*margin-bottom: 5px;*/
+}
+
+.container .card-design-general .service-card .setColImgCard p{
+    font-size: 19px;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+}
+
+.container .card-design-general .service-card .setColImgCard .imgcard{
+    width: 100px;
+    height: 100px;
+}
+
+.container .card-design-general .service-card .setColImgCard .imgcard img{
+    width: 100%;
+    height: 100%;
+}
+
+.container .card-design-general .service-card .setTextInfoCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: justify;
+    padding: 10px;
+    row-gap: 10px;
+}
+
+.container .card-design-general .service-card .setTextInfoCard .spanTitletext{
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 600;
+    color: #13357b;
+    margin: 1em 0;
+    z-index: 3;
+}
+
+.container .card-design-general .service-card .setTextInfoCard .spanDescriptiontext{
+    font-size: 15px;
+    /*text-transform: capitalize;*/
+    font-weight: 100;
+    color: #000;
+    margin: 1em 0;
+    text-align: justify;
+    z-index: 3;
+
+}
+
+.container .card-design-general h3 {
+    font-size: 20px;
+    text-transform: capitalize;
+    font-weight: 600;
+    color: #1f194c;
+    margin: 1em 0;
+    z-index: 3;
+}
+
+.container .card-design-general p {
+    color: #575a7b;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+    z-index: 3;
+}
+
+.container .card-design-general .icon-wrapper {
+    background-color: #2c7bfe;
+    position: relative;
+    margin: auto;
+    font-size: 30px;
+    height: 2.5em;
+    width: 2.5em;
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: 0.5s;
+    z-index: 3;
+}
+
+.container.card-design-general .service-card:hover:after {
+    top: 0%;
+}
+
+.container .service-card .icon-wrapper {
+    background-color: #ffffff;
+    color: rgb(19 53 123);
+}
+
+.container .card-design-general .service-card:hover .icon-wrapper {
+    color: #0dcaf0;
+}
+
+.container .card-design-general .service-card:hover h3 {
+    color: #000;
+}
+
+.container .card-design-general .service-card:hover p {
+    color: #000;
+}
+
+@media (max-width: 650px) {
+    .container .card-design-general { grid-template-columns: repeat(1, 1fr); }
+  }

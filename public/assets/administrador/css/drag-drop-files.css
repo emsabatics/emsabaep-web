@@ -1,0 +1,75 @@
+.container{
+    background-color: #fff;
+    width: 100%;
+    min-width: 310px;
+    position: relative;
+    padding: 30px 20px;
+    margin: 10px auto;
+    border-radius: 7px;
+    box-shadow: 0 20px 35px rgba(0,0,0, .05);
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.container label{
+    display: block;
+    position: relative;
+    background-color: #025bee;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    /*width: 300px;*/
+    min-width: 270px;
+    max-width: 300px;
+    padding: 18px 0;
+    margin: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container p{
+    text-align: center;
+    margin: 20px 0 30px 0;
+}
+
+#images{
+    width: 90%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#images-simbolo{
+    width: 90%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+figure{
+    width: 45%;
+}
+
+figcaption{
+    text-align: center;
+    font-size: 1.8vmin;
+    margin-top: 0.5vmin;
+    overflow-wrap: break-word;
+}
+
+.span-img{
+    top: -8px;
+    right: 8px;
+    color: red;
+    font-size: 28px;
+    font-weight: normal;
+    position: absolute;
+}

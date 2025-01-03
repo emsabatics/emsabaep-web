@@ -1,0 +1,228 @@
+@extends('Administrador.Layouts.app')
+
+@section('icon-app')
+<link rel="shortcut icon" type="image/png" href="{{asset('assets/administrador/img/icons/enlace.png')}}">
+@endsection
+
+@section('title-page')
+Admin | Procesos de Contratación {{getNameInstitucion()}}
+@endsection
+
+@section('css')
+<link rel="stylesheet" href="{{asset('assets/administrador/css/personality.css')}}">
+<link rel="stylesheet" href="{{asset('assets/administrador/css/style-modalfull.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.css')}}">
+<script type="text/javascript" src="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.js')}}" ></script>
+<link rel="stylesheet" href="{{asset('assets/administrador/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/administrador/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+@endsection
+
+@section('navbar')
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+      <a href="{{url('home')}}" class="nav-link">Inicio</a>
+    </li>
+  </ul>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto">
+    <!-- Navbar Search -->
+    <!-- Notifications Dropdown Menu -->
+    <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-bell"></i>
+        <span class="badge badge-warning navbar-badge" id="num-noti-span"></span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="contain-noti">
+
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#" title="Ajustes">
+        <i class="fas fa-cogs"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <span class="dropdown-item dropdown-header">Ajustes</span>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+        <i class="fas fa-user-cog mr-2"></i> Perfil
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="{{route('logout')}}" class="dropdown-item">
+          <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+        </a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-widget="fullscreen" href="javascript:void(0)" role="button">
+        <i class="fas fa-expand-arrows-alt"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+@endsection
+
+@section('container-header')
+<div class="row mb-2">
+  <div class="col-sm-12">
+    <h1>Contactos</h1>
+  </div>
+</div>
+@endsection
+
+@section('contenido-body')
+<input type="hidden" name="csrf-token" value="{{csrf_token()}}" id="token">
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+              <div id='map' style='width: 100%; height: 300px;'></div>
+              <pre id="coordinates" class="coordinates"></pre>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row mt-4">
+            <div class="col-lg-12">
+              <div class="card card-default">
+                <div class="card-header">
+                  <h3 class="card-title">Información de Contactos</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group mb-3">
+                        <label for="inputDireccionContact">Dirección</label>
+                        <textarea class="form-control text-justify" id="inputDireccionContact" placeholder="Ingrese una dirección" rows="2" cols="5" maxlength="270"></textarea>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="inputTelefonoContact">Teléfono</label>
+                        <input type="text" class="form-control" id="inputTelefonoContact" placeholder="Teléfono" onkeypress="return solonumeros(event);" maxlength="10">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="inputTelefonoContact2">Teléfono 2 <span class="telcont2">(Opcional)</span></label>
+                        <input type="text" class="form-control" id="inputTelefonoContact2" placeholder="Teléfono 2" onkeypress="return solonumeros(event);" maxlength="10">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="inputEmailContact">Email</label>
+                        <input type="text" class="form-control" id="inputEmailContact" placeholder="Email">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Horario de Atención</label>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Desde:</label>
+                              <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                                <option selected="selected">Lunes</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Hasta:</label>
+                              <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                                <option selected="selected">Viernes</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label>Hora de Apertura:</label>
+                            <div class="form-group">
+                              <input type="time" class="form-control" name="hora_a" id="hora_a">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <label>Hora de Cierre:</label>
+                            <div class="form-group">
+                              <input type="time" class="form-control" name="hora_c" id="hora_c">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 d-flex justify-content-end">
+                      <button type="button" class="btn btn-primary btn-block" onclick="guardarContacto()" style="width: 12%;" id="btnSaveContact"><i
+                            class="fas fa-save mr-2"></i> Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@section('js')
+
+<script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
+<script src="{{asset('assets/administrador/js/contactos.js')}}"></script>
+<script>
+    $('.select2').select2({
+        theme: 'bootstrap4',
+    });
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiamNsb3BlejE0IiwiYSI6ImNqemE2cjI4ZzAwbmEzamxveXU1OG8za3UifQ.BadDhjV5YpOq3cG4c7sTbw';
+    var map=null;
+    var marker;
+    var firstOpen = true;
+    var time;
+    var lat=0;
+    var long=0;
+    var sendlat=0, sendlong=0;
+    var coordenadas= [];
+    
+    const coordinates = document.getElementById('coordinates');
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        lat= position.coords.latitude;
+        long=position.coords.longitude;
+        coordenadas= [long, lat];
+
+        map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            center: coordenadas, // starting position [lng, lat]
+            zoom: 15, // starting zoom
+        });
+
+        marker = new mapboxgl.Marker({draggable: true})
+            .setLngLat(coordenadas)
+            .addTo(map);
+
+        function onDragEnd() {
+            const lngLat = marker.getLngLat();
+            coordinates.style.display = 'block';
+            coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
+            sendlat=lngLat.lat; sendlong=lngLat.lng;
+        }
+
+        marker.on('dragend', onDragEnd);
+    }
+
+    $(document).ready(function(){
+        getLocation();
+    });
+
+</script>
+@endsection

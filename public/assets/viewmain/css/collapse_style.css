@@ -1,0 +1,62 @@
+div.accordion {
+    position: relative;
+    margin: 0.5em;
+}
+
+.myacordion input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
+.myacordion h1 {
+    background: #13357b;
+    color: white;
+    padding: 15px;
+    position: relative;
+}
+
+.myacordion label::before {
+    content: "";
+    display: inline-block;
+    border: 13px solid transparent;
+    border-left: 15px solid white;
+}
+
+.myacordion label {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+}
+
+.myacordion div.p {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    background-color: white;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.myacordion div.p p {
+    padding: 15px;
+}
+
+input:checked~h1 label::before {
+    border-left: 13px solid transparent;
+    border-top: 15px solid white;
+    margin-top: 12px;
+    margin-right: 10px;
+}
+
+.myacordion input:checked~h1~div.p {
+    max-height: 100px;
+}
+
+.myacordion a {
+    color: #13357b;
+}

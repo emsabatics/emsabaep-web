@@ -1,0 +1,162 @@
+:root {
+    --primer-color-emsaba: rgba(0,84,162,1);
+    --segundo-color-emsaba: rgba(0,111,177,1);
+    --tercer-color-emsaba: rgba(0,156,222,1);
+    --white-color: #fff;
+}
+
+.container-service {
+    width: 1200px !important;
+    padding: 0 !important;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+    .container-service {
+        max-width: 1279px !important;
+        padding: 0 !important;
+        margin: 0 80px !important;
+        width: auto !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .container-service {
+        max-width: 959px !important;
+        margin: 0 16px !important;
+        padding: 0 !important;
+        width: auto !important;
+    }
+}
+
+.container-service .gradient-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    padding: 30px;
+}
+
+@media screen and (max-width: 991px) {
+    .container-service .gradient-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.container-service .container-title {
+    text-align: center;
+    padding: 0 !important;
+    margin-bottom: 40px;
+    font-size: 40px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 60px;
+}
+
+.container-service .card {
+    max-width: 550px;
+    border: 0;
+    width: 100%;
+    margin-inline: auto;
+    background-color: #f2f2f2;
+}
+
+.container-service .container-card {
+    position: relative;
+    border: 2px solid transparent;
+    background: linear-gradient(90deg, rgba(0,84,162,1) 0%, rgba(0,111,177,1) 35%, rgba(0,156,222,1) 100%);
+    background-clip: padding-box;
+    border-radius: 45px;
+    padding: 30px 30px 30px 30px;
+    height: 425px;
+}
+
+.container-service .container-card img {
+    margin-bottom: 32px;
+}
+
+.container-service .bg-green-box,
+.container-service .bg-white-box,
+.container-service .bg-yellow-box,
+.container-service .bg-blue-box {
+    position: relative;
+}
+
+.container-service .bg-green-box::after,
+.container-service .bg-white-box::after,
+.container-service .bg-yellow-box::after,
+.container-service .bg-blue-box::after {
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    right: -1px;
+    content: "";
+    z-index: -1;
+    border-radius: 45px;
+}
+
+.container-service .bg-green-box::after {
+    background: linear-gradient(71deg, #0d1212, #3da077, #0d1212);
+}
+
+.container-service .bg-white-box::after {
+    background: linear-gradient(71deg, #121013, #b0afb0, #121013);
+}
+
+.container-service .bg-yellow-box::after {
+    background: linear-gradient(71deg, #110e0e, #afa220, #110e0e);
+}
+
+.container-service .bg-blue-box::after {
+    background: linear-gradient(71deg, #0c0a0e, #5f6fad, #0c0a0e);
+}
+
+.container-service .card-title {
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 40px;
+    font-style: normal;
+    font-size: 28px;
+    padding-bottom: 8px;
+}
+
+.container-service .card-description {
+    font-weight: 600;
+    line-height: 32px;
+    color: #dee2e6;
+    font-size: 16px;
+    max-width: 470px;
+}
+
+.container-service .card-description p{
+    margin: 0;
+}
+
+.button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.button:focus {
+    outline: 3px solid rgba(0,111,177,1);
+    outline-offset: 2px;
+}
+
+.button--outline {
+    background-color: transparent;
+    color: var(--white-color);
+    border: 2px solid var(--white-color);
+}
+
+.button--outline:hover {
+    background-color: var(--tercer-color-emsaba);
+    color: white;
+}

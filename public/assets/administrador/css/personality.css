@@ -1,0 +1,385 @@
+.text-justify  { text-align: justify !important; }
+
+.text-center  { text-align: center !important; }
+
+
+#body-login {
+    height: 100vh !important;
+}
+
+.setBgContent {
+    background: rgb(0,84,162);
+    background: linear-gradient(90deg, rgba(0,84,162,1) 0%, rgba(0,111,177,1) 50%, rgba(0,156,222,1) 100%);
+}
+
+.setBgContent h1 {
+    color: #fff;
+}
+
+.spanlabel {
+    padding-left: 22px;
+    font-size: 12.5px;
+    font-weight: bold;
+    font-style: italic;
+    color: var(--info);
+}
+
+.spanNotiRegistro{
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 3px;
+    font-style: italic;
+}
+
+.spanNotiGer{
+    font-style: italic;
+    font-size: 15px;
+    padding: 3px;
+    color: #0054A2;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #3498db;
+}
+
+.logoimg{
+    width: 100%;
+    height: 100%;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.logoimg img{
+    width: 100%;
+    height: 100%;
+}
+
+/*.dropdown-menu.show{
+    left: -30px !important;
+}*/
+
+.thead-bg-dark {
+    background: #343a40;
+    color: #fff;
+}
+
+.showhideinit:hover {
+    cursor: pointer;
+}
+
+.err404 {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*REGISTRO CONTACTO*/
+.input-group-prepend:hover {
+    cursor: pointer;
+}
+
+.telcont2 {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+/*CALENDARIO EVENT*/
+.noevent {
+    pointer-events: none;
+}
+
+.spanlabel {
+    padding-left: 22px;
+    font-size: 12.5px;
+    font-weight: bold;
+}
+
+.btndisable {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.divgetimg {
+    width: 100%;
+    height: 100%;
+}
+
+.btnSpanDel {
+    background: red;
+    color: white;
+    padding: 10px;
+    border-radius: 9px;
+}
+
+.spandeletepic {
+    margin-left: 17px;
+    background: red;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.btnSpanDel:hover,
+.spandeletepic:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.card-footer-event-edit {
+    display: flex;
+    justify-content: center;
+}
+
+/*UPDATE NOTICIAS*/
+.row-options-header{
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.3em;
+    justify-content: flex-end;
+}
+
+.btn-set1{
+    width: 34%;
+}
+
+.btn-set2{
+    width: 40%;
+}
+
+/*BANNER*/
+.cell-img{
+    width: 151px;
+    height: auto;
+}
+
+.cell-img img{
+    width: 100%;
+    height: 100%;
+}
+
+.divShowImgBanner{
+    width: 75%;
+    height: auto;
+}
+
+.divShowImgBanner img{
+    width: 100%;
+    height: 100%;
+}
+
+.spanshowdescpimg{
+    font-size: 16px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+
+/*VOCALES GAD*/
+.callout-olive{
+    border-left-color: #3d9970;
+}
+
+.callout-navy{
+    border-left-color: #001f3f;
+}
+
+.callout-orange{
+    border-left-color: #fd7e14;
+}
+
+.callout-button{
+    width: 20%;
+    float: right;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+.callout-p{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/*MISION / VISION / OBJETIVOS*/
+.div-set-button{
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px;
+}
+
+.div-set-button button{
+    width: 15%;
+}
+
+
+.p-nodata-yet{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.p-data-full{
+    font-size: 20px;
+    text-align: justify;
+    padding: 15px;
+}
+
+.div-objetivos{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/*GEOGRAFIA Y LIMITES*/
+.ol-geo-lim li{
+    font-size: 19px;
+    margin: 8px 0;
+}
+
+.ol-geo-lim li>span{
+    font-weight: bold;
+    font-size: 18px;
+    font-style: italic;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+.buttonStructure{
+    margin: 15px 0;
+    padding: 4px 2px;
+}
+
+
+/* DEPARTAMENTOS INSTITUCIÓN */
+.cardsRowTitle{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+}
+
+
+.spanViewPac{
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    word-spacing: 1.6px;
+    color: #000000;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    margin: 4px;
+    padding: 6px;
+    text-align: justify;
+}
+
+
+.viewImgPliegoT{
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.viewImgPliegoT img{
+    width: 75%;
+    margin: 1vh;
+}
+
+@media screen and (max-width: 500px) {
+    .card-title {
+        margin: 10px 0px;
+    }
+
+    .card-header>.card-tools {
+        margin: 10px 0px;
+        float: none;
+    }
+
+    .dataTables_info {
+        font-size: 12px;
+        padding: 10px 0px;
+    }
+
+    .dropdown-menu.show {
+        left: 0px !important;
+    }
+
+    .err404 p {
+        padding: 5px 30px;
+        text-align: justify;
+    }
+
+    .callout-button{
+        /*bottom: 22px;
+        right: 22px;
+        top: unset;*/
+        position: unset;
+        float: unset;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 550px){
+    .callout-span-btn{
+        display: none;
+    }
+
+    .callout-p{
+        width: 70%;
+        overflow-wrap: break-word;
+    }
+
+    .div-objetivos{
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+
+@media screen and (max-width: 767.98px) {
+    .error-page>.error-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .row-options-header{
+        flex-direction: column;
+        width: 46%;
+        align-items: flex-end;
+        float: right !important;
+    }
+
+    .btn-set1{
+        width: 54%;
+    }
+    
+    .btn-set2{
+        width: auto;
+    }
+
+    #divTablaBanner,
+    #divNoticias{
+        overflow-y: auto;
+    }
+
+    .div-objetivos{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px){
+    .sidebar-mini.sidebar-collapse .setfooter {
+        margin-left: 4.6rem!important;
+    }
+}

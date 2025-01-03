@@ -1,0 +1,143 @@
+:root {
+    /* Color palette  */
+    --default: #999999;
+    --red: #E74C3C;
+    --blue: #3498DB;
+    --purple: #9B59B6;
+    --yellow: #FEB506;
+    --green: #62CB31;
+    
+    /* Background colors */
+    --bg-from: #1C3744;
+    --bg-to: #1E5372;
+    
+    /* Card color */
+    --bg-card: #fafafa;
+    --bg-card-hover: #dadada;
+}
+
+.tarj-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.tarj-content .tarj{
+    width: 100%;
+    position: relative;
+    height: auto;
+}
+
+.blog-item{
+    border-radius: 5px;
+    /*margin-right: 10px;
+    margin-bottom: 20px;*/
+}
+
+.blog-item.animate{
+    border-bottom: none;
+}
+
+.blog-item.animate:hover{
+    background-color: var(--bg-card);
+}
+  
+.blog-item.animate:before{
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 14px;
+    height: 5px;
+    width: 0%;
+    border-radius: 0 0 5px 5px;
+    transition: 0.5s;
+}
+  
+.blog-item.animate:hover:before{
+    width: 93%;
+    background-color: var(--blue)
+}
+
+/*.tarj-content .tarj.animate{
+    border-bottom: none;
+}
+  
+.tarj-content .tarj.animate:hover{
+    background-color: var(--bg-card);
+}
+  
+.tarj-content .tarj.animate:before{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 5px;
+    width: 0%;
+    border-radius: 0 0 5px 5px;
+    transition: 0.5s;
+}
+  
+.tarj-content .tarj.animate:hover:before{
+    width: 100%;
+    background-color: var(--blue)
+}
+*/
+
+.tarj-content .tarj .icon-end{
+    /*display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0;*/
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 80% 1fr;
+}
+
+.tarj-content .tarj .icon-end .divLinkExterno a{
+    width: 50%;
+    height: 44px;
+}
+
+.tarj-content .tarj .icon-end .div-cont-img{
+    width: 55px;
+    height: 55px;
+}
+.tarj-content .tarj .icon-end .div-cont-img .img-service{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+/*
+What this query really means is, "If [device width] is less than or equal to 600px, then do {...}."
+*/
+@media (max-width: 932px){
+    .tarj-content{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/*
+What this query really means is, "If [device width] is greater than or equal to 600px, then do {...}"
+*/
+@media (min-width: 933px){
+    .tarj-content{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.height-card-body-title{
+    height: 60px;
+    text-align: justify;
+}
+
+.height-card-body-detail{
+    height: 180px;
+    text-align: justify;
+}

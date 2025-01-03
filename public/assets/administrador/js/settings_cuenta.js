@@ -1,0 +1,413 @@
+var arrayImg= [];
+var arrayIdImg= [];
+var longitudArray=0;
+
+/* FUNCION CARGAR BANNER */
+function cargar_archivos(array){
+    var con = 1; var estadoItem='';
+    var html ="<table class='table table-striped projects' id='tableBanner'>"+
+        "<thead>"+
+            "<tr>"+
+                "<th style='width: 1.5%'>"+
+                    "#"+
+                "</th>"+
+                "<th style='width: 20%'>"+
+                    "Archivo"+
+                "</th>"+
+                "<th style='width: 30%'>"+
+                    "Nombre del Archivo"+
+                "</th>"+
+                "<th style='width: 8%' class='text-center'>"+
+                    "Estado"+
+                "</th>"+
+                "<th style='width: 20%'>"+
+                "</th>"+
+            "</tr>"+
+        "</thead><tbody>";
+
+    if(array.length==0){
+        html+="<tr><td colspan='5' style='text-align: center;'>No hay resultados...</td></tr>";
+        document.getElementById('divaggfilecuenta').style.display= 'block';
+    }else{
+        document.getElementById('divaggfilecuenta').style.display='none';
+    }
+
+    $(array).each(function(i,v){
+            let classbadge='';
+            if(v.estado=="1"){
+                estadoItem="Visible";
+                classbadge="badge badge-success";
+            }else{
+                estadoItem="No Visible";
+                classbadge="badge badge-secondary";
+            }
+            //var urlimg= '../../assets/img/banner/'+v.imagen;
+            var tipofile= '"'+v.tipo+'"';
+            html +="<tr id='Tr"+i +"'>"+
+                "<td style='text-align: center;'>"+con+"</td>"+
+                "<td>"+
+                    "<div class='cell-img'>";
+                        if(v.tipo=="video"){
+                            html+=`<img src="/assets/administrador/img/icons/camara-de-video.png" alt="${v.archivo}" style="width: 50% !important;height: 50% !important;">`;
+                        }else if(v.tipo=="imagen"){
+                            html+=`<img src="/files-img/${v.archivo}" alt="${v.archivo}">`;
+                        }
+                    html+="</div>"+
+                "</td>"+
+                "<td>"+v.archivo+"</td>"+
+                "<td class='project-state'>"+
+                    "<span class='"+classbadge+"'>"+estadoItem+"</span>"+
+                "</td>"+
+                "<td class='project-actions text-right'>"+
+                    "<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenfile("+i+", "+tipofile+")'>"+
+                        "<i class='fas fa-folder mr-3'></i>"+
+                        "Ver"+
+                    "</a>";
+                    if(v.estado=="1"){
+                        html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='inactivarFile("+v.id+", "+i+", "+tipofile+")'>"+
+                                "<i class='fas fa-eye-slash mr-3'></i>"+
+                                "Inactivar"+
+                            "</a>";
+                    }else if(v.estado=="0"){
+                        html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='activarFile("+v.id+", "+i+", "+tipofile+")'>"+
+                                "<i class='fas fa-eye mr-3'></i>"+
+                                "Activar"+
+                            "</a>";
+                    }
+                    html+="<a class='btn btn-danger btn-sm mt-2  mr-3' href='javascript:void(0)' onclick='removerFile("+v.id+", "+i+", "+tipofile+")'>"+
+                        "<i class='fas fa-trash mr-3'></i>"+
+                        "Eliminar"+
+                    "</a>"+
+                    "<a class='btn btn-info btn-sm mt-2' onclick='downloadFile("+v.id+")' >"+
+                        "<i class='fas fa-download mr-3'></i>"+
+                        "Descargar"+
+                    "</a>"+
+                "</td>";
+            
+            con++;
+
+            if(arrayIdImg.length==0){
+                arrayIdImg[0]= v.id;
+            }else{
+                arrayIdImg.push(v.id);
+            }
+
+            if(arrayImg.length==0){
+                arrayImg[0]= v.archivo;
+            }else{
+                arrayImg.push(v.archivo);
+            }
+
+            longitudArray= arrayImg.length;
+        
+    });
+    html += "</tbody></table>";
+    
+    $('#divTablaBanner').html(html);
+
+    setTimeout(function(){
+        $('#modalCargando').modal('hide');
+    },800);
+}
+
+/* FUNCION REDIRECCIONAMIENTO A LA PAGINA DE REGISTRO DE IMAGENES */
+function urladdnewpics(){
+    window.location='/registro-files-cuenta';
+}
+
+/* FUNCION PARA REGRESAR A LA PAGINA PRINCIPAL SETTINGS FILE CUENTA*/
+function regresarVista(){
+    window.location='/settings_infor_detaill_cuenta_view';
+}
+
+/* FUNCION QUE GUARDA LAS IMÁGENES */
+function guardarImagenes(e){
+    e.preventDefault();
+    let fileInput = document.getElementById("file");
+
+    var lengimg = fileInput.files.length;
+    var token= $('#token').val();
+    if (lengimg == 0) {
+        swal("No ha seleccionado archivos", "", "warning");
+    } else {
+        $('#modalFullSend').modal('show');
+        var element= document.getElementById('btnSaveFileCuenta');
+        element.setAttribute("disabled", "");
+        element.style.pointerEvents = "none";
+
+        var data = new FormData(formCuentaImg);
+        setTimeout(() => {
+            sendUpdatePicsCuenta(token, data, "/cuentas/registro-file-cuenta", element);
+        }, 900);
+    }
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO DE NUEVAS IMÁGENES */
+function sendUpdatePicsCuenta(token, data, url, el){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader('X-CSRF-TOKEN',token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //console.log(this.responseText);
+            var myArr = JSON.parse(this.responseText);
+            $('#modalFullSend').modal('hide');
+            if(myArr.resultado==true){
+                swal({
+                    title:'Excelente!',
+                    text:'Archivo Subido',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
+
+                setTimeout(function(){
+                    regresarVista();
+                },1500);
+            } else if (myArr.resultado == "noimagen") {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
+                swal("Formato de Archivo no válido", "", "error");
+            } else if (myArr.resultado == "nocopy") {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
+                swal("Error al copiar los archivos", "", "error");
+            }else if (myArr.resultado == false) {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
+                swal("No se pudo Guardar", "", "error");
+            }
+        }else if(xr.status === 400){
+            el.removeAttribute("disabled");
+            el.style.removeProperty("pointer-events");
+            $('#modalFullSend').modal('hide');
+            Swal.fire({
+                title: 'Ha ocurrido un Error',
+                html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                    'Intente nuevamente</p>',
+                type: 'error'
+            });
+        }
+    };
+    xr.send(data);
+}
+
+function viewopenfile(i, tipo){
+    var html= ``;
+    if(tipo=='imagen'){
+        html+=`<img src="/files-img/${arrayImg[i]}" alt="${arrayImg[i]}">`;
+    }else if(tipo=='video'){
+        html+=`<video width="640" height="360" poster="assets/administrador/img/icons/camara-de-video.png" controls>
+        <source src="/files-img/${arrayImg[i]}" type="video/mp4">
+        </video>`;
+    }
+    
+    var htmlspan= "<span class='spanshowdescpimg'>"+arrayImg[i]+"</span>";
+    $('#divShowImgBanner').html(html);
+    $('#divShowSpanBanner').html(htmlspan);
+    setTimeout(() => {
+        $('#modal-view-imagen').modal('show');
+    }, 300);
+}
+
+function inactivarFile(id, i, tipofile){
+    var ntipofile= '"'+tipofile+'"';
+    var token=$('#token').val();
+    var estado = "0";
+    var estadoItem='No Visible';
+    var classbadge="badge badge-secondary";
+    var html="";
+    $.ajax({
+      url: "/in-activar-cuentafile",
+      type: "POST",
+      dataType: "json",
+      headers: {'X-CSRF-TOKEN': token},
+      data: {
+        id: id,
+        estado: estado
+      },
+      success: function (res) {
+        if (res.resultado == true) {
+            swal({
+                title: "Excelente!",
+                text: "Registro Inactivado",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1600,
+            });
+            
+            setTimeout(function () {
+            var elementState= document.getElementById('Tr'+i).cells[3];
+            $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
+
+            html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick=''viewopenfile("+i+", "+ntipofile+")'>"+
+                "<i class='fas fa-folder mr-3'></i>"+
+                "Ver"+
+            "</a>";
+            if(estado=="1"){
+                html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='inactivarFile("+id+", "+i+", "+ntipofile+")'>"+
+                    "<i class='fas fa-eye-slash mr-3'></i>"+
+                    "Inactivar"+
+                "</a>";
+            }else if(estado=="0"){
+                    html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='activarFile("+id+", "+i+", "+ntipofile+")'>"+
+                        "<i class='fas fa-eye mr-3'></i>"+
+                        "Activar"+
+                    "</a>";
+            }
+            html+="<a class='btn btn-danger btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='removerFile("+id+", "+i+", "+ntipofile+")'>"+
+                "<i class='fas fa-trash mr-3'></i>"+
+                "Eliminar"+
+            "</a>"+
+            "<a class='btn btn-info btn-sm mt-2' onclick='downloadImg("+id+")' >"+
+                "<i class='fas fa-download mr-3'></i>"+
+                "Descargar"+
+            "</a>"; 
+            var element= document.getElementById('Tr'+i).cells[4];
+            $(element).html(html);
+            }, 1500);
+        } else if (res.resultado == false) {
+            swal("No se pudo Inactivar", "", "error");
+        }
+      },
+    });
+}
+
+function activarFile(id, i, tipofile){
+    var ntipofile= '"'+tipofile+'"';
+    var token=$('#token').val();
+    var estado = "1";
+    var estadoItem='Visible';
+    var classbadge="badge badge-success";
+    var html="";
+    $.ajax({
+      url: "/in-activar-cuentafile",
+      type: "POST",
+      dataType: "json",
+      headers: {'X-CSRF-TOKEN': token},
+      data: {
+        id: id,
+        estado: estado
+      },
+      success: function (res) {
+        if (res.resultado == true) {
+            swal({
+                title: "Excelente!",
+                text: "Registro Activado",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1600,
+            });
+            
+            setTimeout(function () {
+            var elementState= document.getElementById('Tr'+i).cells[3];
+            $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
+
+            html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick=''viewopenfile("+i+", "+ntipofile+")'>"+
+                "<i class='fas fa-folder mr-3'></i>"+
+                "Ver"+
+            "</a>";
+            if(estado=="1"){
+                html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='inactivarFile("+id+", "+i+", "+ntipofile+")'>"+
+                    "<i class='fas fa-eye-slash mr-3'></i>"+
+                    "Inactivar"+
+                "</a>";
+            }else if(estado=="0"){
+                    html+="<a class='btn btn-secondary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='activarFile("+id+", "+i+", "+ntipofile+")'>"+
+                        "<i class='fas fa-eye mr-3'></i>"+
+                        "Activar"+
+                    "</a>";
+            }
+            html+="<a class='btn btn-danger btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='removerFile("+id+", "+i+", "+ntipofile+")'>"+
+                "<i class='fas fa-trash mr-3'></i>"+
+                "Eliminar"+
+            "</a>"+
+            "<a class='btn btn-info btn-sm mt-2' onclick='downloadImg("+id+")' >"+
+                "<i class='fas fa-download mr-3'></i>"+
+                "Descargar"+
+            "</a>"; 
+            var element= document.getElementById('Tr'+i).cells[4];
+            $(element).html(html);
+            }, 1500);
+        } else if (res.resultado == false) {
+            swal("No se pudo Inactivar", "", "error");
+        }
+      },
+    });
+}
+
+/* FUNCION PARA ELIMINAR BANNER */
+function removerFile(id, i, d) {
+    var estado = "0";
+    var token= $('#token').val();
+
+    var URLactual = '/settings_infor_detaill_cuenta_view';
+
+    Swal.fire({
+      title: "<strong>¡Aviso!</strong>",
+      type: "warning",
+      html: "¿Está seguro que desea eliminar este registro?",
+      showCloseButton: false,
+      showCancelButton: true,
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusCancel: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+      confirmButtonAriaLabel: "Thumbs up, Si",
+      cancelButtonText: '<i class="fa fa-close"></i> No',
+      cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: "/delete-cuentafile",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                id: id,
+                estado: estado,
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Eliminado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        window.location= URLactual;
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Eliminar", "", "error");
+                }
+            },
+            statusCode:{
+                400: function(){
+                    Swal.fire({
+                        title: 'Ha ocurrido un Error',
+                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                            'Intente nuevamente</p>',
+                        type: 'error'
+                    });
+                }
+            }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+}
+
+function downloadFile(id){
+    var url='/download-cuenta-file/'+id;
+    //window.open(url, '_blank');
+    window.location='/download-cuenta-file/'+id;
+}
