@@ -17,7 +17,7 @@ class DocOperativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.operativo.operativo', ['operativo'=> $operativo, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -27,7 +27,7 @@ class DocOperativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.operativo.registrar_docoperativo', ['anio'=> $dateyear, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -99,7 +99,7 @@ class DocOperativoController extends Controller
             ->select('SELECT titulo, archivo FROM tab_doc_operativo WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.operativo.viewdocoperativo', ['filedocoper'=> $filedocoper]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -161,7 +161,7 @@ class DocOperativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.operativo.editar_docoperativo', ['filedocoper'=> $filedocoper, 'anio'=> $anio, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

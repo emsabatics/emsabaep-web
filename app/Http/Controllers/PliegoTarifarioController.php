@@ -18,7 +18,7 @@ class PliegoTarifarioController extends Controller
             $pliego = DB::table('tab_pliego_tarifario')->get();
             return response()->view('Administrador.Documentos.pliego.pliego', ['pliego'=> $pliego]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -27,7 +27,7 @@ class PliegoTarifarioController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return response()->view('Administrador.Documentos.pliego.registrar_pliego');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -121,7 +121,7 @@ class PliegoTarifarioController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pliego.viewpliego', ['filept'=> $filept]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -151,7 +151,7 @@ class PliegoTarifarioController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pliego.editar_pliego', ['filepliego'=> $filepliego]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

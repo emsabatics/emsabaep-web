@@ -21,8 +21,8 @@ class AboutController extends Controller
                 return response()->view('Administrador.Infor.about');
             }*/
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 

@@ -22,7 +22,7 @@ class LotaipController extends Controller
             $artlotaip= DB::connection('mysql')->table('tab_art_lotaip')->orderBy('descripcion','asc')->get();
             return view('Administrador.Documentos.lotaip.settingslotaip', ['itemlotaip'=> $itemlotaip, 'artlotaip'=> $artlotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -131,7 +131,7 @@ class LotaipController extends Controller
             $artlotaip= DB::connection('mysql')->table('tab_art_lotaip')->orderBy('descripcion','asc')->get();
             return view('Administrador.Documentos.lotaip.articleslotaip', ['artlotaip'=> $artlotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -234,7 +234,7 @@ class LotaipController extends Controller
             $optlotaip= DB::connection('mysql')->table('tab_opciones_lotaip')->orderBy('descripcion','asc')->get();
             return view('Administrador.Documentos.lotaip.opcioneslotaip', ['optlotaip'=> $optlotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -346,7 +346,7 @@ class LotaipController extends Controller
             $ordermes= DB::connection('mysql')->select('SELECT l.id_anio, l.id_mes, m.mes FROM tab_lotaip l, tab_meses m WHERE l.id_mes=m.id ORDER BY id_anio ASC');
             return view('Administrador.Documentos.lotaip.lotaip', ['lotaip'=> $lotaip, 'year'=> $year, 'orderby'=> $orderby, 'ordermes'=> $ordermes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -376,7 +376,7 @@ class LotaipController extends Controller
             json_encode($resultado);
             return view('Administrador.Documentos.lotaip.nlotaip', ['lotaip'=> $resultado]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -388,7 +388,7 @@ class LotaipController extends Controller
             $item_lotaip= DB::connection('mysql')->table('tab_item_lotaip')->orderBy('literal','asc')->get();
             return response()->view('Administrador.Documentos.lotaip.registrar_lotaip', ['anio'=> $anio, 'mes'=> $mes, 'item_lotaip'=> $item_lotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -490,7 +490,7 @@ class LotaipController extends Controller
                 WHERE l.id_anio=y.id AND l.id_mes=m.id AND l.id_item_lotaip=i.id AND l.id=?', [$id]);
             return response()->view('Administrador.Documentos.lotaip.viewlotaip', ['filelotaip'=> $filelotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -505,7 +505,7 @@ class LotaipController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.lotaip.editar_lotaip', ['filelotaip'=> $filelotaip, 'anio'=> $anio, 'mes'=> $mes, 'item_lotaip'=> $item_lotaip]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -686,7 +686,7 @@ class LotaipController extends Controller
             //return $resultado;
             return view('Administrador.Documentos.lotaip.nlotaipv2', ['lotaip'=> $resultado]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -700,7 +700,7 @@ class LotaipController extends Controller
             //$item_lotaip= DB::connection('mysql')->table('tab_item_lotaip')->orderBy('literal','asc')->get();
             return response()->view('Administrador.Documentos.lotaip.registrar_lotaip_v2', ['anio'=> $anio, 'mes'=> $mes, 'art_lotaip'=> $art, 'opt_lotaip'=> $opt]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -943,7 +943,7 @@ class LotaipController extends Controller
             }
             return response()->view('Administrador.Documentos.lotaip.viewlotaipv2', ['filelotaip'=> $filelotaip, 'tipo'=> $tipe, 'typeabr'=> $tipo]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1076,7 +1076,7 @@ class LotaipController extends Controller
                     'opt_lotaip'=> $opt_bd, 'typeop'=> $tipo, 'fechatoshow'=> $fechatoshow, 'horatoshow'=> $horatoshow]);
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

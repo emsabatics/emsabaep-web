@@ -26,7 +26,7 @@ class MediosVerificacionController extends Controller
             }
             return response()->view('Administrador.Documentos.mediosv.mediosv', ['mediosv'=> json_encode($dato)]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -62,7 +62,7 @@ class MediosVerificacionController extends Controller
             $anio= DB::connection('mysql')->table('tab_anio')->orderBy('nombre','asc')->get();
             return view('Administrador.Documentos.mediosv.registrar_mediosv', ['anio'=> $anio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -180,7 +180,7 @@ class MediosVerificacionController extends Controller
             ->get();
             return view('Administrador.Documentos.mediosv.actualizar_mediosv', ['filemediosv'=> $filemediosv, 'archivosmv'=> $sql_archivos, 'anio'=> $anio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -233,7 +233,7 @@ class MediosVerificacionController extends Controller
                 WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.mediosv.viewmediosv', ['filemediosv'=> $filemediosv]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

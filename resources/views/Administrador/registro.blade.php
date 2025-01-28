@@ -78,7 +78,7 @@
 
         <div class="row">
           <div class="col-12">
-            <a href="{{url('/login')}}" class="text-center"><i class="fa fa-chevron-left"></i> &nbsp; Regresar</a>
+            <a href="{{url('/loginadmineep')}}" class="text-center"><i class="fa fa-chevron-left"></i> &nbsp; Regresar</a>
           </div>
         </div>
         </div>

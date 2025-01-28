@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
         <!-- Libraries Stylesheet -->
         <link href="{{asset('assets/viewmain/lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
         <link href="{{asset('assets/viewmain/lib/lightbox/css/lightbox.min.css')}}" rel="stylesheet">
@@ -30,6 +32,7 @@
         <!-- Template Stylesheet -->
         <link href="{{asset('assets/viewmain/css/style.css')}}" rel="stylesheet">
         <link href="{{asset('assets/viewmain/css/loadGif.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/viewmain/css/botonflotante.css')}}" rel="stylesheet">
         @yield('css')
     </head>
 
@@ -167,6 +170,10 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
+        <!-- Botón flotante -->
+        <button class="floating-btn" onclick="alert('¡Botón flotante clickeado!')">
+            <i class="fas fa-headset"></i>
+        </button>
         
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -182,7 +189,7 @@
             var imglogoblanco='';
 
             var resultadoArray = {{Illuminate\Support\Js::from(getLogos())}};
-            console.log(resultadoArray);
+            
             $(resultadoArray).each(function(i,v){
                if(v.archivo.includes('blanco')){
                 imglogoblanco= v.archivo;

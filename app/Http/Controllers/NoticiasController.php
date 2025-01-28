@@ -15,7 +15,7 @@ class NoticiasController extends Controller
         if(Session::get('usuario') && Session::get('usuario')!='operador'){
             return view('Administrador.Noticias.registrar_noticia');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -28,7 +28,7 @@ class NoticiasController extends Controller
             $sqlimg= DB::connection('mysql')->select('SELECT id, imagen FROM tab_img_noticias WHERE id_noticia=? AND estado=?', [$id, $estado]);
             return view('Administrador.Noticias.actualizar_noticia', ['texto'=> $sqltexto, 'imagen'=> $sqlimg]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -136,7 +136,7 @@ class NoticiasController extends Controller
             //['datos'=> json_encode($dato)]
             return view('Administrador.Noticias.listado_noticia', ['datos'=> json_encode($dato)]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

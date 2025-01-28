@@ -17,7 +17,7 @@ class DocLaboralController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.laboral.laboral', ['laboral'=> $laboral, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -27,7 +27,7 @@ class DocLaboralController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.laboral.registrar_doclaboral', ['anio'=> $dateyear, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -99,7 +99,7 @@ class DocLaboralController extends Controller
             ->select('SELECT titulo, archivo FROM tab_doc_laboral WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.laboral.viewdoclaboral', ['filedoclab'=> $filedoclab]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -161,7 +161,7 @@ class DocLaboralController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.laboral.editar_doclaboral', ['filedolab'=> $filedolab, 'anio'=> $anio, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

@@ -1,0 +1,53 @@
+/* Colores Azul */
+:root {
+    --color-principal: #007BFF;
+    --color-secundario: #0056b3;
+    --color-fondo: #f0f8ff;
+    --color-texto: #333;
+    --color-boton: #0069d9;
+    --color-boton-hover: #0056b3;
+    --color-boton-flotante: #13357b;
+    --color-boton-flotante-hover: #1175a3;
+}
+
+
+/* Estilo del botón flotante */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    /*bottom: 95px;*/
+    right: 20px;
+    background-color: var(--color-boton-flotante);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+
+.floating-btn:hover {
+    background-color: var(--color-boton-flotante-hover);
+}
+
+/* Estilo responsive */
+@media screen and (max-width: 768px) {
+
+    /* Aseguramos que el botón flotante sea accesible en pantallas pequeñas */
+    .floating-btn {
+        bottom: 15px;
+        /*right: 15px;*/
+        /*bottom: 90px;*/
+        right: 27px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+}

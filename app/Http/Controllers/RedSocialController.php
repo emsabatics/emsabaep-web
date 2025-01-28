@@ -25,7 +25,7 @@ class RedSocialController extends Controller
             ->get();
             return view('Administrador.RedSocial.redsocial', ['socialmedia'=> $socialmedia, 'redsocial'=> $redsocial]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -147,7 +147,7 @@ class RedSocialController extends Controller
             $socialmedia= DB::connection('mysql')->table('tab_red_social')->get();
             return view('Administrador.RedSocial.aggredsocial', ['socialmedia'=> $socialmedia]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

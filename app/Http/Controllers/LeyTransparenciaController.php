@@ -21,7 +21,7 @@ class LeyTransparenciaController extends Controller
                 return response()->view('Administrador.Documentos.transparencia.transparencia', ['transparencia' => $transparencia]);
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -29,8 +29,8 @@ class LeyTransparenciaController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return response()->view('Administrador.Documentos.transparencia.registrar_transparencia');
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 
@@ -116,7 +116,7 @@ class LeyTransparenciaController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.transparencia.viewtransparencia', ['filer'=> $filer]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -168,7 +168,7 @@ class LeyTransparenciaController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.transparencia.editar_transparencia', ['transparencia'=> $transparencia]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -288,8 +288,8 @@ class LeyTransparenciaController extends Controller
 
             return response()->view('Administrador.Documentos.transparencia.actualizar_transparencia', ['dataTexto'=> $sql_texto]);
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 

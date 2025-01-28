@@ -25,8 +25,8 @@ class HistoriaController extends Controller
             //return response()->view('Administrador.Infor.historia', ['historia' => $historia]);
             //return response()->view('Administrador.Infor.historia');
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 
@@ -34,8 +34,8 @@ class HistoriaController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador' || Session::get('tipo_usuario')=='semiadministrador')){
             return response()->view('Administrador.Infor.registrar_historia');
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 
@@ -211,8 +211,8 @@ class HistoriaController extends Controller
 
             return response()->view('Administrador.Infor.actualizar_historia', ['dataImg'=> $sql_img, 'dataTexto'=> $sql_texto]);
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 

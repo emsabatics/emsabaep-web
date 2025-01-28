@@ -114,7 +114,7 @@ class NotificacionController extends Controller
             //return response()->view('Administrador.Notificaciones.notificacion', ['notificacion' => $array_resultado]);
             return response()->view('Administrador.Notificaciones.notificacion');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -167,7 +167,7 @@ class NotificacionController extends Controller
 
             return $data;
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -272,7 +272,7 @@ class NotificacionController extends Controller
 
             return response()->view('Administrador.Notificaciones.viewnotificacion', ['notificacion' => $data]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

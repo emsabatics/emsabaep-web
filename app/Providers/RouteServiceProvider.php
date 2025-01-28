@@ -64,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider
         });*/
 
         RateLimiter::for('cont_admin_vistas', function (Request $request){
-            return Limit::perMinute(15)->by(optional($request->user())->id ?: $request->ip())
+            return Limit::perMinute(10)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429', [], 429);
@@ -106,6 +106,14 @@ class RouteServiceProvider extends ServiceProvider
 
         RateLimiter::for('cont_user_query', function (Request $request) {
             return Limit::perMinute(5)->by(optional($request->user())->id ?: $request->ip())
+            ->response(function (){
+                //return response('Ha excedido el número de intentos', 429);
+                return response()->view('Errores.429_user', [], 429);
+            });
+        });
+
+        RateLimiter::for('chat_users', function (Request $request) {
+            return Limit::perMinute(1)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429_user', [], 429);

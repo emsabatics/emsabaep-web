@@ -45,7 +45,7 @@ class DepartamentoController extends Controller
             }
             return response()->view('Administrador.Infor.departamentos', ['resultado' => $resultado]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -73,7 +73,7 @@ class DepartamentoController extends Controller
             //$groupmision= $estructura->groupBy('tipo');
             return response()->view('Administrador.Infor.registrar_departamento', ['gerencia' => $array_gerencia, 'direccion'=> $array_direccion, 'coordinacion'=> $array_coordinacion]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
     
@@ -82,7 +82,7 @@ class DepartamentoController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador' || Session::get('tipo_usuario')=='semiadministrador')){
             return response()->view('Administrador.Infor.registrar_info_depar');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -113,7 +113,7 @@ class DepartamentoController extends Controller
                 return response()->json(['array'=>$array_resultado]);
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -145,7 +145,7 @@ class DepartamentoController extends Controller
                 return response()->json(['array'=>$array_resultado]);
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -185,7 +185,7 @@ class DepartamentoController extends Controller
                 }
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

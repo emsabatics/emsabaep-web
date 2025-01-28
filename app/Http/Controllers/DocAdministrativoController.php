@@ -16,7 +16,7 @@ class DocAdministrativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.administrativo.administrativo', ['administrativo'=> $administrativo, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -26,7 +26,7 @@ class DocAdministrativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.administrativo.registrar_docadministrativo', ['anio'=> $dateyear, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -98,7 +98,7 @@ class DocAdministrativoController extends Controller
             ->select('SELECT titulo, archivo FROM tab_doc_administrativo WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.administrativo.viewdocadministrativo', ['filedocadmin'=> $filedocadmin]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -160,7 +160,7 @@ class DocAdministrativoController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.administrativo.editar_docadministrativo', ['filedocadmin'=> $filedocadmin, 'anio'=> $anio, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

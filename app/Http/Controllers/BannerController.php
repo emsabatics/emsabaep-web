@@ -17,7 +17,7 @@ class BannerController extends Controller
             $wordCount = $banner->count();
             return view('Administrador.Banner.banner', ['banner'=> $banner]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -25,7 +25,7 @@ class BannerController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return view('Administrador.Banner.registro_banner');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

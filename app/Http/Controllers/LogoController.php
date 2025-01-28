@@ -17,7 +17,7 @@ class LogoController extends Controller
             $wordCount = $logo->count();
             return view('Administrador.Logo.logo', ['logo'=> $logo]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -25,7 +25,7 @@ class LogoController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return view('Administrador.Logo.registro_logo');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

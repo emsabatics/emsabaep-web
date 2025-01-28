@@ -21,7 +21,7 @@ class UsuariosController extends Controller
             ->get();
             return view('Administrador.Usuarios.usuario', ['getusers'=> $getusers]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -31,7 +31,7 @@ class UsuariosController extends Controller
             $perfiluser= DB::connection('mysql')->table('tab_perfil_usuario')->orderBy('nombre')->get();
             return response()->view('Administrador.Usuarios.registrar_usuario', ['perfiluser'=> $perfiluser]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -122,7 +122,7 @@ class UsuariosController extends Controller
             $perfiluser= DB::connection('mysql')->table('tab_perfil_usuario')->orderBy('nombre')->get();
             return response()->view('Administrador.Usuarios.editar_usuario', ['perfiluser'=> $perfiluser, 'datos_user'=>$datos_user]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -154,7 +154,7 @@ class UsuariosController extends Controller
             $perfiluser= DB::connection('mysql')->table('tab_perfil_usuario')->orderBy('nombre')->get();
             return view('Administrador.Usuarios.perfilusuario', ['perfiluser'=> $perfiluser]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -242,7 +242,7 @@ class UsuariosController extends Controller
             $perfiluser= DB::connection('mysql')->table('tab_perfil_usuario')->orderBy('nombre')->get();
             return view('Administrador.Usuarios.settings_usuario', ['perfiluser'=> $perfiluser, 'datos_user'=>$datos_user]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 }

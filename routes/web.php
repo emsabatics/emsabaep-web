@@ -34,6 +34,7 @@ use App\Http\Controllers\BibliotecaTransparenciaController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\LogoController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +64,12 @@ Route::middleware(['throttle:vista_personalizada'])->group(function () {
         Artisan::call('storage:link'); // this will do the command line job
     });
 });
+
+/*Route::middleware(['throttle:chat_users'])->group(function () {
+    Route::get('/chat', [ChatController::class, 'index']);
+    Route::post('/send-message', [ChatController::class, 'sendMessage']);
+    Route::get('/get-messages', [ChatController::class, 'getMessages']);
+});*/
 
 Route::middleware(['throttle:cont_user_query'])->group(function () {
     /*
@@ -205,7 +212,10 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     /*
     *LOGIN
     */
-    Route::get('/login', [LoginController::class, 'index']);
+    Route::get('/loginadmineep', [LoginController::class, 'index']);
+    /*Route::get('/login', function () {
+        return redirect('/loginadmineep');
+    });*/
     Route::get('/logout', [LoginController::class, 'cerrar_sesion'])->name('logout');
 
     /*

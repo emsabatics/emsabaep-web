@@ -160,7 +160,7 @@ class LoginController extends Controller
 
     public function cerrar_sesion(){
         Session::flush();
-        return redirect()->to('/login');
+        return redirect()->to('/loginadmineep');
     }
 
     /**

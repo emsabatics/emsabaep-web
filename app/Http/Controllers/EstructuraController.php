@@ -18,8 +18,8 @@ class EstructuraController extends Controller
             return response()->view('Administrador.Infor.estructura', ['estructura' => $estructura]);
             //return response()->view('Administrador.Infor.estructura');
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 

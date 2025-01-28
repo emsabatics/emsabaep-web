@@ -69,7 +69,7 @@ class BibliotecaVirtualController extends Controller
             return response()->view('Administrador.Documentos.virtual.virtual', ['biblioteca'=> $arcat, 'totalC'=> $countCat, 
                 'totalSC'=> $countSucCat, 'totalFC'=> $countFileCat]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -142,7 +142,7 @@ class BibliotecaVirtualController extends Controller
             $getSubCat= DB::connection('mysql')->table('tab_bv_subcategoria')->where('id_bv_categoria', $idcat)->get();
             return response()->view('Administrador.Documentos.virtual.registrar_docfilevirtual', ['code'=>$idcat, 'categoria'=> $sql, 'idsubcat'=> $idsubcat, 'subcategoria'=> $getSubCat]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -167,7 +167,7 @@ class BibliotecaVirtualController extends Controller
             return response()->view('Administrador.Documentos.virtual.view_listdocsvirtual', ['code'=>$idcat, 'categoria'=> $sqlcat, 
                 'idsubcat'=> $idsubcat, 'subcategoria'=> $sqlsubcat, 'archivos'=> $getFile]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -314,7 +314,7 @@ class BibliotecaVirtualController extends Controller
             return response()->view('Administrador.Documentos.virtual.editar_docfilevirtual', ['idcat'=>$idcat, 'categoria'=> $sqlcat, 
                 'idsubcat'=> $idsubcat, 'subcategoria'=> $sqlsubcat, 'idfile'=> $idf, 'archivos'=> $getFile]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -454,7 +454,7 @@ class BibliotecaVirtualController extends Controller
 
             return response()->view('Administrador.Documentos.virtual.viewfiledocvirtual', ['filedocvirtual'=> $filedocvirtual]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 }

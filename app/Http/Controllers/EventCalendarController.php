@@ -25,7 +25,7 @@ class EventCalendarController extends Controller
 
             return view('Administrador.Eventos.evento');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

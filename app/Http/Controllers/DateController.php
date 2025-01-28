@@ -15,7 +15,7 @@ class DateController extends Controller
             $dateyear= DB::connection('mysql')->table('tab_anio')->orderByDesc('nombre')->get();
             return view('Administrador.Date.date', ['dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

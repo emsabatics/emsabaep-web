@@ -53,7 +53,7 @@ class RendicionCuentasController extends Controller
             //return $resultado;
             return view('Administrador.Documentos.rendicionc.rendicionc', ['rendicionc'=> $resultado]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -63,7 +63,7 @@ class RendicionCuentasController extends Controller
             $anio= DB::connection('mysql')->table('tab_anio')->orderBy('nombre','desc')->get();
             return response()->view('Administrador.Documentos.rendicionc.registrar_rendicionc', ['anio'=> $anio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -227,7 +227,7 @@ class RendicionCuentasController extends Controller
             ->select('SELECT tipo, titulo, archivo FROM tab_archivos_rendicion_cuentas WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.rendicionc.viewrendicionc', ['filerendicionc'=> $filerendicionc]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -288,7 +288,7 @@ class RendicionCuentasController extends Controller
             //return $filerendicionc;
             return response()->view('Administrador.Documentos.rendicionc.editar_rendicionc', ['filerendicionc'=> $filerendicionc, 'anio'=> $anio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -311,7 +311,7 @@ class RendicionCuentasController extends Controller
             //return json_encode($filerendicionc);
             return response()->view('Administrador.Documentos.rendicionc.editar_rendicionc', ['filerendicionc'=> $filerendicionc, 'anio'=> $anio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

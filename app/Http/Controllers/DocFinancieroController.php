@@ -17,7 +17,7 @@ class DocFinancieroController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.financiero.financiero', ['financiero'=> $financiero, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -27,7 +27,7 @@ class DocFinancieroController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.financiero.registrar_docfinanciero', ['anio'=> $dateyear, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -99,7 +99,7 @@ class DocFinancieroController extends Controller
             ->select('SELECT titulo, archivo FROM tab_doc_financiero WHERE id=?', [$id]);
             return response()->view('Administrador.Documentos.financiero.viewdocfinanciero', ['filedocfin'=> $filedocfin]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -161,7 +161,7 @@ class DocFinancieroController extends Controller
             $mes= DB::connection('mysql')->table('tab_meses')->orderBy('id','asc')->get();
             return response()->view('Administrador.Documentos.financiero.editar_docfinanciero', ['filedocfin'=> $filedocfin, 'anio'=> $anio, 'mes'=> $mes]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

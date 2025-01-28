@@ -16,7 +16,7 @@ class ContactController extends Controller
             $contactos= DB::connection('mysql')->table('tab_contactos')->get();
             return view('Administrador.Contactos.contacto', ['contactos'=> $contactos]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -25,7 +25,7 @@ class ContactController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return view('Administrador.Contactos.registro_contacto');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -34,7 +34,7 @@ class ContactController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return view('Administrador.Contactos.registro_location_map');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -161,7 +161,7 @@ class ContactController extends Controller
                 return view('Administrador.Contactos.editar_location_map', ['resultado'=> $resultado, 'coordenadas'=> $coordenadas]);
             }
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -255,7 +255,7 @@ class ContactController extends Controller
             $filecuenta= DB::connection('mysql')->table('tab_img_infor_cuenta')->get();
             return view('Administrador.InforCuentaView.inforcuentaview', ['filecuenta'=> $filecuenta]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -263,7 +263,7 @@ class ContactController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return view('Administrador.InforCuentaView.registro_inforcuentaview');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

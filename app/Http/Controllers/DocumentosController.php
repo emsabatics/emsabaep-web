@@ -22,7 +22,7 @@ class DocumentosController extends Controller
 
             return response()->view('Administrador.Documentos.pac.pac', ['pac'=> $pac]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -37,7 +37,7 @@ class DocumentosController extends Controller
             
             return response()->view('Administrador.Documentos.pac.reforma_pac', ['pac'=> $pac]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -47,7 +47,7 @@ class DocumentosController extends Controller
             $dateyear= DB::connection('mysql')->table('tab_anio')->orderByDesc('nombre')->get();
             return response()->view('Administrador.Documentos.pac.registrar_pac', ['dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -169,7 +169,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pac.viewpac', ['filepac'=> $filepac]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -184,7 +184,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pac.view_reformas.viewrpac', ['filepac'=> $filepac, 'code'=> $id]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -199,7 +199,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pac.editar_pac', ['filepac'=> $filepac, 'dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -214,7 +214,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.pac.view_reformas.editar_rpac', ['filepac'=> $filepac, 'dateyear'=> $dateyear, 'code'=> $id]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -746,7 +746,7 @@ class DocumentosController extends Controller
             $direccion = DB::table('tab_direccion_dep')->where('estado','1')->get();
             return response()->view('Administrador.Documentos.poa.poa', ['poa'=> $poa, 'direccion'=> $direccion]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -758,7 +758,7 @@ class DocumentosController extends Controller
             $direccion = DB::table('tab_direccion_dep')->where('estado','1')->get();
             return response()->view('Administrador.Documentos.poa.reforma_poa', ['poa'=> $poa, 'direccion'=> $direccion]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -780,7 +780,7 @@ class DocumentosController extends Controller
 
             return response()->view('Administrador.Documentos.poa.registrar_poa', ['dateyear'=> $dateyear, 'area'=> $array_resultado]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1011,7 +1011,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.poa.viewpoa', ['filepoa'=> $filepoa]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1025,7 +1025,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.poa.view_reformas.viewpoa', ['filepoa'=> $filepoa, 'code'=> $id]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1040,7 +1040,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.poa.editar_poa', ['filepoa'=> $filepoa, 'dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1085,7 +1085,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.poa.view_reformas.editar_rpoa', ['filepoa'=> $filepoa, 'dateyear'=> $dateyear, 'code'=> $id]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1337,7 +1337,7 @@ class DocumentosController extends Controller
             $procesoc = DB::table('tab_proceso_contratacion')->where('estado','1')->get();
             return response()->view('Administrador.Procesoc.procesoc', ['procesoc'=> $procesoc]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1387,7 +1387,7 @@ class DocumentosController extends Controller
             $reglamento = DB::table('tab_reglamentos')->get();
             return response()->view('Administrador.Documentos.reglamento.reglamento', ['reglamento'=> $reglamento]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1395,7 +1395,7 @@ class DocumentosController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             return response()->view('Administrador.Documentos.reglamento.registrar_reglamento');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1472,7 +1472,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.reglamento.viewley', ['filer'=> $filer]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -1502,7 +1502,7 @@ class DocumentosController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.reglamento.editar_reglamento', ['reglamento'=> $reglamento]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

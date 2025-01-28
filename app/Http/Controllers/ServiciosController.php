@@ -16,7 +16,7 @@ class ServiciosController extends Controller
             $servicios= DB::connection('mysql')->select('SELECT * FROM tab_servicios');
             return response()->view('Administrador.Servicios.servicios', ['servicios'=> $servicios]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -25,7 +25,7 @@ class ServiciosController extends Controller
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion') ){
             return response()->view('Administrador.Servicios.registrar_servicio');
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -150,7 +150,7 @@ class ServiciosController extends Controller
             //return $servicio;
             return response()->view('Administrador.Servicios.actualizar_servicio', ['servicio'=> $servicio]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

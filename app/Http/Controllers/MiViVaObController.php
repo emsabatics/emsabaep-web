@@ -16,8 +16,8 @@ class MiViVaObController extends Controller
             $groupmision= $mision->groupBy('tipo');
             return response()->view('Administrador.Infor.mision', ['mision' => $groupmision]);
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
     }
 

@@ -76,7 +76,7 @@ class SubserviceController extends Controller
             //return $countCat;
             return response()->view('Administrador.Servicios.Subservicios.subservicio', ['idservicio'=> $idservicio, 'subservicio'=> $arcat, 'totalC'=> $countCat]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -101,7 +101,7 @@ class SubserviceController extends Controller
             //return $idservicio;
             return response()->view('Administrador.Servicios.Subservicios.registrar_subservicio', ['idservicio'=> $idservicio, 'nameservicio'=> $nameservice]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 

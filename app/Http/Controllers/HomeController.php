@@ -19,8 +19,8 @@ class HomeController extends Controller
         if(Session::get('usuario')){
             return response()->view('Administrador.home');
         }else{
-            return redirect('/login');
-            //return redirect()->to('/login');
+            return redirect('/loginadmineep');
+            //return redirect()->to('/loginadmineep');
         }
         //return response()->view('Administrador.home');
     }

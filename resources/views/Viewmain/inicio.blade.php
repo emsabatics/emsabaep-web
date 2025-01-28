@@ -12,7 +12,7 @@
         @if ($sm->nombre=='Facebook')
             <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>
         @elseif ($sm->nombre=='X' || $sm->nombre=='Twitter')
-            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-twitter fw-normal"></i></a>
+            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fa-brands fa-x-twitter fw-normal"></i></a>
         @elseif ($sm->nombre=='Instagram')
             <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>
         @elseif ($sm->nombre=='Telegram')
@@ -498,7 +498,7 @@
     @elseif ($ct['tipo_contacto'] == 'email')
         <a href=""><i class="fas fa-envelope me-2"></i> {{$ct['detalle']}}</a>
     @elseif ($ct['tipo_contacto'] == 'houratencion')
-        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} <br/> {{$ct['hora_c']}}</a>
+        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} - {{$ct['hora_c']}}</a>
     @endif
 @endforeach
 @endsection
@@ -510,7 +510,7 @@
         @if ($sm->nombre=='Facebook')
         <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
         @elseif ($sm->nombre=='X' || $sm->nombre=='Twitter')
-        <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
         @elseif ($sm->nombre=='Instagram')
         <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-instagram"></i></a>
         @elseif ($sm->nombre=='Telegram')

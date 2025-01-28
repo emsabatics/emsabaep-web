@@ -17,7 +17,7 @@ class AuditoriaController extends Controller
             $auditoria= DB::connection('mysql')->select('SELECT p.*, y.nombre as year FROM tab_auditoria p, tab_anio y WHERE p.id_anio=y.id ORDER BY p.id_anio DESC');
             return response()->view('Administrador.Documentos.auditoria.auditoria', ['auditoria'=> $auditoria]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -27,7 +27,7 @@ class AuditoriaController extends Controller
             $dateyear= DB::connection('mysql')->table('tab_anio')->orderByDesc('nombre')->get();
             return response()->view('Administrador.Documentos.auditoria.registrar_auditoria', ['dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -114,7 +114,7 @@ class AuditoriaController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.auditoria.viewauditoria', ['fileauditoria'=> $fileauditoria]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
@@ -173,7 +173,7 @@ class AuditoriaController extends Controller
             ->get();
             return response()->view('Administrador.Documentos.auditoria.editar_auditoria', ['fileauditoria'=> $fileauditoria, 'dateyear'=> $dateyear]);
         }else{
-            return redirect('/login');
+            return redirect('/loginadmineep');
         }
     }
 
