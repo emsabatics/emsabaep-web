@@ -39,4 +39,24 @@
 
         return $logo;
     }
+
+    function getAllSocialMediaGeneral(){
+        $socialmedia= DB::connection('mysql')->table('tab_social_media')
+            ->join('tab_red_social', 'tab_social_media.id_red_social', '=', 'tab_red_social.id')
+            ->select('tab_social_media.*', 'tab_red_social.nombre')
+            ->where('tab_social_media.estado','1')
+            ->get();
+
+        return $socialmedia;
+    }
+
+    function getPhoneNumber(){
+        $contactos= DB::connection('mysql')->table('tab_contactos')->where('tipo_contacto','=','telefono')->where('estado','1')->get();
+        $resultado='';
+        foreach($contactos as $ct){
+            $resultado = $ct->telefono;
+        }
+        $subcadena = substr($resultado, 1, strlen($resultado)-1); 
+        return $subcadena;
+    }
 ?>

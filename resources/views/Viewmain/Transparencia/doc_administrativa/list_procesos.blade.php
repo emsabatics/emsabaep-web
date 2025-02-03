@@ -98,7 +98,7 @@
     @elseif ($ct['tipo_contacto'] == 'email')
         <a href=""><i class="fas fa-envelope me-2"></i> {{$ct['detalle']}}</a>
     @elseif ($ct['tipo_contacto'] == 'houratencion')
-        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} <br/> {{$ct['hora_c']}}</a>
+        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} - {{$ct['hora_c']}}</a>
     @endif
 @endforeach
 @endsection

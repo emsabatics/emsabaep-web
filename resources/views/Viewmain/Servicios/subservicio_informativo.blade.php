@@ -103,12 +103,12 @@
         @if(count($detallesubservice)>0)
             @foreach ($detallesubservice as $item)
             <div class="row gy-4">
-                <div class="col-lg-3 col-12">
-                    <div>
+                <div class="col-lg-2 col-12">
+                    <div style="width: 150px;height: 150px;">
                         <img src="/servicios-img/{{$item->archivo}}" alt="{{$item->archivo}}" style="width: 100%;height: 100%;">
                     </div>
                 </div>
-                <div class="col-lg-9 col-12">
+                <div class="col-lg-10 col-12">
                     {!! $item->descripcion !!}
                 </div>
             </div>
@@ -136,7 +136,7 @@
     @elseif ($ct['tipo_contacto'] == 'email')
         <a href=""><i class="fas fa-envelope me-2"></i> {{$ct['detalle']}}</a>
     @elseif ($ct['tipo_contacto'] == 'houratencion')
-        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} <br/> {{$ct['hora_c']}}</a>
+        <a href="" class="mb-3"><i class="fas fa-info me-2"></i> {{$ct['detalle']}} <br/> {{$ct['hora_a']}} - {{$ct['hora_c']}}</a>
     @endif
 @endforeach
 @endsection

@@ -129,8 +129,9 @@ class HomePageController extends Controller
         //return $coun_squeare;
 
         //return $sql_banner;
+        //'socialmedia'=> $socialmedia, 
         return response()->view('Viewmain.inicio', ['banner'=> $sql_banner, 'about'=> $arab, 'noticias'=> $arnew, 
-            'contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'boletines'=> $sql_eventos, 
+            'contactos'=> $contactos, 'boletines'=> $sql_eventos, 
             'diacivico'=> $diacivico, 'comunicado'=> $comunicado, 'aviso'=> $aviso, 'ccuadrado'=> $coun_squeare, 'crectangulo'=> $coun_rectangle,
             'servicios'=> $servicios]);
     }

@@ -68,7 +68,26 @@
             <div class="row gx-0">
                 <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center" style="height: 45px;">
-                        @yield('social-media')
+                        @php
+                            $socialmedia = getAllSocialMediaGeneral(); // Llamamos a la función del helper
+                        @endphp
+                        @foreach ($socialmedia as $sm)
+                            @if ($sm->nombre=='Facebook')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>
+                            @elseif ($sm->nombre=='X' || $sm->nombre=='Twitter')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fa-brands fa-x-twitter fw-normal"></i></a>
+                            @elseif ($sm->nombre=='Instagram')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>
+                            @elseif ($sm->nombre=='Telegram')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-telegram fw-normal"></i></a>
+                            @elseif ($sm->nombre=='YouTube')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-youtube fw-normal"></i></a>
+                            @elseif ($sm->nombre=='Linkedin')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                            @elseif ($sm->nombre=='TikTok')
+                                <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-tiktok fw-normal"></i></a>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -159,7 +178,26 @@
                     <div class="col-md-6 col-lg-6 col-xl-4">
                         <div class="footer-item d-flex flex-column">
                             <h4 class="mb-4 text-white">Redes Sociales</h4>
-                            @yield('home_socialmedia')
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-share fa-2x text-white me-2"></i>
+                                @foreach ($socialmedia as $sm)
+                                    @if ($sm->nombre=='Facebook')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                    @elseif ($sm->nombre=='X' || $sm->nombre=='Twitter')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                                    @elseif ($sm->nombre=='Instagram')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    @elseif ($sm->nombre=='Telegram')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-telegram"></i></a>
+                                    @elseif ($sm->nombre=='YouTube')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-youtube"></i></a>
+                                    @elseif ($sm->nombre=='Linkedin')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    @elseif ($sm->nombre=='TikTok')
+                                    <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{$sm->enlace}}" target="_blank"><i class="fab fa-tiktok"></i></a>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +209,7 @@
         <a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
         <!-- Botón flotante -->
-        <button class="floating-btn" onclick="alert('¡Botón flotante clickeado!')">
+        <button class="floating-btn" onclick="getSupportOnline()">
             <i class="fas fa-headset"></i>
         </button>
         
@@ -189,6 +227,7 @@
             var imglogoblanco='';
 
             var resultadoArray = {{Illuminate\Support\Js::from(getLogos())}};
+            var resultadoNumber = {{Illuminate\Support\Js::from(getPhoneNumber())}};
             
             $(resultadoArray).each(function(i,v){
                if(v.archivo.includes('blanco')){
@@ -197,6 +236,12 @@
                 imglogonormal= v.archivo;
                }
             });
+
+            function getSupportOnline(){
+                //alert(resultadoNumber);
+                var url= "https://api.whatsapp.com/send/?phone=593"+resultadoNumber+"&text&type=phone_number&app_absent=0";
+                window.open(url, "_blank");
+            }
         </script>
         
 
