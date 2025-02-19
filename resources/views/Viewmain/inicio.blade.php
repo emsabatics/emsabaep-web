@@ -137,7 +137,7 @@
 <div class="container-fluid destination py-5">
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
-            <h5 class="section-title px-3">Boletines</h5>
+            <h5 class="section-title px-3">Anuncios</h5>
         </div>
         <div class="tab-class text-center">
             <ul class="nav nav-pills d-inline-flex justify-content-center mb-5">
@@ -158,7 +158,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex mx-3 py-2 border border-primary bg-light rounded-pill" data-bs-toggle="pill" href="#tab-days">
-                        <span class="text-dark" style="width: 150px;">Días Cívicos</span>
+                        <span class="text-dark" style="width: 180px;">Días Conmemorativos</span>
                     </a>
                 </li>
             </ul>

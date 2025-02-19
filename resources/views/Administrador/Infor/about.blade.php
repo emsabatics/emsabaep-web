@@ -12,6 +12,7 @@ Admin | Acerca {{getNameInstitucion()}}
 <link rel="stylesheet" href="{{asset('assets/administrador/css/personality.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/css/style-modalfull.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/css/no-data-load.css')}}">
+<link rel="stylesheet" href="{{asset('assets/administrador/css/drag-drop.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.css')}}">
 <script type="text/javascript" src="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.js')}}" ></script>
 @endsection
@@ -105,6 +106,58 @@ Admin | Acerca {{getNameInstitucion()}}
     </div>
 </div>
 
+<div class="row">
+  <div class="col-lg-6" id="rowPicsInd2">
+    <div class="card carduppic">
+      <div class="card-body">
+        <div class="card-title fw-mediumbold">Imagen Subida</div>
+        <div class="card-list grid-card-list" id="cardListPicsUp">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card card-default">
+      <div class="card-header">
+        <h3 class="card-title">Subir Imagen</h3>
+        <div class="card-tools">
+          <span class="spanlabel">Las Imagen deben tener un alto mayor a 1000px y un ancho mayor a 1900px</span>
+        </div> 
+      </div>
+      <div class="card-body">
+        <form id="formENoticia" action="" method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-lg-12 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" style="height: 40px;" onclick="updatepicsnews(event)">
+              <i class="far fa-save mr-2"></i>
+                Actualizar Imagen
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group mb-3">
+              <input type="hidden" name="idnoticiapics" id="idnoticiapics">
+              <div class="container">
+                <input type="file" name="file[]" id="file" accept="image/*" onchange="preview()" multiple>
+                <label for="file">
+                  <i class="fas fa-cloud-upload-alt mr-2"></i> Elija una imagen
+                </label>
+                <p id="num-of-files">- Ningún archivo seleccionado -</p>
+                <div id="images"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+        <div class="row" id="rowPicsInd">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!--MODAL AGG / EDIT ABOUT-->
 <div class="modal fade" id="modal-edit-about" tabindex="-1" role="dialog"
 aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="false">
@@ -159,6 +212,7 @@ data-backdrop="static" data-keyboard="false">
 
 @section('js')
 <script src="{{asset('assets/administrador/js/about.js')}}"></script>
+<script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script>
     var inforAbout = {{ Illuminate\Support\Js::from($about) }};
     $('#modalCargando').modal('show');

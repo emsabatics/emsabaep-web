@@ -123,7 +123,11 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     /*
     *BOLETINES VISTA PRINCIPAL
     */
-    Route::get('/boletines', [HomePageController::class, 'get_boletines'])->name('boletines');
+    Route::get('/boletines', function(){
+        return redirect()->route('anuncios');
+    })->name('boletines');
+
+    Route::get('/anuncios', [HomePageController::class, 'get_boletines'])->name('anuncios');
 
 
     /*

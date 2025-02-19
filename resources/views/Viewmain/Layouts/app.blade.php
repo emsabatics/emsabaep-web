@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <a href="{{url('our-services')}}" class="nav-item nav-link">Servicios</a>
-                        <a href="{{url('boletines')}}" class="nav-item nav-link">Boletines</a>
+                        <a href="{{url('anuncios')}}" class="nav-item nav-link">Anuncios</a>
                         <a href="{{url('viewnewsemsaba')}}" class="nav-item nav-link {{setActive('viewnewsemsaba')}}">Noticias</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Transparencia</a>
@@ -170,7 +170,7 @@
                             <h4 class="mb-4 text-white">{{getNameInstitucion()}}</h4>
                             <a href="{{url('aboutus')}}"><i class="fas fa-angle-right me-2"></i> Sobre Nosotros</a>
                             <a href="{{url('our-services')}}"><i class="fas fa-angle-right me-2"></i> Servicios</a>
-                            <a href="{{url('boletines')}}"><i class="fas fa-angle-right me-2"></i> Boletines</a>
+                            <a href="{{url('anuncios')}}"><i class="fas fa-angle-right me-2"></i> Anuncios</a>
                             <a href="{{url('viewnewsemsaba')}}"><i class="fas fa-angle-right me-2"></i> Noticias</a>
                             <a href="{{url('biblioteca-transparencia')}}"><i class="fas fa-angle-right me-2"></i> Transparencia</a>
                         </div>
