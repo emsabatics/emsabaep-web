@@ -42,18 +42,24 @@
             </h5>
         </div>
         <div class="row g-5 align-items-center">
+            @foreach ($about as $ab)
             <div class="col-lg-5">
                 <div class="h-100" style="border: 50px solid; border-color: transparent #13357B transparent #13357B;">
+                    @if(strlen($ab['imagen']) > 0 )
+                    <img src="/files-img/{{$ab['imagen']}}" class="img-fluid w-100 h-100" alt="">
+                    @else
                     <img src="{{asset('assets/viewmain/img/web/interfaz-grafica-principal.png')}}" class="img-fluid w-100 h-100" alt="">
+                    @endif
                 </div>
             </div>
             <div class="col-lg-7" style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(/assets/viewmain/img/web/water-sobre-nosotros.png);">
                 <!--<h5 class="section-about-title pe-3">Sobre Nosotros</h5>-->
                 <h1 class="mb-4">Bienvenido a <span class="text-primary">{{getNameInstitucion()}}</span></h1>
-                @foreach ($about as $ab)
-                <p class="mb-4 text-justify">{{$ab}}</p>
+                @foreach ($ab['descripcion'] as $txt)
+                <p class="mb-4 text-justify">{{$txt}}</p>
                 @endforeach
             </div>
+            @endforeach
         </div>
     </div>
 

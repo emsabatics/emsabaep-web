@@ -67,7 +67,8 @@ class HomePageController extends Controller
         $about = DB::table('tab_about_institucion')->where('estado','1')->get();
         $arab= array();
         foreach ($about as $ab){
-            $arab = explode("//", $ab->descripcion);
+            $descripcion_ab = explode("//", $ab->descripcion);
+            $arab[] = array('descripcion' => $descripcion_ab, 'imagen' => $ab->imagen);
         }
 
         $mariaDbec= DB::connection('mysql')->table('tab_noticias')->where('estado','1')->orderBy('fecha', 'desc')->offset(0)->limit(10)->get();
@@ -480,7 +481,8 @@ class HomePageController extends Controller
         $about = DB::table('tab_about_institucion')->where('estado','1')->get();
         $arab= array();
         foreach ($about as $ab){
-            $arab = explode("//", $ab->descripcion);
+            $descripcion_ab = explode("//", $ab->descripcion);
+            $arab[] = array('descripcion' => $descripcion_ab, 'imagen' => $ab->imagen);
         }
 
         $mision = DB::table('mvvob')->where('estado','1')->get();

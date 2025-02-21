@@ -11,6 +11,7 @@ Admin | Acerca {{getNameInstitucion()}}
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/administrador/css/personality.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/css/style-modalfull.css')}}">
+<link rel="stylesheet" href="{{asset('assets/administrador/css/setcards.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/css/no-data-load.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/css/drag-drop.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.css')}}">
@@ -122,14 +123,14 @@ Admin | Acerca {{getNameInstitucion()}}
       <div class="card-header">
         <h3 class="card-title">Subir Imagen</h3>
         <div class="card-tools">
-          <span class="spanlabel">Las Imagen deben tener un alto mayor a 1000px y un ancho mayor a 1900px</span>
+          <span class="spanlabel">Las Imagen deben tener un alto mayor a 700px y un ancho mayor a 600px</span>
         </div> 
       </div>
       <div class="card-body">
-        <form id="formENoticia" action="" method="POST" enctype="multipart/form-data">
+        <form id="formEAbout" action="" method="POST" enctype="multipart/form-data">
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" style="height: 40px;" onclick="updatepicsnews(event)">
+            <button type="button" class="btn btn-primary" style="height: 40px;" onclick="updatepicsabout(event)">
               <i class="far fa-save mr-2"></i>
                 Actualizar Imagen
             </button>
@@ -138,7 +139,6 @@ Admin | Acerca {{getNameInstitucion()}}
         <div class="row">
           <div class="col-lg-12">
             <div class="form-group mb-3">
-              <input type="hidden" name="idnoticiapics" id="idnoticiapics">
               <div class="container">
                 <input type="file" name="file[]" id="file" accept="image/*" onchange="preview()" multiple>
                 <label for="file">

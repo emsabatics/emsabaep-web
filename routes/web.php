@@ -575,6 +575,8 @@ Route::middleware(['throttle:cont_admin_query'])->group(function () {
     *ABOUT
     */
     Route::post('/registrar-about', [AboutController::class, 'registrar_about']);
+    Route::post('/actualizar-img-about', [AboutController::class, 'actualizar_img_about']);
+    Route::post('/in-activar-img-about', [AboutController::class, 'inactivar_img_about']);
 
     /*
     *MISION-VISION-VALORES-OBJETIVOS
