@@ -545,6 +545,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docpoa($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
@@ -570,6 +571,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docpac($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 

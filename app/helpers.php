@@ -59,4 +59,25 @@
         $subcadena = substr($resultado, 1, strlen($resultado)-1); 
         return $subcadena;
     }
+
+    if (!function_exists('encriptarNumero')) {
+        function encriptarNumero($numero)
+        {
+            // Obtener la clave desde el archivo de configuración
+            $clave = config('encryption.key');
+            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+            $numeroEncriptado = openssl_encrypt($numero, 'aes-256-cbc', $clave, 0, $iv);
+            return base64_encode($numeroEncriptado . '::' . $iv);
+        }
+    }
+    
+    if (!function_exists('desencriptarNumero')) {
+        function desencriptarNumero($valorEncriptado)
+        {
+            // Obtener la clave desde el archivo de configuración
+            $clave = config('encryption.key');
+            list($numeroEncriptado, $iv) = explode('::', base64_decode($valorEncriptado), 2);
+            return openssl_decrypt($numeroEncriptado, 'aes-256-cbc', $clave, 0, $iv);
+        }
+    }
 ?>

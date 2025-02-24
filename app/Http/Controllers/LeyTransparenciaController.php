@@ -140,6 +140,8 @@ class LeyTransparenciaController extends Controller
 
     //FUNCION PARA DESCARGAR LA LEY DE TRANSPARENCIA
     public function download_ley($id){
+        //$id= base64_decode($id);
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_ley_transparencia WHERE id=?', [$id]);
 
         $archivo='';
