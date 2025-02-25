@@ -122,6 +122,7 @@ class DocAdministrativoController extends Controller
 
     //FUNCION PARA DESCARGAR DOC ADMINISTRATIVO
     public function download_doc_administrativo($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_administrativo WHERE id=?', [$id]);
 
         $archivo='';

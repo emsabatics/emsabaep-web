@@ -80,7 +80,7 @@
                         </div>
                         <div id="collapse-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$loop->index}}" data-parent="#accordion">
                             <div class="card-body">
-                                <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadPliegoT({{$item->id}})">
+                                <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadPliegoT('{{encriptarNumero($item->id)}}')">
                                     <i class="fas fa-download mr-3"></i> Descargar
                                 </button>
                             </div>

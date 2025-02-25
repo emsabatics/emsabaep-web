@@ -68,7 +68,7 @@
                             </div>
                             <div id="collapse-{{$i['anio']}}-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$i['anio']}}-{{$loop->index}}" data-parent="#accordion">
                                 <div class="card-body">
-                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloaddocadmin({{$doc['id']}})">
+                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloaddocadmin('{{encriptarNumero($doc['id'])}}')">
                                         <i class="fas fa-download mr-3"></i> Descargar
                                     </button>
                                 </div>

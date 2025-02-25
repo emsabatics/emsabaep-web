@@ -79,7 +79,7 @@
                                         <p class="nest">{{$item['titulo']}}</p>
                                         <ul class="inner">
                                             <div class="options-list">
-                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick='downloadpacT({{$item["id"]}}, "doc", "{{$item["tipor"]}}")'>
+                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick='downloadpacT("{{encriptarNumero($item["id"])}}", "doc", "{{$item["tipor"]}}")'>
                                                     <i class="fas fa-download mr-3"></i> Descargar
                                                 </button>
                                             </div>
@@ -89,7 +89,7 @@
                                         <p class="nest">{{$item['resol_admin']}}</p>
                                         <ul class="inner">
                                             <div class="options-list">
-                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick='downloadpacT({{$item["id"]}}, "resol", "{{$item["tipor"]}}")'>
+                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick='downloadpacT("{{encriptarNumero($item["id"])}}", "resol", "{{$item["tipor"]}}")'>
                                                     <i class="fas fa-download mr-3"></i> Descargar
                                                 </button>
                                             </div>

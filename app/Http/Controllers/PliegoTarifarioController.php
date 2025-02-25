@@ -297,6 +297,7 @@ class PliegoTarifarioController extends Controller
 
     //FUNCION PARA DESCARGAR EL PLIEGO
     public function download_pliego($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_pliego_tarifario WHERE id=?', [$id]);
 
         $archivo='';

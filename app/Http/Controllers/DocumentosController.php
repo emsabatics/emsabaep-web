@@ -251,6 +251,7 @@ class DocumentosController extends Controller
 
     //FUNCION PARA DESCARGAR EL PAC
     public function download_pac($id, $tipo){
+        $id = desencriptarNumero($id);
         if($tipo=='noref'){
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_pac WHERE id=?', [$id]);
         }else if($tipo=='ref'){
@@ -281,6 +282,7 @@ class DocumentosController extends Controller
 
     //FUNCION PARA DESCARGAR EL RA
     public function download_ra($id, $tipo){
+        $id = desencriptarNumero($id);
         if($tipo=='noref'){
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_resoladmin FROM tab_pac WHERE id=?', [$id]);
         }else if($tipo=='ref'){
@@ -1091,6 +1093,7 @@ class DocumentosController extends Controller
 
     //FUNCION PARA DESCARGAR EL POA
     public function download_poa($id, $tipo){
+        $id = desencriptarNumero($id);
         if($tipo=='noref'){
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_poa WHERE id=?', [$id]);
         }else if($tipo=='ref'){

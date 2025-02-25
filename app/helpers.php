@@ -67,7 +67,14 @@
             $clave = config('encryption.key');
             $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
             $numeroEncriptado = openssl_encrypt($numero, 'aes-256-cbc', $clave, 0, $iv);
-            return base64_encode($numeroEncriptado . '::' . $iv);
+            //return base64_encode($numeroEncriptado . '::' . $iv);
+
+            // Convertir a Base64 y reemplazar caracteres problemáticos
+            $base64 = base64_encode($numeroEncriptado . '::' . $iv);
+            //$safeBase64 = strtr($base64, ['+' => '-', '/' => '_', '=' => '']);
+            $safeBase64 = strtr($base64, ['/' => '_']);
+
+            return $safeBase64;
         }
     }
     
@@ -76,8 +83,28 @@
         {
             // Obtener la clave desde el archivo de configuración
             $clave = config('encryption.key');
-            list($numeroEncriptado, $iv) = explode('::', base64_decode($valorEncriptado), 2);
+
+            // Restaurar los caracteres originales
+            //$base64 = strtr($valorEncriptado, ['-' => '+', '_' => '/']);
+            $base64 = strtr($valorEncriptado, ['_' => '/']);
+
+            //list($numeroEncriptado, $iv) = explode('::', base64_decode($valorEncriptado), 2);
+            list($numeroEncriptado, $iv) = explode('::', base64_decode($base64), 2);
             return openssl_decrypt($numeroEncriptado, 'aes-256-cbc', $clave, 0, $iv);
+        }
+    }
+
+    if(!function_exists('convertirABase64')){
+        function convertirABase64($dato)
+        {
+            return base64_encode($dato);
+        }
+    }
+
+    if(!function_exists('convertirDesdeBase64')){
+        function convertirDesdeBase64($datoBase64)
+        {
+            return base64_decode($datoBase64);
         }
     }
 ?>
