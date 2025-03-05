@@ -123,6 +123,7 @@ class DocOperativoController extends Controller
 
     //FUNCION PARA DESCARGAR DOC OPERATIVO
     public function download_doc_operativo($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_operativo WHERE id=?', [$id]);
 
         $archivo='';

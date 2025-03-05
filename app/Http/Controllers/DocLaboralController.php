@@ -123,6 +123,7 @@ class DocLaboralController extends Controller
 
     //FUNCION PARA DESCARGAR DOC LABORAL
     public function download_doc_laboral($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_laboral WHERE id=?', [$id]);
 
         $archivo='';

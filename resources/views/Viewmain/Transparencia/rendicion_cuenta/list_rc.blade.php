@@ -75,10 +75,10 @@
                                                     <ul class="inner">
                                                         <div class="options-list">
                                                             <button type="button" class="btn btn-info btn-sm mr-3 btntable btnlistop" title="Ver" 
-                                                                    onclick="viewopenrendicionc({{$i['idanio']}}, {{$f['id']}}, {{$f['id_rendicion_cuenta']}})">
+                                                                    onclick="viewopenrendicionc('{{encriptarNumero($i['idanio'])}}', '{{encriptarNumero($f['id'])}}', '{{encriptarNumero($f['id_rendicion_cuenta'])}}')">
                                                                 <i class="fas fa-folder"></i> Ver
                                                             </button>
-                                                            <button type="button" class="btn btn-primary btn-sm mr-3 btntable btnlistop" title="Descargar" onclick="downloadrendicionc({{$f['id']}})">
+                                                            <button type="button" class="btn btn-primary btn-sm mr-3 btntable btnlistop" title="Descargar" onclick="downloadrendicionc('{{encriptarNumero($f['id'])}}')">
                                                                 <i class="fas fa-download mr-3"></i> Descargar
                                                             </button>
                                                         </div>
@@ -117,7 +117,7 @@
                                                     <p class="nest">{{$f['titulo']}}</p>
                                                     <ul class="inner">
                                                         <div class="options-list">
-                                                            <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadrendicionc({{$f['id']}})">
+                                                            <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadrendicionc('{{encriptarNumero($f['id'])}}')">
                                                                 <i class="fas fa-download mr-3"></i> Descargar
                                                             </button>
                                                         </div>

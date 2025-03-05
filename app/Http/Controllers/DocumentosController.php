@@ -1511,6 +1511,7 @@ class DocumentosController extends Controller
 
     //FUNCION PARA DESCARGAR EL REGLAMENTO
     public function download_ley($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_reglamentos WHERE id=?', [$id]);
 
         $archivo='';

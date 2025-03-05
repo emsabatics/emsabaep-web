@@ -123,6 +123,7 @@ class DocFinancieroController extends Controller
 
     //FUNCION PARA DESCARGAR DOC FINANCIERO
     public function download_doc_financiero($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_financiero WHERE id=?', [$id]);
 
         $archivo='';

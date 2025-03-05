@@ -5,6 +5,7 @@
 <link href="{{asset('assets/viewmain/css/stylebutton.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/collapse.css')}}">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/inner-list.css')}}">
+<link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 @endsection
 
 
@@ -41,50 +42,55 @@
 <div class="container-fluid contact bg-light py-5">
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
-            @foreach ($docfin as $i)
             <h5 class="section-title px-3">
-                DOCUMENTACIÓN FINANCIERA - AÑO {{$i['anio']}}
+                DOCUMENTACIÓN LEGAL
             </h5>
-            @endforeach
         </div>
         <div class="row g-4 align-items-center mb-2">
             <div class="col-2"></div>
             <div class="col-8">
-                @foreach ($docfin as $i)
+                @if(count($reglamento)>0)
                 <div id="accordion" class="myaccordion">
-                    @if($i['longitud']>0)
-                        @foreach($i['documentos'] as $doc)
-                        <div class="card mt-2">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$i['anio']}}-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$i['anio']}}-{{$loop->index}}">
-                                        {{$doc['titulo']}}
+                    @foreach ($reglamento as $item)
+                    <div class="card mt-2">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}">
+                                    {{$item->nombre_archivo}}
                                     <span class="fa-stack fa-sm">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
                                     </span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapse-{{$i['anio']}}-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$i['anio']}}-{{$loop->index}}" data-parent="#accordion">
-                                <div class="card-body">
-                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloaddocfin('{{encriptarNumero($doc['id'])}}')">
-                                        <i class="fas fa-download mr-3"></i> Descargar
-                                    </button>
-                                </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$loop->index}}" data-parent="#accordion">
+                            <div class="card-body">
+                                <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadReglamento('{{encriptarNumero($item->id)}}')">
+                                    <i class="fas fa-download mr-3"></i> Descargar
+                                </button>
                             </div>
                         </div>
-                        @endforeach
-                    @endif
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
+                @else
+                    <div class="row nonews">
+                        <div class="col-lg-12 no-data">
+                            <div class="imgadvice">
+                                <img src="{{asset('assets/administrador/img/icons/info-no-encontrada.png')}}" alt="Construccion">
+                            </div>
+                            <span class="mensaje-noticia mt-4 mb-4">No hay <strong>información</strong> disponible por el momento...</span>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-2"></div>
         </div>
         <div class="row g-4 bg-light align-items-center mt-2">
             <div class="co-lg-12">
                 <div class="btn-group">
-                    <button class="btn-p btn-intermediate" onclick="comeback_listdocfin()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                    <button class="btn-p btn-intermediate" onclick="comeback_listreglamento()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
                 </div>
             </div>
         </div>

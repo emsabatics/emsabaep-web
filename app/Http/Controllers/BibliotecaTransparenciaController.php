@@ -197,6 +197,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_rc($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         
@@ -246,6 +247,10 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function play_rc($idanio, $idtovideo, $idvideorc){
+        $idanio = desencriptarNumero($idanio);
+        $idtovideo = desencriptarNumero($idtovideo);
+        $idvideorc = desencriptarNumero($idvideorc);
+        
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
@@ -268,6 +273,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docfin($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         
@@ -302,6 +308,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docopt($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         
@@ -335,6 +342,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_doclab($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         
@@ -364,7 +372,7 @@ class BibliotecaTransparenciaController extends Controller
         $reglamento = DB::table('tab_reglamentos')->where('estado','1')->get();
 
         //return $getYearDocLab;
-        return response()->view('Viewmain.Transparencia.reglamentos.list_reglamentos', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'reglamento'=> $reglamento]);
+        return response()->view('Viewmain.Transparencia.reglamentos.listn_reglamentos', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'reglamento'=> $reglamento]);
     }
 
     public function doc_auditoria(){

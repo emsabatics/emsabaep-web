@@ -57,16 +57,16 @@
                             <h2 class="mb-0">
                                 <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}">
                                     {{$item->nombre_archivo}}
-                                <span class="fa-stack fa-sm">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
-                                </span>
+                                    <span class="fa-stack fa-sm">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+                                    </span>
                                 </button>
                             </h2>
                         </div>
                         <div id="collapse-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$loop->index}}" data-parent="#accordion">
                             <div class="card-body">
-                                <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadReglamento({{$item->id}})">
+                                <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloadReglamento('{{encriptarNumero($item->id)}}')">
                                     <i class="fas fa-download mr-3"></i> Descargar
                                 </button>
                             </div>

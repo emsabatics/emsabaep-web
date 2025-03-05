@@ -251,6 +251,7 @@ class RendicionCuentasController extends Controller
 
     //FUNCION PARA DESCARGAR RENDICIÓN DE CUENTAS
     public function download_rendicionc($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_archivos_rendicion_cuentas WHERE id=?', [$id]);
 
         $archivo='';
