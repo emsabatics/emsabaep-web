@@ -138,7 +138,7 @@ Admin | AUDITORIA {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadAuditoria({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadAuditoria('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar Auditoria
                             </a>

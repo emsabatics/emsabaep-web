@@ -54,7 +54,7 @@
                         <p class="card__exit"><i class="fas fa-times"></i></p>
                         <h2 class="card__title">Año {{$y->anio}}</h2>
                         <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docauditoria({{$y->code}})">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
+                          <a class="card__link" href="javascript:void(0)" onclick="view_docauditoria('{{encriptarNumero($y->code)}}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                         </p>
                     </div>
                     @endforeach

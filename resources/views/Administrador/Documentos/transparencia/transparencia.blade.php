@@ -138,7 +138,7 @@ Admin | Ley de Transparencia {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadTransparencia({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadTransparencia('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar Documento
                             </a>

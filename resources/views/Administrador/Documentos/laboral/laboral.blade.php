@@ -149,7 +149,7 @@ Admin | Doc Laboral {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadDocLab({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadDocLab('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-2"></i>
                               Descargar Documento
                             </a>

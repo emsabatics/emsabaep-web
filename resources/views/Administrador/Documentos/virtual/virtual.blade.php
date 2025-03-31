@@ -230,7 +230,7 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                       @endif
                                       <a href="javascript:void(0)" class="btn btn-primary" title="Editar" onclick="editFileOnlyCat({{$f['idfile']}}, 'nosc')"><i class="fas fa-edit"></i></a>
                                       <a href="javascript:void(0)" class="btn btn-secondary" title="Ver Documento" onclick="vistaFileOnlyCat({{$f['idfile']}})"><i class="fas fa-folder"></i></a>
-                                      <a href="javascript:void(0)" class="btn btn-success" title="Descargar Documento" onclick="downloadFileOnlyCat({{$f['idfile']}})"><i class="fas fas fa-download"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-success" title="Descargar Documento" onclick="downloadFileOnlyCat('{{encriptarNumero($f['idfile'])}}')"><i class="fas fas fa-download"></i></a>
                                       <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar" onclick="eliminarFileOnlyCat({{$f['idfile']}}, {{$loop->index}}, 'nosc')"><i class="fas fa-trash"></i></a>
                                     </div>
                                   </td>

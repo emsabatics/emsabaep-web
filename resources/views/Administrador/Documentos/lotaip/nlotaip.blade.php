@@ -183,7 +183,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP({{$f['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('{{encriptarNumero($f['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>
@@ -250,7 +250,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP({{$f['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('{{encriptarNumero($f['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>

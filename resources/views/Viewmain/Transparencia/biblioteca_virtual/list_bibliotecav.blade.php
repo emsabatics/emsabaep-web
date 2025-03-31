@@ -78,7 +78,7 @@
                                                             <p class="nest">{{$f['titulo']}}</p>
                                                             <ul class="inner">
                                                                 <div class="options-list">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual({{$f['idfile']}}, 1)">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual('{{encriptarNumero($f['idfile'])}}', 1)">
                                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                                     </button>
                                                                 </div>
@@ -102,7 +102,7 @@
                                                 <p class="nest">{{$fc['titulo']}}</p>
                                                 <ul class="inner">
                                                     <div class="options-list">
-                                                        <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual({{$fc['idfile']}}, 2)">
+                                                        <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual('{{encriptarNumero($fc['idfile'])}}', 2)">
                                                             <i class="fas fa-download mr-3"></i> Descargar
                                                         </button>
                                                     </div>

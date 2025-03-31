@@ -138,6 +138,7 @@ class AuditoriaController extends Controller
 
     //FUNCION PARA DESCARGAR EL DOC DE AUDITORIA
     public function download_auditoria($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_auditoria WHERE id=?', [$id]);
 
         $archivo='';

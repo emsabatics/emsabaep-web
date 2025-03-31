@@ -171,7 +171,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                       <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateCD({{$f['id']}})">
                                                         <i class="far fa-edit mr-3"></i> Actualizar
                                                       </button>
-                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadCD({{$f['id']}})">
+                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadCD('{{encriptarNumero($f['id'])}}')">
                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                       </button>
                                                     </div>
@@ -187,7 +187,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                       <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateMD({{$f['id']}})">
                                                         <i class="far fa-edit mr-3"></i> Actualizar
                                                       </button>
-                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadMD({{$f['id']}})">
+                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadMD('{{encriptarNumero($f['id'])}}')">
                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                       </button>
                                                     </div>
@@ -203,7 +203,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                       <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateDD({{$f['id']}})">
                                                         <i class="far fa-edit mr-3"></i> Actualizar
                                                       </button>
-                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDD({{$f['id']}})">
+                                                      <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDD('{{encriptarNumero($f['id'])}}')">
                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                       </button>
                                                     </div>
@@ -220,7 +220,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                   <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateFile({{$f['id']}})">
                                                     <i class="far fa-edit mr-3"></i> Actualizar
                                                   </button>
-                                                  <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadFile({{$f['id']}})">
+                                                  <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadFile('{{encriptarNumero($f['id'])}}')">
                                                     <i class="fas fa-download mr-3"></i> Descargar
                                                   </button>
                                                 </div>
@@ -251,7 +251,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                             <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateOtherFile({{$fl['id']}})">
                                               <i class="far fa-edit mr-3"></i> Actualizar
                                             </button>
-                                            <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadOtherFile({{$fl['id']}})">
+                                            <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadOtherFile('{{encriptarNumero($fl['id'])}}')">
                                               <i class="fas fa-download mr-3"></i> Descargar
                                             </button>
                                           </div>
@@ -367,7 +367,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                     <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateCD({{$f['id']}})">
                                                       <i class="far fa-edit mr-3"></i> Actualizar
                                                     </button>
-                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadCD({{$f['id']}})">
+                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadCD('{{encriptarNumero($f['id'])}}')">
                                                       <i class="fas fa-download mr-3"></i> Descargar
                                                     </button>
                                                   </div>
@@ -383,7 +383,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                     <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateMD({{$f['id']}})">
                                                       <i class="far fa-edit mr-3"></i> Actualizar
                                                     </button>
-                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadMD({{$f['id']}})">
+                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadMD('{{encriptarNumero($f['id'])}}')">
                                                       <i class="fas fa-download mr-3"></i> Descargar
                                                     </button>
                                                   </div>
@@ -399,7 +399,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                     <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateDD({{$f['id']}})">
                                                       <i class="far fa-edit mr-3"></i> Actualizar
                                                     </button>
-                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDD({{$f['id']}})">
+                                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDD('{{encriptarNumero($f['id'])}}')">
                                                       <i class="fas fa-download mr-3"></i> Descargar
                                                     </button>
                                                   </div>
@@ -416,7 +416,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                                 <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateFile({{$f['id']}})">
                                                   <i class="far fa-edit mr-3"></i> Actualizar
                                                 </button>
-                                                <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadFile({{$f['id']}})">
+                                                <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadFile('{{encriptarNumero($f['id'])}}')">
                                                   <i class="fas fa-download mr-3"></i> Descargar
                                                 </button>
                                               </div>
@@ -447,7 +447,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                           <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-info btn-sm mr-3 btntable" title="Actualizar" onclick="interfaceupdateOtherFile({{$fl['id']}})">
                                             <i class="far fa-edit mr-3"></i> Actualizar
                                           </button>
-                                          <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadOtherFile({{$fl['id']}})">
+                                          <button type="button" style="color: white;padding: 5px;font-size: 17px;" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadOtherFile('{{encriptarNumero($fl['id'])}}')">
                                             <i class="fas fa-download mr-3"></i> Descargar
                                           </button>
                                         </div>

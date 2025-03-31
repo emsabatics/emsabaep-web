@@ -529,6 +529,7 @@ class LotaipController extends Controller
 
     //FUNCION PARA DESCARGAR EL LOTAIP
     public function download_lotaip($id){
+        $id = desencriptarNumero($id);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip WHERE id=?', [$id]);
 
         $archivo='';
@@ -950,6 +951,7 @@ class LotaipController extends Controller
     //FUNCION PARA DESCARGAR EL LOTAIP
     public function download_lotaip_v2($id, $tipo){
         $archivo='';
+        $id = desencriptarNumero($id);
 
         if($tipo=='cd'){
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_cdatos FROM tab_lotaip_v2 WHERE id=?', [$id]);

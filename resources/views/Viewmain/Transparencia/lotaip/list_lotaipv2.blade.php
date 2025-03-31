@@ -83,7 +83,7 @@
                                                                 <p class="nest">Conjunto de Datos</p>
                                                                 <ul class="inner">
                                                                     <div class="options-list">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileCD({{$f['id']}})">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileCD('{{encriptarNumero($f['id'])}}')">
                                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                                     </button>
                                                                     </div>
@@ -93,7 +93,7 @@
                                                                 <p class="nest">Metadatos</p>
                                                                 <ul class="inner">
                                                                     <div class="options-list">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileMD({{$f['id']}})">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileMD('{{encriptarNumero($f['id'])}}')">
                                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                                     </button>
                                                                     </div>
@@ -103,7 +103,7 @@
                                                                 <p class="nest">Diccionario de Datos</p>
                                                                 <ul class="inner">
                                                                     <div class="options-list">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileDD({{$f['id']}})">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfileDD('{{encriptarNumero($f['id'])}}')">
                                                                         <i class="fas fa-download mr-3"></i> Descargar
                                                                     </button>
                                                                     </div>
@@ -114,7 +114,7 @@
                                                         <p class="nest">{{$f['descripcion']}}</p>
                                                         <ul class="inner">
                                                             <div class="options-list">
-                                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadFile({{$f['id']}})">
+                                                                <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadFile('{{encriptarNumero($f['id'])}}')">
                                                                     <i class="fas fa-download mr-3"></i> Descargar
                                                                 </button>
                                                             </div>
@@ -139,7 +139,7 @@
                                                     <p class="nest">{{$fl['descripcion']}}</p>
                                                     <ul class="inner">
                                                         <div class="options-list">
-                                                            <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadOtherFile({{$fl['id']}})">
+                                                            <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadOtherFile('{{encriptarNumero($fl['id'])}}')">
                                                                 <i class="fas fa-download mr-3"></i> Descargar
                                                             </button>
                                                         </div>

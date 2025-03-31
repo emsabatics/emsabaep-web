@@ -422,6 +422,7 @@ class BibliotecaVirtualController extends Controller
 
     //FUNCION PARA DESCARGAR DOC VIRTUAL
     public function download_doc_virtual($idf, $opcion){
+        $idf = desencriptarNumero($idf);
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_bv_archivos WHERE id=?', [$idf]);
         
         $archivo='';

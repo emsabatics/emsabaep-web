@@ -71,6 +71,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_lotaip($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         
@@ -386,6 +387,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docaud($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
         

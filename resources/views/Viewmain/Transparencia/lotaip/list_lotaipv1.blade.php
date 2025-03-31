@@ -74,7 +74,7 @@
                                                 <p class="nest">{{$f['literal']}}.- {{$f['descripcion']}}</p>
                                                 <ul class="inner">
                                                     <div class="options-list">
-                                                        <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadlotaipv1({{$f['id']}})">
+                                                        <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadlotaipv1('{{encriptarNumero($f['id'])}}')">
                                                             <i class="fas fa-download mr-3"></i> Descargar
                                                         </button>
                                                     </div>
