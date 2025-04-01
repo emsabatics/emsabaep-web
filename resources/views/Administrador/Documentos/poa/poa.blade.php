@@ -154,7 +154,7 @@ Admin | POA {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar POA
                             </a>

@@ -144,11 +144,11 @@ Admin | PAC {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPAC({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPAC('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar PAC
                             </a>
-                            <a class="btn btn-danger btn-sm mt-2" onclick="downloadRA({{$item->id}})">
+                            <a class="btn btn-danger btn-sm mt-2" onclick="downloadRA('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar Resolución
                             </a>

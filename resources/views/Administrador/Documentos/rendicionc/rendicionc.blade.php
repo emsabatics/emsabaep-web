@@ -184,7 +184,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc({{$f['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc('{{encriptarNumero($f['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>
@@ -246,7 +246,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc({{$mv['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc('{{encriptarNumero($mv['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>
@@ -314,7 +314,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc({{$f['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc('{{encriptarNumero($f['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>
@@ -376,7 +376,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                           <i class="fas fa-eye"></i>
                                         </button>
                                         @endif
-                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc({{$mv['id']}})">
+                                        <button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Archivo" onclick="downloadrendicionc('{{encriptarNumero($mv['id'])}}')">
                                           <i class="fas fa-download"></i>
                                         </button>
                                       </td>

@@ -22,7 +22,8 @@ class NoticiasController extends Controller
     //FUNCION QUE DESPLIEGA LA INTERFAZ DE ACTUALIZAR NOTICIA
     public function actualizar_noticia($id){
         if(Session::get('usuario') && Session::get('usuario')!='operador'){
-            $id= base64_decode($id);
+            //$id= base64_decode($id);
+            $id = desencriptarNumero($id);
             $estado='1';
             $sqltexto = DB::connection('mysql')->select('SELECT * FROM tab_noticias WHERE id=?', [$id]);
             $sqlimg= DB::connection('mysql')->select('SELECT id, imagen FROM tab_img_noticias WHERE id_noticia=? AND estado=?', [$id, $estado]);
@@ -130,7 +131,7 @@ class NoticiasController extends Controller
                 $idnoticia= $k->id;
                 $fecha= $this->setFecha($k->fecha);
                 $numpics= $this->getNumPics($idnoticia);
-                $dato[]=array('id'=> $idnoticia, 'lugar'=>$k->lugar, 'titulo'=>$k->titulo, 'descripcion_corta'=> $k->descripcion_corta,
+                $dato[]=array('id'=> encriptarNumero($idnoticia), 'lugar'=>$k->lugar, 'titulo'=>$k->titulo, 'descripcion_corta'=> $k->descripcion_corta,
                 'descripcion'=> $k->descripcion, 'fecha'=> $fecha, 'estado'=> $k->estado, 'num_fotos'=> $numpics);
             }
             //['datos'=> json_encode($dato)]
@@ -320,6 +321,7 @@ class NoticiasController extends Controller
     //FUNCION QUE ACTIVA/INACTIVA EL REGISTO DE LA TABLA NOTICIAS
     public function inactivar_noticia(Request $request){
         $id= $request->input('id');
+        $id = desencriptarNumero($id);
         $estado= $request->input('estado');
         $date= now();
 

@@ -91,3 +91,10 @@ function fechaActual(){
 function isNum(val){
   return !isNaN(val)
 }
+
+function utf8ToBase64_moderno(str) {
+    let encoder = new TextEncoder();
+    let bytes = encoder.encode(str);
+    let binary = String.fromCharCode(...bytes);
+    return btoa(binary);
+}

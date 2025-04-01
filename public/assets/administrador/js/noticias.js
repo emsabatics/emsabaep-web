@@ -117,6 +117,7 @@ function sendNuevaNoticia(token, data, url){
 
 function cargar_noticias(name){
     var con = 1; var estadoItem='';
+    var simbolo= '"';
     var html =
         "<table class='table datatables' id='tablaNoticias'>" +
             "<thead class='thead-dark'>" +
@@ -148,15 +149,15 @@ function cargar_noticias(name){
             "<td>"+v.num_fotos+"</td>" +
             "<td>"+estadoItem+"</td>" +
             "<td style='display: flex;'>"+
-                "<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+v.id+")'>"+
+                "<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+simbolo+v.id+simbolo+")'>"+
                     "<i class='fas fa-pencil-alt'></i>"+
                 "</button>";
                 if(v.estado=="1"){
-                    html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+v.id+", "+i+")'>"+
+                    html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+simbolo+v.id+simbolo+", "+i+")'>"+
                         "<i class='fas fa-eye-slash'></i>"+
                     "</button>";
                 }else if(v.estado=="0"){
-                    html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+v.id+", "+i+")'>"+
+                    html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+simbolo+v.id+simbolo+", "+i+")'>"+
                         "<i class='fas fa-eye'></i>"+
                     "</button>";
                 }
@@ -206,7 +207,9 @@ function urlregistrarNoticia(){
 }
 
 function editarNoticia(id){
-    window.location= '/actualizar-noticia/'+utf8_to_b64(id);
+    //window.location= '/actualizar-noticia/'+utf8_to_b64(id);
+    //window.location= '/actualizar-noticia/'+utf8ToBase64_moderno(id);
+    window.location= '/actualizar-noticia/'+id;
 }
 
 /* FUNCION PARA CARGAR NOTICIAS INDIVIDUAL */
@@ -648,6 +651,7 @@ function removerNews(id, i) {
     var estado = "0";
     var estadoItem='No Visible';
     var token= $('#token').val();
+    var simbolo= '"';
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -689,15 +693,15 @@ function removerNews(id, i) {
                         //cargar_noticias();
                         document.getElementById('Tr'+i).cells[5].innerText= estadoItem;
         
-                        var html="<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+id+")'>"+
+                        var html="<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+simbolo+id+simbolo+")'>"+
                             "<i class='fas fa-pencil-alt'></i>"+
                         "</button>";
                         if(estado=="1"){
-                            html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+id+", "+i+")'>"+
+                            html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+simbolo+id+simbolo+", "+i+")'>"+
                                 "<i class='fas fa-eye-slash'></i>"+
                             "</button>";
                         }else if(estado=="0"){
-                            html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+id+", "+i+")'>"+
+                            html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+simbolo+id+simbolo+", "+i+")'>"+
                                     "<i class='fas fa-eye'></i>"+
                                 "</button>";
                         }
@@ -726,6 +730,7 @@ function removerNews(id, i) {
   
 /* FUNCION PARA ACTIVAR NOTICIA */
 function activarNews(id, i) {
+    var simbolo= '"';
     var estado = "1";
     var estadoItem='Visible';
     var token= $('#token').val();
@@ -751,15 +756,15 @@ function activarNews(id, i) {
             });
             setTimeout(function () {
             document.getElementById('Tr'+i).cells[5].innerText= estadoItem;
-            var html="<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+id+")'>"+
+            var html="<button type='button' class='btn btn-primary btn-sm mr-3' title='Editar' onclick='editarNoticia("+simbolo+id+simbolo+")'>"+
                 "<i class='fas fa-pencil-alt'></i>"+
             "</button>";
             if(estado=="1"){
-                html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+id+", "+i+")'>"+
+                html+="<button type='button' class='btn btn-secondary btn-sm mr-3' title='Inactivar' onclick='removerNews("+simbolo+id+simbolo+", "+i+")'>"+
                     "<i class='fas fa-eye-slash'></i>"+
                 "</button>";
             }else if(estado=="0"){
-                html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+id+", "+i+")'>"+
+                html+="<button type='button' class='btn btn-info btn-sm mr-3' title='Activar' onclick='activarNews("+simbolo+id+simbolo+", "+i+")'>"+
                         "<i class='fas fa-eye'></i>"+
                     "</button>";
             }
