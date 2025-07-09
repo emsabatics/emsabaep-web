@@ -35,6 +35,7 @@ use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\LogoController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AtencionCiudadanaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -244,6 +245,14 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     //Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias');
     Route::get('/listado-noticias', [NoticiasController::class, 'list_noticias'])->name('listado-noticias');
     Route::get('/actualizar-noticia/{id}', [NoticiasController::class, 'actualizar_noticia']);
+
+
+    /*
+    *ATENCIÓN CIUDADANA
+    */
+    Route::get('/atencion-ciudadana', [AtencionCiudadanaController::class, 'index'])->name('atencion-ciudadana');
+    Route::get('/atciudadana/seguimiento-solicitud/{idseguimientosoli}', [AtencionCiudadanaController::class, 'seguimiento_solicitudes']);
+    Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
 
     /*
     *EVENTOS

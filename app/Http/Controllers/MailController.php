@@ -102,8 +102,15 @@ class MailController extends Controller
                 $sql_insert_noti = DB::connection('mysql')->insert('insert into tab_notificaciones (
                             id_mensaje, fecha, created_at
                         ) values (?,?,?)', [$LAST_ID, $dia, $date]);
+
+                $observaciones = "Ingreso de Solicitud y/o Reclamo";
+                $estado_sms = "En Trámite";
+                $idusuario = $this->getIdUser();
+                $sql_insert_seguimiento = DB::connection('mysql')->insert('insert into tab_seguimiento_mensajes (
+                            id_mensaje, observaciones, fecha, estado_mensaje, id_usuariosistema, created_at
+                        ) values (?,?,?,?,?,?)', [$LAST_ID, $observaciones, $dia, $estado_sms, $idusuario, $date]);
         
-                if($sql_insert_noti){
+                if($sql_insert_noti && $sql_insert_seguimiento){
                     $response = Mail::mailer("smtp")->to('atencionciudadana@emsaba.gob.ec')
                         ->send(new BuzonAtCiudadana($nombres,$email,$descripcion,$telefono,$cuenta,$date));
                     return response()->json(["resultado"=> true]);
@@ -116,5 +123,18 @@ class MailController extends Controller
         }else { 
             return response()->json(['captcha'=> 'error']);
         }
+    }
+
+    public function getIdUser(){
+        $usuario = Session::get('usuario');
+        $sql_getid= DB::connection('mysql')->table('users')->where('user', '=', $usuario)->get();
+        
+        $gid=0;
+
+        foreach($sql_getid as $ev){
+            $gid= $ev->id;
+        }
+
+        return $gid;
     }
 }

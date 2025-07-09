@@ -77,12 +77,21 @@ class AboutController extends Controller
                 if($fileextension== $this->validarImg($fileextension)){
                     $storeimg= Storage::disk('img_files')->put($filename,  \File::get($file));
                     if($storeimg){
-                        $sql_insert_img= DB::connection('mysql')->table('tab_about_institucion')
-                        ->where('id', $id)
-                        ->update(['imagen'=> $filename, 'updated_at'=> $date]);
+                        if($this->getExistImagen($id) > 0){
+                            $sql_update_img= DB::table('tab_about_institucion')
+                                ->where('id', $id)
+                                ->update(['imagen'=> $filename, 'updated_at'=> $date]);
+                            if($sql_insert_img){
+                                $contar++;
+                            }
+                        }else{
+                            $sql_insert_img= DB::connection('mysql')->table('tab_about_institucion')
+                            ->where('id', $id)
+                            ->update(['imagen'=> $filename, 'updated_at'=> $date]);
 
-                        if($sql_insert_img){
-                            $contar++;
+                            if($sql_insert_img){
+                                $contar++;
+                            }
                         }
                     }else{
                         return response()->json(['resultado'=>false]);
@@ -155,6 +164,18 @@ class AboutController extends Controller
             $resultado= $r->imagen;
         }
         return $resultado;
+    }
+
+    private function getExistImagen($id){
+        $sql= DB::connection('mysql')->select('SELECT imagen FROM tab_about_institucion WHERE id=?', [$id]);
+        $resultado= 0;
+        foreach($sql as $r){
+            $resultado= $r->imagen;
+        }
+
+        $rcount = strlen($resultado);
+
+        return $rcount;
     }
 
     private function getcountImagen($imagen){

@@ -37,6 +37,13 @@
         </p>
     </a>
 </li>
+<li class="nav-header">ATENCION CIUDADANA</li>
+<li class="nav-item">
+    <a href="{{ url('atencion-ciudadana') }}" class="nav-link {{ setActive('atencion-ciudadana') }}">
+        <i class="nav-icon fas fa-file-alt"></i>
+        <p>Solicitudes</p>
+    </a>
+</li>
 <li class="nav-header">CONTACTOS</li>
 <li class="nav-item">
     <a href="{{ url('red-social') }}" class="nav-link {{ setActive('red-social') }}">
