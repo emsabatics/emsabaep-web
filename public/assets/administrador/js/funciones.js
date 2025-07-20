@@ -98,3 +98,38 @@ function utf8ToBase64_moderno(str) {
     let binary = String.fromCharCode(...bytes);
     return btoa(binary);
 }
+
+function scrollTablaAlFinal(idTabla) {
+  const tabla = document.getElementById(idTabla);
+  if (tabla) {
+    const tbody = tabla.querySelector('tbody');
+    if (tbody) {
+      tbody.scrollTop = tbody.scrollHeight;
+    }
+  }
+}
+
+function scrollToUltimaFila(tablaId) {
+  const tabla = document.getElementById(tablaId);
+  if (!tabla) {
+    //console.error("Tabla no encontrada con ID: " + tablaId);
+    return;
+  }
+
+  const filas = tabla.getElementsByTagName('tr');
+  if (filas.length === 0) {
+      console.warn("La tabla no contiene filas.");
+      return;
+  }
+  const ultimaFila = filas[filas.length - 1];
+  const contenedor = tabla.parentElement; // Asume que el contenedor es el padre de la tabla
+
+    //Scroll suave
+    ultimaFila.scrollIntoView({behavior: "smooth", block: "end"});
+
+
+
+  // Opcional, desplazamiento directo
+  //ultimaFila.scrollIntoView(); // Desplaza la fila visible
+  //window.scrollTo(0, tabla.scrollHeight); // Desplaza toda la ventana
+}

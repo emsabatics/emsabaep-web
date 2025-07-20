@@ -26,6 +26,7 @@ use App\Http\Controllers\LeyTransparenciaController;
 use App\Http\Controllers\RendicionCuentasController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\MediosVerificacionController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\SubserviceController;
 use App\Http\Controllers\UsuariosController;
@@ -253,6 +254,13 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     Route::get('/atencion-ciudadana', [AtencionCiudadanaController::class, 'index'])->name('atencion-ciudadana');
     Route::get('/atciudadana/seguimiento-solicitud/{idseguimientosoli}', [AtencionCiudadanaController::class, 'seguimiento_solicitudes']);
     Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
+    Route::post('/change-estado-solicitud', [AtencionCiudadanaController::class, 'change_estado']);
+    Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
+    Route::get('/atencion-ciudadana/getall', [AtencionCiudadanaController::class, 'getall'])->name('atencion.getall');
+    Route::get('/exportar-solicitudes-all-excel', [ReportesController::class, 'exportarSolicitudesExcel']);
+    Route::get('/exportar-solicitudes-all-pdf', [ReportesController::class, 'exportarSolicitudesPDF']);
+    Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
+    Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
 
     /*
     *EVENTOS

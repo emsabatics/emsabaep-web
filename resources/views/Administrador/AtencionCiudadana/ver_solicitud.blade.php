@@ -142,8 +142,25 @@ Admin | Solicitudes {{getNameInstitucion()}}
                   <div class="card-header">
                       <h3 class="card-title">Detalle Solicitud</h3>
                       <div class="card-tools" id="card-tools">
-                        <button type="button" class="btn btn-primary btn-block" onclick="urlback()"><i
-                            class="fas fa-arrow-left mr-2"></i> Regresar</button>
+                          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar">
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                            @foreach ($solicitudes as $s)
+                              @if ($s['estado_solicitud']=='En Trámite')
+                                <button type="button" class="btn btn-danger btn-block" onclick="endsolicitudindividual()">
+                                  Finalizar Solicitud
+                                </button>
+                              @else
+                                <button type="button" class="btn btn-secondary btn-block" onclick="tramsolicitudindividual()">
+                                  Cambiar estado a En Trámite
+                                </button>
+                              @endif
+                            @endforeach
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Second group">
+                              <button type="button" class="btn btn-primary btn-block" onclick="urlback()"><i
+                                class="fas fa-arrow-left mr-2"></i> Regresar</button>
+                            </div>
+                          </div>
                     </div>
                   </div>
                   <div class="card-body">
@@ -154,32 +171,54 @@ Admin | Solicitudes {{getNameInstitucion()}}
                                 <div class="form-group noevent">
                                   <input type="hidden" name="idregistrosoli" id="idregistrosoli" value="{{$p['id']}}">
                                   <label>Cuenta:</label>
+                                  @if(strlen($p['cuenta'])>0)
                                   <input type="text" class="form-control" value="{{$p['cuenta']}}"/>
+                                  @else
+                                  <input type="text" class="form-control" value="Sin Registro"/>
+                                  @endif
                                 </div>
                                 <div class="form-group noevent">
                                   <label>Nombres:</label>
                                   <input type="text" class="form-control" value="{{$p['nombres']}}"/>
                                 </div>
-                                <div class="form-group noevent">
-                                  <label for="inputEDocTitle">Detalle: <span class="spanlabel"></span></label>
-                                  <textarea class="form-control text-justify" id="inputEDocTitle" name="inputEDocTitle" placeholder="Ingrese un título"
-                                    maxlength="255">{{$p['detalle']}}</textarea>
-                                </div>
                               </div>
                               <div class="col-6">
                                 <div class="form-group noevent">
                                   <label>Email:</label>
+                                  @if(strlen($p['email'])>0)
                                   <input type="email" class="form-control" value="{{$p['email']}}"/>
+                                  @else
+                                  <input type="email" class="form-control" value="Sin Registro"/>
+                                  @endif
                                 </div>
                                 <div class="form-group noevent">
                                   <label>telefono:</label>
+                                  @if(strlen($p['telefono'])>0)
                                   <input type="text" class="form-control" value="{{$p['telefono']}}"/>
+                                  @else
+                                  <input type="text" class="form-control" value="Sin Registro"/>
+                                  @endif
                                 </div>
                               </div>
                           </div>
 
-                          <!-- /.row -->
                           <div class="row">
+                            <div class="col-12">
+                              <div class="form-group noevent">
+                                  <label for="inputEDocTitle">Detalle: <span class="spanlabel"></span></label>
+                                  @php
+                                  $cadena = explode("//", $p['detalle']);
+                                  @endphp
+
+                                  @foreach ($cadena as $c)
+                                    <p>{{trim($c)}}</p>
+                                  @endforeach
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- /.row -->
+                          <div class="row mt-2">
                             <div class="col-12">
                               <div class="card">
                                 <div class="card-header">
@@ -190,37 +229,45 @@ Admin | Solicitudes {{getNameInstitucion()}}
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0" style="height: 300px;">
-                                  <table class="table table-head-fixed text-nowrap">
+                                  <table class="table table-head-fixed text-nowrap" id="TableHistorySolicitud">
                                     <thead>
                                       <tr>
                                         <th>Nro</th>
-                                        <th>Ingresado Por:</th>
+                                        <th>Ingresado Por</th>
                                         <th>Fecha</th>
-                                        <th>Estado</th>
                                         <th style="width: 70px;">Observaciones</th>
                                         <th></th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach ($p['observaciones'] as $o)
-                                      <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$o['usuario']}}</td>
-                                        <td>{{$p['fecha']}}</td>
-                                        <td>{{$o['estado_mensaje']}}</td>
-                                        <td class="col-nombre">{{$o['detalleobs']}}</td>
-                                        <td></td>
-                                      </tr>
-                                      @endforeach
+                                      @if (count($p['observaciones']) > 0)
+                                        @foreach ($p['observaciones'] as $o)
+                                          <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$o['usuario']}}</td>
+                                            <td>{{$p['fecha']}}</td>
+                                            <td class="col-nombre">{{$o['detalleobs']}}</td>
+                                            <td></td>
+                                          </tr>
+                                        @endforeach
+                                      @else
+                                        <tr id="fila-form">
+                                          <td colspan="4" style="text-align: center;"><span style="font-size: 18px;font-family: -webkit-body;font-weight: 700;">No hay registros</span></td>
+                                        </tr>
+                                      @endif
                                       {{-- Fila con inputs para nuevo registro --}}
-                                      <tr id="fila-form">
-                                        <td colspan="4">
-                                          <input type="text" id="observaciones_new"  class="form-control" autocomplete="off">
-                                        </td>
-                                        <td>
-                                          <button id="btn-agregar" class="btn btn-success">Agregar</button>
-                                        </td>
-                                      </tr>
+                                      @foreach ($solicitudes as $s)
+                                        @if ($s['estado_solicitud']=='En Trámite')
+                                          <tr>
+                                            <td colspan="3">
+                                              <input type="text" id="observaciones_new"  class="form-control" autocomplete="off">
+                                            </td>
+                                            <td>
+                                              <button id="btn-agregar" class="btn btn-success">Agregar</button>
+                                            </td>
+                                          </tr>
+                                        @endif
+                                      @endforeach
                                     </tbody>
                                   </table>
                                 </div>
@@ -300,6 +347,9 @@ Admin | Solicitudes {{getNameInstitucion()}}
 
   $(document).ready(function () {
     //$('#modalCargando').modal('show');
+    /*setTimeout(() => {
+      scrollToUltimaFila('TableHistorySolicitud');
+    }, 500);*/
   });
 </script>
 @endsection
