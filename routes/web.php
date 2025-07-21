@@ -12,6 +12,7 @@ use App\Http\Controllers\HistoriaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MiViVaObController;
+use App\Http\Controllers\ModulosController;
 use App\Http\Controllers\RedSocialController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DateController;
@@ -253,14 +254,7 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     */
     Route::get('/atencion-ciudadana', [AtencionCiudadanaController::class, 'index'])->name('atencion-ciudadana');
     Route::get('/atciudadana/seguimiento-solicitud/{idseguimientosoli}', [AtencionCiudadanaController::class, 'seguimiento_solicitudes']);
-    Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
-    Route::post('/change-estado-solicitud', [AtencionCiudadanaController::class, 'change_estado']);
-    Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
-    Route::get('/atencion-ciudadana/getall', [AtencionCiudadanaController::class, 'getall'])->name('atencion.getall');
-    Route::get('/exportar-solicitudes-all-excel', [ReportesController::class, 'exportarSolicitudesExcel']);
-    Route::get('/exportar-solicitudes-all-pdf', [ReportesController::class, 'exportarSolicitudesPDF']);
-    Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
-    Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
+    
 
     /*
     *EVENTOS
@@ -476,6 +470,12 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     Route::get('/registrar-logo', [LogoController::class, 'registrar_logo']);
 
     Route::get('/logo/get-logos', [LogoController::class, 'get_logos']);
+
+
+    /*
+    *MODULOS
+    */
+    Route::get('/modulos', [ModulosController::class, 'index'])->name('modulos');
 });
 
 Route::middleware(['throttle:cont_admin_query_login'])->group(function () {
@@ -918,4 +918,25 @@ Route::middleware(['throttle:cont_admin_query'])->group(function () {
     Route::get('/download-logo/{id}', [LogoController::class, 'download_logo']);
     Route::post('/in-activar-logo', [LogoController::class, 'inactivar_logo']);
     Route::post('/delete-logo', [LogoController::class, 'delete_logo']);
+
+    /*
+    *ATENCION CIUDADANA
+    */
+    Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
+    Route::post('/change-estado-solicitud', [AtencionCiudadanaController::class, 'change_estado']);
+    Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
+    Route::get('/atencion-ciudadana/getall', [AtencionCiudadanaController::class, 'getall'])->name('atencion.getall');
+    Route::get('/exportar-solicitudes-all-excel', [ReportesController::class, 'exportarSolicitudesExcel']);
+    Route::get('/exportar-solicitudes-all-pdf', [ReportesController::class, 'exportarSolicitudesPDF']);
+    Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
+    Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
+
+
+    /*
+    *MODULOS
+    */
+    Route::post('/registro-modulo', [ModulosController::class, 'registro_modulo']);
+    Route::post('/in-activar-modulo', [ModulosController::class, 'inactivar_modulo']);
+    Route::get('/get-modulo/{id}', [ModulosController::class, 'get_modulo']);
+    Route::post('/actualizar-modulo', [ModulosController::class, 'actualizar_modulo']);
 });
