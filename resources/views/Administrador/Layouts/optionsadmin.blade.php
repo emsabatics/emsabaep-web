@@ -268,16 +268,33 @@
     </ul>
 </li>
 <li class="nav-item">
-    <a href="{{ url('perfil-usuario') }}" class="nav-link {{ setActive('perfil-usuario') }}">
+    <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user-cog"></i>
-        <p>Perfil de Usuario</p>
+        <p>
+            Ajustes Usuarios
+            <i class="right fas fa-angle-left"></i>
+        </p>
     </a>
-</li>
-<li class="nav-item">
-    <a href="{{ url('usuarios') }}" class="nav-link {{ setActive('usuarios') }}">
-        <i class="nav-icon fas fa-users"></i>
-        <p>Usuarios</p>
-    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ url('usuarios') }}" class="nav-link {{ setActive('usuarios') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Usuarios</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('perfil-usuario') }}" class="nav-link {{ setActive('perfil-usuario') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Perfil de Usuario</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('permisos-usuario') }}" class="nav-link {{ setActive('permisos-usuario') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Permisos de Usuario</p>
+            </a>
+        </li>
+    </ul>
 </li>
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -295,7 +312,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ url('listado-noticias') }}" class="nav-link {{ setActive('listado-noticias') }}">
+            <a href="{{ url('submodulos') }}" class="nav-link {{ setActive('submodulos') }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Submódulos</p>
             </a>

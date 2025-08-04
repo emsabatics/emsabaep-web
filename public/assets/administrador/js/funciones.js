@@ -66,6 +66,21 @@ function utf8_to_b64( str ) {
   return window.btoa(unescape(encodeURIComponent( str )));
 }
 
+function base64ToUtf8Numbers(base64) {
+    // Decodificar de base64
+    const decoded = atob(base64);
+    
+    // Convertir el resultado a un arreglo de bytes (UTF-8)
+    const bytes = Array.from(decoded).map(char => char.charCodeAt(0));
+    return bytes;
+}
+
+function base64ToNumber(base64) {
+    const decoded = atob(base64);  // decodifica a carácter
+    return parseInt(decoded, 10);  // lo convierte en número entero
+}
+
+
 function fechaActual(){
   var hoy= new Date();
   var dia= hoy.getDate();

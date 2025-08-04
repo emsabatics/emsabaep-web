@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MiViVaObController;
 use App\Http\Controllers\ModulosController;
+use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\RedSocialController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DateController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\MediosVerificacionController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ServiciosController;
+use App\Http\Controllers\SubmodulosController;
 use App\Http\Controllers\SubserviceController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\HomePageController;
@@ -476,6 +478,16 @@ Route::middleware(['throttle:cont_admin_vistas'])->group(function () {
     *MODULOS
     */
     Route::get('/modulos', [ModulosController::class, 'index'])->name('modulos');
+
+    /*
+    *SUBMODULOS
+    */
+    Route::get('/submodulos', [SubmodulosController::class, 'index'])->name('submodulos');
+
+    /*
+    *PERMISOS USUARIO
+    */
+    Route::get('/permisos-usuario', [PermisosController::class, 'index'])->name('permisos-usuario');
 });
 
 Route::middleware(['throttle:cont_admin_query_login'])->group(function () {
@@ -939,4 +951,21 @@ Route::middleware(['throttle:cont_admin_query'])->group(function () {
     Route::post('/in-activar-modulo', [ModulosController::class, 'inactivar_modulo']);
     Route::get('/get-modulo/{id}', [ModulosController::class, 'get_modulo']);
     Route::post('/actualizar-modulo', [ModulosController::class, 'actualizar_modulo']);
+
+     /*
+    *SUBMODULOS
+    */
+    Route::post('/registro-submodulo', [SubmodulosController::class, 'registro_submodulo']);
+    Route::post('/in-activar-submodulo', [SubmodulosController::class, 'inactivar_submodulo']);
+    Route::get('/get-submodulo/{id}', [SubmodulosController::class, 'get_submodulo']);
+    Route::post('/actualizar-submodulo', [SubmodulosController::class, 'actualizar_submodulo']);
+
+    /*
+    *PERMISOS DE USUARIO
+    */
+    Route::post('/get-permisos-usuario', [PermisosController::class, 'get_permisos_usuario']);
+    Route::post('/permisos/registro_p_modulo', [PermisosController::class, 'registro_permisos_modulo']);
+    Route::post('/permisos/registro_ps_modulo', [PermisosController::class, 'registro_permisos_modulo_sinsub']);
+    Route::post('/permisos/registro_ps_submodulo', [PermisosController::class, 'registro_permisos_modulo_withsub']);
+    Route::get('/get-all-permisos-usuario', [PermisosController::class, 'get_all_permisos_usuario']);
 });
