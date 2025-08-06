@@ -32,7 +32,7 @@ Admin | Perfil de Usuario {{getNameInstitucion()}}
   }
 
   table {
-    table-layout: fixed;
+    /*table-layout: fixed;*/
     word-wrap: break-word;
   }
 </style>
@@ -104,19 +104,15 @@ Admin | Perfil de Usuario {{getNameInstitucion()}}
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="cardsRowTitle">
-                            <div class="cardsection">
-                              <h3 class="card-title p-2"><i class="fas fa-user-cog mr-3"></i> Perfil de Usuario</h3>
-                            </div>
-                            <div class="cardsection">
-                              <button type="button" class="btn btn-primary btn-block" onclick="openmodalAdd()"><i
+                        <h3 class="card-title p-2"><i class="fas fa-user-cog mr-3"></i> Perfil de Usuario</h3>
+                        <div class="card-tools" id="card-tools">
+                          <button type="button" class="btn btn-primary btn-block" onclick="openmodalAdd()"><i
                                 class="far fa-plus-square mr-2"></i> Registrar</button>
-                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-4" id="divTablaSocialMedia">
-                      <table class="table table-hover text-nowrap table-head-fixed table-responsive" id="tablaListadoSM">
+                    <div class="card-body table-responsive p-4" id="divTablaPerfil">
+                      <table class="table table-hover text-nowrap table-head-fixed" id="tablaListadoPerfil">
                         <thead>
                           <tr style="pointer-events:none;">
                             <th>N°</th>
@@ -154,6 +150,7 @@ Admin | Perfil de Usuario {{getNameInstitucion()}}
                                       @else
                                       <a class="dropdown-item" href="javascript:void(0)" onclick="activarItemProfile({{$item->id}}, {{$loop->index}})">Activar</a>
                                       @endif
+                                      <a class="dropdown-item" href="javascript:void(0)" onclick="settingsItemProfile('{{encriptarNumero($item->id)}}')">Asignación Permisos</a>
                                     </div>
                                   </div>
                                 </td>

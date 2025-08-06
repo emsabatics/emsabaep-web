@@ -584,6 +584,10 @@ function seleccionar(td, value) {
     var estado="";
     var html="";
 
+    var html_loader= "<div class='txt-center' style='display: flex;justify-content: center;'>"+
+            "<img src='/assets/administrador/img/gif/load.gif' alt=''>"+
+        "</div>";
+
     var index1 = selmodulo.indexOf(value);
     if (index1 > -1) {
         contar1= contar1-1;
@@ -635,10 +639,12 @@ function seleccionar(td, value) {
                 }
                 
                 $('#div_respuesta').html(html);
+                $('#tabla_permiso').html(html_loader);
                 let valorn =  base64ToNumber(value);
-                llenarTabla(valorn);
                 setTimeout(function(){
                     $('#div_respuesta').html("");
+                    $('#tabla_permiso').html("");
+                    llenarTabla(valorn);
                 },3500);
             }else if(res.resultado==false){
                 html+="<div class='alert alert-danger' role='alert'>"+

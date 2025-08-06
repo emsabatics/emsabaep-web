@@ -319,3 +319,7 @@ function activarItemProfile(id, i){
         }
     });
 }
+
+function settingsItemProfile(id){
+    window.location='/set-permisos-modulo/'+id;
+}

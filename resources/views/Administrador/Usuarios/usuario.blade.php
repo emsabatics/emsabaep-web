@@ -103,8 +103,8 @@ Admin | Usuarios {{getNameInstitucion()}}
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-4" id="divTablaSocialMedia">
-                      <table class="table table-hover text-nowrap table-head-fixed table-responsive" id="tablaListadoSM">
+                    <div class="card-body table-responsive p-4" id="divTablaUsuarios">
+                      <table class="table table-hover text-nowrap table-head-fixed" id="tablaListadoUsuarios">
                         <thead>
                           <tr style="pointer-events:none;">
                             <th>N°</th>

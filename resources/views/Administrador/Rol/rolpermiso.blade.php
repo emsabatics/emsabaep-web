@@ -5,7 +5,7 @@
 @endsection
 
 @section('title-page')
-Admin | Permisos de Usuario {{getNameInstitucion()}}
+Admin | Rol {{getNameInstitucion()}}
 @endsection
 
 @section('css')
@@ -91,7 +91,7 @@ Admin | Permisos de Usuario {{getNameInstitucion()}}
 @section('container-header')
 <div class="row mb-2">
   <div class="col-sm-12">
-    <h1>Permisos de Usuario</h1>
+    <h1>Permisos de Rol</h1>
   </div>
 </div>
 @endsection
@@ -112,13 +112,28 @@ Admin | Permisos de Usuario {{getNameInstitucion()}}
                         </div>-->
                         <div class="cardsRowTitle">
                             <div class="cardsection">
-                              <h3 class="card-title p-2"><i class="fas fa-list mr-3"></i> Configurar permisos de Usuarios al Sistema</h3>
+                              <h3 class="card-title p-2"><i class="fas fa-list mr-3"></i> Configurar permisos de Módulos y Submódulos al Sistema</h3>
+                            </div>
+                            <div class="cardsection">
+                              <button type="button" class="btn btn-secondary btn-block" onclick="backInterfaceRol()"><i
+                                class="fas fa-arrow-circle-left mr-2"></i> Regresar</button>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-4" id="divDocPermisos">
-                      @include('Administrador.Permisos.tabla', ['permisos' => $permisos])
+                    <div class="card-body table-responsive p-4" id="divPermisosModulos">
+                      <div class="row">
+                        <div class="col-12">
+                          <blockquote>
+                            <p>Rol de Usuario: &nbsp; <b>{{$namerol}}</b></p>
+                          </blockquote>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          @include('Administrador.Rol.tabla', ['modulos' => $modulos, 'permisos' => $permisos])
+                        </div>
+                      </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -126,66 +141,6 @@ Admin | Permisos de Usuario {{getNameInstitucion()}}
         </div>
     </div>
 </section>
-
-<!--MODAL AJUSTES PERMISOS-->
-<div class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="modalArchivosTitle"
-aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Asignar Módulo</h4>
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>-->
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="form-group mb-3">
-                    <input type="hidden" name="id_usuariop" id="id_usuariop">
-                    <label for="inputUsuariop">Usuario:</label>
-                    <input type="text" class="form-control" name="inputUsuariop" id="inputUsuariop" autocomplete="off" placeholder="Nombre" maxlength="150">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="form-group mb-3">
-                    <label>Módulos:</label>
-                    <select class="form-control select2" id="selModulo" >
-                      <optgroup label="Seleccione una Opción">
-                        <option value="0">-Seleccione una Opción-</option>
-                        @foreach ($modulos as $m)
-                        <option value="{{$m->id}}">{{$m->nombre}}</option>
-                        @endforeach
-                      </optgroup>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <div id="tabla_permiso">
-
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12 m-2">
-                  <div id="div_respuesta">
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary mb-2" onclick="cerrarModal()">Cerrar</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
 
 <!-- Fullscreen modal -->
 <div class="modal fade modal-full" id="modalCargando" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
@@ -213,7 +168,7 @@ data-backdrop="static" data-keyboard="false">
 
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
-<script src="{{asset('assets/administrador/js/permisos.js')}}"></script>
+<script src="{{asset('assets/administrador/js/asignacionpermisos.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
@@ -240,12 +195,8 @@ data-backdrop="static" data-keyboard="false">
     $(document).ready(function () {
       $('#modalCargando').modal('show');
       setTimeout(() => {
-        showInfoPermisos();
-      }, 1500);
-    });
-
-    $('#modalAggModulo').on('shown.bs.modal', function() {
-        $(document).off('focusin.modal');
+        $('#modalCargando').modal('hide');
+      }, 2500);
     });
 </script>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AsignacionPermisoController;
 use App\Http\Controllers\BibliotecaVirtualController;
 use App\Http\Controllers\DocAdministrativoController;
 use App\Http\Controllers\DocFinancieroController;
@@ -968,4 +969,11 @@ Route::middleware(['throttle:cont_admin_query'])->group(function () {
     Route::post('/permisos/registro_ps_modulo', [PermisosController::class, 'registro_permisos_modulo_sinsub']);
     Route::post('/permisos/registro_ps_submodulo', [PermisosController::class, 'registro_permisos_modulo_withsub']);
     Route::get('/get-all-permisos-usuario', [PermisosController::class, 'get_all_permisos_usuario']);
+
+
+    /*
+    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
+    */
+    Route::get('/set-permisos-modulo/{id}', [AsignacionPermisoController::class, 'mostrarAsignacion']);
+    Route::post('/permisos/actualizar', [AsignacionPermisoController::class, 'actualizarPermiso'])->name('permisos.actualizar');
 });
