@@ -33,17 +33,21 @@ function guardarEvento(){
         swal("Sólo debe seleccionar una imágen para el evento", "", "warning");
     } else if(getTypeEvent=="0"){
         swal("Debe seleccionar el tipo de Evento", "", "warning");
-    } else{ 
+    } else { 
         if(descripcion!=''){
             descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
         }
 
-        descripcion= descripcion.trim();
-        var formData = new FormData(formEvento);
-        formData.append('ndescripcion', descripcion);
-        formData.append('tipoevento', getTypeEvent);
-        $('#btnAgendar').addClass('btndisable');
-        guardarNewEvent(token, formData, '/registro-eventos');
+        if(puedeGuardarM(nameInterfaz) === 'si'){
+            descripcion= descripcion.trim();
+            var formData = new FormData(formEvento);
+            formData.append('ndescripcion', descripcion);
+            formData.append('tipoevento', getTypeEvent);
+            $('#btnAgendar').addClass('btndisable');
+            guardarNewEvent(token, formData, '/registro-eventos');
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -243,26 +247,36 @@ function actualizarEvento(){
                 if(descripcion!=''){
                     descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
                 }
-                descripcion= descripcion.trim();
-                var data = new FormData(formeditEvento);
-                data.append('ndescripcion', descripcion);
-                data.append('opcion', "nuevaimagen");
-                data.append('tipoevento', getTypeEvent);
-                $('#btnActionForm').addClass('btndisable');
-                sendUpdateEvent(token, data, '/actualizar-evento');
+
+                if(puedeActualizarM(nameInterfaz) === 'si'){
+                    descripcion= descripcion.trim();
+                    var data = new FormData(formeditEvento);
+                    data.append('ndescripcion', descripcion);
+                    data.append('opcion', "nuevaimagen");
+                    data.append('tipoevento', getTypeEvent);
+                    $('#btnActionForm').addClass('btndisable');
+                    sendUpdateEvent(token, data, '/actualizar-evento');
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isImage==true){
             //console.log('IMAGE TRUE');
             if(descripcion!=''){
                 descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
             }
-            descripcion= descripcion.trim();
-            var data = new FormData(formeditEvento);
-            data.append('ndescripcion', descripcion);
-            data.append('opcion', "conimagen");
-            data.append('tipoevento', getTypeEvent);
-            $('#btnActionForm').addClass('btndisable');
-            sendUpdateEvent(token, data, '/actualizar-evento');
+            
+            if(puedeActualizarM(nameInterfaz) === 'si'){
+                descripcion= descripcion.trim();
+                var data = new FormData(formeditEvento);
+                data.append('ndescripcion', descripcion);
+                data.append('opcion', "conimagen");
+                data.append('tipoevento', getTypeEvent);
+                $('#btnActionForm').addClass('btndisable');
+                sendUpdateEvent(token, data, '/actualizar-evento');
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -326,6 +340,7 @@ function eliminarEvento(){
     var token= $('#token').val();
     var id= $('#id_agenda').val();
     var estado="0";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -345,51 +360,58 @@ function eliminarEvento(){
     }).then((result)=> {
         if(result.value)
         {
-            var url= "/inactivar-evento";
-            //var params = "id="+id+"&estado="+estado;
-            var params = new FormData();
-            params.append('id', id);
-            params.append('estado', estado);
+            if(puedeEliminarM(nameInterfaz) === 'si'){
+                var url= "/inactivar-evento";
+                //var params = "id="+id+"&estado="+estado;
+                var params = new FormData();
+                params.append('id', id);
+                params.append('estado', estado);
 
-            var contentType = "application/x-www-form-urlencoded;charset=utf-8";
-            var xr = new XMLHttpRequest();
-            xr.open('POST', url, true);
-            //xr.setRequestHeader("Content-Type", contentType);
-            xr.setRequestHeader('X-CSRF-TOKEN', token);
+                var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+                var xr = new XMLHttpRequest();
+                xr.open('POST', url, true);
+                //xr.setRequestHeader("Content-Type", contentType);
+                xr.setRequestHeader('X-CSRF-TOKEN', token);
 
-            xr.onload = function(){
-                if(xr.status === 200){
-                    var myArr = JSON.parse(this.responseText);
-                    if(myArr.resultado==true){
-                        swal({
-                            title:'Excelente!',
-                            text:'Registro Eliminado',
-                            type:'success',
-                            showConfirmButton: false,
-                            timer: 1600
+                xr.onload = function(){
+                    if(xr.status === 200){
+                        var myArr = JSON.parse(this.responseText);
+                        if(myArr.resultado==true){
+                            swal({
+                                title:'Excelente!',
+                                text:'Registro Eliminado',
+                                type:'success',
+                                showConfirmButton: false,
+                                timer: 1600
+                            });
+                            setTimeout(function(){
+                                eventDel.event.remove();
+                                $('#modal-event-edit').modal('hide');
+                                eventDel=null;
+                            },1500);
+                        }else if(myArr.resultado==false){
+                            swal('No se pudo eliminar el registro','','error');
+                        }
+                    }else if(xr.status === 400){
+                        Swal.fire({
+                            title: 'Ha ocurrido un Error',
+                            html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                                'Intente nuevamente</p>',
+                            type: 'error'
                         });
-                        setTimeout(function(){
-                            eventDel.event.remove();
-                            $('#modal-event-edit').modal('hide');
-                            eventDel=null;
-                        },1500);
-                    }else if(myArr.resultado==false){
-                        swal('No se pudo eliminar el registro','','error');
                     }
-                }else if(xr.status === 400){
-                    Swal.fire({
-                        title: 'Ha ocurrido un Error',
-                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
-                            'Intente nuevamente</p>',
-                        type: 'error'
-                    });
                 }
-            }
 
-            xr.send(params);
+                xr.send(params);
+            }else{
+                swal('No tiene permiso para realizar esta acción','','error');
+            }
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION QUE CIERRA EL MODAL DEL EVENTO */
@@ -420,6 +442,7 @@ function replaceCaracter(dato){
 
 /* FUNCION QUE ELIMINA LA IMAGEN ACTUAL DEL EVENTO PERO SIN ACCEDER A BD */
 function eliminarPic(id){
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -443,6 +466,9 @@ function eliminarPic(id){
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 $('input[name="txt_fechaI"]').on('cancel.daterangepicker', function(ev, picker) {

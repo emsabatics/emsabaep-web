@@ -114,6 +114,7 @@ class UsuariosController extends Controller
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR USUARIO
     public function edit_view_usuario($id){
         if(Session::get('usuario') && Session::get('tipo_usuario')=='administrador'){
+            $id = desencriptarNumero($id);
             $datos_user= DB::table('users')
                     ->join('tab_perfil_usuario', 'tab_perfil_usuario.id','=','users.tipo_usuario')
                     ->select('users.*', 'tab_perfil_usuario.tipo')
@@ -132,8 +133,12 @@ class UsuariosController extends Controller
         $nombre= $r->nombre;
         $tipou= $r->tipou;
 
-        $sql_update= DB::table('users')
-            ->where('id',$idusuario)
+        $idusuario = desencriptarNumero($idusuario);
+
+        //echo $idusuario.' '.$nombre.' '.$tipou;
+
+        $sql_update= DB::connection('mysql')->table('users')
+            ->where('id','=',$idusuario)
             ->update(['nombre_usuario'=> $nombre, 'tipo_usuario'=> $tipou]);
     
         if($sql_update){

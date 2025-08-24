@@ -229,9 +229,12 @@ Admin | Noticias {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/noticias.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <!-- date-range-picker -->
 <script src="{{asset('assets/administrador/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <script>
+
+    const nameInterfaz = "Registrar Noticia";
 
     /* Función que suma o resta días a una fecha, si el parámetro
             días es negativo restará los días*/

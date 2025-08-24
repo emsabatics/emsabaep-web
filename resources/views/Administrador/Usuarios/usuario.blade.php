@@ -144,7 +144,7 @@ Admin | Usuarios {{getNameInstitucion()}}
                                       <i class="fas fa-cog"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                      <a class="dropdown-item" href="javascript:void(0)" onclick="editarItemUser({{$item->id}})">Editar</a>
+                                      <a class="dropdown-item" href="javascript:void(0)" onclick="editarItemUser('{{encriptarNumero($item->id)}}')">Editar</a>
                                       <a class="dropdown-item" href="javascript:void(0)" onclick="generarPassword({{$item->id}})">Cambiar Clave</a>
                                       @if ($item->estado=='1')
                                       <a class="dropdown-item" href="javascript:void(0)" onclick="eliminarItemUser({{$item->id}}, {{$loop->index}})">Inactivar</a>

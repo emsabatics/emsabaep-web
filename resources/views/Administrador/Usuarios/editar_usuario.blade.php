@@ -136,7 +136,7 @@ Admin | Usuarios {{getNameInstitucion()}}
                             <div class="row">
                                 <div class="col-2"></div>
                                 <div class="col-8">
-                                  <input type="hidden" name="idusuario" id="idusuario" value="{{$us->id}}">
+                                  <input type="hidden" name="idusuario" id="idusuario" value="{{encriptarNumero($us->id)}}">
                                     <div class="form-group">
                                       <label for="inputENameUser">Nombres Completos</label>
                                       <input type="text" class="form-control" id="inputENameUser" placeholder="Nombres Completos"

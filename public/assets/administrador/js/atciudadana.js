@@ -53,11 +53,16 @@ $("#btn-agregar").click(function () {
     } else {
         observaciones = observaciones.trim();
 
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var data = new FormData();
         data.append("id", idregistro);
         data.append("observaciones", observaciones);
 
         sendNewObservacion(token, data, "/registrar-observacion-solicitud");
+
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
 
         /*$.ajax({
             url: "/registrar-observacion-solicitu",
@@ -163,6 +168,7 @@ function endsolicitudindividual() {
     var idregistro = $("#idregistrosoli").val();
     var estado = "end";
 
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     var data = new FormData();
     data.append("id", idregistro);
     data.append("estado", estado);
@@ -186,6 +192,9 @@ function endsolicitudindividual() {
             sendNewObservacion(token, data, "/change-estado-solicitud");
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function tramsolicitudindividual() {
@@ -194,6 +203,7 @@ function tramsolicitudindividual() {
     var idregistro = $("#idregistrosoli").val();
     var estado = "tram";
 
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     var data = new FormData();
     data.append("id", idregistro);
     data.append("estado", estado);
@@ -217,6 +227,9 @@ function tramsolicitudindividual() {
             sendNewObservacion(token, data, "/change-estado-solicitud");
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA LA ACTUALIZACION DE ESTADO */
@@ -396,6 +409,7 @@ function cancelFiltro() {
 }
 
 function downloadExcelSolicitudes(){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     if(isFiltro==false){
         var url= '/exportar-solicitudes-all-excel';
         window.open(url, '_BLANK');
@@ -436,9 +450,13 @@ function downloadExcelSolicitudes(){
             });
         }
     }
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadPDFSolicitudes(){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     if(isFiltro==false){
         var url= '/exportar-solicitudes-all-pdf';
         window.open(url, '_BLANK');
@@ -478,5 +496,8 @@ function downloadPDFSolicitudes(){
                 a.remove();
             });
         }
+    }
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
     }
 }

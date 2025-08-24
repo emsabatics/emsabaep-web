@@ -127,8 +127,11 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/noticias.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   var name= {{Illuminate\Support\Js::from($datos)}};
+  const nameInterfaz = "Listado de Noticias";
+
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     cargar_noticias(name);

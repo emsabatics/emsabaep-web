@@ -30,23 +30,28 @@ function guardarNoticia(){
     } else if (lengimg == 0) {
         swal("No ha seleccionado alguna imagen para la noticia", "", "warning");
     } else {
-        $('#modalFullSend').modal('show');
-        descpshort = descpshort.replace(/(\r\n|\n|\r)/gm, "//");
-        descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
-        descpshort= descpshort.trim();
-        descripcion= descripcion.trim();
-        //var URLactual = window.location.href;
-        var data = new FormData(formNoticia);
-        data.append("lugar", lugar);
-        data.append("descripcioncorta", descpshort);
-        data.append("titulo", titulo);
-        data.append("fecha", fecha);
-        data.append("descripcion", descripcion);
-        data.append("hashtag",arrayHash.toString());
-        data.append("num_img", lengimg);
-        setTimeout(() => {
-            sendNuevaNoticia(token, data, "/registrar-noticia"); 
-        }, 700);
+
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
+            $('#modalFullSend').modal('show');
+            descpshort = descpshort.replace(/(\r\n|\n|\r)/gm, "//");
+            descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
+            descpshort= descpshort.trim();
+            descripcion= descripcion.trim();
+            //var URLactual = window.location.href;
+            var data = new FormData(formNoticia);
+            data.append("lugar", lugar);
+            data.append("descripcioncorta", descpshort);
+            data.append("titulo", titulo);
+            data.append("fecha", fecha);
+            data.append("descripcion", descripcion);
+            data.append("hashtag",arrayHash.toString());
+            data.append("num_img", lengimg);
+            setTimeout(() => {
+                sendNuevaNoticia(token, data, "/registrar-noticia"); 
+            }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -275,6 +280,7 @@ function drawHashtag(){
         
         var botones = document.getElementById('btn'+contadorHash);
         botones.addEventListener('click', function(){
+            if(puedeEliminarSM(nameInterfaz) === 'si'){
             var posi= this.id.substr(3, this.id.length);
             var divactual= document.getElementById("divGroup"+posi);
             var input_name = divactual.querySelector('input[name='+this.id+']');
@@ -287,6 +293,9 @@ function drawHashtag(){
             }
             contenedor.removeChild(salto);
             contenedor.removeChild(divactual);
+            }else{
+                swal('No tiene permiso para realizar esta acción','','error');
+            }
         });
     })
 }
@@ -415,21 +424,25 @@ function updateonlytextnews(){
         $("#inputEDesc").focus();
         swal("Ingrese una descripción de la noticia", "", "warning");
     } else {
-        $('#modalFullSendEdit').modal('show');
-        descpshort = descpshort.replace(/(\r\n|\n|\r)/gm, "//");
-        descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
-        var data = new FormData();
-        data.append("id", idnoti);
-        data.append("lugar", lugar);
-        data.append("descripcioncorta", descpshort);
-        data.append("titulo", titulo);
-        data.append("fecha", fecha);
-        data.append("descripcion", descripcion);
-        data.append("hashtag",arrayHashedit.toString());
-        //console.log(idnoti, lugar, descpshort, titulo, fecha, descripcion, arrayHashedit.toString());
-        setTimeout(() => {
-            sendUpdateNoticia(token, data, "/actualizar-noticia-texto");
-        }, 900);
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
+            $('#modalFullSendEdit').modal('show');
+            descpshort = descpshort.replace(/(\r\n|\n|\r)/gm, "//");
+            descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
+            var data = new FormData();
+            data.append("id", idnoti);
+            data.append("lugar", lugar);
+            data.append("descripcioncorta", descpshort);
+            data.append("titulo", titulo);
+            data.append("fecha", fecha);
+            data.append("descripcion", descripcion);
+            data.append("hashtag",arrayHashedit.toString());
+            //console.log(idnoti, lugar, descpshort, titulo, fecha, descripcion, arrayHashedit.toString());
+            setTimeout(() => {
+                sendUpdateNoticia(token, data, "/actualizar-noticia-texto");
+            }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -443,12 +456,16 @@ function updatepicsnews(e){
     if (lengimg == 0) {
         swal("No ha seleccionado imagen para la noticia", "", "warning");
     } else {
-        $('#modalFullSendEdit').modal('show');
-        var data = new FormData(formENoticia);
-        data.append("num_img", lengimg);
-        setTimeout(() => {
-            sendUpdatePicsNoticia(token, data, "/actualizar-noticia-img");
-        }, 900);
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
+            $('#modalFullSendEdit').modal('show');
+            var data = new FormData(formENoticia);
+            data.append("num_img", lengimg);
+            setTimeout(() => {
+                sendUpdatePicsNoticia(token, data, "/actualizar-noticia-img");
+            }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -565,6 +582,7 @@ function eliminarPic(id, i, idnoticia){
     var estado = "0";
     //limpiarArray(i);
     var token= $('#token').val();
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -634,6 +652,9 @@ function eliminarPic(id, i, idnoticia){
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function limpiarArray(item){
@@ -652,6 +673,7 @@ function removerNews(id, i) {
     var estadoItem='No Visible';
     var token= $('#token').val();
     var simbolo= '"';
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -726,6 +748,9 @@ function removerNews(id, i) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
   
 /* FUNCION PARA ACTIVAR NOTICIA */
@@ -734,6 +759,7 @@ function activarNews(id, i) {
     var estado = "1";
     var estadoItem='Visible';
     var token= $('#token').val();
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-noticia",
       type: "POST",
@@ -776,4 +802,7 @@ function activarNews(id, i) {
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }

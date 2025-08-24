@@ -318,6 +318,7 @@ function actualizarUsuario(){
         $('#selectETypeUser').focus();
         swal('Debe seleccionar el Tipo de Usuario','','warning');
     }else{
+        //console.log(id, tipo, nombre);
         $('#modalFullSend').modal('show');
         var datos = new FormData();
         datos.append('nombre', nombre);

@@ -150,16 +150,8 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
               </div>
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="form-group mb-3">
-                    <label>Módulos:</label>
-                    <select class="form-control select2" id="selModulo" >
-                      <optgroup label="Seleccione una Opción">
-                        <option value="0">-Seleccione una Opción-</option>
-                        @foreach ($modulos as $m)
-                        <option value="{{$m->id}}">{{$m->nombre}}</option>
-                        @endforeach
-                      </optgroup>
-                    </select>
+                  <div class="form-group mb-3" id="divDocSelectPermisos">
+                    @include('Administrador.Permisos.select', ['pmodulos' => $pmodulos])
                   </div>
                 </div>
               </div>

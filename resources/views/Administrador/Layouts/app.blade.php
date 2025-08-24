@@ -91,23 +91,63 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
+
+        @php
+            $porModulo = $permisosMenu->groupBy('idmodulo');
+        @endphp
         
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               @if (Session::get('tipo_usuario')=='administrador')
-                @include('Administrador.Layouts.optionsadmin');
-                <!--resources/views/some/directory/structure/foo.blade.php-->
-               @elseif(Session::get('tipo_usuario')=='operador')
-                @include('Administrador.Layouts.optionsoperador');
-                <!--resources/views/some/directory/structure/foo.blade.php-->
-               @elseif(Session::get('tipo_usuario')=='comunicacion')
-                @include('Administrador.Layouts.optionscom');
-                <!--resources/views/some/directory/structure/foo.blade.php-->
-               @elseif(Session::get('tipo_usuario')=='semiadministrador')
-                @include('Administrador.Layouts.optionssemiadmin');
-                <!--resources/views/some/directory/structure/foo.blade.php-->
-               @endif
+            @foreach($porModulo as $idmodulo => $items)
+              @php
+                  $first = $items->first();
+                  // submodulos reales (idsubmodulo != null)
+                  $submodulos = $items
+                    ->filter(function($i) {
+                        return !is_null($i->idsubmodulo) && !empty($i->ruta_submodulo);
+                    })
+                    ->unique(function($item) {
+                        return $item->idsubmodulo;
+                    });
+              @endphp
+
+              <li class="nav-item">
+                @if($submodulos->isEmpty())
+                <a href="{{ url($first->ruta_modulo) }}" class="nav-link {{ setActive($first->ruta_modulo) }}">
+                  <i class="nav-icon {{$first->icono}}"></i>
+                    <p>{{ $first->modulo }}</p>
+                </a>
+                @else
+                <a href="#" class="nav-link">
+                    <i class="nav-icon {{$first->icono}}"></i>
+                    <p>
+                        {{ $first->modulo }}
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                @endif
+                  
+
+                @if($submodulos->isNotEmpty())
+                <ul class="nav nav-treeview">
+                  @foreach($submodulos as $sub)
+                   <li class="nav-item">
+                        <a href="{{ url($sub->ruta_submodulo) }}" class="nav-link {{ setActive($sub->ruta_submodulo) }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ $sub->submodulo }}</p>
+                        </a>
+                    </li>
+                  @endforeach
+                </ul>
+                @endif
+              </li>
+            @endforeach
+
+            @if (Session::get('tipo_usuario')=='administrador')
+              @include('Administrador.Layouts.optionsonlyadmin');
+              <!--resources/views/some/directory/structure/foo.blade.php-->
+            @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -186,6 +226,8 @@
 <!--<script src="../../dist/js/demo.js"></script>-->
 <script src="{{asset('assets/administrador/js/getnotificacion.js')}}"></script>
 <script>
+  window.Permisos = @json($permisosJS);
+
   $(document).ready(function(){
     setTimeout(() => {
       getCountNoti();

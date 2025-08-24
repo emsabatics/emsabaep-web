@@ -56,19 +56,31 @@ function editarPermiso(id, usuario, index){
     llenarTabla("vacio");
     setTimeout(() => {
         $('#modalSettings').modal('show');
-    }, 500);
+    }, 1500);
 }
 
-$('#selModulo').on('select2:select', function (e) {
+/*$('#selModulo').on('select2:select', function (e) {
     var data = e.params.data;
     var x= data.id;
     if(x!='0'){
-        //console.log("IDSEL: "+x);
+        console.log("IDSEL: "+x);
         llenarTabla(x);
     }else{
         llenarTabla("vacio");
     }
+});*/
+
+$(document).on('select2:select', '#selModulo', function (e) {
+    var data = e.params.data;
+    var x = data.id;
+    if(x != '0'){
+        //console.log("IDSEL: " + x);
+        llenarTabla(x);
+    } else {
+        llenarTabla("vacio");
+    }
 });
+
 
 function llenarTabla(opcion){
     //console.log(opcion);
@@ -81,6 +93,7 @@ function llenarTabla(opcion){
 
     if(opcion!="vacio"){
         var idu= $('#id_usuariop').val();
+        //opcion = utf8_to_b64(opcion);
         var idmodulo= opcion;
         html+="<label class='control-label'>Tabla de Opciones</label><br>";
         $.ajax({
@@ -571,7 +584,49 @@ function llenarTabla(opcion){
         });
 
     }else if(opcion=="vacio"){
-        html+="<label class='control-label'>Tabla de Opciones</label><br>";
+       // html+="<label class='control-label'>Tabla de Opciones</label><br>";
+       var idusuario = $('#id_usuariop').val();
+       $("#divDocSelectPermisos").html("");
+       toastr.info('Cargando Datos.','Por favor, espere...',{
+            "positionClass": "toast-top-right",
+            "closeButton": false,
+            "timeOut": "2500"
+        });
+       $.ajax({
+            url: "/get-permiso-by-usuario",
+            type: "POST",
+            dataType: "html",
+            headers: {
+                "X-CSRF-TOKEN": token,
+            },
+            data: {
+                idusuario: idusuario
+            },
+            success: function (res) {
+                $("#divDocSelectPermisos").html(res);
+                setTimeout(() => {
+                    refrescarSelect();
+                }, 500);
+            },
+            error: function () {
+                Swal.fire({
+                    title: "Ha ocurrido un Error",
+                    html: "<p>Error al Filtrar los Datos",
+                    type: "error",
+                });
+            },
+            statusCode: {
+                400: function () {
+                    Swal.fire({
+                        title: "Ha ocurrido un Error",
+                        html:
+                            "<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>" +
+                            "Intente nuevamente</p>",
+                        type: "error",
+                    });
+                },
+            },
+        });
     }
 }
 
@@ -913,5 +968,11 @@ function cargar_datos(){
                 });
             },
         },
+    });
+}
+
+function refrescarSelect(){
+    $('.select2').select2({
+        theme: 'bootstrap4',
     });
 }

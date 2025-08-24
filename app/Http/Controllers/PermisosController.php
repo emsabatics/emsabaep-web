@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class PermisosController extends Controller
 {
-    public function index(){
+    public function indexOriginal(){
         if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
             $estado='1';
 
@@ -37,6 +37,87 @@ class PermisosController extends Controller
         }else{
             return redirect('/loginadmineep');
         }
+    }
+
+    public function index(){
+        if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
+            $estado='1';
+
+            $datosarray= array();
+
+            $getusers = DB::table('users')
+            ->join('tab_perfil_usuario', 'users.tipo_usuario', '=', 'tab_perfil_usuario.id')
+            ->select('users.id', 'users.nombre_usuario', 'users.estado', 'tab_perfil_usuario.nombre as tipo_usuario')
+            ->get();
+
+            foreach($getusers as $us){
+                $contarmodulo= $this->getContadorModulo($us->id, $estado);
+
+                $datosarray[] = array('id'=> $us->id, 'nombres'=> $us->nombre_usuario, 'rol'=> $us->tipo_usuario, 
+                    'estado'=> $us->estado, 'total_modulo'=> $contarmodulo);
+            }
+
+            $permisos = collect($datosarray); // Convertir a colección
+            $pmodulos = collect([]); // así mantienes siempre una colección
+            
+            return view('Administrador.Permisos.permisos', ['permisos'=> $permisos, 'pmodulos'=> $pmodulos]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    public function obtenerModulosPorRol(Request $r)
+    {
+        $idusuario = $r->input('idusuario');
+        $idusuario = desencriptarNumero($idusuario);
+
+        $idperfil = $this->getIdRolByUser($idusuario);
+
+        $pmodulos = DB::table('tab_asig_rol_mod as ap')
+            ->join('tab_modulo as m', 'm.id', '=', 'ap.idmodulo')
+            ->where('ap.idperfil', $idperfil)
+            ->select(
+                'm.id',
+                'm.nombre',
+            )
+            ->distinct()
+            ->orderBy('m.id')
+            ->get();
+        
+        return view('Administrador.Permisos.select', compact('pmodulos'));
+    }
+
+    public function obtenerModulosPorRolOriginal($idRol)
+    {
+        $permisos = DB::table('tab_asig_rol_mod as ap')
+            ->leftJoin('tab_modulo as m', 'm.id', '=', 'ap.idmodulo')
+            ->leftJoin('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+            ->where('ap.idperfil', $idRol)
+            ->select(
+                'm.id as modulo_id',
+                'm.nombre as modulo_nombre',
+                's.id as submodulo_id',
+                's.submodulo as submodulo_nombre'
+            )
+            ->orderBy('m.id')
+            ->orderBy('s.id')
+            ->get();
+        
+        return $permisos;
+        //return view('formulario.select_modulos', compact('permisos'));
+    }
+
+    private function getIdRolByUser($idu){
+        $usuario = Session::get('usuario');
+        $sql_getid= DB::connection('mysql')->table('users')->select('tipo_usuario')->where('id', '=', $idu)->get();
+        
+        $gid=0;
+
+        foreach($sql_getid as $ev){
+            $gid= $ev->tipo_usuario;
+        }
+
+        return $gid;
     }
 
     private function getIdUser(){
@@ -72,7 +153,7 @@ class PermisosController extends Controller
     private function getContadorModulo($idusuario, $estado){
         $total=0;
         $contarmodulo= DB::connection('mysql')
-            ->select('SELECT count(idmodulo) as total FROM tab_permisos WHERE idusuario=? AND estado=? GROUP BY idusuario', [$idusuario, $estado]);
+            ->select('SELECT COUNT(DISTINCT(idmodulo)) as total FROM tab_permisos WHERE idusuario=? AND estado=? ', [$idusuario, $estado]);
 
         foreach ($contarmodulo as $k) {
             $total = $k->total;
@@ -81,7 +162,7 @@ class PermisosController extends Controller
         return $total;
     }
 
-    public function get_permisos_usuario(Request $r){
+    public function get_permisos_usuarioOriginal(Request $r){
         $idm = $r->input('idm'); //idmodulo
         $idu= $r->input('idu'); //idusuario
         $estado="1";
@@ -235,6 +316,224 @@ class PermisosController extends Controller
             }else if($contarmodulo == 0){
                 $dato[]=array('datomod'=> "vacio", 'numsubm'=>"0", 'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"no");
             }
+
+            //$respuesta = collect($dato);
+
+            return response()->json($dato);
+        }
+    }
+
+    public function get_permisos_usuario(Request $r){
+        $idm = $r->input('idm'); //idmodulo
+        $idu= $r->input('idu'); //idusuario
+        $estado="1";
+        $idu = desencriptarNumero($idu);
+        //$idm = base64_decode($idm);
+
+        $dato= array();
+        $arraymodulo= array();
+        $arraysubm= array();
+        $opcionesGUD= array();
+
+        $sqlmod = DB::connection('mysql')->table('tab_permisos')
+        ->select('idmodulo')
+        ->where('idusuario', '=', $idu)
+        ->where('estado','=', $estado)
+        ->get();
+
+        foreach ($sqlmod as $k) {
+            array_push($arraymodulo, $k->idmodulo);
+        }
+
+        if(sizeof($arraymodulo)>0){
+            //echo $idm.'  ';
+            if (in_array($idm, $arraymodulo)) {
+               //echo "IDMODULO SELECCION SE ENCUENTRA <br/>";
+                /*$contarmoduloinsubmodulo= DB::connection('mysql')->table('tab_submodulo')
+                ->select('idmodulo')
+                ->where('idmodulo','=', $idm)
+                ->where('estado','=',$estado)
+                ->count();*/
+
+                $contarmoduloinsubmodulo= $submodulos = DB::table('tab_asig_rol_mod as ap')
+                    ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                    ->select('s.submodulo')
+                    ->where('ap.idmodulo','=', $idm)
+                    ->where('ap.estado','=',$estado)
+                    ->distinct()
+                    ->count();
+
+                if($contarmoduloinsubmodulo==0){
+                    //echo 'NO TIENE SUBMODULOS ESTE MODULO <br/>';
+                    $sqlopciones = DB::connection('mysql')->table('tab_permisos')
+                    ->select('guardar','actualizar','eliminar')
+                    ->where('idmodulo','=', $idm)
+                    ->where('idusuario','=', $idu)
+                    ->get();
+
+                    foreach($sqlopciones as $op){
+                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                    }
+                    
+                    $dato[]=array('datomod'=> "lleno", 'numsubm'=>"0",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"si", 'opciones'=>$opcionesGUD);
+                    unset($opcionesGUD);
+                }else if($contarmoduloinsubmodulo>=1){
+                    //echo 'TIENE SUBMODULOS ESTE MODULO SELECCIONADO <br/>';
+                    /*$sqlsmodulo = DB::connection('mysql')->table('tab_submodulo')
+                    ->select('id','submodulo')
+                    ->where('idmodulo','=', $idm)
+                    ->get();*/
+
+                    $sqlsmodulo = DB::table('tab_asig_rol_mod as ap')
+                        ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                        ->where('ap.idmodulo', $idm)
+                        ->select('s.id', 's.submodulo')
+                        ->distinct()
+                        ->orderBy('s.id')
+                        ->get();
+
+                    
+                    //LLENO EL ARRAY CON LOS SUBMODULOS CREADOS EN EL SISTEMA
+                    foreach ($sqlsmodulo as $sm) {
+                        $contarsm = DB::connection('mysql')->table('tab_permisos')
+                        ->select('guardar','actualizar','eliminar')
+                        ->where('idmodulo','=', $idm)
+                        ->where('idsubmodulo','=', $sm->id)
+                        ->where('idusuario','=', $idu)
+                        ->count();
+                        //echo '  ContarSM: '.$contarsm.' ';
+                        if($contarsm > 0){
+                            $sqlopciones_sm = DB::connection('mysql')->table('tab_permisos')
+                            ->select('guardar','actualizar','eliminar')
+                            ->where('idmodulo','=', $idm)
+                            ->where('idsubmodulo','=', $sm->id)
+                            ->where('idusuario','=', $idu)
+                            ->get();
+
+                            foreach($sqlopciones_sm as $op){
+                                $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo, 'seleccionSM'=>"si", 'guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                            }
+                        }else{
+                            $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo,'seleccionSM'=>"no", 'guardar'=> "no", 'actualizar'=> "no", 'eliminar'=> "no");
+                        }
+                    }
+                    $dato[]=array('datomod'=> "lleno", 'numsubm'=>"2",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"si", 'opciones'=>$arraysubm);
+                    unset($opcionesGUD);
+                }
+            }else{
+                //echo "IDMODULO SELECCION NO SE ENCUENTRA <br/>";
+                /*$contarmoduloinsubmodulo= DB::connection('mysql')->table('tab_submodulo')
+                ->select('idmodulo')
+                ->where('idmodulo','=', $idm)
+                ->where('estado','=',$estado)
+                ->count();*/
+
+                $contarmoduloinsubmodulo= $submodulos = DB::table('tab_asig_rol_mod as ap')
+                    ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                    ->select('s.submodulo')
+                    ->where('ap.idmodulo','=', $idm)
+                    ->where('ap.estado','=',$estado)
+                    ->distinct()
+                    ->count();
+
+                if($contarmoduloinsubmodulo==0){
+                    //echo 'NO TIENE SUBMODULOS ESTE MODULO <br/>';
+                    $sqlopciones = DB::connection('mysql')->table('tab_permisos')
+                    ->select('guardar','actualizar','eliminar')
+                    ->where('idmodulo','=', $idm)
+                    ->where('idusuario','=', $idu)
+                    ->get();
+
+                    foreach($sqlopciones as $op){
+                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                    }
+
+                    if(sizeof($opcionesGUD)==0){
+                        $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+                    }
+
+                    $dato[]=array('datomod'=> "lleno", 'numsubm'=>"0",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"no", 'opciones'=>$opcionesGUD);
+                    unset($opcionesGUD);
+                }else if($contarmoduloinsubmodulo>=1){
+                    //echo 'TIENE SUBMODULOS ESTE MODULO <br/>';
+                    /*$sqlsmodulo = DB::connection('mysql')->table('tab_submodulo')
+                    ->select('id','submodulo')
+                    ->where('idmodulo','=', $idm)
+                    ->get();*/
+
+                    $sqlsmodulo = DB::table('tab_asig_rol_mod as ap')
+                        ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                        ->where('ap.idmodulo', $idm)
+                        ->select('s.id', 's.submodulo')
+                        ->distinct()
+                        ->orderBy('s.id')
+                        ->get();
+
+                    //LLENO EL ARRAY CON LOS SUBMODULOS CREADOS EN EL SISTEMA
+                    foreach ($sqlsmodulo as $sm) {
+                        $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo);
+                    }
+
+                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+
+                    $dato[]=array('datomod'=> "lleno", 'numsubm'=>"1",'seleccionado'=>"no",'submodulos'=> $arraysubm, 'opciones'=>$opcionesGUD);
+                    unset($arraysubm);
+                    unset($opcionesGUD);
+                }
+            }
+
+            return response()->json($dato);
+        }else{
+            //echo "ARRAY VACIO <br/>  ";
+            /*$contarmodulo= DB::connection('mysql')->table('tab_submodulo')
+            ->select('submodulo')
+            ->where('idmodulo','=', $idm)
+            ->where('estado','=',$estado)
+            ->count();*/
+
+            $contarmodulo= $submodulos = DB::table('tab_asig_rol_mod as ap')
+                    ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                    ->select('s.submodulo')
+                    ->where('ap.idmodulo','=', $idm)
+                    ->where('ap.estado','=',$estado)
+                    ->distinct()
+                    ->count();
+            
+            //echo $contarmodulo.' <br/> ';
+
+            if($contarmodulo > 0){
+                /*$submodulos= DB::connection('mysql')->table('tab_submodulo')
+                ->select('id', 'submodulo')
+                ->where('idmodulo','=', $idm)
+                ->where('estado','=', $estado)
+                ->get();*/
+
+                $submodulos = DB::table('tab_asig_rol_mod as ap')
+                        ->join('tab_submodulo as s', 's.id', '=', 'ap.idsubmodulo')
+                        ->where('ap.idmodulo', $idm)
+                        ->select('s.id', 's.submodulo')
+                        ->distinct()
+                        ->orderBy('s.id')
+                        ->get();
+
+                foreach($submodulos as $sm){
+                    $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo);
+                }
+
+                if(sizeof($opcionesGUD)==0){
+                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+                }
+
+                $dato[]=array('datomod'=> "vacio", 'numsubm'=>"1",'seleccionado'=>"no",'submodulos'=> $arraysubm, 'opciones'=>$opcionesGUD);
+                unset($arraysubm);
+                unset($opcionesGUD);
+
+            }else if($contarmodulo == 0){
+                //echo $idm. ' <br/> ';
+                $dato[]=array('datomod'=> "vacio", 'numsubm'=>"0", 'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"no");
+            }
+
+            return $dato;
 
             //$respuesta = collect($dato);
 

@@ -226,8 +226,11 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/datatables/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <!-- date-range-picker -->
 <script src="{{asset('assets/administrador/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 
 <script>
+  const nameInterfaz = "Solicitudes";
+
   var pickerInstance;
   $(document).ready(function () {
     $('#modalCargando').modal('show');
