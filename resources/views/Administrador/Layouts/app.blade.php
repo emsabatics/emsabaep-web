@@ -114,7 +114,8 @@
 
               <li class="nav-item">
                 @if($submodulos->isEmpty())
-                <a href="{{ url($first->ruta_modulo) }}" class="nav-link {{ setActive($first->ruta_modulo) }}">
+                <a href="{{ url(isset($first->ruta_modulo) ? $first->ruta_modulo : '#') }}" 
+                    class="nav-link {{ isset($first->ruta_modulo) ? setActive($first->ruta_modulo) : '' }}">
                   <i class="nav-icon {{$first->icono}}"></i>
                     <p>{{ $first->modulo }}</p>
                 </a>

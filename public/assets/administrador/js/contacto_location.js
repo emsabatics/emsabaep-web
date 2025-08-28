@@ -15,7 +15,11 @@ function guardarNewLocation(){
         $('#inputNameLocation').focus();
         swal('Por favor ingrese el nombre de la nueva Ubicación','','warning');
     }else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         getParams(latitud, longitud, direccion, nombre, token);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -106,7 +110,7 @@ function actualizarRegistroGeo(){
         $('#inputEditDireccionLocation').focus();
         swal('Por favor ingrese la dirección de la Ubicación','','warning');
     } else{
-
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element = document.querySelector('#btnUpdateNewLocation');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -118,6 +122,9 @@ function actualizarRegistroGeo(){
         formData.append("detalle", detalle);
         formData.append("detalle2", detalle2);
         sendUpdateContacto(token, formData, '/actualizar-contacto-geo', 1, element);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

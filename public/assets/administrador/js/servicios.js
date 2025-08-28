@@ -96,6 +96,7 @@ function guardarServicio(){
                 $('#inputLinkService').focus();
                 swal("Ingrese el Link Externo del Servicio", "", "warning");
             }else{
+                if(puedeGuardarM(nameInterfaz) === 'si'){
                 var element = document.querySelector('.saveservice');
                 element.setAttribute("disabled", "");
                 element.style.pointerEvents = "none";
@@ -113,8 +114,12 @@ function guardarServicio(){
                 setTimeout(() => {
                     sendNewService(token, data, "/store-service", element); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                }
             }
         }else if(typeService=='interno'){
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.saveservice');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -130,6 +135,10 @@ function guardarServicio(){
             setTimeout(() => {
                 sendNewService(token, data, "/store-service", element); 
             }, 700);
+
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -194,6 +203,7 @@ function inactivarService(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -258,6 +268,9 @@ function inactivarService(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR SERVICIO */
@@ -267,6 +280,7 @@ function activarService(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-servicio",
       type: "POST",
@@ -313,6 +327,9 @@ function activarService(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function actualizarServicio(){
@@ -342,6 +359,7 @@ function actualizarServicio(){
                 $('#inputLinkServiceE').focus();
                 swal("Ingrese el Link Externo del Servicio", "", "warning");
             }else{
+                if(puedeActualizarM(nameInterfaz) === 'si'){
                 var element = document.querySelector('.updateservice');
                 element.setAttribute("disabled", "");
                 element.style.pointerEvents = "none";
@@ -357,8 +375,12 @@ function actualizarServicio(){
                 setTimeout(() => {
                     sendUpdateService(token, data, "/update-service", element); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(tipos=='interno'){
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.updateservice');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -374,6 +396,9 @@ function actualizarServicio(){
             setTimeout(() => {
                 sendUpdateService(token, data, "/update-service", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -435,6 +460,7 @@ function updateimgservice(e){
     } else if (lengimg > 1) {
         swal("Solo se permite subir un archivo", "", "warning");
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element= document.querySelector('.btnupimgserv');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -446,6 +472,9 @@ function updateimgservice(e){
         setTimeout(() => {
             sendUpdatePics(token, data, "/actualizar-service-img", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -461,6 +490,7 @@ function updateiconservice(e){
     } else if (lengimg > 1) {
         swal("Solo se permite subir un archivo", "", "warning");
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element= document.querySelector('.btnupiconserv');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -472,6 +502,9 @@ function updateiconservice(e){
         setTimeout(() => {
             sendUpdatePics(token, data, "/actualizar-service-icono", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -525,15 +558,23 @@ function sendUpdatePics(token, data, url, el){
 }
 
 function downloadImgService(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     var url='/download-archivo-service/'+id+'/img';
     //window.open(url, '_blank');
     window.location= url;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadIconService(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     var url='/download-archivo-service/'+id+'/icon';
     //window.open(url, '_blank');
     window.location= url;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 //NO PROGRAMADO 16 SEPTIEMBRE 2024
@@ -553,6 +594,7 @@ function registerSubService(id){
 function eliminarService(id){
     var token=$('#token').val();
     var html="";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -597,5 +639,8 @@ function eliminarService(id){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 

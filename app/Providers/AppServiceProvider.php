@@ -92,11 +92,11 @@ class AppServiceProvider extends ServiceProvider
 
                 foreach ($menuJson as $mod) {
                     if ($mod['modulo'] === $permiso->modulo) {
-                        $permiso->ruta_modulo = $mod['ruta'] ?? null;
+                        $permiso->ruta_modulo = $mod['ruta'] ?? '#';
 
                         foreach ($mod['submodulos'] as $sub) {
                             if ($sub['nombre'] === $permiso->submodulo) {
-                                $permiso->ruta_submodulo = $sub['ruta'] ?? null;
+                                $permiso->ruta_submodulo = $sub['ruta'] ?? '#';
                             }
                         }
                     }

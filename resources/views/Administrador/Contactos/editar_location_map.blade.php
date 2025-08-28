@@ -186,10 +186,13 @@ Admin | Contactos {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/contacto_location.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
     });
+
+    const nameInterfaz = "Contactos";
 
     /*mapboxgl.accessToken = 'pk.eyJ1IjoiamNsb3BlejE0IiwiYSI6ImNqemE2cjI4ZzAwbmEzamxveXU1OG8za3UifQ.BadDhjV5YpOq3cG4c7sTbw';*/
     mapboxgl.accessToken = 'pk.eyJ1IjoiamVhbmNsIiwiYSI6ImNtMGZpbmpjazA0YzAybHBucWhzOWluNnkifQ.DPKfnyD9t1DbHroX-OJ1Fg';

@@ -183,7 +183,9 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/socialmedia.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+    const nameInterfaz = "Redes Sociales";
     $('.select2').select2({
         theme: 'bootstrap4',
     });

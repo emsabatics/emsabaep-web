@@ -259,9 +259,10 @@ Admin | Servicios {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/servicios.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 
 <script>
-
+  const nameInterfaz = "Servicios";
   var typeService='';
 
   $('.select2').select2({

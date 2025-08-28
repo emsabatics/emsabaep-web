@@ -41,6 +41,7 @@ function guardarSubservicio(){
     } else if (lengimgicon > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.savesubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -53,6 +54,10 @@ function guardarSubservicio(){
         setTimeout(() => {
             sendNewSubService(token, data, "/store-subservice", element); 
         }, 700);
+
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -174,6 +179,7 @@ function actualizarSubservicio(){
         $('#inputUpSubservicio').focus();
         swal('Ingrese un Nombre','','warning');
     }else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idservicio", idservicio);
         formData.append("idsubservicio", idsubservicio);
@@ -233,6 +239,9 @@ function actualizarSubservicio(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -240,6 +249,7 @@ function actualizarSubservicio(){
 function eliminarSubService(id){
     var token=$('#token').val();
     var html="";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -284,6 +294,9 @@ function eliminarSubService(id){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* -------------------------------------------------------------------------------------------------- */

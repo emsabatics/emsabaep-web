@@ -311,8 +311,21 @@ function editarItemContact(id, op){
                         "<textarea name='textContactDetalle' id='textContactDetalle' cols='5' rows='2' class='form-control' autocomplete='off'>"+v.detalle+"</textarea>"+
                         "</div>";
                     }else if(v.tipo_contacto=="telefono"){
-                        let largo= v.detalle.length;
-                        let index= v.detalle.indexOf("&");
+                        let redetalle2= '';
+                        if(v.telefono2 !== null){
+                            redetalle2= '';
+                        }
+                        html+="<div class='form-group mb-3'>"+
+                            "<label for='textContactDetalle' >Teléfonos:</label>"+
+                            "<input type='text' id='textContactDetalle' class='form-control' placeholder='Teléfono' value='"+v.telefono+"' autocomplete='off' onkeypress='return solonumeros(event);'>"+
+                            "<br><input type='text' id='textContactDetalle2' class='form-control' placeholder='Teléfono 2 (opcional)' value='"+redetalle2+"' autocomplete='off' onkeypress='return solonumeros(event);'>"+
+                            "</div>";
+                        /*let largo= 0;
+                        let index= 0;
+                        if(v.detalle !== null){
+                            largo = v.detalle.length;
+                            index= v.detalle.indexOf("&");
+                        }
                         //console.log(index, largo);
                         if((index+1)==largo){
                             let redetalle= v.detalle.substring(0,index);
@@ -329,7 +342,7 @@ function editarItemContact(id, op){
                             "<input type='text' id='textContactDetalle' class='form-control' placeholder='Teléfono' value='"+redetalle+"' autocomplete='off' onkeypress='return solonumeros(event);'>"+
                             "<br><input type='text' id='textContactDetalle2' class='form-control' placeholder='Teléfono 2 (opcional)' value='"+redetalle2+"' autocomplete='off' onkeypress='return solonumeros(event);'>"+
                             "</div>";
-                        }
+                        }*/
                     }else{
                         html+="<div class='form-group mb-3'>"+
                         "<label for='textContactDetalle' >Email:</label>"+
@@ -485,6 +498,7 @@ function actualizarRegistroGeo(){
         $('#inputEditDireccionLocation').focus();
         swal('Por favor ingrese la dirección de la Ubicación','','warning');
     } else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id", id);
         formData.append("latitud", latitud);
@@ -492,6 +506,9 @@ function actualizarRegistroGeo(){
         formData.append("detalle", detalle);
         formData.append("detalle2", detalle2);
         sendUpdateContacto(token, formData, '/actualizar-contacto-geo', 1);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -523,20 +540,28 @@ function actualizarRegistroDiTeEm(){
                     if(telefono2.length<=9){
                         swal('Número de Teléfono Inválido','','error');
                     }else{
+                        if(puedeActualizarM(nameInterfaz) === 'si'){
                         var formData= new FormData();
                         formData.append("id", id);
                         formData.append("detalle", detalle);
                         formData.append("telefono2", telefono2);
                         formData.append("tipo","numero");
                         sendUpdateContacto(token, formData, '/actualizar-contacto-diteem', 2);
+                        }else{
+                            swal('No tiene permiso para actualizar','','error');
+                        }
                     }
                 }else{
+                    if(puedeActualizarM(nameInterfaz) === 'si'){
                     var formData= new FormData();
                     formData.append("id", id);
                     formData.append("detalle", detalle);
                     formData.append("telefono2", telefono2);
                     formData.append("tipo","numero");
                     sendUpdateContacto(token, formData, '/actualizar-contacto-diteem', 2);
+                    }else{
+                        swal('No tiene permiso para actualizar','','error');
+                    }
                 }
             }
             /*if(detalle[1]!=5 && detalle.length<10){
@@ -567,6 +592,7 @@ function actualizarRegistroDiTeEm(){
                 }
             }*/
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             //es cadena
             var formData= new FormData();
             formData.append("id", id);
@@ -574,6 +600,9 @@ function actualizarRegistroDiTeEm(){
             formData.append("telefono2", telefono2);
             formData.append("tipo","cadena");
             sendUpdateContacto(token, formData, '/actualizar-contacto-diteem', 2);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -592,11 +621,15 @@ function actualizarRegistroHour(){
         $('#inputHourC').focus();
         swal('Por favor ingrese la hora de cierre','','warning');
     } else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id", id);
         formData.append("hora", hora);
         formData.append("horac", horac);
         sendUpdateContacto(token, formData, '/actualizar-contacto-hour', 3);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

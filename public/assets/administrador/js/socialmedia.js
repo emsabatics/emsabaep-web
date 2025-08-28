@@ -121,11 +121,15 @@ function guardarRegistroRS(){
         $('#textsocialmedia').focus();
         swal('Debe ingresar el enlace para la red social','','warning');
     } else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("media", media);
         formData.append("usuario", usuario);
         formData.append("enlace", enlace);
         guardarSocialMedia(token, formData, media, '/registro-socialm');
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -228,11 +232,15 @@ function actualizarRegistroRedS(){
         $('#textEsocialmedia').focus();
         swal('Debe ingresar el enlace para la red social','','warning');
     } else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id", id);
         formData.append("usuario", usuario);
         formData.append("enlace", enlace);
         actualizarSocialMedia(token, formData, '/actualizar-socialmedia');
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -284,6 +292,7 @@ function inactivarItemSM(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -343,6 +352,9 @@ function inactivarItemSM(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR SOCIAL MEDIA */
@@ -351,6 +363,7 @@ function activaritemSM(id, i) {
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-socialm",
         type: "POST",
@@ -391,12 +404,15 @@ function activaritemSM(id, i) {
             }
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR SOCIAL MEDIA */
 function eliminarItemSM(id){
     var token= $('#token').val();
-
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -456,6 +472,9 @@ function eliminarItemSM(id){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 
@@ -470,6 +489,7 @@ function backInterfaceDep(){
 //FUNCION QUE ABRE EL SWEET ALERT PARA REGISTRAR LA RED SOCIAL
 function openModalAggDep(){
     var token= $('#token').val();
+    if(puedeGuardarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: 'Ingrese la nueva Red Social',
         input: 'text',
@@ -520,6 +540,9 @@ function openModalAggDep(){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para guardar','','error');
+    }
 }
 
 //FUNCION QUE MUESTRA LA INFORMACIÓN DE LAS REDES SOCIALES
@@ -612,6 +635,8 @@ function actualizarRegistroRS(){
         $('#inputRedSocial').focus();
         swal('Por favor, ingrese un nombre a la Red Social','','warning');
     }else{
+
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append('id', id);
         formData.append('red', red);
@@ -654,6 +679,10 @@ function actualizarRegistroRS(){
                 }
             }
         });
+
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -670,6 +699,7 @@ function eliminarItemRS(id, pos){
         estadoItem="No Visible";
     }
 
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -746,6 +776,9 @@ function eliminarItemRS(id, pos){
         }else if (result.dismiss === Swal.DismissReason.cancel) {
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 //FUNCION QUE ACTIVA LA RED SOCIAL SELECCIONADA
@@ -761,6 +794,7 @@ function activaritemRS(id, pos){
         estadoItem="No Visible";
     }
 
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-reds",
         type: "POST",
@@ -817,4 +851,7 @@ function activaritemRS(id, pos){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

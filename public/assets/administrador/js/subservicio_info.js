@@ -30,6 +30,7 @@ function guardarInforSubservicio(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.saveinfosubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -44,6 +45,9 @@ function guardarInforSubservicio(){
         setTimeout(() => {
             sendInforService(token, data, "/store_detail_infor_subservice", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -141,6 +145,7 @@ function inactivarSubserviceinfodetail(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -209,6 +214,9 @@ function inactivarSubserviceinfodetail(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Subservicio Info Detail */
@@ -218,7 +226,7 @@ function activarSubserviceinfodetail(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
-
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-subservicioinfodetail",
         type: "POST",
@@ -269,12 +277,16 @@ function activarSubserviceinfodetail(id, i){
             }
         },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR Subservicio Info Detail */
 function deleteSubserviceinfodetail(id){
     var token=$('#token').val();
     var html="";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -319,6 +331,9 @@ function deleteSubserviceinfodetail(id){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateSubserviceinfodetail(id){
@@ -334,6 +349,7 @@ function actualizarInforSubservicio(){
     if(descripcion=='<p><br></p>'){
         swal('Por favor ingrese la Información','','warning');
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.updateinfosubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -347,6 +363,9 @@ function actualizarInforSubservicio(){
         setTimeout(() => {
             sendUpdateSubService(token, data, "/update_subservice_infodetail", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -408,6 +427,7 @@ function updateimgsubserviceinfodetail(e){
     } else if (lengimg > 1) {
         swal("Solo se permite subir un archivo", "", "warning");
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element= document.querySelector('.btnupimgsubservid');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -419,6 +439,9 @@ function updateimgsubserviceinfodetail(e){
         setTimeout(() => {
             sendUpdatePics(token, data, "/actualizar-subservice-img-infodet", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -472,9 +495,13 @@ function sendUpdatePics(token, data, url, el){
 }
 
 function downloadImgSubServiceInfo(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     var url='/download-archivo-subservice/'+id+'/infodetail';
     //window.open(url, '_blank');
     window.location= url;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function urlbacktosubservice_detailinfo(){
