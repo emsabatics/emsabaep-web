@@ -252,6 +252,7 @@ Admin | Servicios {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/subservicio_txtfile.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 
 <script>
   var idservice= '';
@@ -259,6 +260,7 @@ Admin | Servicios {{getNameInstitucion()}}
   var typeService='';
   var getidsubservice= {{Illuminate\Support\Js::from($idsubservice)}};
   var interface= 'view';
+  const nameInterfaz = "Subservicios";
 
   $('.select2').select2({
     theme: 'bootstrap4',

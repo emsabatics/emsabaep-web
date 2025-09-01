@@ -10,6 +10,7 @@ function guardarRegistroOptLot(){
         $('#inputDescp').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("descripcion", descripcion);
 
@@ -65,6 +66,9 @@ function guardarRegistroOptLot(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -110,6 +114,7 @@ function actualizarRegistroOptLo(){
         $('#inputDescpEOpt').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id",id);
         formData.append("descripcion", descripcion);
@@ -168,6 +173,9 @@ function actualizarRegistroOptLo(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -176,6 +184,7 @@ function eliminarOptLiteral(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -235,6 +244,9 @@ function eliminarOptLiteral(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarOptLiteral(id, i){
@@ -242,6 +254,7 @@ function activarOptLiteral(id, i){
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-opciones-lotaip",
         type: "POST",
@@ -290,4 +303,7 @@ function activarOptLiteral(id, i){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }

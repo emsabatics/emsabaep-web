@@ -424,7 +424,9 @@ data-backdrop="static" data-keyboard="false">
 
 @section('js')
 <script src="{{asset('assets/administrador/js/mvvob.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+  const nameInterfaz = "Misión";
     $('#modalCargando').modal('show');
     setTimeout(() => {
       cargar_mvvob();

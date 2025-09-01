@@ -138,7 +138,7 @@ function removerImgHistoria(id) {
     var estado = "0";
     var token= $('#token').val();
     var URLactual = window.location;
-
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -207,6 +207,9 @@ function removerImgHistoria(id) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function handleClickEdit(myRadio) {
@@ -264,6 +267,7 @@ function actualizarHistoria() {
         } else if (radioValue == '') {
             swal("No ha seleccionado la posición de la imagen", "", "warning");
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             //descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
             var data = new FormData(formEditHistoria);
@@ -275,6 +279,9 @@ function actualizarHistoria() {
             setTimeout(() => {
                 sendUpdateHistoria(token, data, "/actualizar-historia");  
             }, 900);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else if(isDeleteImg==true){
         let fileInput = document.getElementById("file");
@@ -289,6 +296,7 @@ function actualizarHistoria() {
         } else if (lengimg > 1) {
             swal("Debe elegir solo una fotografía", "", "warning");
         } else {
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             //descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
             var data = new FormData(formEditHistoria);
@@ -300,6 +308,9 @@ function actualizarHistoria() {
             setTimeout(() => {
                 sendUpdateHistoria(token, data, "/actualizar-historia");  
             }, 900);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }

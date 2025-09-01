@@ -268,7 +268,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         <input type="hidden" name="inputIdDependencia" id='inputIdDependencia'>
                       </div>
                       <div class="col-auto col-md-3">
-                        <button type="submit" class="btn btn-primary mb-2" onclick="changeDependencia()">Editar</button>
+                        <button type="submit" class="btn btn-primary mb-2" onclick="changeDependencia(event)">Editar</button>
                       </div>
                     </div>
                   </div>
@@ -284,7 +284,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         </div>
                       </div>
                       <div class="col-auto col-md-3">
-                        <button type="submit" class="btn btn-danger mt-3" onclick="cancelDependencia()">Cancelar</button>
+                        <button type="submit" class="btn btn-danger mt-3" onclick="cancelDependencia(event)">Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -355,11 +355,12 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/departamento.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
     });
-
+    const nameInterfaz = "Departamentos";
     var gerencia= {{Illuminate\Support\JS::from($gerencia)}};
     var direccion= {{Illuminate\Support\JS::from($direccion)}};
     var coordinacion= {{Illuminate\Support\JS::from($coordinacion)}};

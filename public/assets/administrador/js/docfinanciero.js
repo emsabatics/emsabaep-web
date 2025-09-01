@@ -115,6 +115,7 @@ function guardarDocFin(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savedocfin');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -130,6 +131,9 @@ function guardarDocFin(){
             setTimeout(() => {
                 sendNewDocFinanciero(token, data, "/store-doc-financiero", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -195,6 +199,7 @@ function inactivarDocFin(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -267,6 +272,9 @@ function inactivarDocFin(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Documentación Financiera */
@@ -276,6 +284,7 @@ function activarDocFin(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-docfinanciero",
       type: "POST",
@@ -330,10 +339,17 @@ function activarDocFin(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadDocFin(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-docfinanciero/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateDocFin(id){
@@ -407,23 +423,31 @@ function actualizardocfin(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocfincancieroe);
             data.append("isDocFinanciero", isDocFinanciero);
             setTimeout(() => {
                 sendUpdateDocFinanciero(token, data, "/update-docfinanciero"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
         if(aliasFileE!=getAliasE()){
             swal("Revise el alias del documento", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocfincancieroe);
             data.append("isDocFinanciero", isDocFinanciero);
             setTimeout(() => {
                 sendUpdateDocFinanciero(token, data, "/update-docfinanciero");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -477,6 +501,7 @@ function sendUpdateDocFinanciero(token, data, url){
 function eliminarpermdocfin(){
     var token=$('#token').val();
     var id= $('#iddocfinanciero').val();
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -521,4 +546,7 @@ function eliminarpermdocfin(){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

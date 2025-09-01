@@ -35,7 +35,8 @@ class HomeController extends Controller
                     'p.guardar',
                     'p.actualizar',
                     'p.eliminar',
-                    'p.descargar'
+                    'p.descargar',
+                    'p.configurar'
                 )
                 ->orderBy('m.id')
                 ->orderBy('s.id')
@@ -70,7 +71,8 @@ class HomeController extends Controller
                     'guardar' => $item->guardar,
                     'actualizar' => $item->actualizar,
                     'eliminar' => $item->eliminar,
-                    'descargar' => $item->descargar
+                    'descargar' => $item->descargar,
+                    'configurar' => $item->configurar
                 ];
             });
 

@@ -115,6 +115,7 @@ function guardarDocOper(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savedocoper');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -130,6 +131,9 @@ function guardarDocOper(){
             setTimeout(() => {
                 sendNewDocOperativo(token, data, "/store-doc-operativo", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -195,6 +199,7 @@ function inactivarDocOper(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -267,6 +272,9 @@ function inactivarDocOper(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Documentación Operativa */
@@ -276,6 +284,7 @@ function activarDocOper(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-docoperativo",
       type: "POST",
@@ -330,10 +339,17 @@ function activarDocOper(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadDocOper(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-docoperativo/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateDocOper(id){
@@ -407,23 +423,31 @@ function actualizardocoper(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocoperativoe);
             data.append("isDocOperativo", isDocOperativo);
             setTimeout(() => {
                 sendUpdateDocOperativo(token, data, "/update-docoperativo"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
         if(aliasFileE!=getAliasE()){
             swal("Revise el alias del documento", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocoperativoe);
             data.append("isDocOperativo", isDocOperativo);
             setTimeout(() => {
                 sendUpdateDocOperativo(token, data, "/update-docoperativo");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -477,6 +501,7 @@ function sendUpdateDocOperativo(token, data, url){
 function eliminarpermdocoper(){
     var token=$('#token').val();
     var id= $('#iddocoperativo').val();
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -521,4 +546,7 @@ function eliminarpermdocoper(){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

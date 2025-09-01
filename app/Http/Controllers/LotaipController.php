@@ -821,7 +821,7 @@ class LotaipController extends Controller
                                     if($literal=='0'){
                                         $sql_insert = DB::connection('mysql')->insert('insert into tab_lotaip_v2 (
                                             id_anio, id_mes, id_art_lotaip, archivo, created_at
-                                        ) values (?,?,?,?,?)', [$anio, $mes, $idartopt, $newnamelotaip, $date]);
+                                        ) values (?,?,?,?,?)', [$anio, $mes, $idartopt, $nnldd, $date]); //ojo
                                     }else{
                                         $sql_insert = DB::connection('mysql')->insert('insert into tab_lotaip_v2 (
                                             id_anio, id_mes, id_art_lotaip, id_item_lotaip, archivo_cdatos, archivo_mdatos, archivo_ddatos, created_at

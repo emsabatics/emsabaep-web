@@ -121,6 +121,7 @@ function guardarImagenes(e){
     } else if(lengimg > 2){
         swal("Solo se permiten máximo 2 archivos", "", "warning");
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         $('#modalFullSend').modal('show');
         var element= document.getElementById('btnSaveImgLogo');
         element.setAttribute("disabled", "");
@@ -130,6 +131,9 @@ function guardarImagenes(e){
         setTimeout(() => {
             sendUpdatePicsLogo(token, data, lengimg, "/logo/registro-logo", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -246,6 +250,7 @@ function inactivarLogo(id, i) {
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-logo",
       type: "POST",
@@ -300,6 +305,9 @@ function inactivarLogo(id, i) {
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR BANNER */
@@ -309,6 +317,7 @@ function activarLogo(id, i) {
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-logo",
         type: "POST",
@@ -363,12 +372,19 @@ function activarLogo(id, i) {
             }
         },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadImg(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     //var url='/download-logo/'+id;
     //window.open(url, '_blank');
     window.location='/download-logo/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR LOGO */
@@ -377,7 +393,7 @@ function removerLogo(id, i) {
     var token= $('#token').val();
 
     var URLactual = '/logo-institucion';
-
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -434,6 +450,9 @@ function removerLogo(id, i) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA REGRESAR A LA PAGINA PRINCIPAL LOGO*/

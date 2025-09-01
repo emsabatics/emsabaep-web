@@ -201,9 +201,10 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop-files.js')}}"></script>
 <script src="{{asset('assets/administrador/js/estructura.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     var elementEdit = document.querySelector('#edit');
-
+    const nameInterfaz = "Estructura";
     var elementSave = document.querySelector('#save');
     elementSave.setAttribute("disabled", "");
     elementSave.style.pointerEvents = "none";

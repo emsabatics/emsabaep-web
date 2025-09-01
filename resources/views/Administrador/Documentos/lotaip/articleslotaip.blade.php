@@ -253,12 +253,13 @@ data-backdrop="static" data-keyboard="false">
 
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script src="{{asset('assets/administrador/js/configlotaip.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
     });
-
+    const nameInterfaz = "Artículos";
     const scrollSmoothlyToBottom = (id) => {
       const element = $(`#${id}`);
       element.animate({
@@ -288,5 +289,17 @@ data-backdrop="static" data-keyboard="false">
       scrollSmoothlyToBottom();
       $('#modalCargando').modal('hide');
     }, 900);
+
+    /*document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          scrollSmoothlyToBottom();
+          setTimeout(() => {
+           if ($('#modalCargando').hasClass('show')) {
+                $('#modalCargando').modal('hide');
+            }
+          }, 900);
+            
+        }
+    });*/
 </script>
 @endsection

@@ -94,6 +94,7 @@ function guardarTextWithFileSubservicio(){
             tipofile='image';
         }
 
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.savetextsubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -110,6 +111,9 @@ function guardarTextWithFileSubservicio(){
         setTimeout(() => {
             sendTextFileService(token, data, "/store_text_file_subservice", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -305,6 +309,7 @@ function inactivarSubservicefilelist(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -373,6 +378,9 @@ function inactivarSubservicefilelist(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Subservicio File List */
@@ -382,7 +390,7 @@ function activarSubservicefilelist(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
-
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-subserviciofilelist",
         type: "POST",
@@ -433,12 +441,16 @@ function activarSubservicefilelist(id, i){
             }
         },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR Subservicio Info Detail */
 function deleteSubservicefilelist(id){
     var token=$('#token').val();
     var html="";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -483,6 +495,9 @@ function deleteSubservicefilelist(id){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateSubservicefilelist(id){
@@ -490,9 +505,13 @@ function interfaceupdateSubservicefilelist(id){
 }
 
 function downloadFileListSubService(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     var url='/download-archivo-subservice/'+id+'/filetext';
     //window.open(url, '_blank');
     window.location= url;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION QUE ACTUALIZA EL ARCHIVO DEL SUBSERVICIO */
@@ -523,6 +542,7 @@ function updatefilesubservicefilelist(e){
         } else if (lengimg > 1) {
             swal("Solo se permite subir un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             var element= document.querySelector('.btnupfilelisT');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -536,6 +556,9 @@ function updatefilesubservicefilelist(e){
             setTimeout(() => {
                 sendUpdatePics(token, data, "/actualizar-subservice-file-filelist", element);
             }, 900);
+            }else{
+                swal('No tiene permiso para realizar esta acción','','error');
+            }
         }
     }else{
         var idsubserviciofile= $('#idsubserviciofile').val();
@@ -543,6 +566,7 @@ function updatefilesubservicefilelist(e){
         if (radioValue == '' || radioValue == '0') {
             swal("No ha seleccionado la posición del archivo", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             var element= document.querySelector('.btnupfilelisT');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -555,6 +579,9 @@ function updatefilesubservicefilelist(e){
             setTimeout(() => {
                 sendUpdatePics(token, data, "/actualizar-subservice-positionfile-filelist", element);
             }, 900);
+            }else{
+                swal('No tiene permiso para realizar esta acción','','error');
+            }
         }
     }
 }
@@ -567,6 +594,7 @@ function actualizarDetalleFileListSubservicio(){
     if(descripcion=='<p><br></p>'){
         swal('Por favor ingrese la Información','','warning');
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element= document.querySelector('.updatetextfilelist');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -578,6 +606,9 @@ function actualizarDetalleFileListSubservicio(){
         setTimeout(() => {
             sendUpdatePics(token, data, "/actualizar-subservice-textfilelist", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para realizar esta acción','','error');
+        }
     }
 }
 

@@ -217,12 +217,13 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static" da
 <script src="{{asset('assets/administrador/plugins/summernote/lang/summernote-es-ES.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/update_historia.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     //editHistoria();
 
     var varImg= {{Illuminate\Support\Js::from($dataImg)}};
     var varTexto= {{Illuminate\Support\Js::from($dataTexto)}};
-  
+    const nameInterfaz = "Historia";
     // Summernote
     $('#summernote').summernote({
       focus: true,

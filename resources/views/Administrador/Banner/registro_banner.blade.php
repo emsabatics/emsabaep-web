@@ -193,6 +193,8 @@ Admin | Banner {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/banner.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+  const nameInterfaz = "Banner de Imágenes";
 </script>
 @endsection

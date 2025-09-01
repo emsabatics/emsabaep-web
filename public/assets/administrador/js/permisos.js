@@ -89,6 +89,8 @@ function llenarTabla(opcion){
     var letraG='"guardar"';
     var letraU='"actualizar"';
     var letraD='"eliminar"';
+    var letraDo='"descargar"';
+    var letraS='"configurar"';
     var token=$('#token').val();
 
     if(opcion!="vacio"){
@@ -110,7 +112,7 @@ function llenarTabla(opcion){
                         if(v.numsubm=="0"){
                             html+="<table id='datosPermiso' class='table datatables'><thead class='thead-dark'>"+
                                 "<tr style='pointer-events:none;'><th>Módulo</th><th>Guardar</th>"+
-                                "<th>Actualizar</th><th>Eliminar</th><th><i class='fa fa-check-square'></i></th>"+
+                                "<th>Actualizar</th><th>Eliminar</th><th>Descargar</th><th>Configurar</th><th><i class='fa fa-check-square'></i></th>"+
                                 "</tr></thead><tbody>";
                             html+="<tr><td>"+v.modulo+"</td>"+
                             "<td>"+
@@ -135,8 +137,24 @@ function llenarTabla(opcion){
                                     "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraD+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
                                   "</label>"+
                                 "</div>"+
-                            "</td>"+
-                            "<td class='tdcheck'>";
+                            "</td>";
+                            numcheck++;
+                            html+="<td>"+
+                                "<div class='toggle-flip'>"+
+                                  "<label>"+
+                                    "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                  "</label>"+
+                                "</div>"+
+                            "</td>";
+                            numcheck++;
+                            html+="<td>"+
+                                "<div class='toggle-flip'>"+
+                                  "<label>"+
+                                    "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                  "</label>"+
+                                "</div>"+
+                            "</td>";
+                            html+="<td class='tdcheck'>";
                             var nomMod='"'+v.titulo+'"';
                             if(v.seleccionado=="no"){
                                 html+="<div class='form-check'>"+
@@ -176,7 +194,7 @@ function llenarTabla(opcion){
                             html+="<br>";
                             html+="<table id='datosPermiso' class='table datatables'><thead class='thead-dark'>"+
                                 "<tr style='pointer-events:none;'><th>Submódulos</th><th>Guardar</th>"+
-                                "<th>Actualizar</th><th>Eliminar</th>"+
+                                "<th>Actualizar</th><th>Eliminar</th><th>Descargar</th><th>Configurar</th>"+
                                 "</tr></thead><tbody>";
                             $.each(v.submodulos, function(j,w){
                                 html+="<tr>";
@@ -243,6 +261,46 @@ function llenarTabla(opcion){
                                         "</td>";
                                     }
                                     numcheck++;
+
+                                    if(a.descargar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",descargar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
+
+                                    if(a.configurar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",configurar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
                                 });
                                 
                                 html+="</tr>";
@@ -253,7 +311,7 @@ function llenarTabla(opcion){
                         if(v.numsubm=="0"){
                             html+="<table id='datosPermiso' class='table datatables'><thead class='thead-dark'>"+
                                 "<tr style='pointer-events:none;'><th>Módulo</th><th>Guardar</th>"+
-                                "<th>Actualizar</th><th>Eliminar</th><th><i class='fa fa-check-square'></i></th>"+
+                                "<th>Actualizar</th><th>Eliminar</th><th>Descargar</th><th>Configurar</th><th><i class='fa fa-check-square'></i></th>"+
                                 "</tr></thead><tbody>";
                             html+="<tr><td>"+v.modulo+"</td>";
 
@@ -318,6 +376,48 @@ function llenarTabla(opcion){
                                         "</div>"+
                                     "</td>";
                                 }
+
+                                numcheck++;
+
+                                if(w.descargar=="si"){
+                                    html+="<td>"+
+                                        "<div class='toggle-flip'>"+
+                                          "<label>"+
+                                            "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                          "</label>"+
+                                        "</div>"+
+                                    "</td>";
+                                    arraySelOp.push("descargar");
+                                }else{
+                                    html+="<td>"+
+                                        "<div class='toggle-flip'>"+
+                                          "<label>"+
+                                            "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                          "</label>"+
+                                        "</div>"+
+                                    "</td>";
+                                }
+
+                                numcheck++;
+
+                                if(w.configurar=="si"){
+                                    html+="<td>"+
+                                        "<div class='toggle-flip'>"+
+                                          "<label>"+
+                                            "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                          "</label>"+
+                                        "</div>"+
+                                    "</td>";
+                                    arraySelOp.push("configurar");
+                                }else{
+                                    html+="<td>"+
+                                        "<div class='toggle-flip'>"+
+                                          "<label>"+
+                                            "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDato(this,"+numcheck+","+idmodulo+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                          "</label>"+
+                                        "</div>"+
+                                    "</td>";
+                                }
                             });
 
                             html+="<td class='tdcheck'>";
@@ -359,7 +459,7 @@ function llenarTabla(opcion){
                             html+="<br>";
                             html+="<table id='datosPermiso' class='table datatables'><thead class='thead-dark'>"+
                                 "<tr style='pointer-events:none;'><th>Submódulos</th><th>Guardar</th>"+
-                                "<th>Actualizar</th><th>Eliminar</th>"+
+                                "<th>Actualizar</th><th>Eliminar</th><th>Descargar</th><th>Configurar</th>"+
                                 "</tr></thead><tbody>";
                             $.each(v.submodulos, function(j,w){
                                 html+="<tr>";
@@ -426,6 +526,46 @@ function llenarTabla(opcion){
                                         "</td>";
                                     }
                                     numcheck++;
+
+                                    if(a.descargar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",descargar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
+
+                                    if(a.configurar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",configurar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
                                 });
                                 
                                 html+="</tr>";
@@ -450,7 +590,7 @@ function llenarTabla(opcion){
                             html+="<br>";
                             html+="<table id='datosPermiso' class='table datatables'><thead class='thead-dark'>"+
                                 "<tr style='pointer-events:none;'><th>Submódulos</th><th>Guardar</th>"+
-                                "<th>Actualizar</th><th>Eliminar</th>"+
+                                "<th>Actualizar</th><th>Eliminar</th><th>Descargar</th><th>Configurar</th>"+
                                 "</tr></thead><tbody>";
                             $.each(v.opciones,function(j,w){
                                 html+="<tr>";
@@ -480,6 +620,26 @@ function llenarTabla(opcion){
                                             "<div class='toggle-flip'>"+
                                               "<label>"+
                                                 "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraD+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+
+                                    numcheck++;
+
+                                    html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+
+                                    numcheck++;
+
+                                    html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
                                               "</label>"+
                                             "</div>"+
                                         "</td>";
@@ -543,6 +703,46 @@ function llenarTabla(opcion){
                                             "<div class='toggle-flip'>"+
                                               "<label>"+
                                                 "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraD+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
+
+                                    if(w.descargar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",descargar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraDo+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                    }
+                                    numcheck++;
+
+                                    if(w.configurar=="si"){
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' checked onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
+                                              "</label>"+
+                                            "</div>"+
+                                        "</td>";
+                                        arraySelOp.push(w.idsm+",configurar");
+                                    }else{
+                                        html+="<td>"+
+                                            "<div class='toggle-flip'>"+
+                                              "<label>"+
+                                                "<input id='checkD"+numcheck+"' type='checkbox' onclick='seleccionarDatoSM(this,"+numcheck+","+idmodulo+","+w.idsm+","+letraS+")'><span class='flip-indecator' data-toggle-on='SI' data-toggle-off='NO'></span>"+
                                               "</label>"+
                                             "</div>"+
                                         "</td>";

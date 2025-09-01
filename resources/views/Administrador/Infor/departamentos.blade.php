@@ -209,11 +209,12 @@ data-backdrop="static" data-keyboard="false">
 
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/departamento.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
     });
-
+    const nameInterfaz = "Departamentos";
     //var resultadoArray = {Illuminate\Support\Js::from($resultado)};
     $('#modalCargando').modal('show');
     setTimeout(() => {

@@ -110,6 +110,7 @@ function imprimirDatos(imagen, id, tipofile){
 
 function eliminarPic(id){
     var token= $('#token').val();
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -172,6 +173,9 @@ function eliminarPic(id){
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION QUE ACTUALIZA LAS NOTICIAS EN IMAGENES */
@@ -184,12 +188,16 @@ function updatepicsnews(e){
     if (lengimg == 0) {
         swal("No ha seleccionado un archivo", "", "warning");
     } else {
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         $('#modalFullSendEdit').modal('show');
         var data = new FormData(formEstructuraI);
         data.append("num_img", lengimg);
         setTimeout(() => {
             sendUpdatePics(token, data, "/actualizar-estructura-img");
         }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -351,6 +359,7 @@ var save = function() {
     if(estructura=='<p><br></p>'){
         swal('Por favor ingrese la Información','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('#save');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -369,6 +378,15 @@ var save = function() {
         formData.append("id", idestructura);
         formData.append("descripcion", estructura);
         sendUpdateAbout(formData, token, '/registrar-estructura', element, 0, tiporegistro);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+            $('#divEstructura').summernote('destroy');
+            //console.log(markup);
+            elementSave.setAttribute("disabled", "");
+            elementSave.style.pointerEvents = "none";
+            elementEdit.removeAttribute("disabled");
+            elementEdit.style.removeProperty("pointer-events");
+        }
     }
     /**/
 };

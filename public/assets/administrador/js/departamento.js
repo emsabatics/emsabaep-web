@@ -4,7 +4,11 @@ var arrayDepEdit= [];
 var sel_dep_edit='';
 
 function addDepartamento(){
+    if(puedeConfigurarSM(nameInterfaz) === 'si'){
     window.location='/registrar-departamento';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function backInterfaceDep(){
@@ -286,11 +290,15 @@ function guardarRegistroDep(){
             } else if(lengimg>=2){
                 swal("Sólo debe seleccionar una imagen para la Gerencia", "", "warning");
             } else{
+                if(puedeGuardarSM(nameInterfaz) === 'si'){
                 var formData = new FormData(formDept);
                 formData.append("nombre", nombre);
                 formData.append("tipo", tipo);
                 formData.append("imagen","si");
                 sendUpdateDepartamento(formData, token, '/registrar-dept', element, '#modalAggDep');
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                }
             }
         }else if(tipo=='direccion'){
             var idDep= seldependencia;
@@ -307,6 +315,7 @@ function guardarRegistroDep(){
             } else if(lengimg>=2){
                 swal("Sólo debe seleccionar una imagen para la Coordinación", "", "warning");
             } else{
+                if(puedeGuardarSM(nameInterfaz) === 'si'){
                 let id_dep= idDep.substring(4, seldependencia.length);
                 /*let tipo_dep=  idDep.substring(0, 3);
                 if(tipo_dep=='grc'){
@@ -321,6 +330,9 @@ function guardarRegistroDep(){
                 formData.append("iddependencia", id_dep);
                 formData.append("imagen","si");
                 sendUpdateDepartamento(formData, token, '/registrar-dept', element, '#modalAggDep');
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                }
             }
         }else if(tipo=='coordinacion'){
             var idDep= seldependencia;
@@ -333,6 +345,7 @@ function guardarRegistroDep(){
                     confirmButtonText: "Ok"
                 });
             }else{
+                if(puedeGuardarSM(nameInterfaz) === 'si'){
                 let id_dep= idDep.substring(4, seldependencia.length);
                 let tipo_dep=  idDep.substring(0, 3);
                 if(tipo_dep=='grc'){
@@ -348,6 +361,9 @@ function guardarRegistroDep(){
                 formData.append("tipo_dep", tipo_dep);
                 formData.append("imagen","no");
                 sendUpdateDepartamento(formData, token, '/registrar-dept', element, '#modalAggDep');
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                }
             }
         }
     }
@@ -561,7 +577,7 @@ function removerItem(id, i, tipo){
     }else{
         estadoItem="No Visible";
     }
-
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -655,6 +671,9 @@ function removerItem(id, i, tipo){
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION ACTIVAR EL ITEM DE REGISTRO*/
@@ -671,6 +690,7 @@ function activarItem(id, i, tipo){
         estadoItem="No Visible";
     }
 
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-dept",
         type: "POST",
@@ -744,6 +764,9 @@ function activarItem(id, i, tipo){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION EDITAR REGISTRO GERENCIA*/
@@ -868,7 +891,8 @@ function get_info_depart(tipo, id){
 }
 
 /* FUNCION QUE MUESTRA EL SELECT DE LA NUEVA DEPENDENCIA */
-function changeDependencia(){
+function changeDependencia(e){
+    e.preventDefault();
     divNameDep.style.display='none';
     divProgess.style.display= 'block';
     isActiveDep= true;
@@ -878,12 +902,14 @@ function changeDependencia(){
         divProgess.style.display= 'none';
         setTimeout(()=>{
             document.getElementById('rowDependenciaEdit').style.display='block';
+            return false;
         }, 200);
     }, 700);
 }
 
 /* FUNCION QUE OCULTA EL SELECT DE LA NUEVA DEPENDENCIA */
-function cancelDependencia(){
+function cancelDependencia(e){
+    e.preventDefault();
     sel_dep_edit='';
     isActiveDep= false;
     divNameDep.style.display='block';
@@ -922,16 +948,21 @@ function guardarRegistroEditDep(){
         });
     }else{
         var element = document.querySelector('.btn-edit-dep');
-        element.setAttribute("disabled", "");
-        element.style.pointerEvents = "none";
 
         if(tipo=='gerencia'){
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
+            element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";
+
             var formData = new FormData(formeditDept);
             formData.append('id', id);
             formData.append("nombre", nombre);
             formData.append("tipo", tipo);
             formData.append("isImage", isImage);
             sendUpdateDepartamento(formData, token, '/actualizar-dept', element, '#modalEditDep');
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
             
         }else if(tipo=='direccion'){
             var idDependenciaGer= '';
@@ -951,6 +982,9 @@ function guardarRegistroEditDep(){
             }else if(isActiveDep==false){
                 idDependenciaGer= $('#inputIdDependencia').val();
             }
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
+            element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";
             //console.log(id, nombre, tipo, idDependenciaGer);
             var formData = new FormData(formeditDept);
             formData.append('id', id);
@@ -959,6 +993,9 @@ function guardarRegistroEditDep(){
             formData.append("iddependencia", idDependenciaGer);
             formData.append("isImage", isImage);
             sendUpdateDepartamento(formData, token, '/actualizar-dept', element, '#modalEditDep');
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }else if(tipo=='coordinacion'){
             var idDependenciaGer= '';
             let tipo_dep='';
@@ -990,6 +1027,9 @@ function guardarRegistroEditDep(){
                     tipo_dep='direccion';
                 }
             }
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
+            element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";
             //console.log(id, nombre, tipo, idDependenciaGer, tipo_dep);
             var formData = new FormData(formeditDept);
             formData.append('id', id);
@@ -998,6 +1038,9 @@ function guardarRegistroEditDep(){
             formData.append("iddependencia", idDependenciaGer);
             formData.append("tipo_dep", tipo_dep);
             sendUpdateDepartamento(formData, token, '/actualizar-dept', element, '#modalEditDep');
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -1139,10 +1182,11 @@ function saveinfordep(){
             $('#emailUsuarioEncargado').focus();
             swal('Dirección de correo Inválida','','error');
         }else if(isemail==1){
-            if(telefono.length<10){
+            if(telefono.length<9){
                 $('#telefonoUsuarioEncargado').focus();
                 swal('Número de Teléfono Inválido','','error');
             }else{
+                if(puedeGuardarSM(nameInterfaz) === 'si'){
                 var formData = new FormData();
                 formData.append("tipo", tipo);
                 formData.append("iddepartamento", id_dep);
@@ -1189,6 +1233,9 @@ function saveinfordep(){
                     contentType: false,
                     processData: false
                 });
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                }
             }
         }
     }
@@ -1238,10 +1285,11 @@ function updateinfordep(){
             $('#emailUsuarioEncargado').focus();
             swal('Dirección de correo Inválida','','error');
         }else if(isemail==1){
-            if(telefono.length<10){
+            if(telefono.length<9){
                 $('#telefonoUsuarioEncargado').focus();
                 swal('Número de Teléfono Inválido','','error');
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 var formData = new FormData();
                 formData.append("id", id);
                 formData.append("tipo", categoria);
@@ -1287,6 +1335,9 @@ function updateinfordep(){
                     contentType: false,
                     processData: false
                 });
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }
     }
@@ -1304,7 +1355,7 @@ function removerInforDep(id, pos){
     }else{
         estadoItem="No Visible";
     }
-
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -1382,6 +1433,9 @@ function removerInforDep(id, pos){
 
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION ACTIVAR EL ITEM DE REGISTRO*/
@@ -1396,7 +1450,7 @@ function activarInforDep(id, pos){
     }else{
         estadoItem="No Visible";
     }
-
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-info-dept",
         type: "POST",
@@ -1454,6 +1508,9 @@ function activarInforDep(id, pos){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION QUE DIBUJA LA IMAGEN DEL EVENTO */

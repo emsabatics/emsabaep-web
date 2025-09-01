@@ -115,6 +115,7 @@ function guardarDocLaboral(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savedoclaboral');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -130,6 +131,9 @@ function guardarDocLaboral(){
             setTimeout(() => {
                 sendNewDocLaboral(token, data, "/store-doc-laboral", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -195,6 +199,7 @@ function inactivarDocLab(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -267,6 +272,9 @@ function inactivarDocLab(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Documentación Laboral */
@@ -276,6 +284,7 @@ function activarDocLab(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-doclaboral",
       type: "POST",
@@ -330,10 +339,17 @@ function activarDocLab(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadDocLab(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-doclaboral/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateDocLab(id){
@@ -407,23 +423,31 @@ function actualizarDocLab(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdoclaborale);
             data.append("isDocLaboral", isDocLaboral);
             setTimeout(() => {
                 sendUpdateDocLaboral(token, data, "/update-doclaboral"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
         if(aliasFileE!=getAliasE()){
             swal("Revise el alias del documento", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdoclaborale);
             data.append("isDocLaboral", isDocLaboral);
             setTimeout(() => {
                 sendUpdateDocLaboral(token, data, "/update-doclaboral");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -477,6 +501,7 @@ function sendUpdateDocLaboral(token, data, url){
 function eliminarpermdoclab(){
     var token=$('#token').val();
     var id= $('#iddoclaboral').val();
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -521,4 +546,7 @@ function eliminarpermdoclab(){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

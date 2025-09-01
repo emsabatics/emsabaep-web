@@ -193,6 +193,8 @@ Admin | Logo {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/logo.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+  const nameInterfaz = "Logo";
 </script>
 @endsection

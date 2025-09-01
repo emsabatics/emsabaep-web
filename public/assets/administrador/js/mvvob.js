@@ -282,6 +282,7 @@ function guardarRegistroMision(){
         $('#inputMision').focus();
         swal('Por favor ingrese la Misión','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-save-mision');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -301,6 +302,9 @@ function guardarRegistroMision(){
         formData.append("descripcion", mision);
         formData.append("tipo", tipo);
         sendUpdateMiViObjIndi(formData, token, '/registrar-mivivaob', element, '#modal-edit-mision', tipo, 0, tiporegistro);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -317,6 +321,7 @@ function guardarRegistroVision(){
         $('#inputVision').focus();
         swal('Por favor ingrese la Visión','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-save-vision');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -336,6 +341,9 @@ function guardarRegistroVision(){
         formData.append("descripcion", vision);
         formData.append("tipo", tipo);
         sendUpdateMiViObjIndi(formData, token, '/registrar-mivivaob', element, '#modal-edit-vision', tipo, 0, tiporegistro);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -436,6 +444,7 @@ function guardarObjIndividual(){
         $('#inputObjetivoIndividual').focus();
         swal('Por favor ingrese el contenido del Objetivo #'+(posi+1),'','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-updt-obj');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -455,13 +464,16 @@ function guardarObjIndividual(){
         formData.append("descripcion", objetivo);
         formData.append("tipo", tipo);
         sendUpdateMiViObjIndi(formData, token, '/registrar-mivivaob', element, '#modal-edit-objind', tipo, posi, tiporegistro);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
 /* FUNCION PARA INACTIVAR OBJETIVO INDIVIDUAL */
 function eliminarObjetivo(id) {
     var token= $('#token').val();
-
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -519,12 +531,16 @@ function eliminarObjetivo(id) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA INACTIVAR OBJETIVO INDIVIDUAL */
 function inactivarObjecInd(id, i) {
     var token= $('#token').val();
     var estado = "0";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -598,12 +614,16 @@ function inactivarObjecInd(id, i) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
   
 /* FUNCION PARA ACTIVAR OBJETIVO INDIVIDUAL */
 function activarObjecInd(id, i) {
     var token= $('#token').val();
     var estado = "1";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-objindi",
       type: "POST",
@@ -644,6 +664,9 @@ function activarObjecInd(id, i) {
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION QUE TRAZA SALTOS DE LÍNEA EN EL TEXTAREA DE LA MISION/VISION */
@@ -786,6 +809,7 @@ function guardarRegistroObjetivos(){
         $('#inputObjetivo').focus();
         swal('Por favor ingrese un objetivo','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-save-obj');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -794,6 +818,9 @@ function guardarRegistroObjetivos(){
         formData.append("descripcion", arrayObjetivoIndi.toString());
         formData.append("tipo", tipo);
         sendUpdateObjetivos(formData, token, '/registro-objetivo', element, '#modal-edit-objetivos');
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -983,6 +1010,7 @@ function guardarRegistroValores(){
         $('#inputObjetivo').focus();
         swal('Por favor ingrese un valor','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-save-valor');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -991,6 +1019,9 @@ function guardarRegistroValores(){
         formData.append("descripcion", arrayValorIndi.toString());
         formData.append("tipo", tipo);
         sendUpdateValores(formData, token, '/registro-valor', element, '#modal-edit-valores');
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -1116,6 +1147,7 @@ function guardarValorIndividual(){
         $('#inputValorIndividual').focus();
         swal('Por favor ingrese el contenido del Valor #'+(posi+1),'','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-updt-valor');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -1134,6 +1166,9 @@ function guardarValorIndividual(){
         formData.append("descripcion", valor);
         formData.append("tipo", tipo);
         sendUpdateMiViObjIndi(formData, token, '/registrar-mivivaob', element, '#modal-edit-valorind', tipo, posi, tiporegistro);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -1141,6 +1176,7 @@ function guardarValorIndividual(){
 function inactivarValorInd(id, i) {
     var token= $('#token').val();
     var estado = "0";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -1214,12 +1250,16 @@ function inactivarValorInd(id, i) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
   
 /* FUNCION PARA ACTIVAR VALOR INDIVIDUAL */
 function activarValorInd(id, i) {
     var token= $('#token').val();
     var estado = "1";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-valindi",
       type: "POST",
@@ -1261,12 +1301,15 @@ function activarValorInd(id, i) {
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA INACTIVAR VALOR INDIVIDUAL */
 function eliminarValor(id) {
     var token= $('#token').val();
-
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -1324,4 +1367,7 @@ function eliminarValor(id) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

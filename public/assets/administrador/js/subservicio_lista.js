@@ -74,6 +74,7 @@ function guardarListSubservicio(){
     } else if(descripcion=='<p><br></p>'){
         swal('Por favor ingrese la Información','','warning');
     } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.savetitlesubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -89,6 +90,9 @@ function guardarListSubservicio(){
         setTimeout(() => {
             sendInforService(token, data, "/store_list_show_subservice", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -111,6 +115,7 @@ function actualizarListSubservicio(){
     } else if(descripcion=='<p><br></p>'){
         swal('Por favor ingrese la Información','','warning');
     } else {
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element = document.querySelector('.updatetitlesubservice');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -127,6 +132,10 @@ function actualizarListSubservicio(){
         setTimeout(() => {
             updateInforService(token, data, "/update_list_show_subservice", element); 
         }, 700);
+
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -236,6 +245,7 @@ function inactivarSubservicedetaillist(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -304,6 +314,9 @@ function inactivarSubservicedetaillist(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Subservicio File List */
@@ -314,6 +327,7 @@ function activarSubservicedetaillist(id, i){
     var classbadge="badge badge-success";
     var html="";
 
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-subserviciodetaillist",
         type: "POST",
@@ -364,12 +378,16 @@ function activarSubservicedetaillist(id, i){
             }
         },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR Subservicio Info Detail */
 function deleteSubservicedetaillist(id){
     var token=$('#token').val();
     var html="";
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -414,4 +432,7 @@ function deleteSubservicedetaillist(id){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

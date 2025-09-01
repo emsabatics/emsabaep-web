@@ -10,6 +10,7 @@ function guardarRegistroYear(){
         $('#inputYear').focus();
         swal('Ingrese un año','','warning');
     }else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("year", year);
 
@@ -48,6 +49,9 @@ function guardarRegistroYear(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -93,6 +97,7 @@ function actualizarRegistroYear(){
         $('#inputEYear').focus();
         swal('Ingrese un año','','warning');
     }else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idyear", idyear);
         formData.append("year", year);
@@ -133,6 +138,9 @@ function actualizarRegistroYear(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -141,6 +149,7 @@ function eliminarItemYear(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -200,6 +209,9 @@ function eliminarItemYear(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarItemYear(id, i){
@@ -207,6 +219,7 @@ function activarItemYear(id, i){
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-year",
         type: "POST",
@@ -247,4 +260,7 @@ function activarItemYear(id, i){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }

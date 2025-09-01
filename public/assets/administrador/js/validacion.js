@@ -23,6 +23,12 @@ function puedeDescargarM(modulo) {
     //return permiso ? permiso.descargar : 'no';
 }
 
+function puedeConfigurarM(modulo) {
+    let permiso = window.Permisos.find(p => p.modulo === modulo);
+    return permiso.configurar;
+    //return permiso ? permiso.descargar : 'no';
+}
+
 function puedeGuardarSM(submodulo) {
     let permiso = window.Permisos.find(p => p.submodulo === submodulo);
     return permiso.guardar;
@@ -41,8 +47,14 @@ function puedeEliminarSM(submodulo) {
     //return permiso ? permiso.eliminar : 'no';
 }
 
-function puedeDescargarSM(modulo) {
-    let permiso = window.Permisos.find(p => p.modulo === modulo);
+function puedeDescargarSM(submodulo) {
+    let permiso = window.Permisos.find(p => p.submodulo === submodulo);
     return permiso.descargar;
     //return permiso ? permiso.descargar : 'no';
+}
+
+function puedeConfigurarSM(submodulo) {
+    let permiso = window.Permisos.find(p => p.submodulo === submodulo);
+    return permiso.configurar;
+    //return permiso ? permiso.configurar : 'no';
 }

@@ -196,13 +196,14 @@ class PermisosController extends Controller
                 if($contarmoduloinsubmodulo==0){
                     //echo 'NO TIENE SUBMODULOS ESTE MODULO <br/>';
                     $sqlopciones = DB::connection('mysql')->table('tab_permisos')
-                    ->select('guardar','actualizar','eliminar')
+                    ->select('guardar','actualizar','eliminar','descargar','configurar')
                     ->where('idmodulo','=', $idm)
                     ->where('idusuario','=', $idu)
                     ->get();
 
                     foreach($sqlopciones as $op){
-                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar, 'descargar'=> $op->decargar,
+                                'configurar'=> $op->configurar);
                     }
                     
                     $dato[]=array('datomod'=> "lleno", 'numsubm'=>"0",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"si", 'opciones'=>$opcionesGUD);
@@ -216,7 +217,7 @@ class PermisosController extends Controller
                     //LLENO EL ARRAY CON LOS SUBMODULOS CREADOS EN EL SISTEMA
                     foreach ($sqlsmodulo as $sm) {
                         $contarsm = DB::connection('mysql')->table('tab_permisos')
-                        ->select('guardar','actualizar','eliminar')
+                        ->select('guardar','actualizar','eliminar','descargar','configurar')
                         ->where('idmodulo','=', $idm)
                         ->where('idsubmodulo','=', $sm->id)
                         ->where('idusuario','=', $idu)
@@ -231,10 +232,11 @@ class PermisosController extends Controller
                             ->get();
 
                             foreach($sqlopciones_sm as $op){
-                                $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo, 'seleccionSM'=>"si", 'guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                                $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo, 'seleccionSM'=>"si", 'guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar,
+                                        'descargar'=> $op->descargar, 'configurar'=> $op->configurar);
                             }
                         }else{
-                            $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo,'seleccionSM'=>"no", 'guardar'=> "no", 'actualizar'=> "no", 'eliminar'=> "no");
+                            $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo,'seleccionSM'=>"no", 'guardar'=> "no", 'actualizar'=> "no", 'eliminar'=> "no", 'descargar'=> "no",'configurar'=> "no");
                         }
                     }
                     $dato[]=array('datomod'=> "lleno", 'numsubm'=>"2",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"si", 'opciones'=>$arraysubm);
@@ -251,17 +253,17 @@ class PermisosController extends Controller
                 if($contarmoduloinsubmodulo==0){
                     //echo 'NO TIENE SUBMODULOS ESTE MODULO <br/>';
                     $sqlopciones = DB::connection('mysql')->table('tab_permisos')
-                    ->select('guardar','actualizar','eliminar')
+                    ->select('guardar','actualizar','eliminar','descargar','configurar')
                     ->where('idmodulo','=', $idm)
                     ->where('idusuario','=', $idu)
                     ->get();
 
                     foreach($sqlopciones as $op){
-                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar);
+                        $opcionesGUD[] = array('guardar'=> $op->guardar, 'actualizar'=> $op->actualizar, 'eliminar'=> $op->eliminar, 'descargar'=> $op->descargar, 'configurar'=> $op->configurar);
                     }
 
                     if(sizeof($opcionesGUD)==0){
-                        $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+                        $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no','descargar'=> 'no', 'configurar'=> 'no');
                     }
 
                     $dato[]=array('datomod'=> "lleno", 'numsubm'=>"0",'modulo'=> $this->getNameModulo($idm), 'seleccionado'=>"no", 'opciones'=>$opcionesGUD);
@@ -277,7 +279,7 @@ class PermisosController extends Controller
                         $arraysubm[] = array('idsm'=> $sm->id, 'submodulo'=> $sm->submodulo);
                     }
 
-                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no', 'descargar'=> 'no','configurar'=> 'no');
 
                     $dato[]=array('datomod'=> "lleno", 'numsubm'=>"1",'seleccionado'=>"no",'submodulos'=> $arraysubm, 'opciones'=>$opcionesGUD);
                     unset($arraysubm);
@@ -306,7 +308,7 @@ class PermisosController extends Controller
                 }
 
                 if(sizeof($opcionesGUD)==0){
-                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no');
+                    $opcionesGUD[] = array('guardar'=> 'no', 'actualizar'=> 'no', 'eliminar'=> 'no', 'descargar'=> 'no', 'configurar'=> 'no');
                 }
 
                 $dato[]=array('datomod'=> "vacio", 'numsubm'=>"1",'seleccionado'=>"no",'submodulos'=> $arraysubm, 'opciones'=>$opcionesGUD);
@@ -646,6 +648,8 @@ class PermisosController extends Controller
                     $guardar="no";
                     $actualizar="no";
                     $eliminar="no";
+                    $descargar= "no";
+                    $configurar= "no";
 
                     $sql_pmod = DB::connection('mysql')->table('tab_permisos')
                     ->select('idsubmodulo')
@@ -659,7 +663,8 @@ class PermisosController extends Controller
                             ->where('idusuario', '=', $idu)
                             ->where('idmodulo', '=', $idmodulo)
                             ->where('idsubmodulo', '=', $k->idsubmodulo)
-                            ->update(['guardar'=> $guardar, 'actualizar'=> $actualizar, 'eliminar'=> $eliminar, 'estado'=> $estado, 'updated_at'=> $date]);
+                            ->update(['guardar'=> $guardar, 'actualizar'=> $actualizar, 'eliminar'=> $eliminar, 
+                                'descargar'=> $descargar, 'configurar'=> $configurar, 'estado'=> $estado, 'updated_at'=> $date]);
                         }
                     }
                     return response()->json(['resultado'=>true]);
@@ -715,6 +720,18 @@ class PermisosController extends Controller
                         ->where('idmodulo', '=', $idmodulo)
                         ->update(['eliminar'=> $selsi, 'updated_at'=> $date]);
                         break;
+                    case "descargar":
+                        $sql_update = DB::connection('mysql')->table('tab_permisos')
+                        ->where('idusuario', '=', $idu)
+                        ->where('idmodulo', '=', $idmodulo)
+                        ->update(['descargar'=> $selsi, 'updated_at'=> $date]);
+                        break;
+                    case "configurar":
+                        $sql_update = DB::connection('mysql')->table('tab_permisos')
+                        ->where('idusuario', '=', $idu)
+                        ->where('idmodulo', '=', $idmodulo)
+                        ->update(['configurar'=> $selsi, 'updated_at'=> $date]);
+                        break;
                     default:
                         // code...
                         break;
@@ -744,6 +761,18 @@ class PermisosController extends Controller
                         ->where('idusuario', '=', $idu)
                         ->where('idmodulo', '=', $idmodulo)
                         ->update(['eliminar'=> $selno, 'updated_at'=> $date]);
+                        break;
+                    case "descargar":
+                        $sql_update = DB::connection('mysql')->table('tab_permisos')
+                        ->where('idusuario', '=', $idu)
+                        ->where('idmodulo', '=', $idmodulo)
+                        ->update(['descargar'=> $selno, 'updated_at'=> $date]);
+                        break;
+                    case "configurar":
+                        $sql_update = DB::connection('mysql')->table('tab_permisos')
+                        ->where('idusuario', '=', $idu)
+                        ->where('idmodulo', '=', $idmodulo)
+                        ->update(['configurar'=> $selno, 'updated_at'=> $date]);
                         break;
                     default:
                         // code...
@@ -803,6 +832,20 @@ class PermisosController extends Controller
                             ->where('idmodulo', '=', $idmodulo)
                             ->update(['idsubmodulo'=> $idsmodulo, 'eliminar'=> $selsi, 'updated_at'=> $date]);
                             break;
+                        case "descargar":
+                            $sql_update = DB::connection('mysql')->table('tab_permisos')
+                            ->where('id', '=', $idpermiso)
+                            ->where('idusuario', '=', $idu)
+                            ->where('idmodulo', '=', $idmodulo)
+                            ->update(['idsubmodulo'=> $idsmodulo, 'descargar'=> $selsi, 'updated_at'=> $date]);
+                            break;
+                        case "configurar":
+                            $sql_update = DB::connection('mysql')->table('tab_permisos')
+                            ->where('id', '=', $idpermiso)
+                            ->where('idusuario', '=', $idu)
+                            ->where('idmodulo', '=', $idmodulo)
+                            ->update(['idsubmodulo'=> $idsmodulo, 'configurar'=> $selsi, 'updated_at'=> $date]);
+                            break;
                         default:
                             // code...
                             break;
@@ -836,6 +879,20 @@ class PermisosController extends Controller
                             ->where('idmodulo', '=', $idmodulo)
                             ->update(['idsubmodulo'=> $idsmodulo, 'eliminar'=> $selno, 'updated_at'=> $date]);
                             break;
+                        case "descargar":
+                            $sql_update = DB::connection('mysql')->table('tab_permisos')
+                            ->where('id', '=', $idpermiso)
+                            ->where('idusuario', '=', $idu)
+                            ->where('idmodulo', '=', $idmodulo)
+                            ->update(['idsubmodulo'=> $idsmodulo, 'descargar'=> $selsi, 'updated_at'=> $date]);
+                            break;
+                        case "configurar":
+                            $sql_update = DB::connection('mysql')->table('tab_permisos')
+                            ->where('id', '=', $idpermiso)
+                            ->where('idusuario', '=', $idu)
+                            ->where('idmodulo', '=', $idmodulo)
+                            ->update(['idsubmodulo'=> $idsmodulo, 'configurar'=> $selsi, 'updated_at'=> $date]);
+                            break;
                         default:
                             // code...
                             break;
@@ -865,6 +922,16 @@ class PermisosController extends Controller
                                 idusuario, idmodulo, idsubmodulo, eliminar
                             ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selsi]);
                             break;
+                        case "descargar":
+                            $sql_insert = DB::connection('mysql')->insert('insert into tab_permisos (
+                                idusuario, idmodulo, idsubmodulo, descargar
+                            ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selsi]);
+                            break;
+                        case "configurar":
+                            $sql_insert = DB::connection('mysql')->insert('insert into tab_permisos (
+                                idusuario, idmodulo, idsubmodulo, configurar
+                            ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selsi]);
+                            break;
                         default:
                             // code...
                             break;
@@ -890,6 +957,16 @@ class PermisosController extends Controller
                         case "eliminar":
                             $sql_insert = DB::connection('mysql')->insert('insert into tab_permisos (
                                 idusuario, idmodulo, idsubmodulo, eliminar
+                            ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selno]);
+                            break;
+                        case "descargar":
+                            $sql_insert = DB::connection('mysql')->insert('insert into tab_permisos (
+                                idusuario, idmodulo, idsubmodulo, descargar
+                            ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selno]);
+                            break;
+                        case "configurar":
+                            $sql_insert = DB::connection('mysql')->insert('insert into tab_permisos (
+                                idusuario, idmodulo, idsubmodulo, configurar
                             ) values (?,?,?,?)', [$idu, $idmodulo, $idsmodulo, $selno]);
                             break;
                         default:

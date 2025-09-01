@@ -129,13 +129,14 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/summernote/lang/summernote-es-ES.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/historia.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   /*var elementEdit = document.querySelector('#editHistoria');
 
   var elementSave = document.querySelector('#saveHistoria');
   elementSave.setAttribute("disabled", "");
   elementSave.style.pointerEvents = "none";*/
-
+  const nameInterfaz = "Historia";
   var inforHistoria = {{ Illuminate\Support\Js::from($historia) }};
 
   setTimeout(() => {

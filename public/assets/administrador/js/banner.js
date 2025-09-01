@@ -134,6 +134,7 @@ function guardarImagenes(e){
     if (lengimg == 0) {
         swal("No ha seleccionado imágenes", "", "warning");
     } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         $('#modalFullSend').modal('show');
         var element= document.getElementById('btnSaveImgBanner');
         element.setAttribute("disabled", "");
@@ -143,6 +144,9 @@ function guardarImagenes(e){
         setTimeout(() => {
             sendUpdatePicsBanner(token, data, "/banner/registro-banner", element);
         }, 900);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -317,10 +321,11 @@ function actualizarOrden(){
     if(duplicates.length>0){
         swal('Ha ocurrido un error','Se repite el orden # '+duplicates.toString(), 'error');
     }else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var element = document.getElementById("btnActionUpBan");
         //element.setAttribute("disabled", "");
         //element.style.pointerEvents = "none";
-
+        
         for(var i=0; i<longitudArray; i++){
             var posi= $('#mySelectOrder'+(i+1)).val();
             datos.push({
@@ -333,6 +338,9 @@ function actualizarOrden(){
         objeto= datos;
 
         sendOrderBanner(token, JSON.stringify(objeto), '/banner/registro-orden-banner', element);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -401,6 +409,7 @@ function inactivarBanner(id, i) {
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-banner",
       type: "POST",
@@ -455,6 +464,9 @@ function inactivarBanner(id, i) {
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR BANNER */
@@ -464,6 +476,7 @@ function activarBanner(id, i) {
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-banner",
         type: "POST",
@@ -518,12 +531,19 @@ function activarBanner(id, i) {
             }
         },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadImg(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     var url='/download-banner/'+id;
     //window.open(url, '_blank');
     window.location='/download-banner/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA ELIMINAR BANNER */
@@ -533,6 +553,7 @@ function removerBanner(id, i) {
 
     var URLactual = '/banner';
 
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -589,6 +610,9 @@ function removerBanner(id, i) {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA REGRESAR A LA PAGINA PRINCIPAL BANNER*/

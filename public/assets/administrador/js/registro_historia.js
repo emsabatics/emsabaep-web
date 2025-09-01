@@ -74,7 +74,7 @@ function guardarHistoria(){
         /*console.log(arrayHistoria.length);
         console.log(radioValue);
         console.log(lengimg);*/
-
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         $('#modalCargando').modal('show');
 
         var element = document.querySelector('.button-save-historia');
@@ -88,6 +88,9 @@ function guardarHistoria(){
         setTimeout(() => {
             sendNuevaHistoria(data, token, "/registrar-historia", element);  
         }, 900);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 
 }

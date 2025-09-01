@@ -18,6 +18,7 @@ function guardarRegistroItLot(){
         $('#inputDescp').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("articulo", articulo);
         formData.append("literal", literal);
@@ -76,6 +77,9 @@ function guardarRegistroItLot(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -162,6 +166,7 @@ function actualizarRegistroItLo(){
         $('#inputDescpE').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id",id);
         formData.append("literal", literal);
@@ -222,6 +227,9 @@ function actualizarRegistroItLo(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -230,6 +238,7 @@ function eliminarItemLiteral(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -289,6 +298,9 @@ function eliminarItemLiteral(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarItemLiteral(id, i){
@@ -296,6 +308,7 @@ function activarItemLiteral(id, i){
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-item-lotaip",
         type: "POST",
@@ -344,6 +357,9 @@ function activarItemLiteral(id, i){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /*******************************************************************************

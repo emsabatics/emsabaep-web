@@ -165,9 +165,10 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/summernote/lang/summernote-es-ES.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/registro_historia.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   //editHistoria();
-
+  const nameInterfaz = "Historia";
   // Summernote
   $('#summernote').summernote({
     focus: true,

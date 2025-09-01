@@ -115,6 +115,7 @@ function guardarDocAdmin(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savedocadmin');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -130,6 +131,9 @@ function guardarDocAdmin(){
             setTimeout(() => {
                 sendNewDocAdministrativo(token, data, "/store-doc-administrativo", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -192,6 +196,7 @@ function viewopenDocAdmin(id){
 function eliminarpermdocadmin(){
     var token=$('#token').val();
     var id= $('#iddocadministrativo').val();
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -236,6 +241,9 @@ function eliminarpermdocadmin(){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION PARA INACTIVAR Documentación Administrativa */
@@ -245,6 +253,7 @@ function inactivarDocAdmin(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -317,6 +326,9 @@ function inactivarDocAdmin(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR Documentación Financiera */
@@ -326,6 +338,7 @@ function activarDocAdmin(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-docadministrativo",
       type: "POST",
@@ -380,10 +393,17 @@ function activarDocAdmin(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadDocAdmin(id){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-docadministrativo/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateDocAdmin(id){
@@ -457,23 +477,31 @@ function actualizardocadmin(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocadministrativoe);
             data.append("isDocAdministrativo", isDocAdministrativo);
             setTimeout(() => {
                 sendUpdateDocAdministrativo(token, data, "/update-docadministrativo"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
         if(aliasFileE!=getAliasE()){
             swal("Revise el alias del documento", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocadministrativoe);
             data.append("isDocAdministrativo", isDocAdministrativo);
             setTimeout(() => {
                 sendUpdateDocAdministrativo(token, data, "/update-docadministrativo");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }

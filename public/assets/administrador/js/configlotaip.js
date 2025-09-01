@@ -10,6 +10,7 @@ function guardarRegistroArtLot(){
         $('#inputDescp').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("descripcion", descripcion);
 
@@ -65,6 +66,9 @@ function guardarRegistroArtLot(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -144,6 +148,7 @@ function actualizarRegistroArtLo(){
         $('#inputDescpEArt').focus();
         swal('Ingrese una descripcion','','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("id",id);
         formData.append("descripcion", descripcion);
@@ -202,6 +207,9 @@ function actualizarRegistroArtLo(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -210,6 +218,7 @@ function eliminarArtLiteral(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -269,6 +278,9 @@ function eliminarArtLiteral(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarArtLiteral(id, i){
@@ -276,6 +288,7 @@ function activarArtLiteral(id, i){
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-articulo-lotaip",
         type: "POST",
@@ -324,4 +337,7 @@ function activarArtLiteral(id, i){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
