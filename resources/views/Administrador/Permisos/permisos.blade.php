@@ -206,11 +206,12 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/permisos.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap4',
     });
-
+    const nameInterfaz = "Permisos de Usuario";
     toastr.options = {
       "closeButton": false,
       "debug": false,

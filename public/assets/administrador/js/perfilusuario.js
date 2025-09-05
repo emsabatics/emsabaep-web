@@ -40,6 +40,7 @@ function guardarRegistroPerfil(){
         $('#inputDescPerfilUser').focus();
         swal('Ingrese una descripción','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btnsaveprofile');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -91,6 +92,9 @@ function guardarRegistroPerfil(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -150,6 +154,7 @@ function actualizarRegistroProfile(){
         $('#inputEDescPerfilUser').focus();
         swal('Ingrese una descripción','','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btnsaveprofile');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -204,6 +209,9 @@ function actualizarRegistroProfile(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -212,6 +220,7 @@ function eliminarItemProfile(id, i){
     var estado="0";
     var estadoItem='No Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: '<strong>¡Aviso!</strong>',
         type: 'warning',
@@ -271,6 +280,9 @@ function eliminarItemProfile(id, i){
         }else if(result.dismiss === Swal.DismissReason.cancel){
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarItemProfile(id, i){
@@ -278,6 +290,7 @@ function activarItemProfile(id, i){
     var token= $('#token').val();
     var estadoItem='Visible';
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
         url: "/in-activar-profileuser",
         type: "POST",
@@ -318,8 +331,15 @@ function activarItemProfile(id, i){
             }
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function settingsItemProfile(id){
+    if(puedeConfigurarSM(nameInterfaz) === 'si'){
     window.location='/set-permisos-modulo/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

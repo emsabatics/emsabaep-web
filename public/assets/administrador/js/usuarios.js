@@ -49,6 +49,7 @@ function guardarUsuario(){
         if(clave!=rclave){
             swal('Las Claves del Usuario no coinciden','','warning');
         }else{
+            if(puedeGuardarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var datos = new FormData();
             datos.append('nombre', nombre);
@@ -56,6 +57,9 @@ function guardarUsuario(){
             datos.append('clave', clave);
             datos.append('tipou', tipo);
             registro(datos);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -128,10 +132,14 @@ function guardarClavePerfil(){
   
             return;
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             var datos = new FormData();
             datos.append('idusuario', id);
             datos.append('clave', clave);
             sendUpdatePassword(token, datos, '/update-password-usuario', '/usuarios');
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -183,6 +191,7 @@ function eliminarItemUser(id, pos){
     var estadoItem='Inactivo';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -246,6 +255,9 @@ function eliminarItemUser(id, pos){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarItemUser(id, pos){
@@ -254,6 +266,7 @@ function activarItemUser(id, pos){
     var estadoItem='Activo';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-usuario",
       type: "POST",
@@ -299,6 +312,9 @@ function activarItemUser(id, pos){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function editarItemUser(id){
@@ -318,6 +334,7 @@ function actualizarUsuario(){
         $('#selectETypeUser').focus();
         swal('Debe seleccionar el Tipo de Usuario','','warning');
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         //console.log(id, tipo, nombre);
         $('#modalFullSend').modal('show');
         var datos = new FormData();
@@ -327,6 +344,9 @@ function actualizarUsuario(){
         setTimeout(()=>{
             sendUpdateUser(token, datos, '/update-usuario')
         }, 1200);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

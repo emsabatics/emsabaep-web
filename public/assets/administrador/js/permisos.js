@@ -51,12 +51,16 @@ function limpiarArray(){
 }
 
 function editarPermiso(id, usuario, index){
+    if(puedeConfigurarSM(nameInterfaz) === 'si'){
     $('#id_usuariop').val(id);
     $('#inputUsuariop').val(usuario);
     llenarTabla("vacio");
     setTimeout(() => {
         $('#modalSettings').modal('show');
     }, 1500);
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /*$('#selModulo').on('select2:select', function (e) {

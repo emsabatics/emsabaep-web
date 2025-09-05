@@ -1,6 +1,7 @@
 document.querySelectorAll('.permiso-checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', async function () {
         // lógica AJAX aquí
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         const idRol = this.dataset.rol;
         const idModulo = this.dataset.modulo;
         const idSubmodulo = this.dataset.submodulo || null;
@@ -54,6 +55,10 @@ document.querySelectorAll('.permiso-checkbox').forEach(checkbox => {
             }
         } catch (error) {
             swal('Ha ocurrido un error en la comunicación con el servidor','','error');
+        }
+
+        }else{
+            swal('No tiene permiso para guardar','','error');
         }
     });
 });

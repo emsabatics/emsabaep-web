@@ -220,4 +220,8 @@ Admin | Usuarios {{getNameInstitucion()}}
 
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/usuarios.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
+<script>
+  const nameInterfaz = "Usuarios";
+</script>
 @endsection
