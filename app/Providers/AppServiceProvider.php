@@ -43,12 +43,16 @@ class AppServiceProvider extends ServiceProvider
             ->join('tab_modulo as m', 'm.id', '=', 'p.idmodulo')
             ->leftJoin('tab_submodulo as s', 's.id', '=', 'p.idsubmodulo')  // LEFT JOIN
             ->where('p.idusuario', $userId)
+            ->where('m.estado_vis_novis','=', '1')
+            ->orWhere('s.estado_vis_novis','=','1')
             ->select(
                 'm.id as idmodulo',
                 'm.nombre as modulo',
                 'm.icono',
+                'm.estado_vis_novis as mod_visible',
                 's.id as idsubmodulo',
                 's.submodulo',
+                's.estado_vis_novis as submod_visible',
                 'p.guardar',
                 'p.actualizar',
                 'p.eliminar',
@@ -66,12 +70,16 @@ class AppServiceProvider extends ServiceProvider
                 ->join('tab_modulo as m', 'm.id', '=', 'p.idmodulo')
                 ->leftJoin('tab_submodulo as s', 's.id', '=', 'p.idsubmodulo')  // LEFT JOIN
                 ->where('p.idusuario', $userId)
+                ->where('m.estado_vis_novis','=', '1')
+                ->orWhere('s.estado_vis_novis','=','1')
                 ->select(
                     'm.id as idmodulo',
                     'm.nombre as modulo',
                     'm.icono',
+                    'm.estado_vis_novis as mod_visible',
                     's.id as idsubmodulo',
                     's.submodulo',
+                    's.estado_vis_novis as submod_visible',
                     'p.guardar',
                     'p.actualizar',
                     'p.eliminar',

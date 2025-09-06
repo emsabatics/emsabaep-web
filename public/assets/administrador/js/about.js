@@ -65,6 +65,7 @@ function guardarRegistroAbout(){
         $('#inputAbout').focus();
         swal('Por favor ingrese la Información','','warning');
     }else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.btn-about');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -84,6 +85,9 @@ function guardarRegistroAbout(){
         formData.append("id", idabout);
         formData.append("descripcion", about);
         sendUpdateAbout(formData, token, '/registrar-about', element, '#modal-edit-about', 0, tiporegistro);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -216,6 +220,7 @@ function eliminarPic(id, i){
     var estado = "0";
     //limpiarArray(i);
     var token= $('#token').val();
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
       title: "<strong>¡Aviso!</strong>",
       type: "warning",
@@ -282,6 +287,9 @@ function eliminarPic(id, i){
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function limpiarArray(item){
@@ -305,6 +313,7 @@ function updatepicsabout(e){
     if (lengimg == 0) {
         swal("No ha seleccionado imagen", "", "warning");
     } else {
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         $('#modalCargando').modal('show');
         var data = new FormData(formEAbout);
         data.append("id_img", idimg);
@@ -312,6 +321,9 @@ function updatepicsabout(e){
         setTimeout(() => {
             sendUpdatePicsAbout(token, data, "/actualizar-img-about");
         }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

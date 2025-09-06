@@ -59,7 +59,7 @@ class ModulosController extends Controller
     public function get_modulo($id){
         $id = desencriptarNumero($id);
 
-        $sql = DB::connection('mysql')->select('SELECT nombre, icono, nivel_prioridad FROM tab_modulo WHERE id=?',[$id]);
+        $sql = DB::connection('mysql')->select('SELECT nombre, icono, nivel_prioridad, estado_vis_novis FROM tab_modulo WHERE id=?',[$id]);
 
         return response()->json($sql);
     }
@@ -88,11 +88,12 @@ class ModulosController extends Controller
         $nombre= $r->input('nombre');
         $icono= $r->input('icono');
         $prioridad= $r->input('prioridad');
+        $estadomodulo= $r->input('estadomodulo');
         $date = now();
 
         $sql_update = DB::connection('mysql')->table('tab_modulo')
         ->where('id', '=', $id)
-        ->update(['nombre'=> $nombre, 'icono'=> $icono, 'nivel_prioridad'=> $prioridad, 'updated_at'=> $date]);
+        ->update(['nombre'=> $nombre, 'icono'=> $icono, 'nivel_prioridad'=> $prioridad, 'estado_vis_novis'=> $estadomodulo, 'updated_at'=> $date]);
 
         if($sql_update){
             return response()->json(['resultado'=>true]);

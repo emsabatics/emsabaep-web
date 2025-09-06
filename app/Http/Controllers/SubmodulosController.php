@@ -80,7 +80,7 @@ class SubmodulosController extends Controller
     public function get_submodulo($id){
         $id = desencriptarNumero($id);
 
-        $sql = DB::connection('mysql')->select('SELECT submodulo as nombre, idmodulo as modulo FROM tab_submodulo WHERE id=?',[$id]);
+        $sql = DB::connection('mysql')->select('SELECT submodulo as nombre, idmodulo as modulo, estado_vis_novis FROM tab_submodulo WHERE id=?',[$id]);
 
         return response()->json($sql);
     }
@@ -89,11 +89,12 @@ class SubmodulosController extends Controller
         $id= $r->input('id');
         $id= desencriptarNumero($id);
         $nombre= $r->input('nombre');
+        $estadosubmodulo= $r->input('estadosubmodulo');
         $date = now();
 
         $sql_update = DB::connection('mysql')->table('tab_submodulo')
         ->where('id', '=', $id)
-        ->update(['submodulo'=> $nombre, 'updated_at'=> $date]);
+        ->update(['submodulo'=> $nombre, 'estado_vis_novis'=> $estadosubmodulo, 'updated_at'=> $date]);
 
         if($sql_update){
             return response()->json(['resultado'=>true]);

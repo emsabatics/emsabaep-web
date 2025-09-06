@@ -213,6 +213,17 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false">
             </div>
           </div>
         </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group mb-3">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitchSubModulo" value="no_visible">
+                <label class="custom-control-label" for="customSwitchSubModulo"><span id="estadoSubModulo">No Visible</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mb-2" data-dismiss="modal">Cerrar</button>

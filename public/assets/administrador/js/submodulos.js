@@ -138,6 +138,13 @@ function editarSubmodulo(id, item){
                 $(myArr).each(function(i,v){
                     $('#inputNombreSubmoduloEdit').val(v.nombre);
                     $('#selModuloEdit').val(v.modulo);
+                    if(v.estado_vis_novis=='0'){
+                        $("#customSwitchSubModulo").prop('checked',false);
+                        $('#estadoSubModulo').html('No Visble');
+                    }else if(v.estado_vis_novis=='1'){
+                        $("#customSwitchSubModulo").prop('checked',true);
+                        $('#estadoSubModulo').html('Visible');
+                    }
                 });
             }
             setTimeout(function(){
@@ -161,12 +168,32 @@ function editarSubmodulo(id, item){
     xr.send();
 }
 
+$("#customSwitchSubModulo").on('change', function() {
+    if ($(this).is(':checked')) {
+        $(this).attr('value', 'visible');
+        $('#estadoSubModulo').html('Visible');
+    }
+    else {
+       $(this).attr('value', 'no_visible');
+       $('#estadoSubModulo').html('No Visible');
+    }
+});
+
+function getSelectEstadoCheck(){
+    if( $('#customSwitchSubModulo').prop('checked') ) {
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 function updateSubmodulo(){
     var token= $('#token').val();
 
     var id= $('#idsubmodulo').val();
     var posicion= $('#itemselection').val();
     var nombre = $('#inputNombreSubmoduloEdit').val();
+    var estadosubmodulo= getSelectEstadoCheck();
 
     if(nombre==''){
         $('#inputNombreSubmoduloEdit').focus();
@@ -179,6 +206,7 @@ function updateSubmodulo(){
         var formData= new FormData();
         formData.append("id", id);
         formData.append("nombre", nombre);
+        formData.append("estadosubmodulo", estadosubmodulo);
         actualizarSubmodulo(token, formData, element, posicion, '/actualizar-submodulo');
     }
 }

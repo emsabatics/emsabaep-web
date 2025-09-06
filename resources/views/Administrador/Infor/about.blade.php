@@ -213,8 +213,10 @@ data-backdrop="static" data-keyboard="false">
 @section('js')
 <script src="{{asset('assets/administrador/js/about.js')}}"></script>
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
     var inforAbout = {{ Illuminate\Support\Js::from($about) }};
+    const nameInterfaz = "Acerca de";
     $('#modalCargando').modal('show');
     setTimeout(() => {
       cargar_about(inforAbout);
