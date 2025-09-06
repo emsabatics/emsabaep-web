@@ -201,5 +201,8 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/drag-drop-files.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/ley.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
+<script>
+  const nameInterfaz = "Reglamentos";
+</script>
 @endsection

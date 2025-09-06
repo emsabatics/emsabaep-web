@@ -94,6 +94,7 @@ function guardarLey(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         //observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
         var element = document.querySelector('.saveley');
         element.setAttribute("disabled", "");
@@ -104,6 +105,9 @@ function guardarLey(){
         setTimeout(() => {
             sendNewLey(token, data, "/store-ley", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -188,6 +192,7 @@ function actualizarLey(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
 
                 var data = new FormData(formLEY_e);
@@ -196,8 +201,12 @@ function actualizarLey(){
                 setTimeout(() => {
                     sendUpdateLey(token, data, "/update-ley"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
 
             var data = new FormData(formLEY_e);
@@ -206,6 +215,9 @@ function actualizarLey(){
             setTimeout(() => {
                 sendUpdateLey(token, data, "/update-ley");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -264,6 +276,7 @@ function inactivarLey(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -336,6 +349,9 @@ function inactivarLey(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR REGLAMENTO */
@@ -345,6 +361,7 @@ function activarLey(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-ley",
       type: "POST",
@@ -399,8 +416,15 @@ function activarLey(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadLey(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-ley/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

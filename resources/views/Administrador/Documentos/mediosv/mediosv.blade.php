@@ -127,7 +127,9 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/drag-drop.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/mediosverificacion.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+  const nameInterfaz = "Medios de Verificación";
   var name= {{Illuminate\Support\Js::from($mediosv)}};
   $(document).ready(function () {
     $('#modalCargando').modal('show');

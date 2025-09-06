@@ -222,6 +222,7 @@ function guardarLotaipV2(){
                     }else if (lengimgCCD > 1 || lengimgDD > 1 || lengimgMD > 1) {
                         swal("Solo se permite un archivo", "", "warning");
                     } else {
+                        if(puedeGuardarSM(nameInterfaz) === 'si'){
                         var element = document.querySelector('.savelotaipv2');
                         element.setAttribute("disabled", "");
                         element.style.pointerEvents = "none";
@@ -239,6 +240,9 @@ function guardarLotaipV2(){
                         setTimeout(() => {
                             sendNewLotaip(token, data, "/store-lotaipv2", element); 
                         }, 700);
+                        }else{
+                            swal('No tiene permiso para guardar','','error');
+                        }
                     }
                 }else if(textoSelArticulo=='23'){
                     //console.log(textoSelArticulo, "Ingresa 23");
@@ -249,6 +253,7 @@ function guardarLotaipV2(){
                     }else if (lengimg > 1) {
                         swal("Solo se permite un archivo", "", "warning");
                     } else {
+                        if(puedeGuardarSM(nameInterfaz) === 'si'){
                         var element = document.querySelector('.savelotaipv2');
                         element.setAttribute("disabled", "");
                         element.style.pointerEvents = "none";
@@ -266,6 +271,9 @@ function guardarLotaipV2(){
                         setTimeout(() => {
                             sendNewLotaip(token, data, "/store-lotaipv2", element); 
                         }, 700);
+                        }else{
+                            swal('No tiene permiso para guardar','','error');
+                        }
                     }
                 }
             }
@@ -282,6 +290,7 @@ function guardarLotaipV2(){
                 }else if (lengimg > 1) {
                     swal("Solo se permite un archivo", "", "warning");
                 } else {
+                    if(puedeGuardarSM(nameInterfaz) === 'si'){
                     var element = document.querySelector('.savelotaipv2');
                     element.setAttribute("disabled", "");
                     element.style.pointerEvents = "none";
@@ -299,6 +308,9 @@ function guardarLotaipV2(){
                     setTimeout(() => {
                         sendNewLotaip(token, data, "/store-lotaipv2", element); 
                     }, 700);
+                    }else{
+                        swal('No tiene permiso para guardar','','error');
+                    }
                 }
             }
         }
@@ -440,23 +452,43 @@ function interfaceupdateOtherFile(id){
 }
 
 function downloadCD(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaipv2/'+id+'/cd';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadMD(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaipv2/'+id+'/md';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadDD(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaipv2/'+id+'/dd';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadFile(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaipv2/'+id+'/art23';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadOtherFile(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaipv2/'+id+'/optoth';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function eliminarFile(e){
@@ -487,20 +519,28 @@ function actualizarLotaipv2(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formLOTAIPv2);
             data.append("islotaip", isLotaipv2);
             setTimeout(() => {
                 sendUpdateLotaipv2(token, data, "/update-lotaipv2"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         $('#modalFullSend').modal('show');
         var data = new FormData(formLOTAIPv2);
         data.append("islotaip", isLotaipv2);
         setTimeout(() => {
             sendUpdateLotaipv2(token, data, "/update-lotaipv2");
         }, 700);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

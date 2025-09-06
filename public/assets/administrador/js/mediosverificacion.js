@@ -98,6 +98,7 @@ function removerMediosV(id, pos){
     var estadoItem='No Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -160,6 +161,9 @@ function removerMediosV(id, pos){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarMediosV(id, pos){
@@ -168,6 +172,7 @@ function activarMediosV(id, pos){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-mediosv",
       type: "POST",
@@ -212,6 +217,9 @@ function activarMediosV(id, pos){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 $('#selYearMediosV').on("change", function(e) {
@@ -289,6 +297,7 @@ function guardarMediosV(){
         setTimeout(() => {
             var getresult= getvalues(element);
             if(getresult){
+                if(puedeGuardarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 var data = new FormData(formMediosV);
                 data.append("anio", year);
@@ -296,9 +305,14 @@ function guardarMediosV(){
                 setTimeout(() => {
                     sendNewMediosV(token, data, "/store-mediosv", element, '#modalFullSend'); 
                 }, 900);
+                }else{
+                    swal('No tiene permiso para guardar','','error');
+                    element.removeAttribute("disabled");
+                    element.style.removeProperty("pointer-events");
+                }
             }else{
-                el.removeAttribute("disabled");
-                el.style.removeProperty("pointer-events");
+                element.removeAttribute("disabled");
+                element.style.removeProperty("pointer-events");
                 swal('Ha ocurrido un error inesperado, recargue la página nuevamente','','error');
                 return;
             }
@@ -388,7 +402,7 @@ function eliminarFile(id, pos){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
-
+    if(puedeEliminarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -444,6 +458,9 @@ function eliminarFile(id, pos){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 
 }
 
@@ -488,6 +505,7 @@ function updatefilesmediosv(e){
         setTimeout(() => {
             var getresult= getvaluesEdit(element);
             if(getresult){
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSendEdit').modal('show');
                 var data = new FormData(formEMediosV);
                 data.append("idmv", idmv);
@@ -495,9 +513,14 @@ function updatefilesmediosv(e){
                 setTimeout(() => {
                     sendNewMediosV(token, data, "/update-mediosv", element, '#modalFullSendEdit'); 
                 }, 900);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                    element.removeAttribute("disabled");
+                    element.style.removeProperty("pointer-events");
+                }
             }else{
-                el.removeAttribute("disabled");
-                el.style.removeProperty("pointer-events");
+                element.removeAttribute("disabled");
+                element.style.removeProperty("pointer-events");
                 swal('Ha ocurrido un error inesperado, recargue la página nuevamente','','error');
                 return;
             }

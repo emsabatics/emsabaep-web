@@ -327,12 +327,12 @@ Admin | LOTAIP {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/lotaipv2.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   $('.select2').select2({
     theme: 'bootstrap4',
   });
-
+  const nameInterfaz = "LOTAIP 2.0";
   toastr.options = {
       "closeButton": false,
       "debug": false,

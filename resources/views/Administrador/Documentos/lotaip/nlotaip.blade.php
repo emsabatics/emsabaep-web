@@ -305,7 +305,7 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/lotaip.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   $("#accordion").on("hide.bs.collapse show.bs.collapse", e => {
     $(e.target)
@@ -313,6 +313,7 @@ data-backdrop="static" data-keyboard="false">
       .find("i:last-child")
       .toggleClass("fa-minus fa-plus");
   });
+  const nameInterfaz = "LOTAIP";
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {

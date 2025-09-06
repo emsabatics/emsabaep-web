@@ -212,12 +212,12 @@ Admin | Medios de Verificación {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/mediosverificacion.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   $('.select2').select2({
     theme: 'bootstrap4',
   });
-
+  const nameInterfaz = "Medios de Verificación";
   toastr.options = {
       "closeButton": false,
       "debug": false,

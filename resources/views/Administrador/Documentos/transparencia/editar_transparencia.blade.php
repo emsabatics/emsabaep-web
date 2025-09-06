@@ -230,8 +230,9 @@ Admin | Ley de Transparencia {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/drag-drop-files.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/transparencia.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
+  const nameInterfaz = "Ley de Transparencia";
   var isLeyT= true;
 </script>
 

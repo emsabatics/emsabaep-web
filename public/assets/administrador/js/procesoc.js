@@ -16,6 +16,7 @@ function guardarRegistroInfor() {
         $('#Inputenlace').focus();
         swal('Ingrese el enlace', '', 'warning');
     } else {
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         $('#modalCargando').modal('show');
         var formData = new FormData();
         formData.append("nombre", nombre);
@@ -67,6 +68,10 @@ function guardarRegistroInfor() {
             };
             xr.send(formData);
         }, 1200);
+
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -153,6 +158,7 @@ function editarRegistroInfor(){
         $('#InputenlaceE').focus();
         swal('Ingrese el enlace', '', 'warning');
     } else {
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         //$('#modalCargando').modal('show');
         var formData = new FormData();
         formData.append("id", id);
@@ -205,6 +211,9 @@ function editarRegistroInfor(){
             };
             xr.send(formData);
         }, 1200);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 

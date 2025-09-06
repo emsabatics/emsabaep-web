@@ -565,7 +565,7 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
 <script src="{{asset('assets/administrador/js/lotaipv2.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   $("#accordion").on("show.bs.collapse hide.bs.collapse", e => {
     $(e.target)
@@ -573,6 +573,7 @@ data-backdrop="static" data-keyboard="false">
       .find("i:last-child")
       .toggleClass("fa-plus fa-minus");
   });
+  const nameInterfaz = "LOTAIP 2.0";
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {

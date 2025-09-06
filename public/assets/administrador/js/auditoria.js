@@ -95,6 +95,7 @@ function guardarAuditoria(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         var element = document.querySelector('.saveauditoria');
         element.setAttribute("disabled", "");
         element.style.pointerEvents = "none";
@@ -105,6 +106,9 @@ function guardarAuditoria(){
         setTimeout(() => {
             sendNewAuditoria(token, data, "/store-auditoria", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -176,6 +180,7 @@ function inactivarAuditoria(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -248,6 +253,9 @@ function inactivarAuditoria(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR AUDITORIA */
@@ -257,6 +265,7 @@ function activarAuditoria(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-auditoria",
       type: "POST",
@@ -311,10 +320,17 @@ function activarAuditoria(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadAuditoria(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-auditoria/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function eliminarFile(e){
@@ -355,6 +371,7 @@ function actualizarauditoria(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
 
                 var data = new FormData(formE_auditoria);
@@ -364,8 +381,12 @@ function actualizarauditoria(){
                 setTimeout(() => {
                     sendUpdateAuditoria(token, data, "/update-auditoria"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
 
             var data = new FormData(formE_auditoria);
@@ -375,6 +396,9 @@ function actualizarauditoria(){
             setTimeout(() => {
                 sendUpdateAuditoria(token, data, "/update-auditoria");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }

@@ -425,6 +425,7 @@ function guardarTransparencia(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         //observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
         var element = document.querySelector('.savetransparencia');
         element.setAttribute("disabled", "");
@@ -437,6 +438,9 @@ function guardarTransparencia(){
         setTimeout(() => {
             sendNewTransparencia(token, data, "/registrar-ley-transparencia", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -520,6 +524,7 @@ function actualizarTransparencia(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
 
                 var data = new FormData(formTransparenciaE);
@@ -528,8 +533,12 @@ function actualizarTransparencia(){
                 setTimeout(() => {
                     sendUpdateLeyT(token, data, "/update-leytransparencia"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
 
             var data = new FormData(formTransparenciaE);
@@ -538,6 +547,9 @@ function actualizarTransparencia(){
             setTimeout(() => {
                 sendUpdateLeyT(token, data, "/update-leytransparencia");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -596,6 +608,7 @@ function inactivarTransparencia(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -668,6 +681,9 @@ function inactivarTransparencia(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR REGLAMENTO */
@@ -677,6 +693,7 @@ function activarTransparencia(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-leytransparencia",
       type: "POST",
@@ -731,10 +748,17 @@ function activarTransparencia(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadTransparencia(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-leytransparencia/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function eliminarFile(e){

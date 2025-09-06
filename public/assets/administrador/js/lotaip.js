@@ -478,6 +478,7 @@ function guardarLotaip(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarSM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savelotaip');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -491,6 +492,9 @@ function guardarLotaip(){
             setTimeout(() => {
                 sendNewLotaip(token, data, "/store-lotaip", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -711,6 +715,7 @@ function inactivarLOTAIP(id, i, anio, mes){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -778,6 +783,9 @@ function inactivarLOTAIP(id, i, anio, mes){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR LOTAIP */
@@ -787,6 +795,7 @@ function activarLOTAIP(id, i, anio, mes){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-lotaip",
       type: "POST",
@@ -836,10 +845,17 @@ function activarLOTAIP(id, i, anio, mes){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadLOTAIP(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-lotaip/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function eliminarFile(e){
@@ -866,20 +882,28 @@ function actualizarLotaip(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formLOTAIP_E);
             data.append("islotaip", isLotaip);
             setTimeout(() => {
                 sendUpdateLotaip(token, data, "/update-lotaip"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
         $('#modalFullSend').modal('show');
         var data = new FormData(formLOTAIP_E);
         data.append("islotaip", isLotaip);
         setTimeout(() => {
             sendUpdateLotaip(token, data, "/update-lotaip");
         }, 700);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
