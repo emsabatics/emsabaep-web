@@ -58,6 +58,7 @@ function inactivarRefPAC(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -135,6 +136,9 @@ function inactivarRefPAC(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR PAC */
@@ -145,6 +149,7 @@ function activarRefPAC(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pac",
       type: "POST",
@@ -204,14 +209,25 @@ function activarRefPAC(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadRefPAC(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-pac/'+id+'/ref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadRefRA(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-ra/'+id+'/ref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function interfaceupdateRefPAC(id){
@@ -290,6 +306,7 @@ function actualizarPacRef(){
             } else if (lengimgr > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -301,6 +318,9 @@ function actualizarPacRef(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-ref-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==false && isRa==true){
             if (lengimg == 0 ) {
@@ -308,6 +328,7 @@ function actualizarPacRef(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -319,6 +340,9 @@ function actualizarPacRef(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-ref-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==true && isRa==false){
             if (lengimgr == 0 ) {
@@ -326,6 +350,7 @@ function actualizarPacRef(){
             } else if (lengimgr > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -337,8 +362,12 @@ function actualizarPacRef(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-ref-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==true && isRa==true){
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -350,6 +379,9 @@ function actualizarPacRef(){
             setTimeout(() => {
                 sendUpdatePac(token, data, "/update-ref-pac"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }

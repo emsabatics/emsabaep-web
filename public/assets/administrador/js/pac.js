@@ -132,6 +132,7 @@ function guardarPac(){
     } else if (lengimgr > 1) {
         swal("Solo se permite un archivo", "", "warning");
     }  else {
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         $('#modalFullSend').modal('show');
         observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -141,6 +142,9 @@ function guardarPac(){
         setTimeout(() => {
             sendNewPac(token, data, "/store-pac"); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -209,6 +213,7 @@ function inactivarPAC(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -290,6 +295,9 @@ function inactivarPAC(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR PAC */
@@ -300,6 +308,7 @@ function activarPAC(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pac",
       type: "POST",
@@ -363,14 +372,25 @@ function activarPAC(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadPAC(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-pac/'+id+'/noref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadRA(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-ra/'+id+'/noref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION QUE LIMPIA EL INPUT FILE */
@@ -476,6 +496,7 @@ function actualizarPac(){
             } else if (lengimgr > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -488,6 +509,9 @@ function actualizarPac(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==false && isRa==true){
             if (lengimg == 0 ) {
@@ -495,6 +519,7 @@ function actualizarPac(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -507,6 +532,9 @@ function actualizarPac(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==true && isRa==false){
             if (lengimgr == 0 ) {
@@ -514,6 +542,7 @@ function actualizarPac(){
             } else if (lengimgr > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             }else{
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -526,8 +555,12 @@ function actualizarPac(){
                 setTimeout(() => {
                     sendUpdatePac(token, data, "/update-pac"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPac==true && isRa==true){
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -540,6 +573,9 @@ function actualizarPac(){
             setTimeout(() => {
                 sendUpdatePac(token, data, "/update-pac"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }

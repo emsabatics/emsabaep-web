@@ -70,6 +70,7 @@ function guardarPliego(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
         var element = document.querySelector('.savepliego');
         element.setAttribute("disabled", "");
@@ -81,6 +82,9 @@ function guardarPliego(){
         setTimeout(() => {
             sendNewPliego(token, data, "/store-pliego", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -150,6 +154,7 @@ function inactivarPliego(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -222,6 +227,9 @@ function inactivarPliego(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR PLIEGO */
@@ -231,6 +239,7 @@ function activarPliego(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pliego",
       type: "POST",
@@ -285,6 +294,9 @@ function activarPliego(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function eliminarFile(e){
@@ -319,6 +331,7 @@ function actualizarpliego(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 var typefilesel= fileInput.files[0].type;
                 let typepdf= 'application/pdf';
@@ -338,8 +351,12 @@ function actualizarpliego(){
                 setTimeout(() => {
                     sendUpdatePliego(token, data, "/update-pliego"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else if(isPliego==true){
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             var data = new FormData(formE_Pliego);
             data.append("tipo_file", tipofyle);
@@ -348,6 +365,9 @@ function actualizarpliego(){
             setTimeout(() => {
                 sendUpdatePliego(token, data, "/update-pliego"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -400,5 +420,9 @@ function sendUpdatePliego(token, data, url){
 }
 
 function downloadPliego(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-pliego/'+id;
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

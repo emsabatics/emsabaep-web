@@ -168,9 +168,7 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/reformas_pac.js')}}"></script>
-
 <script>
-  
   /*$(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {

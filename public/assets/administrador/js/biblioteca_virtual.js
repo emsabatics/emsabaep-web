@@ -10,6 +10,7 @@ function guardarCategoriaBiV(){
         $('#inputCategoria').focus();
         swal('Ingrese una categoría','','warning');
     }else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("categoria", categoria);
 
@@ -56,6 +57,9 @@ function guardarCategoriaBiV(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -100,6 +104,7 @@ function guardarSubCategoriaBiV(){
         $('#inputSubcategoria').focus();
         swal('Ingrese una Subcategoría','','warning');
     }else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idcategoria", idcategoria);
         formData.append("subcategoria", subcategoria);
@@ -171,6 +176,9 @@ function guardarSubCategoriaBiV(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -278,6 +286,7 @@ function guardarDocVirtual(){
         if(aliasfile!=getAliasInput()){
             swal('Revise el alias del documento','','warning');
         }else{
+            if(puedeGuardarM(nameInterfaz) === 'si'){
             var element = document.querySelector('.savedocvirtual');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -292,6 +301,9 @@ function guardarDocVirtual(){
             setTimeout(() => {
                 sendNewDocBibliotecaVirtual(token, data, "/store-doc-bibliovirtual", element); 
             }, 700);
+            }else{
+                swal('No tiene permiso para guardar','','error');
+            }
         }
     }
 }
@@ -411,6 +423,7 @@ function actualizarCategoriaBiV(){
         $('#inputUpCategoria').focus();
         swal('Ingrese una Categoría','','warning');
     }else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idcategoria", idcategoria);
         formData.append("categoria", categoria);
@@ -468,6 +481,9 @@ function actualizarCategoriaBiV(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -476,6 +492,7 @@ function inactivarSubCat(idsubcat, idcat, index){
     var token=$('#token').val();
     var estado = "0";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -533,6 +550,9 @@ function inactivarSubCat(idsubcat, idcat, index){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR SUBCATEGORIA */
@@ -540,6 +560,7 @@ function activarSubCat(idsubcat, idcat, index){
     var token=$('#token').val();
     var estado = "1";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-subcategoria",
       type: "POST",
@@ -578,6 +599,9 @@ function activarSubCat(idsubcat, idcat, index){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function editSubCat(idsubcat, index){
@@ -619,6 +643,7 @@ function actualizarSubCategoriaBiV(){
         $('#inputviewsubcategoria').focus();
         swal('Ingrese una Subcategoría','','warning');
     }else{
+        if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idsubcategoria", idsubcategoria);
         formData.append("subcategoria", subcategoria);
@@ -672,6 +697,9 @@ function actualizarSubCategoriaBiV(){
             }
         };
         xr.send(formData);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
     }
 }
 
@@ -702,6 +730,7 @@ function inactivarFileSubCat(id, index, opcion){
     var token=$('#token').val();
     var estado = "0";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -761,12 +790,16 @@ function inactivarFileSubCat(id, index, opcion){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarFileSubCat(id, index, opcion){
     var token=$('#token').val();
     var estado = "1";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-filesubcategoria",
       type: "POST",
@@ -808,6 +841,9 @@ function activarFileSubCat(id, index, opcion){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 //FUNCION QUE REDIRIGE A LA INTERFAZ PARA EDITAR EL DOCUMENTO DE LA SUBCATEGORIA
@@ -857,6 +893,7 @@ function actualizardocvirtual(){
         } else if (lengimg > 1) {
             swal("Solo se permite un archivo", "", "warning");
         } else {
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             //alert('TODO EN ORDEN');
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocvirtuale);
@@ -864,11 +901,15 @@ function actualizardocvirtual(){
             setTimeout(() => {
                 sendUpdateDocVirtual(token, data, "/update-docvirtual"); 
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }else{
         if(aliasFileE!=getAliasE()){
             swal("Revise el alias del documento", "", "warning");
         }else{
+            if(puedeActualizarM(nameInterfaz) === 'si'){
             //alert('TODO EN ORDEN');
             $('#modalFullSend').modal('show');
             var data = new FormData(formdocvirtuale);
@@ -876,6 +917,9 @@ function actualizardocvirtual(){
             setTimeout(() => {
                 sendUpdateDocVirtual(token, data, "/update-docvirtual");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -932,7 +976,7 @@ function sendUpdateDocVirtual(token, data, url){
 function eliminarFileSubCat(idf, index){
     var estado = "0";
     var token= $('#token').val();
-
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -989,10 +1033,17 @@ function eliminarFileSubCat(idf, index){
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function downloadFileSubCat(idf){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-docvirtual/'+idf+'/withsc';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function vistaFileSubCat(idf){
@@ -1010,6 +1061,7 @@ function inactivarFileOnlyCat(id, idcat, index, opcion){
     var token=$('#token').val();
     var estado = "0";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -1069,12 +1121,16 @@ function inactivarFileOnlyCat(id, idcat, index, opcion){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function activarFileOnlyCat(id, idcat, index, opcion){
     var token=$('#token').val();
     var estado = "1";
     var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-filesubcategoria",
       type: "POST",
@@ -1116,6 +1172,9 @@ function activarFileOnlyCat(id, idcat, index, opcion){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function vistaFileOnlyCat(idf){
@@ -1127,13 +1186,17 @@ function editFileOnlyCat(id, opcion){
 }
 
 function downloadFileOnlyCat(idf){
+    if(puedeDescargarM(nameInterfaz) === 'si'){
     window.location='/download-docvirtual/'+idf+'/nosc';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 function eliminarFileOnlyCat(idf, index){
     var estado = "0";
     var token= $('#token').val();
-
+    if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -1190,4 +1253,7 @@ function eliminarFileOnlyCat(idf, index){
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
     });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

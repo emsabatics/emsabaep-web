@@ -193,6 +193,7 @@ function guardarPoa(){
     } else if (lengimg > 1) {
         swal("Solo se permite un archivo", "", "warning");
     } else{
+        if(puedeGuardarSM(nameInterfaz) === 'si'){
         observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
         var element = document.querySelector('.savepoa');
         element.setAttribute("disabled", "");
@@ -205,6 +206,9 @@ function guardarPoa(){
         setTimeout(() => {
             sendNewPoa(token, data, "/store-poa", element); 
         }, 700);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
     }
 }
 
@@ -281,6 +285,7 @@ function inactivarPOA(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -358,6 +363,9 @@ function inactivarPOA(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR POA */
@@ -368,6 +376,7 @@ function activarPOA(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-poa",
       type: "POST",
@@ -427,10 +436,17 @@ function activarPOA(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function downloadPOA(id){
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
     window.location='/download-poa/'+id+'/noref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 /* FUNCION QUE LIMPIA EL INPUT FILE */
@@ -503,6 +519,7 @@ function actualizarpoa(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -514,8 +531,12 @@ function actualizarpoa(){
                 setTimeout(() => {
                     sendUpdatePoa(token, data, "/update-poa"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -527,8 +548,10 @@ function actualizarpoa(){
             setTimeout(() => {
                 sendUpdatePoa(token, data, "/update-poa");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
-
         }else{
             swal('Revise el alias del Documento', ' ','warning');
         }

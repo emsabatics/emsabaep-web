@@ -208,4 +208,8 @@ Admin | Pliego Tarifario {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/pliego.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
+<script>
+  const nameInterfaz = "Pliego Tarifario";
+</script>
 @endsection

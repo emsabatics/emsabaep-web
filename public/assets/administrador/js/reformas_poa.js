@@ -60,6 +60,7 @@ function inactivarRefPOA(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -133,6 +134,9 @@ function inactivarRefPOA(id, i){
             });
         }
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 /* FUNCION PARA ACTIVAR POA */
@@ -143,6 +147,7 @@ function activarRefPOA(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-poa",
       type: "POST",
@@ -198,6 +203,9 @@ function activarRefPOA(id, i){
         }
       },
     });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
 }
 
 function interfaceupdateRefPOA(id){
@@ -241,6 +249,7 @@ function actualizarrefpoa(){
             } else if (lengimg > 1) {
                 swal("Solo se permite un archivo", "", "warning");
             } else {
+                if(puedeActualizarSM(nameInterfaz) === 'si'){
                 $('#modalFullSend').modal('show');
                 observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -251,8 +260,12 @@ function actualizarrefpoa(){
                 setTimeout(() => {
                     sendUpdateRefPoa(token, data, "/update-ref-poa"); 
                 }, 700);
+                }else{
+                    swal('No tiene permiso para actualizar','','error');
+                }
             }
         }else{
+            if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
             observacion = observacion.replace(/(\r\n|\n|\r)/gm, "//");
 
@@ -263,6 +276,9 @@ function actualizarrefpoa(){
             setTimeout(() => {
                 sendUpdateRefPoa(token, data, "/update-ref-poa");
             }, 700);
+            }else{
+                swal('No tiene permiso para actualizar','','error');
+            }
         }
     }
 }
@@ -315,5 +331,9 @@ function sendUpdateRefPoa(token, data, url){
 }
 
 function downloadRefPOA(id){
-    window.location='/download-poa/'+id+'/ref';;
+    if(puedeDescargarSM(nameInterfaz) === 'si'){
+    window.location='/download-poa/'+id+'/ref';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

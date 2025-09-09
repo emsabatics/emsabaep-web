@@ -189,9 +189,9 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/datatables/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/datatables/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/datatables/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
-  
+  const nameInterfaz = "PAC";
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {
