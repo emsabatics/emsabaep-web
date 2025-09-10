@@ -257,159 +257,7 @@ Route::middleware(['throttle:cont_admin_query_login'])->group(function () {
     Route::post('/cambiar-password-usuario', [LoginController::class, 'registrar_clave_usuario']);
 });
 
-Route::middleware(['throttle:cont_admin_query'])->group(function () {    
-
-    /*
-    *DOCUMENTOS - PAC
-    */
-    Route::post('/store-pac', [DocumentosController::class, 'store_pac']);
-    Route::get('/view-pac/{id}', [DocumentosController::class, 'view_pac']);
-    Route::get('/edit-pac/{id}', [DocumentosController::class, 'edit_pac']);
-    Route::post('/in-activar-pac', [DocumentosController::class, 'inactivar_pac']);
-    Route::get('/download-pac/{id}/{tipo}', [DocumentosController::class, 'download_pac']);
-    Route::get('/download-ra/{id}/{tipo}', [DocumentosController::class, 'download_ra']);
-    Route::post('/update-pac', [DocumentosController::class, 'update_pac']);
-    Route::get('/view-reforma-pac/{id}', [DocumentosController::class, 'view_reforma_pac']);
-
-    /*
-    *DOCUMENTOS - PAC REFORMADOS
-    */
-    Route::get('/view-ref-pac/{id}', [DocumentosController::class, 'view_pac_reformado']);
-    Route::get('/edit-ref-pac/{id}', [DocumentosController::class, 'edit_ref_pac']);
-    Route::post('/update-ref-pac', [DocumentosController::class, 'update_ref_pac']);
-
-    /*
-    *DOCUMENTOS LOTAIP
-    */
-    Route::post('/store-lotaip', [LotaipController::class, 'store_lotaip']);
-    Route::get('/view-lotaip/{id}', [LotaipController::class, 'view_lotaip']);
-    Route::get('/edit-lotaip/{id}', [LotaipController::class, 'edit_lotaip']);
-    Route::post('/update-lotaip', [LotaipController::class, 'update_lotaip']);
-    Route::post('/in-activar-lotaip', [LotaipController::class, 'inactivar_lotaip']);
-    Route::get('/download-lotaip/{id}', [LotaipController::class, 'download_lotaip']);
-
-    /*
-    *DOCUMENTOS LOTAIP V2
-    */
-    Route::get('/get-literal-lotaip/{id}', [LotaipController::class, 'get_literal_lotaip']);
-    Route::post('/store-lotaipv2', [LotaipController::class, 'store_lotaip_v2']);
-    Route::get('/view-lotaipv2/{id}/{tipo}', [LotaipController::class, 'view_lotaip_v2']);
-    Route::get('/download-lotaipv2/{id}/{tipo}', [LotaipController::class, 'download_lotaip_v2']);
-    Route::get('/edit-lotaipv2/{id}/{tipo}', [LotaipController::class, 'edit_lotaip_v2']);
-    Route::post('/update-lotaipv2', [LotaipController::class, 'update_lotaip_v2']);
-
-    /*
-    *DOCUMENTOS - PROCESO CONTRATACION
-    */
-    Route::post('/registro-proceso', [DocumentosController::class, 'store_proceso']);
-    Route::get('/get-inforproceso/{id}', [DocumentosController::class, 'get_infor_proceso']);
-    Route::post('/editar-proceso', [DocumentosController::class, 'update_proceso']);
-
-    /*
-    *DOCUMENTOS - REGLAMENTOS
-    */
-    Route::post('/store-ley', [DocumentosController::class, 'store_ley']);
-    Route::get('/view-ley/{id}', [DocumentosController::class, 'view_ley']);
-    Route::get('/edit-ley/{id}', [DocumentosController::class, 'edit_ley']);
-    Route::post('/in-activar-ley', [DocumentosController::class, 'inactivar_ley']);
-    Route::get('/download-ley/{id}', [DocumentosController::class, 'download_ley']);
-    Route::post('/update-ley', [DocumentosController::class, 'update_ley']);
-
-    /*
-    *DOCUMENTOS - LEY DE TRANSPARENCIA
-    */
-    Route::post('/registrar-ley-transparencia', [LeyTransparenciaController::class, 'registrar_ley_transparencia']);
-    Route::get('/view-transparencia/{id}', [LeyTransparenciaController::class, 'view_ley']);
-    Route::get('/update-ley-transparencia', [LeyTransparenciaController::class, 'update_ley_transparencia']);
-    Route::post('/actualizar-ley-transparencia', [LeyTransparenciaController::class, 'store_up_ley_transparencia']);
-     Route::get('/edit-leytransparencia/{id}', [LeyTransparenciaController::class, 'edit_ley']);
-    Route::post('/update-leytransparencia', [LeyTransparenciaController::class, 'update_ley']);
-    Route::post('/in-activar-leytransparencia', [LeyTransparenciaController::class, 'inactivar_ley']);
-    Route::get('/download-leytransparencia/{id}', [LeyTransparenciaController::class, 'download_ley']);
-
-    /*
-    *DOCUMENTOS RENDICION DE CUENTAS
-    */
-    Route::post('/store-rendicionc', [RendicionCuentasController::class, 'store_rendicionc']);
-    Route::get('/view-rendicionc/{id}', [RendicionCuentasController::class, 'view_rendicionc']);
-    Route::get('/edit-rendicionc/{id}', [RendicionCuentasController::class, 'edit_rendicionc']);
-    Route::post('/update-rendicionc', [RendicionCuentasController::class, 'update_rendicionc']);
-    Route::post('/in-activar-rendicionc', [RendicionCuentasController::class, 'inactivar_rendicionc']);
-    Route::get('/download-rendicionc/{id}', [RendicionCuentasController::class, 'download_rendicionc']);
-
-    /*
-    *DOCUMENTOS - PLIEGO TARIFARIO
-    */
-    Route::post('/store-pliego', [PliegoTarifarioController::class, 'store_pliego']);
-    Route::get('/view-pliego/{id}', [PliegoTarifarioController::class, 'view_pliego']);
-    Route::get('/edit-pliego/{id}', [PliegoTarifarioController::class, 'edit_pliego']);
-    Route::post('/in-activar-pliego', [PliegoTarifarioController::class, 'inactivar_pliego']);
-    Route::get('/download-pliego/{id}', [PliegoTarifarioController::class, 'download_pliego']);
-    Route::post('/update-pliego', [PliegoTarifarioController::class, 'update_pliego']);
-
-    /*
-    *DOCUMENTOS - AUDITORIA
-    */
-    Route::post('/store-auditoria', [AuditoriaController::class, 'store_auditoria']);
-    Route::get('/view-auditoria/{id}', [AuditoriaController::class, 'view_auditoria']);
-    Route::get('/edit-auditoria/{id}', [AuditoriaController::class, 'edit_auditoria']);
-    Route::post('/in-activar-auditoria', [AuditoriaController::class, 'inactivar_auditoria']);
-    Route::get('/download-auditoria/{id}', [AuditoriaController::class, 'download_auditoria']);
-    Route::post('/update-auditoria', [AuditoriaController::class, 'update_auditoria']);
-
-    /*
-    *DOCUMENTOS - MEDIOS VERIFICACION
-    */
-    Route::post('/store-mediosv', [MediosVerificacionController::class, 'registro_mediosv']);
-    Route::get('/edit-mediosv/{id}', [MediosVerificacionController::class, 'edit_mediosv']);
-    Route::post('/update-mediosv', [MediosVerificacionController::class, 'update_mediosv']);
-    Route::get('/view-mediosv/{id}', [MediosVerificacionController::class, 'view_mediosv']);
-    Route::post('/in-activar-mediosv', [MediosVerificacionController::class, 'inactivar_mediosv']);
-    Route::post('/in-activar-file-mediosv', [MediosVerificacionController::class, 'inactivar_file_mediosv']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
-    */
-    Route::post('/store-doc-administrativo', [DocAdministrativoController::class, 'store_doc_administrativo']);
-    Route::get('/view-docadministrativo/{id}', [DocAdministrativoController::class, 'view_doc_administrativo']);
-    Route::get('/edit-docadministrativo/{id}', [DocAdministrativoController::class, 'edit_doc_administrativo']);
-    Route::post('/in-activar-docadministrativo', [DocAdministrativoController::class, 'inactivar_doc_administrativo']);
-    Route::get('/download-docadministrativo/{id}', [DocAdministrativoController::class, 'download_doc_administrativo']);
-    Route::post('/update-docadministrativo', [DocAdministrativoController::class, 'update_doc_administrativo']);
-    Route::post('/delete-docadministrativo', [DocAdministrativoController::class, 'delete_doc_administrativo']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
-    */
-    Route::post('/store-doc-financiero', [DocFinancieroController::class, 'store_doc_financiero']);
-    Route::get('/view-docfinanciero/{id}', [DocFinancieroController::class, 'view_doc_financiero']);
-    Route::get('/edit-docfinanciero/{id}', [DocFinancieroController::class, 'edit_doc_financiero']);
-    Route::post('/in-activar-docfinanciero', [DocFinancieroController::class, 'inactivar_doc_financiero']);
-    Route::get('/download-docfinanciero/{id}', [DocFinancieroController::class, 'download_doc_financiero']);
-    Route::post('/update-docfinanciero', [DocFinancieroController::class, 'update_doc_financiero']);
-    Route::post('/delete-docfinanciero', [DocFinancieroController::class, 'delete_doc_financiero']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
-    */
-    Route::post('/store-doc-operativo', [DocOperativoController::class, 'store_doc_operativo']);
-    Route::get('/view-docoperativo/{id}', [DocOperativoController::class, 'view_doc_operativo']);
-    Route::get('/edit-docoperativo/{id}', [DocOperativoController::class, 'edit_doc_operativo']);
-    Route::post('/in-activar-docoperativo', [DocOperativoController::class, 'inactivar_doc_operativo']);
-    Route::get('/download-docoperativo/{id}', [DocOperativoController::class, 'download_doc_operativo']);
-    Route::post('/update-docoperativo', [DocOperativoController::class, 'update_doc_operativo']);
-    Route::post('/delete-docoperativo', [DocOperativoController::class, 'delete_doc_operativo']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
-    */
-    Route::post('/store-doc-laboral', [DocLaboralController::class, 'store_doc_laboral']);
-    Route::get('/view-doclaboral/{id}', [DocLaboralController::class, 'view_doc_laboral']);
-    Route::get('/edit-doclaboral/{id}', [DocLaboralController::class, 'edit_doc_laboral']);
-    Route::post('/in-activar-doclaboral', [DocLaboralController::class, 'inactivar_doc_laboral']);
-    Route::get('/download-doclaboral/{id}', [DocLaboralController::class, 'download_doc_laboral']);
-    Route::post('/update-doclaboral', [DocLaboralController::class, 'update_doc_laboral']);
-    Route::post('/delete-doclaboral', [DocLaboralController::class, 'delete_doc_laboral']);
+Route::middleware(['throttle:cont_admin_query'])->group(function () {
 
     /*
     *PERFIL DE USUARIOS
@@ -893,8 +741,110 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/view-ref-poa/{id}', [DocumentosController::class, 'view_poa_reformado']);
     Route::get('/edit-ref-poa/{id}', [DocumentosController::class, 'edit_ref_poa']);
 
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::get('/view-pac/{id}', [DocumentosController::class, 'view_pac']);
+    Route::get('/edit-pac/{id}', [DocumentosController::class, 'edit_pac']);
+    Route::get('/download-pac/{id}/{tipo}', [DocumentosController::class, 'download_pac']);
+    Route::get('/download-ra/{id}/{tipo}', [DocumentosController::class, 'download_ra']);
+    Route::get('/view-reforma-pac/{id}', [DocumentosController::class, 'view_reforma_pac']);
+    
+    /*
+    *DOCUMENTOS - PAC REFORMADOS
+    */
+    Route::get('/view-ref-pac/{id}', [DocumentosController::class, 'view_pac_reformado']);
+    Route::get('/edit-ref-pac/{id}', [DocumentosController::class, 'edit_ref_pac']);
 
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::get('/view-lotaip/{id}', [LotaipController::class, 'view_lotaip']);
+    Route::get('/edit-lotaip/{id}', [LotaipController::class, 'edit_lotaip']);
+    Route::get('/download-lotaip/{id}', [LotaipController::class, 'download_lotaip']);
 
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+    Route::get('/get-literal-lotaip/{id}', [LotaipController::class, 'get_literal_lotaip']);
+    Route::get('/view-lotaipv2/{id}/{tipo}', [LotaipController::class, 'view_lotaip_v2']);
+    Route::get('/download-lotaipv2/{id}/{tipo}', [LotaipController::class, 'download_lotaip_v2']);
+    Route::get('/edit-lotaipv2/{id}/{tipo}', [LotaipController::class, 'edit_lotaip_v2']);
+
+    /*
+    *DOCUMENTOS - PROCESO CONTRATACION
+    */
+    Route::get('/get-inforproceso/{id}', [DocumentosController::class, 'get_infor_proceso']);
+
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::get('/view-ley/{id}', [DocumentosController::class, 'view_ley']);
+    Route::get('/edit-ley/{id}', [DocumentosController::class, 'edit_ley']);
+    Route::get('/download-ley/{id}', [DocumentosController::class, 'download_ley']);
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::get('/view-transparencia/{id}', [LeyTransparenciaController::class, 'view_ley']);
+    Route::get('/update-ley-transparencia', [LeyTransparenciaController::class, 'update_ley_transparencia']);
+    Route::get('/edit-leytransparencia/{id}', [LeyTransparenciaController::class, 'edit_ley']);
+    Route::get('/download-leytransparencia/{id}', [LeyTransparenciaController::class, 'download_ley']);
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::get('/view-rendicionc/{id}', [RendicionCuentasController::class, 'view_rendicionc']);
+    Route::get('/edit-rendicionc/{id}', [RendicionCuentasController::class, 'edit_rendicionc']);
+    Route::get('/download-rendicionc/{id}', [RendicionCuentasController::class, 'download_rendicionc']);
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::get('/view-pliego/{id}', [PliegoTarifarioController::class, 'view_pliego']);
+    Route::get('/edit-pliego/{id}', [PliegoTarifarioController::class, 'edit_pliego']);
+    Route::get('/download-pliego/{id}', [PliegoTarifarioController::class, 'download_pliego']);
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::get('/view-auditoria/{id}', [AuditoriaController::class, 'view_auditoria']);
+    Route::get('/edit-auditoria/{id}', [AuditoriaController::class, 'edit_auditoria']);
+    Route::get('/download-auditoria/{id}', [AuditoriaController::class, 'download_auditoria']);
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::get('/edit-mediosv/{id}', [MediosVerificacionController::class, 'edit_mediosv']);
+    Route::get('/view-mediosv/{id}', [MediosVerificacionController::class, 'view_mediosv']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::get('/view-docadministrativo/{id}', [DocAdministrativoController::class, 'view_doc_administrativo']);
+    Route::get('/edit-docadministrativo/{id}', [DocAdministrativoController::class, 'edit_doc_administrativo']);
+    Route::get('/download-docadministrativo/{id}', [DocAdministrativoController::class, 'download_doc_administrativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::get('/view-docfinanciero/{id}', [DocFinancieroController::class, 'view_doc_financiero']);
+    Route::get('/edit-docfinanciero/{id}', [DocFinancieroController::class, 'edit_doc_financiero']);
+    Route::get('/download-docfinanciero/{id}', [DocFinancieroController::class, 'download_doc_financiero']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::get('/view-docoperativo/{id}', [DocOperativoController::class, 'view_doc_operativo']);
+    Route::get('/edit-docoperativo/{id}', [DocOperativoController::class, 'edit_doc_operativo']);
+    Route::get('/download-docoperativo/{id}', [DocOperativoController::class, 'download_doc_operativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::get('/view-doclaboral/{id}', [DocLaboralController::class, 'view_doc_laboral']);
+    Route::get('/edit-doclaboral/{id}', [DocLaboralController::class, 'edit_doc_laboral']);
+    Route::get('/download-doclaboral/{id}', [DocLaboralController::class, 'download_doc_laboral']);
 });
 
 Route::middleware(['throttle:limit_admin_insert'])->group(function () {
@@ -1015,7 +965,81 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - POA REFORMADOS
     */
 
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::post('/store-pac', [DocumentosController::class, 'store_pac']);
 
+    /*
+    *DOCUMENTOS - PAC REFORMADOS
+    */
+
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::post('/store-lotaip', [LotaipController::class, 'store_lotaip']);
+
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+    Route::post('/store-lotaipv2', [LotaipController::class, 'store_lotaip_v2']);
+
+    /*
+    *DOCUMENTOS - PROCESO CONTRATACION
+    */
+    Route::post('/registro-proceso', [DocumentosController::class, 'store_proceso']);
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::post('/store-ley', [DocumentosController::class, 'store_ley']);
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::post('/registrar-ley-transparencia', [LeyTransparenciaController::class, 'registrar_ley_transparencia']);
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::post('/store-rendicionc', [RendicionCuentasController::class, 'store_rendicionc']);
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::post('/store-pliego', [PliegoTarifarioController::class, 'store_pliego']);
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::post('/store-auditoria', [AuditoriaController::class, 'store_auditoria']);
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::post('/store-mediosv', [MediosVerificacionController::class, 'registro_mediosv']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::post('/store-doc-administrativo', [DocAdministrativoController::class, 'store_doc_administrativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::post('/store-doc-financiero', [DocFinancieroController::class, 'store_doc_financiero']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::get('/view-docoperativo/{id}', [DocOperativoController::class, 'view_doc_operativo']);
+    Route::get('/edit-docoperativo/{id}', [DocOperativoController::class, 'edit_doc_operativo']);
+    Route::get('/download-docoperativo/{id}', [DocOperativoController::class, 'download_doc_operativo']);
+    Route::post('/store-doc-operativo', [DocOperativoController::class, 'store_doc_operativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::post('/store-doc-laboral', [DocLaboralController::class, 'store_doc_laboral']);
 });
 
 Route::middleware(['throttle:limit_admin_update'])->group(function () {
@@ -1136,6 +1160,81 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     */
     Route::post('/update-ref-poa', [DocumentosController::class, 'update_ref_poa']);
 
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::post('/update-pac', [DocumentosController::class, 'update_pac']);
+
+    /*
+    *DOCUMENTOS - PAC REFORMADOS
+    */
+    Route::post('/update-ref-pac', [DocumentosController::class, 'update_ref_pac']);
+
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::post('/update-lotaip', [LotaipController::class, 'update_lotaip']);
+
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+    Route::post('/update-lotaipv2', [LotaipController::class, 'update_lotaip_v2']);
+
+    /*
+    *DOCUMENTOS - PROCESO CONTRATACION
+    */
+    Route::post('/editar-proceso', [DocumentosController::class, 'update_proceso']);
+
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::post('/update-ley', [DocumentosController::class, 'update_ley']);
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::post('/actualizar-ley-transparencia', [LeyTransparenciaController::class, 'store_up_ley_transparencia']);
+    Route::post('/update-leytransparencia', [LeyTransparenciaController::class, 'update_ley']);
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::post('/update-rendicionc', [RendicionCuentasController::class, 'update_rendicionc']);
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::post('/update-pliego', [PliegoTarifarioController::class, 'update_pliego']);
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::post('/update-auditoria', [AuditoriaController::class, 'update_auditoria']);
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::post('/update-mediosv', [MediosVerificacionController::class, 'update_mediosv']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::post('/update-docadministrativo', [DocAdministrativoController::class, 'update_doc_administrativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::post('/update-docfinanciero', [DocFinancieroController::class, 'update_doc_financiero']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::post('/update-docoperativo', [DocOperativoController::class, 'update_doc_operativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::post('/update-doclaboral', [DocLaboralController::class, 'update_doc_laboral']);
 });
 
 Route::middleware(['throttle:limit_admin_delete'])->group(function () {
@@ -1260,5 +1359,80 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     *DOCUMENTOS - POA REFORMADOS
     */
 
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::post('/in-activar-pac', [DocumentosController::class, 'inactivar_pac']);
 
+    /*
+    *DOCUMENTOS - PAC REFORMADOS
+    */
+    
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::post('/in-activar-lotaip', [LotaipController::class, 'inactivar_lotaip']);
+
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+
+    /*
+    *DOCUMENTOS - PROCESO CONTRATACION
+    */
+
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::post('/in-activar-ley', [DocumentosController::class, 'inactivar_ley']);
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::post('/in-activar-leytransparencia', [LeyTransparenciaController::class, 'inactivar_ley']);
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::post('/in-activar-rendicionc', [RendicionCuentasController::class, 'inactivar_rendicionc']);
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::post('/in-activar-pliego', [PliegoTarifarioController::class, 'inactivar_pliego']);
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::post('/in-activar-auditoria', [AuditoriaController::class, 'inactivar_auditoria']);
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::post('/in-activar-mediosv', [MediosVerificacionController::class, 'inactivar_mediosv']);
+    Route::post('/in-activar-file-mediosv', [MediosVerificacionController::class, 'inactivar_file_mediosv']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::post('/in-activar-docadministrativo', [DocAdministrativoController::class, 'inactivar_doc_administrativo']);
+    Route::post('/delete-docadministrativo', [DocAdministrativoController::class, 'delete_doc_administrativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::post('/in-activar-docfinanciero', [DocFinancieroController::class, 'inactivar_doc_financiero']);
+    Route::post('/delete-docfinanciero', [DocFinancieroController::class, 'delete_doc_financiero']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::post('/in-activar-docoperativo', [DocOperativoController::class, 'inactivar_doc_operativo']);
+    Route::post('/delete-docoperativo', [DocOperativoController::class, 'delete_doc_operativo']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::post('/in-activar-doclaboral', [DocLaboralController::class, 'inactivar_doc_laboral']);
+    Route::post('/delete-doclaboral', [DocLaboralController::class, 'delete_doc_laboral']);
 });
