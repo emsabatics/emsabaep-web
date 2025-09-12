@@ -257,106 +257,7 @@ Route::middleware(['throttle:cont_admin_query_login'])->group(function () {
     Route::post('/cambiar-password-usuario', [LoginController::class, 'registrar_clave_usuario']);
 });
 
-Route::middleware(['throttle:cont_admin_query'])->group(function () {
-
-    /*
-    *PERFIL DE USUARIOS
-    */
-    Route::post('/registro-perfiluser', [UsuariosController::class, 'registrar_perfil_usuario']);
-    Route::get('/get-profile-user/{id}', [UsuariosController::class, 'get_perfil_usuario']);
-    Route::post('/in-activar-profileuser', [UsuariosController::class, 'inactivar_perfil_usuario']);
-    Route::post('/actualizar-perfil-usuario', [UsuariosController::class, 'update_perfil_usuario']);
-
-    /*
-    *USUARIOS
-    */
-    Route::post('/store-new-usuario', [UsuariosController::class, 'store_new_usuario']);
-    Route::post('/update-password-usuario', [UsuariosController::class, 'update_password_usuario']);
-    Route::post('/in-activar-usuario', [UsuariosController::class, 'inactivar_usuario']);
-    Route::get('/edit-view-usuario/{id}', [UsuariosController::class, 'edit_view_usuario']);
-    Route::post('/update-usuario', [UsuariosController::class, 'update_usuario']);
-
-    /*
-    *NOTIFICACIONES ADMINISTRADOR
-    */
-    Route::get('/read-view-noti/{id}', [NotificacionController::class, 'index_view_notificacion']);
-    Route::post('/actualizar_items_notificaciones', [NotificacionController::class, 'update_item_notificacion']);
-
-    /*
-    *BIBLIOTECA VIRTUAL
-    */
-    Route::post('/registro-categoria', [BibliotecaVirtualController::class, 'registro_categoria']);
-    Route::post('/actualizar-categoria', [BibliotecaVirtualController::class, 'actualizar_categoria']);
-    Route::get('/get-name-categoria/{id}', [BibliotecaVirtualController::class, 'get_namecat']);
-    Route::post('/registro-subcategoria', [BibliotecaVirtualController::class, 'registro_subcategoria']);
-    Route::get('/registrar_doc_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'doc_virtual_register']);
-    Route::get('/view_listdocs_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'listdoc_virtual_subcat']);
-    Route::post('/store-doc-bibliovirtual', [BibliotecaVirtualController::class, 'store_doc_bibliovirtual']);
-    Route::post('/in-activar-subcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_subcategoria']);
-    Route::get('/get-name-subcategoria/{id}', [BibliotecaVirtualController::class, 'get_namesubcat']);
-    Route::post('/actualizar-subcategoria', [BibliotecaVirtualController::class, 'actualizar_subcategoria']);
-    Route::post('/in-activar-filesubcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_filesubcategoria']);
-    Route::get('/edit_doc_subcatvirtual/{idf}/{opcion}/{tipo}', [BibliotecaVirtualController::class, 'edit_virtual_filesubcat']);
-    Route::post('/update-docvirtual', [BibliotecaVirtualController::class, 'update_doc_virtual']);
-    Route::post('/delete-file-oncat', [BibliotecaVirtualController::class, 'delete_file_oncat']);
-    Route::get('/download-docvirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'download_doc_virtual']);
-    Route::get('/view-docfilevirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'view_doc_filevirtual']);
-
-    
-    /*
-    *LOGO INSTITUCIONAL
-    */
-    Route::post('/logo/registro-logo', [LogoController::class, 'storage_logo']);
-    Route::get('/download-logo/{id}', [LogoController::class, 'download_logo']);
-    Route::post('/in-activar-logo', [LogoController::class, 'inactivar_logo']);
-    Route::post('/delete-logo', [LogoController::class, 'delete_logo']);
-
-    /*
-    *ATENCION CIUDADANA
-    */
-    Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
-    Route::post('/change-estado-solicitud', [AtencionCiudadanaController::class, 'change_estado']);
-    Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
-    Route::get('/atencion-ciudadana/getall', [AtencionCiudadanaController::class, 'getall'])->name('atencion.getall');
-    Route::get('/exportar-solicitudes-all-excel', [ReportesController::class, 'exportarSolicitudesExcel']);
-    Route::get('/exportar-solicitudes-all-pdf', [ReportesController::class, 'exportarSolicitudesPDF']);
-    Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
-    Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
-
-
-    /*
-    *MODULOS
-    */
-    Route::post('/registro-modulo', [ModulosController::class, 'registro_modulo']);
-    Route::post('/in-activar-modulo', [ModulosController::class, 'inactivar_modulo']);
-    Route::get('/get-modulo/{id}', [ModulosController::class, 'get_modulo']);
-    Route::post('/actualizar-modulo', [ModulosController::class, 'actualizar_modulo']);
-
-     /*
-    *SUBMODULOS
-    */
-    Route::post('/registro-submodulo', [SubmodulosController::class, 'registro_submodulo']);
-    Route::post('/in-activar-submodulo', [SubmodulosController::class, 'inactivar_submodulo']);
-    Route::get('/get-submodulo/{id}', [SubmodulosController::class, 'get_submodulo']);
-    Route::post('/actualizar-submodulo', [SubmodulosController::class, 'actualizar_submodulo']);
-
-    /*
-    *PERMISOS DE USUARIO
-    */
-    Route::post('/get-permisos-usuario', [PermisosController::class, 'get_permisos_usuario']);
-    Route::post('/permisos/registro_p_modulo', [PermisosController::class, 'registro_permisos_modulo']);
-    Route::post('/permisos/registro_ps_modulo', [PermisosController::class, 'registro_permisos_modulo_sinsub']);
-    Route::post('/permisos/registro_ps_submodulo', [PermisosController::class, 'registro_permisos_modulo_withsub']);
-    Route::get('/get-all-permisos-usuario', [PermisosController::class, 'get_all_permisos_usuario']);
-    Route::post('/get-permiso-by-usuario', [PermisosController::class, 'obtenerModulosPorRol']);
-
-
-    /*
-    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
-    */
-    Route::get('/set-permisos-modulo/{id}', [AsignacionPermisoController::class, 'mostrarAsignacion']);
-    Route::post('/permisos/actualizar', [AsignacionPermisoController::class, 'actualizarPermiso'])->name('permisos.actualizar');
-});
+/*Route::middleware(['throttle:cont_admin_query'])->group(function () {});*/
 
 Route::middleware(['throttle:limit_admin_view'])->group(function () {
     /*
@@ -845,6 +746,69 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/view-doclaboral/{id}', [DocLaboralController::class, 'view_doc_laboral']);
     Route::get('/edit-doclaboral/{id}', [DocLaboralController::class, 'edit_doc_laboral']);
     Route::get('/download-doclaboral/{id}', [DocLaboralController::class, 'download_doc_laboral']);
+
+    /*
+    *BIBLIOTECA VIRTUAL
+    */
+    Route::get('/get-name-categoria/{id}', [BibliotecaVirtualController::class, 'get_namecat']);
+    Route::get('/registrar_doc_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'doc_virtual_register']);
+    Route::get('/view_listdocs_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'listdoc_virtual_subcat']);
+    Route::get('/get-name-subcategoria/{id}', [BibliotecaVirtualController::class, 'get_namesubcat']);
+    Route::get('/edit_doc_subcatvirtual/{idf}/{opcion}/{tipo}', [BibliotecaVirtualController::class, 'edit_virtual_filesubcat']);
+    Route::get('/download-docvirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'download_doc_virtual']);
+    Route::get('/view-docfilevirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'view_doc_filevirtual']);
+
+    /*
+    *LOGO INSTITUCIONAL
+    */
+    Route::get('/download-logo/{id}', [LogoController::class, 'download_logo']);
+
+    /*
+    *USUARIOS
+    */
+    Route::get('/edit-view-usuario/{id}', [UsuariosController::class, 'edit_view_usuario']);
+
+    /*
+    *PERFIL DE USUARIOS
+    */
+    Route::get('/get-profile-user/{id}', [UsuariosController::class, 'get_perfil_usuario']);
+
+    /*
+    *PERMISOS DE USUARIO
+    */
+    Route::get('/get-all-permisos-usuario', [PermisosController::class, 'get_all_permisos_usuario']);
+    Route::post('/get-permisos-usuario', [PermisosController::class, 'get_permisos_usuario']);
+    Route::post('/get-permiso-by-usuario', [PermisosController::class, 'obtenerModulosPorRol']);
+
+    /*
+    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
+    */
+    Route::get('/set-permisos-modulo/{id}', [AsignacionPermisoController::class, 'mostrarAsignacion']);
+
+    /*
+    *MODULOS
+    */
+    Route::get('/get-modulo/{id}', [ModulosController::class, 'get_modulo']);
+
+     /*
+    *SUBMODULOS
+    */
+    Route::get('/get-submodulo/{id}', [SubmodulosController::class, 'get_submodulo']);
+
+    /*
+    *NOTIFICACIONES ADMINISTRADOR
+    */
+    Route::get('/read-view-noti/{id}', [NotificacionController::class, 'index_view_notificacion']);
+
+    /*
+    *ATENCION CIUDADANA
+    */
+    Route::get('/atencion-ciudadana/getall', [AtencionCiudadanaController::class, 'getall'])->name('atencion.getall');
+    Route::get('/exportar-solicitudes-all-excel', [ReportesController::class, 'exportarSolicitudesExcel']);
+    Route::get('/exportar-solicitudes-all-pdf', [ReportesController::class, 'exportarSolicitudesPDF']);
+    Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
+    Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
+    Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
 });
 
 Route::middleware(['throttle:limit_admin_insert'])->group(function () {
@@ -1040,6 +1004,58 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
     Route::post('/store-doc-laboral', [DocLaboralController::class, 'store_doc_laboral']);
+
+    /*
+    *BIBLIOTECA VIRTUAL
+    */
+    Route::post('/registro-categoria', [BibliotecaVirtualController::class, 'registro_categoria']);
+    Route::post('/registro-subcategoria', [BibliotecaVirtualController::class, 'registro_subcategoria']);
+    Route::post('/store-doc-bibliovirtual', [BibliotecaVirtualController::class, 'store_doc_bibliovirtual']);
+
+    /*
+    *LOGO INSTITUCIONAL
+    */
+    Route::post('/logo/registro-logo', [LogoController::class, 'storage_logo']);
+
+    /*
+    *USUARIOS
+    */
+    Route::post('/store-new-usuario', [UsuariosController::class, 'store_new_usuario']);
+
+    /*
+    *PERFIL DE USUARIOS
+    */
+    Route::post('/registro-perfiluser', [UsuariosController::class, 'registrar_perfil_usuario']);
+
+    /*
+    *PERMISOS DE USUARIO
+    */
+    Route::post('/permisos/registro_p_modulo', [PermisosController::class, 'registro_permisos_modulo']);
+    Route::post('/permisos/registro_ps_modulo', [PermisosController::class, 'registro_permisos_modulo_sinsub']);
+    Route::post('/permisos/registro_ps_submodulo', [PermisosController::class, 'registro_permisos_modulo_withsub']);
+
+    /*
+    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
+    */
+
+    /*
+    *MODULOS
+    */
+    Route::post('/registro-modulo', [ModulosController::class, 'registro_modulo']);
+
+     /*
+    *SUBMODULOS
+    */
+    Route::post('/registro-submodulo', [SubmodulosController::class, 'registro_submodulo']);
+
+    /*
+    *NOTIFICACIONES ADMINISTRADOR
+    */
+
+    /*
+    *ATENCION CIUDADANA
+    */
+    Route::post('/registrar-observacion-solicitud', [AtencionCiudadanaController::class, 'store_observacion']);
 });
 
 Route::middleware(['throttle:limit_admin_update'])->group(function () {
@@ -1235,6 +1251,57 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
     Route::post('/update-doclaboral', [DocLaboralController::class, 'update_doc_laboral']);
+
+    /*
+    *BIBLIOTECA VIRTUAL
+    */
+    Route::post('/actualizar-categoria', [BibliotecaVirtualController::class, 'actualizar_categoria']);
+    Route::post('/update-docvirtual', [BibliotecaVirtualController::class, 'update_doc_virtual']);
+    Route::post('/actualizar-subcategoria', [BibliotecaVirtualController::class, 'actualizar_subcategoria']);
+
+    /*
+    *LOGO INSTITUCIONAL
+    */
+
+    /*
+    *USUARIOS
+    */
+    Route::post('/update-usuario', [UsuariosController::class, 'update_usuario']);
+    Route::post('/update-password-usuario', [UsuariosController::class, 'update_password_usuario']);
+
+    /*
+    *PERFIL DE USUARIOS
+    */
+    Route::post('/actualizar-perfil-usuario', [UsuariosController::class, 'update_perfil_usuario']);
+
+    /*
+    *PERMISOS DE USUARIO
+    */
+
+    /*
+    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
+    */
+    Route::post('/permisos/actualizar', [AsignacionPermisoController::class, 'actualizarPermiso'])->name('permisos.actualizar');
+
+    /*
+    *MODULOS
+    */
+    Route::post('/actualizar-modulo', [ModulosController::class, 'actualizar_modulo']);
+
+     /*
+    *SUBMODULOS
+    */
+    Route::post('/actualizar-submodulo', [SubmodulosController::class, 'actualizar_submodulo']);
+
+    /*
+    *NOTIFICACIONES ADMINISTRADOR
+    */
+    Route::post('/actualizar_items_notificaciones', [NotificacionController::class, 'update_item_notificacion']);
+
+    /*
+    *ATENCION CIUDADANA
+    */
+    Route::post('/change-estado-solicitud', [AtencionCiudadanaController::class, 'change_estado']);
 });
 
 Route::middleware(['throttle:limit_admin_delete'])->group(function () {
@@ -1435,4 +1502,53 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     */
     Route::post('/in-activar-doclaboral', [DocLaboralController::class, 'inactivar_doc_laboral']);
     Route::post('/delete-doclaboral', [DocLaboralController::class, 'delete_doc_laboral']);
+
+    /*
+    *BIBLIOTECA VIRTUAL
+    */
+    Route::post('/in-activar-subcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_subcategoria']);
+    Route::post('/in-activar-filesubcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_filesubcategoria']);
+    Route::post('/delete-file-oncat', [BibliotecaVirtualController::class, 'delete_file_oncat']);
+
+    /*
+    *LOGO INSTITUCIONAL
+    */
+    Route::post('/in-activar-logo', [LogoController::class, 'inactivar_logo']);
+    Route::post('/delete-logo', [LogoController::class, 'delete_logo']);
+
+    /*
+    *USUARIOS
+    */
+    Route::post('/in-activar-usuario', [UsuariosController::class, 'inactivar_usuario']);
+
+    /*
+    *PERFIL DE USUARIOS
+    */
+    Route::post('/in-activar-profileuser', [UsuariosController::class, 'inactivar_perfil_usuario']);
+
+    /*
+    *PERMISOS DE USUARIO
+    */
+
+    /*
+    *ASIGNAR PERMISOS ROL CON MODULOS Y SUBMODULOS
+    */
+
+    /*
+    *MODULOS
+    */
+    Route::post('/in-activar-modulo', [ModulosController::class, 'inactivar_modulo']);
+
+     /*
+    *SUBMODULOS
+    */
+    Route::post('/in-activar-submodulo', [SubmodulosController::class, 'inactivar_submodulo']);
+
+    /*
+    *NOTIFICACIONES ADMINISTRADOR
+    */
+
+    /*
+    *ATENCION CIUDADANA
+    */
 });
