@@ -113,6 +113,7 @@
               @endphp
 
               <li class="nav-item">
+                @if ($first->mod_visible === 1 || $first->mod_visible === '1')
                 @if($submodulos->isEmpty())
                 <a href="{{ url(isset($first->ruta_modulo) ? $first->ruta_modulo : '#') }}" 
                     class="nav-link {{ isset($first->ruta_modulo) ? setActive($first->ruta_modulo) : '' }}">
@@ -141,6 +142,7 @@
                     </li>
                   @endforeach
                 </ul>
+                @endif
                 @endif
               </li>
             @endforeach

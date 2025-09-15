@@ -164,7 +164,7 @@ Admin | Medios de Verificación {{getNameInstitucion()}}
                 </optgroup>
               </select>
             </div>
-            <div class="form-group noevent">
+            <div class="form-group">
               <label for="inputETitulo">Título: <span class="spanlabel">70 caracteres máximo</span></label>
               <textarea class="form-control text-justify" id="inputETitulo" placeholder="Ingrese un título" 
                 maxlength="70">{{$p->titulo}}</textarea>

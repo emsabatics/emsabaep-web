@@ -237,6 +237,22 @@ class MediosVerificacionController extends Controller
         }
     }
 
+    public function update_texto_mediosv(Request $r){
+        $idmv= $r->idmv;
+        $titulo = $r->titulo;
+        $date = now();
+
+        $sql_update = DB::connection('mysql')->table('tab_mediosv')
+        ->where('id','=', $idmv)
+        ->update(['titulo'=> $titulo, 'updated_at'=> $date]);
+
+        if($sql_update){
+            return response()->json(["resultado"=> true]);
+        }else{
+            return response()->json(["resultado"=> false]);
+        }
+    }
+
     public function update_mediosv(Request $r){
         if ($r->hasFile('file') ) {
             $idmv= $r->idmv;

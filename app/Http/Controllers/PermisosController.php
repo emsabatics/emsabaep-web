@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use App\Services\PermisosService;
 use Carbon\Carbon;
 
 class PermisosController extends Controller
@@ -635,6 +637,7 @@ class PermisosController extends Controller
                 ->update(['estado'=> $estado, 'updated_at'=> $date]);
 
                 if($sql_update){
+                    $this->refreshCache($idu);
                     return response()->json(['resultado'=>true]);
                 }else{
                     return response()->json(['resultado'=>false]);
@@ -668,6 +671,8 @@ class PermisosController extends Controller
                                 'descargar'=> $descargar, 'configurar'=> $configurar, 'estado'=> $estado, 'updated_at'=> $date]);
                         }
                     }
+
+                    $this->refreshCache($idu);
                     return response()->json(['resultado'=>true]);
                 }else{
                     return response()->json(['resultado'=>false]);
@@ -679,6 +684,7 @@ class PermisosController extends Controller
             ) values (?,?,?)', [$idu, $idmodulo, $estado]);
             
             if($sql_insert){
+                $this->refreshCache($idu);
                 return response()->json(["resultado"=> true]);
             }else{
                 return response()->json(["resultado"=> false]);
@@ -739,6 +745,7 @@ class PermisosController extends Controller
                 }
 
                 if($sql_update){
+                    $this->refreshCache($idu);
                     return response()->json(['resultado'=>true]);
                 }else{
                     return response()->json(['resultado'=>false]);
@@ -781,6 +788,7 @@ class PermisosController extends Controller
                 }
 
                 if($sql_update){
+                    $this->refreshCache($idu);
                     return response()->json(['resultado'=>true]);
                 }else{
                     return response()->json(['resultado'=>false]);
@@ -853,6 +861,7 @@ class PermisosController extends Controller
                     }
 
                     if($sql_update){
+                        $this->refreshCache($idu);
                         return response()->json(['resultado'=>true]);
                     }else{
                         return response()->json(['resultado'=>false]);
@@ -900,6 +909,7 @@ class PermisosController extends Controller
                     }
 
                     if($sql_update){
+                        $this->refreshCache($idu);
                         return response()->json(['resultado'=>true]);
                     }else{
                         return response()->json(['resultado'=>false]);
@@ -939,6 +949,7 @@ class PermisosController extends Controller
                     }
 
                     if($sql_insert){
+                        $this->refreshCache($idu);
                         return response()->json(['resultado'=>true]);
                     }else{
                         return response()->json(['resultado'=>false]);
@@ -976,6 +987,7 @@ class PermisosController extends Controller
                     }
 
                     if($sql_insert){
+                        $this->refreshCache($idu);
                         return response()->json(['resultado'=>true]);
                     }else{
                         return response()->json(['resultado'=>false]);
@@ -1017,4 +1029,16 @@ class PermisosController extends Controller
             return redirect('/loginadmineep');
         }
     }
+
+    private function refreshCache($userId){
+        /*Cache::forget("permisos_user_{$userId}"); // limpiar por si acaso
+
+        Cache::remember("permisos_user_{$userId}", now()->addMinutes(30), function() use ($userId){
+           return app(PermisosService::class)->generarPermisos($userId);
+        });*/
+
+        app(PermisosService::class)->clearPermisos($userId);
+
+        app(PermisosService::class)->generarPermisos($userId);
+    }   
 }

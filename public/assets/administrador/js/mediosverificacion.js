@@ -303,7 +303,7 @@ function guardarMediosV(){
                 data.append("anio", year);
                 data.append("objeto", JSON.stringify(objeto));
                 setTimeout(() => {
-                    sendNewMediosV(token, data, "/store-mediosv", element, '#modalFullSend'); 
+                    sendNewMediosV(token, data, "/store-mediosv", element, '#modalFullSend', 'registro'); 
                 }, 900);
                 }else{
                     swal('No tiene permiso para guardar','','error');
@@ -321,7 +321,7 @@ function guardarMediosV(){
 }
 
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
-function sendNewMediosV(token, data, url, el, modalname){
+function sendNewMediosV(token, data, url, el, modalname, tipo){
     var contentType = "application/x-www-form-urlencoded;charset=utf-8";
     var xr = new XMLHttpRequest();
     xr.open('POST', url, true);
@@ -346,7 +346,14 @@ function sendNewMediosV(token, data, url, el, modalname){
                     el.removeAttribute("disabled");
                     el.style.removeProperty("pointer-events");
                     //urlback();
-                    window.location='/registrar_mediosv';
+                    if(tipo=='registro'){
+                        window.location='/registrar_mediosv';
+                    }else if(tipo=='updatetexto'){
+                        var url = window.location.href;
+                        window.location=url;
+                    }else if(tipo=='updatefile'){
+                        window.location=url;
+                    }
                 },1500);
             }else if(myArr.resultado==false){
                 el.removeAttribute("disabled");
@@ -383,6 +390,32 @@ function sendNewMediosV(token, data, url, el, modalname){
         }
     };
     xr.send(data);
+}
+
+function updateonlytextnews(){
+    var token = $('#token').val();
+    var idmedio = $('#idmediosv').val();
+    var titulo = $('#inputETitulo').val();
+
+    if(titulo==''){
+        $('#inputETitulo').focus();
+        swal('Por favor ingrese un título','','warning');
+    }else{
+        if(puedeActualizarSM(nameInterfaz) === 'si'){
+            var element = document.querySelector('.btn-set2');
+            element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";
+            $('#modalFullSendEdit').modal('show');
+            var data = new FormData(formEMediosV);
+            data.append("idmv", idmedio);
+            data.append("titulo", titulo);
+            setTimeout(() => {
+                sendNewMediosV(token, data, "/update-texto-mediosv", element, '#modalFullSendEdit','updatetexto'); 
+            }, 900);
+        }else{
+            swal('No tiene permiso para actualizar','','error');
+        }
+    }
 }
 
 function cleanObject(){
@@ -511,7 +544,7 @@ function updatefilesmediosv(e){
                 data.append("idmv", idmv);
                 data.append("objeto", JSON.stringify(objeto));
                 setTimeout(() => {
-                    sendNewMediosV(token, data, "/update-mediosv", element, '#modalFullSendEdit'); 
+                    sendNewMediosV(token, data, "/update-mediosv", element, '#modalFullSendEdit', 'updatefile'); 
                 }, 900);
                 }else{
                     swal('No tiene permiso para actualizar','','error');

@@ -119,9 +119,11 @@ class RouteServiceProvider extends ServiceProvider
                 return response()->view('Errores.429_user', [], 429);
             });
         });
-
+/******************************************************************************************************************************/
+// RUTAS DE ADMINISTRACIÓN
+/******************************************************************************************************************************/
         RateLimiter::for('limit_admin_view', function (Request $request) {
-            return Limit::perMinute(250)->by(optional($request->user())->id ?: $request->ip())
+            return Limit::perMinute(100)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429', [], 429);
@@ -129,7 +131,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('limit_admin_select', function (Request $request) {
-            return Limit::perMinute(300)->by(optional($request->user())->id ?: $request->ip())
+            return Limit::perMinute(150)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429', [], 429);
@@ -137,7 +139,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('limit_admin_insert', function (Request $request) {
-            return Limit::perMinute(200)->by(optional($request->user())->id ?: $request->ip())
+            return Limit::perMinute(150)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429', [], 429);
@@ -145,7 +147,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('limit_admin_update', function (Request $request) {
-            return Limit::perMinute(200)->by(optional($request->user())->id ?: $request->ip())
+            return Limit::perMinute(150)->by(optional($request->user())->id ?: $request->ip())
             ->response(function (){
                 //return response('Ha excedido el número de intentos', 429);
                 return response()->view('Errores.429', [], 429);

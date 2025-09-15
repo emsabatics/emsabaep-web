@@ -259,7 +259,7 @@ Route::middleware(['throttle:cont_admin_query_login'])->group(function () {
 
 /*Route::middleware(['throttle:cont_admin_query'])->group(function () {});*/
 
-Route::middleware(['throttle:limit_admin_view'])->group(function () {
+Route::middleware(['checkruta', 'throttle:limit_admin_view'])->group(function () {
     /*
     *HOME
     */
@@ -269,19 +269,17 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *NOTICIAS
     */
     Route::get('/registrar_noticia', [NoticiasController::class, 'registrar_noticia'])->name('registrar_noticia');
-    //Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias');
     Route::get('/listado-noticias', [NoticiasController::class, 'list_noticias'])->name('listado-noticias');
-    
-
-    /*
-    *ATENCIÓN CIUDADANA
-    */
-    Route::get('/atencion-ciudadana', [AtencionCiudadanaController::class, 'index'])->name('atencion-ciudadana');
 
     /*
     *EVENTOS
     */
     Route::get('/eventos', [EventCalendarController::class, 'index'])->name('eventos');
+
+    /*
+    *ATENCIÓN CIUDADANA
+    */
+    Route::get('/atencion-ciudadana', [AtencionCiudadanaController::class, 'index'])->name('atencion-ciudadana');
 
     /*
     *RED SOCIAL
@@ -293,9 +291,91 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *CONTACTOS
     */
     Route::get('/contactos', [ContactController::class, 'index'])->name('contactos');
-    Route::get('/interface-reg-contacto', [ContactController::class, 'open_interface_registro']);
-    Route::get('/interface-reg-location', [ContactController::class, 'open_interface_location']);
-    Route::get('/interface-update-location/{id}/{tipo}', [ContactController::class, 'open_interface_update_location']);
+
+    /*
+    *SERVICIOS
+    */
+    Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios');
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::get('/auditoria-interna', [AuditoriaController::class, 'index'])->name('auditoria-interna');
+
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::get('/leyes', [DocumentosController::class, 'leyes_index'])->name('leyes');
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::get('/ley-transparencia', [LeyTransparenciaController::class, 'index'])->name('ley-transparencia');
+
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::get('/lotaip', [LotaipController::class, 'index_lotaip'])->name('lotaip');
+
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+    Route::get('/lotaip-v2', [LotaipController::class, 'index_lotaip_v2'])->name('lotaip-v2');
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::get('/medios-verificacion', [MediosVerificacionController::class, 'index'])->name('medios-verificacion');
+
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::get('/pac', [DocumentosController::class, 'pac_index'])->name('pac');
+
+    /*
+    *DOCUMENTOS - POA
+    */
+    Route::get('/poa', [DocumentosController::class, 'poa_index'])->name('poa');
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::get('/pliego-tarifario', [PliegoTarifarioController::class, 'index'])->name('pliego-tarifario');
+
+    /*
+    *DOCUMENTOS - PROCESO CONTRATACION
+    */
+    Route::get('/proceso-contratacion', [DocumentosController::class, 'procesoc_index'])->name('proceso-contratacion');
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::get('/rendicion-cuentas', [RendicionCuentasController::class, 'index'])->name('rendicion-cuentas');
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::get('/docadministrativo', [DocAdministrativoController::class, 'index'])->name('docadministrativo');
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::get('/docfinanciero', [DocFinancieroController::class, 'index'])->name('docfinanciero');
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::get('/docoperativo', [DocOperativoController::class, 'index'])->name('docoperativo');
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::get('/doclaboral', [DocLaboralController::class, 'index'])->name('doclaboral');
+
+    /*
+    *BIBLIOTECA VIRTUAL
+    */
+    Route::get('/library-externo', [BibliotecaVirtualController::class, 'index'])->name('library-externo');
 
     /*
     *AÑOS
@@ -303,14 +383,14 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/anio', [DateController::class, 'index'])->name('anio');
 
     /*
-    *LITERALES LOTAIP
-    */
-    Route::get('/setting-lotaip', [LotaipController::class, 'index'])->name('setting-lotaip');
-
-    /*
     *ARTICULOS LOTAIP
     */
     Route::get('/articles-lotaip', [LotaipController::class, 'index_artlotaip'])->name('articles-lotaip');
+
+    /*
+    *LITERALES LOTAIP
+    */
+    Route::get('/setting-lotaip', [LotaipController::class, 'index'])->name('setting-lotaip');
 
     /*
     *OPCIONES LOTAIP
@@ -321,13 +401,16 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *BANNER
     */
     Route::get('/banner', [BannerController::class, 'index'])->name('banner');
-    Route::get('/registro-banner', [BannerController::class, 'registro_banner']);
 
     /*
     *IMG INFOR CUENTA
     */
     Route::get('/settings_infor_detaill_cuenta_view', [ContactController::class, 'index_settings_count'])->name('settings_infor_detaill_cuenta_view');
-    Route::get('/registro-files-cuenta', [ContactController::class, 'registro_files_cuenta']);
+
+    /*
+    *LOGO INSTITUCIONAL
+    */
+    Route::get('/logo-institucion', [LogoController::class, 'index'])->name('logo-institucion');
 
     /*
     *ABOUT
@@ -338,7 +421,6 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *MISION-VISION-VALORES-OBJETIVOS
     */
     Route::get('/mi-vi-va-ob', [MiViVaObController::class, 'index'])->name('mi-vi-va-ob');
-    Route::get('/get_mivivaob', [MiViVaObController::class, 'get_data']);
 
     /*
     *ESTRUCTURA
@@ -349,121 +431,26 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *HISTORIA
     */
     Route::get('/historia', [HistoriaController::class, 'index'])->name('historia');
-    Route::get('/add-historia', [HistoriaController::class, 'store_history']);
-    Route::get('/update-historia', [HistoriaController::class, 'add_history']);
 
     /*
     *DEPARTAMENTOS
     */
     Route::get('/departamentos', [DepartamentoController::class, 'index'])->name('departamentos');
-    Route::get('/registrar-departamento', [DepartamentoController::class, 'add_departamento']);
-    Route::get('/registrar-info-departamento', [DepartamentoController::class, 'add_info_departamento']);
-
-    /*
-    *SERVICIOS
-    */
-    Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios');
-    Route::get('/registrar_servicio', [ServiciosController::class, 'registrar_servicio']);
-
-    /*
-    *DOCUMENTOS - POA
-    */
-    Route::get('/poa', [DocumentosController::class, 'poa_index'])->name('poa');
-    Route::get('/registrar_poa', [DocumentosController::class, 'poa_register']);
-
-    /*
-    *DOCUMENTOS - PAC
-    */
-    Route::get('/pac', [DocumentosController::class, 'pac_index'])->name('pac');
-    Route::get('/registrar_pac', [DocumentosController::class, 'pac_register']);
-
-    /*
-    *DOCUMENTOS LOTAIP
-    */
-    Route::get('/lotaip', [LotaipController::class, 'index_lotaip'])->name('lotaip');
-    Route::get('/registrar-lotaip', [LotaipController::class, 'registro_lotaip']);
-
-    /*
-    *DOCUMENTOS LOTAIP V2
-    */
-    Route::get('/lotaip-v2', [LotaipController::class, 'index_lotaip_v2'])->name('lotaip-v2');
-    Route::get('/register-lotaip-v2', [LotaipController::class, 'register_lotaip_v2']);
-
-    /*
-    *DOCUMENTOS - PROCESO CONTRATACION
-    */
-    Route::get('/proceso-contratacion', [DocumentosController::class, 'procesoc_index'])->name('proceso-contratacion');
-
-    /*
-    *DOCUMENTOS - REGLAMENTOS
-    */
-    Route::get('/leyes', [DocumentosController::class, 'leyes_index'])->name('leyes');
-    Route::get('/registrar_ley', [DocumentosController::class, 'ley_register']);
-
-    /*
-    *DOCUMENTOS - LEY DE TRANSPARENCIA
-    */
-    Route::get('/ley-transparencia', [LeyTransparenciaController::class, 'index'])->name('ley-transparencia');
-    Route::get('/add-ley-transparencia', [LeyTransparenciaController::class, 'add_ley_transparencia']);
-
-    /*
-    *DOCUMENTOS RENDICION DE CUENTAS
-    */
-    Route::get('/rendicion-cuentas', [RendicionCuentasController::class, 'index'])->name('rendicion-cuentas');
-    Route::get('/registrar-rendicionc', [RendicionCuentasController::class, 'registro_rendicionc']);
-
-    /*
-    *DOCUMENTOS - PLIEGO TARIFARIO
-    */
-    Route::get('/pliego-tarifario', [PliegoTarifarioController::class, 'index'])->name('pliego-tarifario');
-    Route::get('/registrar_pliego', [PliegoTarifarioController::class, 'pliego_register']);
-
-    /*
-    *DOCUMENTOS - AUDITORIA
-    */
-    Route::get('/auditoria-interna', [AuditoriaController::class, 'index'])->name('auditoria-interna');
-    Route::get('/registrar_auditoria', [AuditoriaController::class, 'auditoria_register']);
-
-    /*
-    *DOCUMENTOS - MEDIOS VERIFICACION
-    */
-    Route::get('/medios-verificacion', [MediosVerificacionController::class, 'index'])->name('medios-verificacion');
-    Route::get('/registrar_mediosv', [MediosVerificacionController::class, 'mediosv_register']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
-    */
-    Route::get('/docadministrativo', [DocAdministrativoController::class, 'index'])->name('docadministrativo');
-    Route::get('/registrar_doc_administrativo', [DocAdministrativoController::class, 'doc_administrativo_register']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
-    */
-    Route::get('/docfinanciero', [DocFinancieroController::class, 'index'])->name('docfinanciero');
-    Route::get('/registrar_doc_financiero', [DocFinancieroController::class, 'doc_financiero_register']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
-    */
-    Route::get('/docoperativo', [DocOperativoController::class, 'index'])->name('docoperativo');
-    Route::get('/registrar_doc_operativo', [DocOperativoController::class, 'doc_operativo_register']);
-
-    /*
-    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
-    */
-    Route::get('/doclaboral', [DocLaboralController::class, 'index'])->name('doclaboral');
-    Route::get('/registrar_doc_laboral', [DocLaboralController::class, 'doc_laboral_register']);
-
-    /*
-    *PERFIL DE USUARIOS
-    */
-    Route::get('/perfil-usuario', [UsuariosController::class, 'index_perfil_usuario'])->name('perfil-usuario');
 
     /*
     *USUARIOS
     */
     Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
-    Route::get('/registrar-new-usuario', [UsuariosController::class, 'registrar_usuario']);
+
+    /*
+    *PERFIL DE USUARIOS
+    */
+    Route::get('/perfil-usuario', [UsuariosController::class, 'index_perfil_usuario'])->name('perfil-usuario');
+    
+    /*
+    *PERMISOS USUARIO
+    */
+    Route::get('/permisos-usuario', [PermisosController::class, 'index'])->name('permisos-usuario');
 
     /*
     *PERFIL DE USUARIOS
@@ -474,6 +461,137 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *NOTIFICACIONES ADMINISTRADOR
     */
     Route::get('/all-notifications', [NotificacionController::class, 'index'])->name('all-notifications');
+});
+
+Route::middleware(['throttle:limit_admin_view'])->group(function () {
+    /*
+    *NOTICIAS
+    */
+    //Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias');
+
+    /*
+    *RED SOCIAL
+    */
+    Route::get('/agg-red-social', [RedSocialController::class, 'redsocial'])->name('agg-red-social');
+
+
+    /*
+    *CONTACTOS
+    */
+    Route::get('/interface-reg-contacto', [ContactController::class, 'open_interface_registro']);
+    Route::get('/interface-reg-location', [ContactController::class, 'open_interface_location']);
+    Route::get('/interface-update-location/{id}/{tipo}', [ContactController::class, 'open_interface_update_location']);
+
+    /*
+    *BANNER
+    */
+    Route::get('/registro-banner', [BannerController::class, 'registro_banner']);
+
+    /*
+    *IMG INFOR CUENTA
+    */
+    Route::get('/registro-files-cuenta', [ContactController::class, 'registro_files_cuenta']);
+
+    /*
+    *MISION-VISION-VALORES-OBJETIVOS
+    */
+    Route::get('/get_mivivaob', [MiViVaObController::class, 'get_data']);
+
+    /*
+    *HISTORIA
+    */
+    Route::get('/add-historia', [HistoriaController::class, 'store_history']);
+    Route::get('/update-historia', [HistoriaController::class, 'add_history']);
+
+    /*
+    *DEPARTAMENTOS
+    */
+    Route::get('/registrar-departamento', [DepartamentoController::class, 'add_departamento']);
+    Route::get('/registrar-info-departamento', [DepartamentoController::class, 'add_info_departamento']);
+
+    /*
+    *SERVICIOS
+    */
+    Route::get('/registrar_servicio', [ServiciosController::class, 'registrar_servicio']);
+
+    /*
+    *DOCUMENTOS - POA
+    */
+    Route::get('/registrar_poa', [DocumentosController::class, 'poa_register']);
+
+    /*
+    *DOCUMENTOS - PAC
+    */
+    Route::get('/registrar_pac', [DocumentosController::class, 'pac_register']);
+
+    /*
+    *DOCUMENTOS LOTAIP
+    */
+    Route::get('/registrar-lotaip', [LotaipController::class, 'registro_lotaip']);
+
+    /*
+    *DOCUMENTOS LOTAIP V2
+    */
+    Route::get('/register-lotaip-v2', [LotaipController::class, 'register_lotaip_v2']);
+
+    /*
+    *DOCUMENTOS - REGLAMENTOS
+    */
+    Route::get('/registrar_ley', [DocumentosController::class, 'ley_register']);
+
+    /*
+    *DOCUMENTOS - LEY DE TRANSPARENCIA
+    */
+    Route::get('/add-ley-transparencia', [LeyTransparenciaController::class, 'add_ley_transparencia']);
+
+    /*
+    *DOCUMENTOS RENDICION DE CUENTAS
+    */
+    Route::get('/registrar-rendicionc', [RendicionCuentasController::class, 'registro_rendicionc']);
+
+    /*
+    *DOCUMENTOS - PLIEGO TARIFARIO
+    */
+    Route::get('/registrar_pliego', [PliegoTarifarioController::class, 'pliego_register']);
+
+    /*
+    *DOCUMENTOS - AUDITORIA
+    */
+    Route::get('/registrar_auditoria', [AuditoriaController::class, 'auditoria_register']);
+
+    /*
+    *DOCUMENTOS - MEDIOS VERIFICACION
+    */
+    Route::get('/registrar_mediosv', [MediosVerificacionController::class, 'mediosv_register']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
+    */
+    Route::get('/registrar_doc_administrativo', [DocAdministrativoController::class, 'doc_administrativo_register']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
+    */
+    Route::get('/registrar_doc_financiero', [DocFinancieroController::class, 'doc_financiero_register']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
+    */
+    Route::get('/registrar_doc_operativo', [DocOperativoController::class, 'doc_operativo_register']);
+
+    /*
+    *DOCUMENTACIÓN - DOCUMENTOS LABORAL
+    */
+    Route::get('/registrar_doc_laboral', [DocLaboralController::class, 'doc_laboral_register']);
+
+    /*
+    *USUARIOS
+    */
+    Route::get('/registrar-new-usuario', [UsuariosController::class, 'registrar_usuario']);
+    
+    /*
+    *NOTIFICACIONES ADMINISTRADOR
+    */
     Route::get('/get-notificacion', [NotificacionController::class, 'get_notificacion']);
     Route::get('/get-all-notificacion', [NotificacionController::class, 'get_all_notificacion']);
     Route::get('/get-today-notificacion', [NotificacionController::class, 'get_today_notificacion']);
@@ -481,14 +599,8 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/get-contador-notificacion', [NotificacionController::class, 'get_contador_notificacion']);
 
     /*
-    *BIBLIOTECA VIRTUAL
-    */
-    Route::get('/library-externo', [BibliotecaVirtualController::class, 'index'])->name('library-externo');
-
-    /*
     *LOGO INSTITUCIONAL
     */
-    Route::get('/logo-institucion', [LogoController::class, 'index'])->name('logo-institucion');
     Route::get('/registrar-logo', [LogoController::class, 'registrar_logo']);
 
     Route::get('/logo/get-logos', [LogoController::class, 'get_logos']);
@@ -503,11 +615,6 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *SUBMODULOS
     */
     Route::get('/submodulos', [SubmodulosController::class, 'index'])->name('submodulos');
-
-    /*
-    *PERMISOS USUARIO
-    */
-    Route::get('/permisos-usuario', [PermisosController::class, 'index'])->name('permisos-usuario');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {
@@ -1231,6 +1338,7 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     *DOCUMENTOS - MEDIOS VERIFICACION
     */
     Route::post('/update-mediosv', [MediosVerificacionController::class, 'update_mediosv']);
+    Route::post('/update-texto-mediosv', [MediosVerificacionController::class, 'update_texto_mediosv']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO

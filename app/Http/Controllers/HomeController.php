@@ -18,14 +18,14 @@ class HomeController extends Controller
     public function index()
     {
         if(Session::get('usuario')){
-            //return response()->view('Administrador.home');
+            return response()->view('Administrador.home');
 
-            $userId = $this->getIdUser();
+            //$userId = $this->getIdUser();
 
-            $permisos = DB::table('tab_permisos as p')
+            /*$permisos = DB::table('tab_permisos as p')
                 ->join('tab_modulo as m', 'm.id', '=', 'p.idmodulo')
                 ->leftJoin('tab_submodulo as s', 's.id', '=', 'p.idsubmodulo')  // LEFT JOIN
-                ->where('p.idusuario', $userId)
+                ->where('p.idusuario', '=',$userId)
                 ->where('m.estado_vis_novis','=', '1')
                 ->orWhere('s.estado_vis_novis','=','1')
                 ->select(
@@ -44,8 +44,29 @@ class HomeController extends Controller
                 )
                 ->orderBy('m.id')
                 ->orderBy('s.id')
-                ->get();
-
+                ->get();*/
+            /*
+            //VALE
+            $userId = $this->getIdUser();
+            
+            $permisos = DB::connection('mysql')->select('SELECT 
+                m.id AS idmodulo,
+                m.nombre AS modulo,
+                m.estado_vis_novis AS mod_visible,
+                m.icono,
+                s.id AS idsubmodulo,
+                s.submodulo,
+                s.estado_vis_novis AS submod_visible,
+                p.guardar,
+                p.actualizar,
+                p.eliminar,
+                p.descargar,
+                p.configurar
+            FROM tab_permisos p
+            INNER JOIN tab_modulo m ON m.id = p.idmodulo
+            LEFT JOIN tab_submodulo s ON s.id = p.idsubmodulo
+            WHERE p.idusuario = ?', [$userId]);
+            
             // 2. Cargar JSON de rutas
             $menuJson = json_decode(Storage::get('menu_config.json'), true);
 
@@ -65,7 +86,9 @@ class HomeController extends Controller
                         }
                     }
                 }
-            }
+            }*/
+
+            /*$permisos = collect($permisos);
 
             // 4. Variables para JS — permisos agrupados por submódulo
             $permisosJS = $permisos->map(function ($item) {
@@ -78,12 +101,27 @@ class HomeController extends Controller
                     'descargar' => $item->descargar,
                     'configurar' => $item->configurar
                 ];
-            });
+            });*/
 
-            return $permisos;
+            /*
+            //VALE
+            $permisosJS = array_map(function ($item) {
+                return [
+                    'modulo' => $item->modulo,
+                    'submodulo' => $item->submodulo,
+                    'guardar' => $item->guardar,
+                    'actualizar' => $item->actualizar,
+                    'eliminar' => $item->eliminar,
+                    'descargar' => $item->descargar,
+                    'configurar' => $item->configurar
+                ];
+            }, $permisos);
+
+            return $permisos;*/
         }else{
-            return redirect('/loginadmineep');
+            //return redirect('/loginadmineep');
             //return redirect()->to('/loginadmineep');
+            return response()->view('Errores.403', [], 403);
         }
         //return response()->view('Administrador.home');
     }
@@ -101,70 +139,5 @@ class HomeController extends Controller
 
         return $iduser;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

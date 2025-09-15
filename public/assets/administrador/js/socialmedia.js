@@ -57,7 +57,11 @@ function openmodalAdd() {
 }
 
 function addRedSocial(){
+    if(puedeConfigurarM(nameInterfaz) === 'si'){
     window.location='/agg-red-social';
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }
 
 //FUNCION QUE TRANSFORMA EL PRIMER CARACTER DEL SELECT2 EN MAYÚSCULA

@@ -198,6 +198,7 @@ function interfaceupdateService(id){
 
 /* FUNCION PARA INACTIVAR SERVICIO */
 function inactivarService(id, i){
+    console.log(document.getElementById('Tr'+i).cells[5]);
     var token=$('#token').val();
     var estado = "0";
     var estadoItem='No Visible';
@@ -231,6 +232,8 @@ function inactivarService(id, i){
             },
             success: function (res) {
                 if (res.resultado == true) {
+                    var tiposervice = res.tipo;
+
                     swal({
                         title: "Excelente!",
                         text: "Registro Inactivado",
@@ -242,7 +245,12 @@ function inactivarService(id, i){
                     setTimeout(function () {
                     var elementState= document.getElementById('Tr'+i).cells[3];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
-
+                    if(tiposervice=='interno'){
+                        html+="<button type='button' class='btn btn-success btn-sm mt-2 mr-3 btntable' title='Subservicios' onclick='registerSubService("+id+")'>"+
+                            "<i class='fas fa-folder-plus mr-2'></i>"+
+                            "Subservicios"+
+                        "</button>";
+                    }
                     html+="<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateService("+id+")'>"+
                         "<i class='far fa-edit mr-2'></i>"+
                         "Actualizar"+
@@ -258,6 +266,10 @@ function inactivarService(id, i){
                                 "Activar"+
                             "</button>";
                     }
+                    html+="<button type='button' class='btn btn-danger btn-sm mt-2 mr-3 btntable' title='Eliminar' onclick='eliminarService("+id+", "+i+")'>"+
+                        "<i class='fas fa-trash mr-2'></i>"+
+                        "Eliminar"+
+                    "</button>";
                     var element= document.getElementById('Tr'+i).cells[4];
                     $(element).html(html);
                     }, 1500);
@@ -292,6 +304,7 @@ function activarService(id, i){
       },
       success: function (res) {
         if (res.resultado == true) {
+            var tiposervice = res.tipo;
             swal({
                 title: "Excelente!",
                 text: "Registro Activado",
@@ -303,6 +316,12 @@ function activarService(id, i){
             setTimeout(function () {
             var elementState= document.getElementById('Tr'+i).cells[3];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
+            if(tiposervice=='interno'){
+                html+="<button type='button' class='btn btn-success btn-sm mt-2 mr-3 btntable' title='Subservicios' onclick='registerSubService("+id+")'>"+
+                "<i class='fas fa-folder-plus mr-2'></i>"+
+                "Subservicios"+
+                "</button>";
+            }
 
             html+="<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateService("+id+")'>"+
                 "<i class='far fa-edit mr-2'></i>"+
@@ -319,6 +338,11 @@ function activarService(id, i){
                 "Activar"+
             "</button>";
             }
+            html+="<button type='button' class='btn btn-danger btn-sm mt-2 mr-3 btntable' title='Eliminar' onclick='eliminarService("+id+", "+i+")'>"+
+                "<i class='fas fa-trash mr-2'></i>"+
+                "Eliminar"+
+            "</button>";
+
             var element= document.getElementById('Tr'+i).cells[4];
             $(element).html(html);
             }, 1500);

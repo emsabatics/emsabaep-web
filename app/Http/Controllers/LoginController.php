@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Biscolab\ReCaptcha\Facades\ReCaptcha;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use App\Services\PermisosService;
 
 
 class LoginController extends Controller
@@ -17,10 +20,11 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         if(Session::get('usuario')){
-            return redirect()->route('home');
+            //return redirect()->route('home');
         }else{
             return response()->view('Administrador.login');
         }
@@ -68,6 +72,9 @@ class LoginController extends Controller
                             $request->session()->put('nombre_usuario', $usuario->nombre_usuario);
                             $request->session()->put('tipo_usuario', $usuario->tipo);
                         }
+
+                        // Esto fuerza a que se carguen los permisos en cache
+                        app(PermisosService::class)->generarPermisos($this->getIdUser());
                         return response()->json(['respuesta'=> true, 'usuario' => Session::get('usuario')]);
                     }else{
                         return response()->json(['clave'=> false]);
@@ -136,75 +143,46 @@ class LoginController extends Controller
             return response()->json(['usuario'=> false]);
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     public function cerrar_sesion(){
+        
+        $userId = $this->getIdUser();
+        
         Session::flush();
+
+        // Eliminar cache de permisos
+        //Cache::forget("permisos_user_{$userId}");
+        app(PermisosService::class)->clearPermisos($userId);
+
         return redirect()->to('/loginadmineep');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    private function getIdUser(){
+        $user = Session::get('usuario');
+
+        $sql = DB::connection('mysql')->table('users')->select('id')->where('user','=', $user)->get();
+
+        $iduser = 0;
+
+        foreach($sql as $s){
+            $iduser = $s->id;
+        }
+
+        return $iduser;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    private function completeCache(PermisosService $permiso){
+        $userId = $this->getIdUser();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        /*Cache::forget("permisos_user_{$userId}"); // limpiar por si acaso
+
+        $permisos = app(PermisosService::class)->generarPermisos($userId);ot
+        Cache::put("permisos_user_{$userId}", $permisos, now()->addMinutes(30));
+
+        Cache::remember("permisos_user_{$userId}", now()->addMinutes(30), function() use ($userId){
+           return app(PermisosService::class)->generarPermisos($userId);
+        });*/
+    }    
 }

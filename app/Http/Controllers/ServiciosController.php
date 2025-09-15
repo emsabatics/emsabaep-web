@@ -130,10 +130,23 @@ class ServiciosController extends Controller
                 ->update(['estado' => $estado, 'updated_at'=> $date]);
 
         if($sql_update){
-            return response()->json(['resultado'=> true]);
+            $tipo= $this->getTipoService($id);
+            return response()->json(['resultado'=> true, 'tipo'=> $tipo]);
         }else{
             return response()->json(['resultado'=> false]);
         }
+    }
+
+    private function getTipoService($id){
+        $resultado='';
+
+        $sql= DB::connection('mysql')->select('SELECT tipo FROM tab_servicios WHERE id=?', [$id]);
+
+        foreach($sql as $s){
+            $resultado= $s->tipo;
+        }
+        
+        return $resultado;
     }
 
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR SERVICIO
