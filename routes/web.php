@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AsignacionPermisoController;
+use App\Http\Controllers\BannerAlcaldiaController;
 use App\Http\Controllers\BibliotecaVirtualController;
 use App\Http\Controllers\DocAdministrativoController;
 use App\Http\Controllers\DocFinancieroController;
@@ -403,6 +404,11 @@ Route::middleware(['checkruta', 'throttle:limit_admin_view'])->group(function ()
     Route::get('/banner', [BannerController::class, 'index'])->name('banner');
 
     /*
+    *BANNER ALCALDIA
+    */
+    Route::get('/banner-alcaldia', [BannerAlcaldiaController::class, 'index'])->name('banner-alcaldia');
+
+    /*
     *IMG INFOR CUENTA
     */
     Route::get('/settings_infor_detaill_cuenta_view', [ContactController::class, 'index_settings_count'])->name('settings_infor_detaill_cuenta_view');
@@ -486,6 +492,11 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *BANNER
     */
     Route::get('/registro-banner', [BannerController::class, 'registro_banner']);
+
+    /*
+    *BANNER ALCALDIA
+    */
+    Route::get('/registro-banner-alcaldia', [BannerAlcaldiaController::class, 'registro_banner_alcaldia']);
 
     /*
     *IMG INFOR CUENTA
@@ -669,6 +680,11 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     *BANNER
     */
     Route::get('/download-banner/{id}', [BannerController::class, 'download_banner']);
+
+    /*
+    *BANNER ALCALDIA
+    */
+    Route::get('/download-banner-alcaldia/{id}', [BannerAlcaldiaController::class, 'download_banner_alcaldia']);
 
     /*
     *IMG INFOR CUENTA
@@ -966,6 +982,12 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     */
     Route::post('/banner/registro-banner', [BannerController::class, 'store_banner']);
     Route::post('/banner/registro-orden-banner', [BannerController::class, 'registro_orden_banner']);
+
+    /*
+    *BANNER ALCALDIA
+    */
+    Route::post('/banner/registro-banner-alcaldia', [BannerAlcaldiaController::class, 'store_banner_alcaldia']);
+    Route::post('/banner/registro-orden-banner-alcaldia', [BannerAlcaldiaController::class, 'registro_orden_banner_alcaldia']);
 
     /*
     *IMG INFOR CUENTA
@@ -1460,6 +1482,12 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     */
     Route::post('/in-activar-banner', [BannerController::class, 'inactivar_banner']);
     Route::post('/delete-banner', [BannerController::class, 'delete_banner']);
+
+    /*
+    *BANNER ALCALDIA
+    */
+    Route::post('/in-activar-banner-alcaldia', [BannerAlcaldiaController::class, 'inactivar_banner_alcaldia']);
+    Route::post('/delete-banner-alcaldia', [BannerAlcaldiaController::class, 'delete_banner_alcaldia']);
 
     /*
     *IMG INFOR CUENTA

@@ -65,7 +65,7 @@ class HomeController extends Controller
             FROM tab_permisos p
             INNER JOIN tab_modulo m ON m.id = p.idmodulo
             LEFT JOIN tab_submodulo s ON s.id = p.idsubmodulo
-            WHERE p.idusuario = ?', [$userId]);
+            WHERE p.idusuario = ? ORDER BY m.nivel_prioridad ASC', [$userId]);
             
             // 2. Cargar JSON de rutas
             $menuJson = json_decode(Storage::get('menu_config.json'), true);

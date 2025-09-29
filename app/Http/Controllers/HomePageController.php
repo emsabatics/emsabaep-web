@@ -60,10 +60,34 @@ class HomePageController extends Controller
         return $servicios;
     }
 
+    private function setBox($total){
+        $cajas= 0;
+        switch($total){
+            case 1:  $cajas= 12;
+                break;
+            case 2:  $cajas= 6;
+                break;
+            case 3:  $cajas= 4;
+                break;
+            case 4:  $cajas= 4;
+                break;
+            case 5:  $cajas= 4;
+                break;
+            case 6:  $cajas= 4;
+                break;
+            default: 
+                break;
+        } 
+        return $cajas; 
+    }
+
     public function index()
     {
         $sql_banner= DB::connection('mysql')->table('tab_img_banner')->where('estado','1')->orderBy('orden')->get();
-        
+        $sql_banner_alcaldia= DB::connection('mysql')->table('tab_img_banner_alcaldia')->where('estado','1')->orderBy('orden')->get();
+        $contar_alcaldia = $sql_banner_alcaldia->count();
+        $ncol = $this->setBox($contar_alcaldia);
+
         $about = DB::table('tab_about_institucion')->where('estado','1')->get();
         $arab= array();
         foreach ($about as $ab){
@@ -134,7 +158,7 @@ class HomePageController extends Controller
         return response()->view('Viewmain.inicio', ['banner'=> $sql_banner, 'about'=> $arab, 'noticias'=> $arnew, 
             'contactos'=> $contactos, 'boletines'=> $sql_eventos, 
             'diacivico'=> $diacivico, 'comunicado'=> $comunicado, 'aviso'=> $aviso, 'ccuadrado'=> $coun_squeare, 'crectangulo'=> $coun_rectangle,
-            'servicios'=> $servicios]);
+            'servicios'=> $servicios, 'banner_alcaldia'=> $sql_banner_alcaldia, 'ncol'=> $ncol]);
     }
 
     public function our_services(){

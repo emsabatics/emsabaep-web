@@ -5,6 +5,7 @@
 <link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 <link href="{{asset('assets/viewmain/css/servicestyle.css')}}" rel="stylesheet">
 <link href="{{asset('assets/viewmain/css/formatnews.css')}}" rel="stylesheet">
+<link href="{{asset('assets/viewmain/css/clientes.css')}}" rel="stylesheet">
 @endsection
 
 @php
@@ -474,6 +475,22 @@
     </div>
 </div>
 <!-- Noticias End -->
+
+<!--Alcaldia Start-->
+<div class="container-fluid alcaldia blog py-2">
+    <div class="container py-5">
+        <div class="row no-gutters alcaldia-wrap clearfix wow fadeInUp">
+            @foreach ($banner_alcaldia as $ba)
+                <div class="col-lg-{{$ncol}} col-md-4 col-xs-6">
+                    <div class="alcaldia-logo">
+                    <img src="/banner-alcaldia-img/{{$ba->imagen}}" class="img-fluid" alt="">
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+<!--Alcadia End-->
 @endsection
 
 @section('home_contact')

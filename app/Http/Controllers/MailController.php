@@ -89,8 +89,10 @@ class MailController extends Controller
 
         //return response()->json($response);
         if (!$response_captcha){
+            $estado_sms= "En Trámite";
             $sql_insert= DB::connection('mysql')->table('tab_mensajes')->insertGetId(
-                ['nombres'=> $nombres, 'email'=> $email, 'telefono'=> $telefono, 'cuenta'=> $cuenta, 'detalle'=> $descripcion, 'fecha'=> $dia, 'created_at'=> $date]
+                ['nombres'=> $nombres, 'email'=> $email, 'telefono'=> $telefono, 'cuenta'=> $cuenta, 'detalle'=> $descripcion, 
+                'estado_solicitud'=> $estado_sms, 'fecha'=> $dia, 'created_at'=> $date]
             );
             $LAST_ID= $sql_insert;
             /*$response = Mail::mailer("smtp")->to('atencionciudadana@emsaba.gob.ec')
@@ -104,11 +106,11 @@ class MailController extends Controller
                         ) values (?,?,?)', [$LAST_ID, $dia, $date]);
 
                 $observaciones = "Ingreso de Solicitud y/o Reclamo";
-                $estado_sms = "En Trámite";
-                $idusuario = $this->getIdUser();
+                //$idusuario = $this->getIdUser();
+                $idusuario= 1;
                 $sql_insert_seguimiento = DB::connection('mysql')->insert('insert into tab_seguimiento_mensajes (
-                            id_mensaje, observaciones, fecha, estado_mensaje, id_usuariosistema, created_at
-                        ) values (?,?,?,?,?,?)', [$LAST_ID, $observaciones, $dia, $estado_sms, $idusuario, $date]);
+                            id_mensaje, observaciones, fecha, id_usuariosistema, created_at
+                        ) values (?,?,?,?,?)', [$LAST_ID, $observaciones, $dia, $idusuario, $date]);
         
                 if($sql_insert_noti && $sql_insert_seguimiento){
                     $response = Mail::mailer("smtp")->to('atencionciudadana@emsaba.gob.ec')

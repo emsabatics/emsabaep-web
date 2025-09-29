@@ -83,6 +83,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'img_banner_alcaldia' => [
+            'driver' => 'local',
+            'root' => storage_path('app/img_banner_alcaldia'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
         'img_noticias' => [
             'driver' => 'local',
             'root' => storage_path('app/img_noticias'),
@@ -248,6 +255,7 @@ return [
         public_path('doc-laboral')=> storage_path('app/documentos/doc_laboral'),
         public_path('doc-administrativo')=> storage_path('app/documentos/doc_administrativo'),
         public_path('doc-bibliotecavirtual')=> storage_path('app/documentos/biblioteca_virtual'),
+        public_path('banner-alcaldia-img')=> storage_path('app/img_banner_alcaldia'),
     ],
 
 ];
