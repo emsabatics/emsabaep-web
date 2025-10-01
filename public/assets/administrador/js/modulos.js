@@ -1,3 +1,9 @@
+var datos= [];
+var arrayOrder= [];
+var arrayGetOrder= [];
+
+var objeto= {};
+
 function showInfoModulos(){
     $('#modalCargando').modal('hide');
     $("#tablaModulos")
@@ -403,3 +409,142 @@ function activarModulo(id, i){
     });
 }
 
+function limpiarArrayDatos(){
+    objeto= {};
+    while(datos.length>0){
+        datos.pop();
+    }
+
+    while(arrayOrder.length>0){
+        arrayOrder.pop();
+    }
+}
+
+/* FUNCION QUE ABRE EL MODAL PARA ACTUALIZAR EL ORDEN DE VISUALIZACIÓN */
+function openModalOrder(){
+    var html="";
+    toastr.info("Espere un momento...", "Graficando Tabla", "!Aviso!");
+    for(var i=0; i<longitudArray; i++){
+        html+="<tr>"+
+            "<td>"+(i+1)+"</td>"+
+            "<td>"+nombres_modulos[i]+"</td>"+
+            "<td>"+
+                "<select class='form-control' id='mySelectOrder"+(i+1)+"' onchange='dropdown("+(i+1)+")'>"+
+                    drawSelectOption()+
+                "</select>"+
+            "</td>"+
+        "</tr>";
+    }
+
+    $('#tableEditOrder tbody').html(html);
+
+    setTimeout(() => {
+        setOptionValue();
+        $('#modal-changeorden').modal('show'); 
+    }, 1500);
+}
+
+//FUNCION QUE DIBUJA LAS OPTION DEL SELECT
+function drawSelectOption(){
+    var html="";
+    for(var i=0; i<longitudArray; i++){
+        html+="<option value='"+(i+1)+"'>"+(i+1)+"</option>";
+    }
+    return html;
+}
+
+//FUNCION QUE APLICA EL SELECTED AL OPTION VALUE
+function setOptionValue(){
+    for(var i=0; i<longitudArray; i++){
+        $('#mySelectOrder'+(i+1)).val(arrayGetOrder[i]);
+    }
+}
+
+//FUNCION ACTUALIZAR ORDEN DE VISUALIZACION DE LAS IMAGENES
+function actualizarOrden(){
+    limpiarArrayDatos();
+    var token= $('#token').val();
+
+    for(var i=0; i<longitudArray; i++){
+        var value= $('#mySelectOrder'+(i+1)).val();
+        arrayOrder.push(value);
+    }
+
+    const findDuplicates = arrayOrder => arrayOrder.filter((item, index) => arrayOrder.indexOf(item) !== index)
+    var duplicates = findDuplicates(arrayOrder);
+
+    if(duplicates.length>0){
+        swal('Ha ocurrido un error','Se repite el orden # '+duplicates.toString(), 'error');
+    }else{
+        var element = document.getElementById("btnActionUpBan");
+        element.setAttribute("disabled", "");
+        element.style.pointerEvents = "none";
+        
+        for(var i=0; i<longitudArray; i++){
+            var posi= $('#mySelectOrder'+(i+1)).val();
+            datos.push({
+                "id" : idarraydatos[i],
+                "orden" : posi
+            })
+            
+        }
+        //objeto.datos= datos;
+        objeto= datos;
+        //console.log(JSON.stringify(objeto));
+        sendOrderModulo(token, JSON.stringify(objeto), '/registro-orden-modulo', element);
+    }
+}
+
+//FUNCION ONCHANGE SELECT
+function dropdown(pos) {
+    var select = document.getElementById("mySelectOrder"+pos);
+    var option = select.options[select.selectedIndex];
+    var val = option.value;
+    //console.log("SELECT "+pos, val);
+    //arrayOrder[pos-1]= val;
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
+function sendOrderModulo(token, data, url, el){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    //xr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //console.log(this.responseText);
+            var myArr = JSON.parse(this.responseText);
+            if(myArr.resultado==true){
+                swal({
+                    title:'Excelente!',
+                    text:'Registro Guardado',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+
+                setTimeout(function(){
+                    el.removeAttribute("disabled");
+                    el.style.removeProperty("pointer-events");
+                    window.location="/modulos";
+                },1500);
+            }else if(myArr.resultado==false){
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
+                swal('No se pudo guardar el registro','','error');
+            }
+        }else if(xr.status === 400){
+            el.removeAttribute("disabled");
+            el.style.removeProperty("pointer-events");
+            Swal.fire({
+                title: 'Ha ocurrido un Error',
+                html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                    'Intente nuevamente</p>',
+                type: 'error'
+            });
+        }
+    };
+    xr.send(data);
+}

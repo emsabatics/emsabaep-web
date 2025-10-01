@@ -101,4 +101,37 @@ class ModulosController extends Controller
             return response()->json(['resultado'=>false]);
         }
     }
+
+    //FUNCION QUE ACTUALIZA EL ORDEN DE PRIORIDAD
+    public function registro_orden_modulo(Request $r){
+        $res= $r->getContent();
+        $array = json_decode($res, true);
+        $longcadena= sizeof($array);
+        $date= now();
+        $i=0;
+
+        foreach ($array as $value) {
+            if($this->updateOrderModulo($value['id'],  $value['orden'], $date)){
+                $i++;
+            }
+        }
+
+        if($longcadena==$i){
+            return response()->json(["resultado"=> true]);
+        }else{
+            return response()->json(["resultado"=> false]);
+        }
+    }
+
+    private function updateOrderModulo($id, $orden, $date){
+        $sql_update= DB::table('tab_modulo')
+            ->where('id', $id)
+            ->update(['nivel_prioridad'=> $orden, 'updated_at'=> $date]);
+        
+        if($sql_update){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

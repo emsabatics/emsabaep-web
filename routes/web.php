@@ -99,7 +99,7 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     /*
     *HOME PAGE VISTA PRINCIPAL
     */
-    Route::get('/', [HomePageController::class, 'index'])->name('/');
+    Route::get('/', [HomePageController::class, 'index'])->name('/')->middleware('contador.visitas');
 
     /*
     *MAIL
@@ -1171,6 +1171,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *MODULOS
     */
     Route::post('/registro-modulo', [ModulosController::class, 'registro_modulo']);
+    Route::post('/registro-orden-modulo', [ModulosController::class, 'registro_orden_modulo']);
 
      /*
     *SUBMODULOS

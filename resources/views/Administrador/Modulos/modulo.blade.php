@@ -114,6 +114,10 @@ Admin | Módulos {{getNameInstitucion()}}
                               <h3 class="card-title p-2"><i class="fas fa-list mr-3"></i> Listado de Módulos</h3>
                             </div>
                             <div class="cardsection">
+                              <button type="button" class="btn btn-secondary btn-block" onclick="openModalOrder()" id="btnOpenModalOrder"><i
+                                class="fas fa-sort-numeric-up mr-2"></i> Orden de Prioridad</button>
+                            </div>
+                            <div class="cardsection">
                               <button type="button" class="btn btn-primary btn-block" onclick="openmodalAdd()"><i
                                 class="far fa-plus-square mr-2"></i> Registrar</button>
                             </div>
@@ -121,14 +125,83 @@ Admin | Módulos {{getNameInstitucion()}}
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-4" id="divDocModulos">
-                      @include('Administrador.Modulos.tabla', ['modulos' => $modulos])
+                      @include('Administrador.Modulos.tabla', ['modulos' => $modulos, 'datos' => &$datos, 'datosOrden' => &$datosOrden])
                     </div>
+                    @php
+                        $iddatos = $modulos->pluck('id');
+                        $datos = $modulos->pluck('nombre');
+                        $datosOrden = $modulos->pluck('nivel_prioridad');
+                    @endphp
                     <!-- /.card-body -->
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- MODAL CAMBIAR ORDEN -->
+<div class="modal fade bd-example-modal-xl" id="modal-changeorden" tabindex="-1" role="dialog" aria-hidden="true"
+data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header headerRegister headermodalBg">
+        <h5 class="modal-title titletextheader" id="titleModal">Cambiar Orden de Prioridad</h5>
+        <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
+            <table class="table table-striped projects" id="tableEditOrder">
+              <thead>
+                <tr>
+                  <th style="width: 1.5%">#</th>
+                  <th style="width: 80%">Módulo</th>
+                  <th>Orden</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>.....</td>
+                  <td>
+                    <select class="form-control" id="mySelectOrder1" onchange="dropdown(1)">
+                      <option value="option 1">option 1</option>
+                      <option value="option 2">option 2</option>
+                      <option value="option 3">option 3</option>
+                      <option value="option 4">option 4</option>
+                      <option value="option 5">option 5</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>.....</td>
+                  <td>
+                    <select class="form-control" id="mySelectOrder2" onchange="dropdown(2)">
+                      <option value="option 1">option 1</option>
+                      <option value="option 2">option 2</option>
+                      <option value="option 3">option 3</option>
+                      <option value="option 4">option 4</option>
+                      <option value="option 5">option 5</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnActionUpBan" class="btn btn-primary mr-3" type="button" onclick="actualizarOrden()">
+          <i class="fa fa-fw fa-lg fa-check-circle"></i><span>Actualizar</span>
+        </button>
+        <a class="btn btn-secondary" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--MODAL AGG MODULO-->
 <div class="modal fade" id="modalAggModulo" tabindex="-1" role="dialog" aria-labelledby="modalArchivosTitle"
@@ -291,6 +364,12 @@ data-backdrop="static" data-keyboard="false">
     $('.select2').select2({
         theme: 'bootstrap4',
     });
+    var longitudArray=0;
+    var idarraydatos = @json($iddatos);
+    var nombres_modulos = @json($datos);
+    var arrayGetOrder = @json($datosOrden);
+
+    longitudArray= nombres_modulos.length;
 
     toastr.options = {
       "closeButton": false,
@@ -314,6 +393,7 @@ data-backdrop="static" data-keyboard="false">
       $('#modalCargando').modal('show');
       setTimeout(() => {
         showInfoModulos();
+        //console.log(longitudArray, arrayGetOrder);
       }, 1500);
     });
 
