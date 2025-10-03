@@ -21,3 +21,11 @@
         </li>
     </ul>
 </li>
+<li class="nav-item">
+    <a href="{{ url('reportes-contador') }}" class="nav-link {{ setActive('reportes-contador') }}">
+        <i class="nav-icon far fa-chart-bar"></i>
+        <p>
+            Contador de Visitas
+        </p>
+    </a>
+</li>

@@ -30,6 +30,7 @@ use App\Http\Controllers\LeyTransparenciaController;
 use App\Http\Controllers\RendicionCuentasController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\MediosVerificacionController;
+use App\Http\Controllers\ReportesContadorController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\SubmodulosController;
@@ -626,6 +627,11 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *SUBMODULOS
     */
     Route::get('/submodulos', [SubmodulosController::class, 'index'])->name('submodulos');
+
+    /*
+    *REPORTES CONTADOR
+    */
+    Route::get('/reportes-contador', [ReportesContadorController::class, 'index'])->name('reportes-contador');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {

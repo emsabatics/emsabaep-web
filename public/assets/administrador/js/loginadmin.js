@@ -169,7 +169,7 @@ function login(){
           timer: 1600
         });
 
-        setInterval(function(){
+        setTimeout(function(){
           window.location.href="home";
         },1500);
       }else if(res.usuario=='inactivouser'){
