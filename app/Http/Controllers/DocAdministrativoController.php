@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\ContadorHelper;
 
 class DocAdministrativoController extends Controller
 {
@@ -123,6 +124,10 @@ class DocAdministrativoController extends Controller
     //FUNCION PARA DESCARGAR DOC ADMINISTRATIVO
     public function download_doc_administrativo($id){
         $id = desencriptarNumero($id);
+
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_doc_administrativo', $id);
+        
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_administrativo WHERE id=?', [$id]);
 
         $archivo='';

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use File;
+use App\ContadorHelper;
 
 class LeyTransparenciaController extends Controller
 {
@@ -142,6 +143,10 @@ class LeyTransparenciaController extends Controller
     public function download_ley($id){
         //$id= base64_decode($id);
         $id = desencriptarNumero($id);
+
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_ley_transparencia', $id);
+
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_ley_transparencia WHERE id=?', [$id]);
 
         $archivo='';

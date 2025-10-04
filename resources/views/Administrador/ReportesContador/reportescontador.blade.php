@@ -289,9 +289,13 @@ data-backdrop="static" data-keyboard="false">
 
 <!-- date-range-picker -->
 <script src="{{asset('assets/administrador/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('assets/administrador/js/reportescontador.js')}}"></script>
 
 <script>
+  var fstart= @json($fechaInicio);
+  var fend= @json($fechaFin);
   var dataContador = @json($dataTotal);
+  var labels = @json($labels);
   var numberArray = dataContador.map(Number);
 
   $(document).ready(function () {
@@ -303,118 +307,5 @@ data-backdrop="static" data-keyboard="false">
       $('#modalCargando').modal('hide');
     }, 1500);
   });
-
-  function loadData(){
-   Highcharts.chart('graficoVisitas', {
-      chart: {
-          type: 'column'
-      },
-      title: {
-          text: 'Número de Visitas en la Página Web entre {{ $fechaInicio }} y {{ $fechaFin }}'
-      },
-      xAxis: {
-          categories:  @json($labels),
-          crosshair: true,
-          accessibility: {
-              description: 'Fechas'
-          }
-      },
-      yAxis: {
-          min: 0,
-          title: {
-              text: 'Número de visitas'
-          }
-      },
-      dataLabels: {
-        enabled: true,
-        format: '{point.y:.0f}'
-      },
-      plotOptions: {
-        series: {
-            borderWidth: 0,
-            dataLabels: {
-                enabled: true,
-                format: '{point.y:.0f}'
-            }
-        }
-    },
-    tooltip: {
-      valueSuffix: ' Vistas'
-    },
-    series: [
-      {
-        name: 'Fecha',
-        data: numberArray
-      }
-    ]
-    });
-  }
-
-  function configChart(){
-    Highcharts.setOptions({
-      lang: {
-          // Números y fechas
-        decimalPoint: ',',
-        thousandsSep: '.',
-        months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        shortMonths: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-        weekdays: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-
-        // Menú de exportación
-        contextButtonTitle: 'Menú de exportación',
-        downloadPNG: 'Descargar PNG',
-        downloadJPEG: 'Descargar JPEG',
-        downloadPDF: 'Descargar PDF',
-        downloadSVG: 'Descargar SVG',
-        printChart: 'Imprimir gráfico',
-
-        // Opciones extra del menú
-        viewFullscreen: 'Ver en pantalla completa',
-        exitFullscreen: 'Salir de pantalla completa',
-        viewData: 'Ver tabla de datos',
-        hideData: 'Ocultar tabla de datos',
-        
-        // Interacciones
-        resetZoom: 'Reiniciar zoom',
-        resetZoomTitle: 'Reiniciar zoom 1:1',
-
-        // Estados
-        loading: 'Cargando...',
-        noData: 'No hay datos para mostrar'
-      }
-    });
-  }
-
-  function loadDatPicker(){
-    //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        locale: {
-          format: 'MM/DD/YYYY',
-          separator: ' - ',
-          applyLabel: 'Aplicar',
-          cancelLabel: 'Cancelar',
-          fromLabel: 'Desde',
-          toLabel: 'Hasta',
-          customRangeLabel: 'Personalizado',
-          weekLabel: 'S',
-          daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-          monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-          firstDay: 1
-        },
-        ranges: {
-          'Hoy': [moment(), moment()],
-          'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-          'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-          'Este mes': [moment().startOf('month'), moment().endOf('month')],
-          'Mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(1, 'days'),
-        endDate: moment()
-      }, function(start, end, label) {
-        // Guardamos la instancia
-    });
-  }
 </script>
 @endsection

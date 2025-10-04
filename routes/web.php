@@ -938,6 +938,11 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::post('/atencion-ciudadana/filtrar', [AtencionCiudadanaController::class, 'filtrar'])->name('atencion.filtrar');
     Route::post('/exportar-solicitudes-filter-excel', [ReportesController::class, 'exportarFilterSolicitudesExcel']);
     Route::post('/exportar-solicitudes-filter-pdf', [ReportesController::class, 'exportarFilterSolicitudesPDF']);
+
+    /*
+    *CONTADOR VISITAS
+    */
+    Route::post('/repcon/filtrar', [ReportesContadorController::class, 'filtrar']);
 });
 
 Route::middleware(['throttle:limit_admin_insert'])->group(function () {

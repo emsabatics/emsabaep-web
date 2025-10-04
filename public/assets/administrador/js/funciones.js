@@ -148,3 +148,20 @@ function scrollToUltimaFila(tablaId) {
   //ultimaFila.scrollIntoView(); // Desplaza la fila visible
   //window.scrollTo(0, tabla.scrollHeight); // Desplaza toda la ventana
 }
+
+function contarDiasTranscurridos(fechaInicio, fechaFin) {
+  // Crea objetos Date para las fechas de inicio y fin
+  const inicio = new Date(fechaInicio);
+  const fin = new Date(fechaFin);
+
+  // Calcula la diferencia en milisegundos
+  const diferenciaMs = fin.getTime() - inicio.getTime();
+
+  // Define los milisegundos en un día
+  const msPorDia = 1000 * 60 * 60 * 24;
+
+  // Calcula la diferencia en días y redondea al día completo más cercano
+  const dias = Math.floor(diferenciaMs / msPorDia);
+
+  return dias;
+}

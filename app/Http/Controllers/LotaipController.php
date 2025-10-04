@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use File;
+use App\ContadorHelper;
 
 class LotaipController extends Controller
 {
@@ -530,6 +531,10 @@ class LotaipController extends Controller
     //FUNCION PARA DESCARGAR EL LOTAIP
     public function download_lotaip($id){
         $id = desencriptarNumero($id);
+
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_lotaip', $id);
+
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip WHERE id=?', [$id]);
 
         $archivo='';
@@ -954,26 +959,41 @@ class LotaipController extends Controller
         $id = desencriptarNumero($id);
 
         if($tipo=='cd'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'cdatos');
+
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_cdatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_cdatos;
             }
         }else if($tipo=='md'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'mdatos');
+
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_mdatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_mdatos;
             }
         }else if($tipo=='dd'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'ddatos');
+
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_ddatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_ddatos;
             }
         }else if($tipo=='art23'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'datos');
+
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo;
             }
         }else if($tipo=='optoth'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'datos');
+
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo;

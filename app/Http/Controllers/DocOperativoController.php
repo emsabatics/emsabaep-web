@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\ContadorHelper;
 
 class DocOperativoController extends Controller
 {
@@ -124,6 +125,10 @@ class DocOperativoController extends Controller
     //FUNCION PARA DESCARGAR DOC OPERATIVO
     public function download_doc_operativo($id){
         $id = desencriptarNumero($id);
+
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_doc_operativo', $id);
+
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_operativo WHERE id=?', [$id]);
 
         $archivo='';
