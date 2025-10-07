@@ -959,47 +959,32 @@ class LotaipController extends Controller
         $id = desencriptarNumero($id);
 
         if($tipo=='cd'){
-            //Incrementar contador de descargas (llamada limpia y segura)
-            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'cdatos');
-
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_cdatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_cdatos;
             }
         }else if($tipo=='md'){
-            //Incrementar contador de descargas (llamada limpia y segura)
-            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'mdatos');
-
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_mdatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_mdatos;
             }
         }else if($tipo=='dd'){
-            //Incrementar contador de descargas (llamada limpia y segura)
-            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'ddatos');
-
             $sql_dato= DB::connection('mysql')->select('SELECT archivo_ddatos FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo_ddatos;
             }
         }else if($tipo=='art23'){
-            //Incrementar contador de descargas (llamada limpia y segura)
-            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'datos');
-
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo;
             }
         }else if($tipo=='optoth'){
-            //Incrementar contador de descargas (llamada limpia y segura)
-            ContadorHelper::incrementarDescargaLotaip('tab_lotaip_v2', $id, 'datos');
-
             $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip_v2 WHERE id=?', [$id]);
             foreach ($sql_dato as $key) {
                 $archivo= $key->archivo;
             }
         }
-        
+
         $subpath = 'documentos/lotaip/'.$archivo;
         $path = storage_path('app/'.$subpath);
         //$url = public_path("/storage/app/img_banner/" . $archivo);
@@ -1008,13 +993,45 @@ class LotaipController extends Controller
         if (Storage::disk('doc_lotaip')->exists($archivo))
         {
             //return Storage::disk('img_banner')->download($url);
+            
             return response()->download($path);
         }else{
             //return response()->json(['DATO: '=> 'no existe']);
             //si no se encuentra lanzamos un error 404.
             abort(404);
         }
-        
+    }
+
+    public function lotaip_v2_increment_cd(Request $r){
+        $id = $r->input('idcd');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescargaLotaip2cdatos('tab_lotaip_v2', $id);
+        //return response()->json(['resultado'=>true]);
+    }
+
+    public function lotaip_v2_increment_md(Request $r){
+        $id = $r->input('idmd');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescargaLotaip2mdatos('tab_lotaip_v2', $id);
+        //return response()->json(['resultado'=>true]);
+    }
+
+    public function lotaip_v2_increment_dd(Request $r){
+        $id = $r->input('iddd');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescargaLotaip2ddatos('tab_lotaip_v2', $id);
+        //return response()->json(['resultado'=>true]);
+    }
+
+    public function lotaip_v2_increment(Request $r){
+        $id = $r->input('idff');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescargaLotaip2('tab_lotaip_v2', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     private function formatDia($day){

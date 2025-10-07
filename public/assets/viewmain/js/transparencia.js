@@ -32,24 +32,109 @@ $("#accordion").on("show.bs.collapse hide.bs.collapse", e => {
     .toggleClass("fa-plus fa-minus");
 });
 
+function showToastInfo(){
+    toastr.info('Preparando archivo.','Por favor, espere...',{
+            "positionClass": "toast-top-right",
+            "closeButton": false,
+            "timeOut": "2500"
+    });
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO O ACTUALIZACION DEL INCREMENTO */
+function sendIncrementLotaip(data, token, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //ok
+        }else if(xr.status === 400){
+            //error
+        }
+    };
+    xr.send(data);
+}
+
 function downloadfileCD(id){
-    window.location='/download-lotaipv2/'+id+'/cd';
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idcd", id);
+    sendIncrementLotaip(data, token, "/lotaipv2-increment-cd");
+    setTimeout(() => {
+        window.location='/download-lotaipv2/'+id+'/cd';
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloadfileMD(id){
-    window.location='/download-lotaipv2/'+id+'/md';
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idmd", id);
+    sendIncrementLotaip(data, token, "/lotaipv2-increment-md");
+    setTimeout(() => {
+        window.location='/download-lotaipv2/'+id+'/md';
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloadfileDD(id){
-    window.location='/download-lotaipv2/'+id+'/dd';
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("iddd", id);
+    sendIncrementLotaip(data, token, "/lotaipv2-increment-dd");
+    setTimeout(() => {
+        window.location='/download-lotaipv2/'+id+'/dd';
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloadFile(id){
-    window.location='/download-lotaipv2/'+id+'/art23';
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idff", id);
+    sendIncrementLotaip(data, token, "/lotaipv2-increment");
+    setTimeout(() => {
+        window.location='/download-lotaipv2/'+id+'/art23';
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloadOtherFile(id){
-    window.location='/download-lotaipv2/'+id+'/optoth';
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idff", id);
+    sendIncrementLotaip(data, token, "/lotaipv2-increment");
+    setTimeout(() => {
+        window.location='/download-lotaipv2/'+id+'/optoth';
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloadlotaipv1(id){
@@ -106,7 +191,19 @@ function comeback_listdocfin(){
 }
 
 function downloaddocfin(id){
-    window.location='/download-docfinanciero/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/docfin-increment");
+    setTimeout(() => {
+         window.location='/download-docfinanciero/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 /*
 ================================DOCUMENTACIÓN FINANCIERA================================================
@@ -127,7 +224,19 @@ function comeback_listopt(){
 }
 
 function downloaddocopt(id){
-    window.location='/download-docoperativo/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/docoperativo-increment");
+    setTimeout(() => {
+        window.location='/download-docoperativo/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 /*
 ================================DOCUMENTACIÓN OPERATIVA================================================
@@ -149,7 +258,19 @@ function comeback_listlab(){
 }
 
 function downloaddoclab(id){
-    window.location='/download-doclaboral/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/doclaboral-increment");
+    setTimeout(() => {
+        window.location='/download-doclaboral/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 /*
 ================================DOCUMENTACIÓN LABORAL================================================
@@ -163,7 +284,38 @@ function comeback_listreglamento(){
 }
 
 function downloadReglamento(id){
-    window.location='/download-ley/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idrr", id);
+
+    sendIncrementReglamento(data, token, "/reglamento-increment");
+    
+    setTimeout(() => {
+        window.location='/download-ley/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO O ACTUALIZACION DEL INCREMENTO */
+function sendIncrementReglamento(data, token, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //ok
+        }else if(xr.status === 400){
+            //error
+        }
+    };
+    xr.send(data);
 }
 /*
 ================================DOCUMENTACIÓN LEGAL================================================
@@ -225,7 +377,39 @@ function comeback_listyearpoa(){
 }
 
 function downloadpoaT(id, tipo){
-    window.location='/download-poa/'+id+'/'+tipo;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idpp", id);
+    data.append("tipo", tipo);
+
+    sendIncrementPoa(data, token, "/poa-increment");
+    
+    setTimeout(() => {
+        window.location='/download-poa/'+id+'/'+tipo;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO O ACTUALIZACION DEL INCREMENTO */
+function sendIncrementPoa(data, token, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //ok
+        }else if(xr.status === 400){
+            //error
+        }
+    };
+    xr.send(data);
 }
 //========================POA========================
 
@@ -239,11 +423,47 @@ function comeback_listyearpac(){
 }
 
 function downloadpacT(id, cat, tipo){
-    if(cat=='doc'){
-        window.location='/download-pac/'+id+'/'+tipo;
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idpp", id);
+    data.append("tipo", tipo);
+
+     if(cat=='doc'){
+        sendIncrementPac(data, token, "/pac-increment");
     }else if(cat=='resol'){
-        window.location='/download-ra/'+id+'/'+tipo;
+        sendIncrementPac(data, token, "/pac-increment-resol");
     }
+    
+    setTimeout(() => {
+        if(cat=='doc'){
+            window.location='/download-pac/'+id+'/'+tipo;
+        }else if(cat=='resol'){
+            window.location='/download-ra/'+id+'/'+tipo;
+        }
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO O ACTUALIZACION DEL INCREMENTO */
+function sendIncrementPac(data, token, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //ok
+        }else if(xr.status === 400){
+            //error
+        }
+    };
+    xr.send(data);
 }
 //========================PAC========================
 
@@ -257,7 +477,19 @@ function view_list_docadmin(idanio){
 
 /* funcion para descargar la ley de transparencia en la vista usuario */
 function downloadLeyT(id){
-    window.location='/download-leytransparencia/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/leyt-increment");
+    setTimeout(() => {
+        window.location='/download-leytransparencia/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 //========================MEDIOS DE VERIFICACION========================
@@ -272,11 +504,35 @@ function downloadMediosV(id){
 //========================MEDIOS DE VERIFICACION========================
 
 function downloadPliegoT(id){
-    window.location='/download-pliego/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/pliegot-increment");
+    setTimeout(() => {
+        window.location='/download-pliego/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function downloaddocadmin(id){
-    window.location='/download-docadministrativo/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/docadmin-increment");
+    setTimeout(() => {
+        window.location='/download-docadministrativo/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 function comeback_listdocadmin(){
@@ -307,4 +563,22 @@ function downloadfilevirtual(idf, opcion){
 
 function utf8_to_b64( str ) {
     return window.btoa(unescape(encodeURIComponent( str )));
+}
+
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO O ACTUALIZACION DEL INCREMENTO */
+function sendIncrementGeneral(data, token, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader("X-CSRF-TOKEN", token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //ok
+        }else if(xr.status === 400){
+            //error
+        }
+    };
+    xr.send(data);
 }

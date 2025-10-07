@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/collapse.css')}}">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/inner-list.css')}}">
 <link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
+<!-- Toastr -->
+<link rel="stylesheet" href="{{asset('assets/administrador/plugins/toastr/toastr.min.css')}}">
 @endsection
 
 
@@ -30,6 +32,7 @@
 @endsection
 
 @section('home')
+<input type="hidden" name="csrf-token" value="{{csrf_token()}}" id="token">
 <!-- Header Start -->
 <div class="container-fluid bg-breadcrumb p-0">
     <div class="container text-center py-5" style="max-width: 300px;">
@@ -138,8 +141,29 @@
 @section('js')
 <!-- jQuery -->
 <script src="{{asset('assets/administrador/plugins/jquery/jquery.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('assets/administrador/plugins/toastr/toastr.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('assets/administrador/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
 <script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
+<script>
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "1800",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+</script>
 @endsection

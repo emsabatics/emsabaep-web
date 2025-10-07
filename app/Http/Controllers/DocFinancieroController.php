@@ -126,9 +126,6 @@ class DocFinancieroController extends Controller
     public function download_doc_financiero($id){
         $id = desencriptarNumero($id);
 
-        //Incrementar contador de descargas (llamada limpia y segura)
-        ContadorHelper::incrementarDescarga('tab_doc_financiero', $id);
-
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_financiero WHERE id=?', [$id]);
 
         $archivo='';
@@ -151,6 +148,14 @@ class DocFinancieroController extends Controller
             abort(404);
         }
         
+    }
+
+    public function docfin_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_doc_financiero', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR DOC FINANCIERO

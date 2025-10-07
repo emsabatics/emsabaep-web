@@ -632,6 +632,15 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     *REPORTES CONTADOR
     */
     Route::get('/reportes-contador', [ReportesContadorController::class, 'index'])->name('reportes-contador');
+
+    /*
+    *REPORTES CONTADOR DESCARGAS
+    */
+    Route::get('/reportes-contador-descargas-admin', [ReportesContadorController::class, 'index_descargas_admin'])->name('reportes-contador-descargas-admin');
+    Route::get('/reportes-contador-descargas-fin', [ReportesContadorController::class, 'index_descargas_fin'])->name('reportes-contador-descargas-fin');
+    Route::get('/reportes-contador-descargas-opt', [ReportesContadorController::class, 'index_descargas_opt'])->name('reportes-contador-descargas-opt');
+    Route::get('/reportes-contador-descargas-lab', [ReportesContadorController::class, 'index_descargas_lab'])->name('reportes-contador-descargas-lab');
+    Route::get('/reportes-contador-descargas-ley', [ReportesContadorController::class, 'index_descargas_ley'])->name('reportes-contador-descargas-ley');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {
@@ -1064,6 +1073,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - POA
     */
     Route::post('/store-poa', [DocumentosController::class, 'store_poa']);
+    Route::post('/poa-increment', [DocumentosController::class, 'poa_increment']);
 
     /*
     *DOCUMENTOS - POA REFORMADOS
@@ -1073,6 +1083,8 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - PAC
     */
     Route::post('/store-pac', [DocumentosController::class, 'store_pac']);
+    Route::post('/pac-increment', [DocumentosController::class, 'pac_increment']);
+    Route::post('/pac-increment-resol', [DocumentosController::class, 'pac_increment_resol']);
 
     /*
     *DOCUMENTOS - PAC REFORMADOS
@@ -1087,6 +1099,10 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS LOTAIP V2
     */
     Route::post('/store-lotaipv2', [LotaipController::class, 'store_lotaip_v2']);
+    Route::post('/lotaipv2-increment-cd', [LotaipController::class, 'lotaip_v2_increment_cd']);
+    Route::post('/lotaipv2-increment-md', [LotaipController::class, 'lotaip_v2_increment_md']);
+    Route::post('/lotaipv2-increment-dd', [LotaipController::class, 'lotaip_v2_increment_dd']);
+    Route::post('/lotaipv2-increment', [LotaipController::class, 'lotaip_v2_increment']);
 
     /*
     *DOCUMENTOS - PROCESO CONTRATACION
@@ -1096,11 +1112,13 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - REGLAMENTOS
     */
     Route::post('/store-ley', [DocumentosController::class, 'store_ley']);
+    Route::post('/reglamento-increment', [DocumentosController::class, 'reglamento_increment']);
 
     /*
     *DOCUMENTOS - LEY DE TRANSPARENCIA
     */
     Route::post('/registrar-ley-transparencia', [LeyTransparenciaController::class, 'registrar_ley_transparencia']);
+    Route::post('/leyt-increment', [LeyTransparenciaController::class, 'ley_increment']);
 
     /*
     *DOCUMENTOS RENDICION DE CUENTAS
@@ -1111,6 +1129,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - PLIEGO TARIFARIO
     */
     Route::post('/store-pliego', [PliegoTarifarioController::class, 'store_pliego']);
+    Route::post('/pliegot-increment', [PliegoTarifarioController::class, 'pliego_increment']);
 
     /*
     *DOCUMENTOS - AUDITORIA
@@ -1126,11 +1145,13 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTACIÓN - DOCUMENTOS ADMINISTRATIVO
     */
     Route::post('/store-doc-administrativo', [DocAdministrativoController::class, 'store_doc_administrativo']);
+    Route::post('/docadmin-increment', [DocAdministrativoController::class, 'docadmin_increment']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS FINANCIERO
     */
     Route::post('/store-doc-financiero', [DocFinancieroController::class, 'store_doc_financiero']);
+    Route::post('/docfin-increment', [DocFinancieroController::class, 'docfin_increment']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
@@ -1139,11 +1160,13 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     Route::get('/edit-docoperativo/{id}', [DocOperativoController::class, 'edit_doc_operativo']);
     Route::get('/download-docoperativo/{id}', [DocOperativoController::class, 'download_doc_operativo']);
     Route::post('/store-doc-operativo', [DocOperativoController::class, 'store_doc_operativo']);
+    Route::post('/docoperativo-increment', [DocOperativoController::class, 'docoperativo_increment']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
     Route::post('/store-doc-laboral', [DocLaboralController::class, 'store_doc_laboral']);
+    Route::post('/doclaboral-increment', [DocLaboralController::class, 'doclaboral_increment']);
 
     /*
     *BIBLIOTECA VIRTUAL

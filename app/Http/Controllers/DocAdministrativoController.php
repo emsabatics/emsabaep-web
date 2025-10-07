@@ -124,9 +124,6 @@ class DocAdministrativoController extends Controller
     //FUNCION PARA DESCARGAR DOC ADMINISTRATIVO
     public function download_doc_administrativo($id){
         $id = desencriptarNumero($id);
-
-        //Incrementar contador de descargas (llamada limpia y segura)
-        ContadorHelper::incrementarDescarga('tab_doc_administrativo', $id);
         
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_doc_administrativo WHERE id=?', [$id]);
 
@@ -150,6 +147,14 @@ class DocAdministrativoController extends Controller
             abort(404);
         }
         
+    }
+
+    public function docadmin_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_doc_administrativo', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR DOC ADMINISTRATIVO

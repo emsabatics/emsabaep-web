@@ -33,8 +33,8 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
-    'expire_on_close' => false,
-
+    'expire_on_close' => true,
+    //si lo pones en true, la sesión se destruye cuando el usuario cierra el navegador.
     /*
     |--------------------------------------------------------------------------
     | Session Encryption

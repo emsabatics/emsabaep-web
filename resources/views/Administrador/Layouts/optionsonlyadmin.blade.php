@@ -29,3 +29,42 @@
         </p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon far fa-chart-bar"></i>
+        <p>Contador de Descargas<i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-admin') }}" class="nav-link {{ setActive('reportes-contador-descargas-admin') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Doc. Administrativa</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-fin') }}" class="nav-link {{ setActive('reportes-contador-descargas-fin') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Doc. Financiera</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-opt') }}" class="nav-link {{ setActive('reportes-contador-descargas-opt') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Doc. Operativa</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-lab') }}" class="nav-link {{ setActive('reportes-contador-descargas-lab') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Doc. Laboral</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-ley') }}" class="nav-link {{ setActive('reportes-contador-descargas-ley') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Reglamentos</p>
+            </a>
+        </li>
+    </ul>
+</li>

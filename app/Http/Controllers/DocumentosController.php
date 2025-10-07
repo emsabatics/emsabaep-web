@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use File;
+use App\ContadorHelper;
 
 class DocumentosController extends Controller
 {
@@ -280,6 +281,21 @@ class DocumentosController extends Controller
         
     }
 
+    public function pac_increment(Request $r){
+        $id = $r->input('idpp');
+        $tipo= $r->input('tipo');
+        $id = desencriptarNumero($id);
+
+        if($tipo=='noref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaPac('tab_pac', $id);
+        }else if($tipo=='ref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaPac('tab_pac_history', $id);
+        }
+        //return response()->json(['resultado'=>true]);
+    }
+
     //FUNCION PARA DESCARGAR EL RA
     public function download_ra($id, $tipo){
         $id = desencriptarNumero($id);
@@ -309,6 +325,21 @@ class DocumentosController extends Controller
             abort(404);
         }
         
+    }
+
+    public function pac_increment_resol(Request $r){
+        $id = $r->input('idpp');
+        $tipo= $r->input('tipo');
+        $id = desencriptarNumero($id);
+
+        if($tipo=='noref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaPacResol('tab_pac', $id);
+        }else if($tipo=='ref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescargaPacResol('tab_pac_history', $id);
+        }
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ACTUALIZA EL PAC EN LA BASE DE DATOS
@@ -1119,7 +1150,21 @@ class DocumentosController extends Controller
             //si no se encuentra lanzamos un error 404.
             abort(404);
         }
-        
+    }
+
+    public function poa_increment(Request $r){
+        $id = $r->input('idpp');
+        $tipo= $r->input('tipo');
+        $id = desencriptarNumero($id);
+
+        if($tipo=='noref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescarga('tab_poa', $id);
+        }else if($tipo=='ref'){
+            //Incrementar contador de descargas (llamada limpia y segura)
+            ContadorHelper::incrementarDescarga('tab_poa_history', $id);
+        }
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ACTUALIZA EL POA EN LA BASE DE DATOS
@@ -1530,6 +1575,14 @@ class DocumentosController extends Controller
             abort(404);
         }
         
+    }
+
+    public function reglamento_increment(Request $r){
+        $id = $r->input('idrr');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_reglamentos', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ACTUALIZA EL REGLAMENTO EN LA BASE DE DATOS

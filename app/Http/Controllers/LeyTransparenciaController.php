@@ -144,9 +144,6 @@ class LeyTransparenciaController extends Controller
         //$id= base64_decode($id);
         $id = desencriptarNumero($id);
 
-        //Incrementar contador de descargas (llamada limpia y segura)
-        ContadorHelper::incrementarDescarga('tab_ley_transparencia', $id);
-
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_ley_transparencia WHERE id=?', [$id]);
 
         $archivo='';
@@ -165,6 +162,14 @@ class LeyTransparenciaController extends Controller
             abort(404);
         }
         
+    }
+
+    public function ley_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_ley_transparencia', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR EL REGLAMENTO

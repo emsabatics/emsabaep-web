@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use File;
+use App\ContadorHelper;
 
 class PliegoTarifarioController extends Controller
 {
@@ -320,5 +321,13 @@ class PliegoTarifarioController extends Controller
             abort(404);
         }
         
+    }
+
+    public function pliego_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_pliego_tarifario', $id);
+        //return response()->json(['resultado'=>true]);
     }
 }

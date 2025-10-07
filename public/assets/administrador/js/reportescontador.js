@@ -222,3 +222,258 @@ function loadDatafromfilter(start, end, labelfil, infodato) {
         ]
     });
 }
+
+function loadDataDocAdmin(categoria, valores ) {
+    Highcharts.chart('graficoDescargasDocAdmin', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Doc. Administrativa'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Categorías'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Categoría: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Categorías',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataDocFin(categoria, valores ) {
+    Highcharts.chart('graficoDescargasDocFin', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Doc. Financiera'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Años',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataDocOpt(categoria, valores ) {
+    Highcharts.chart('graficoDescargasDocOpt', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Doc. Operativa'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Años',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataDocLab(categoria, valores ) {
+    Highcharts.chart('graficoDescargasDocLab', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Doc. Laboral'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Años',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataLey(categoria, valores ) {
+    Highcharts.chart('graficoDescargasLey', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Reglamentos'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Documentos'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Documentos',
+                data: valores
+            }
+        ]
+    });
+}
