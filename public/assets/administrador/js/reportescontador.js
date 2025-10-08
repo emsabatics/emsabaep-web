@@ -477,3 +477,116 @@ function loadDataLey(categoria, valores ) {
         ]
     });
 }
+
+function loadDataDocAudt(categoria, valores ) {
+    Highcharts.chart('graficoDescargasDocAud', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Doc. Auditoría'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Años',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataRC(categories, valores ) {
+    Highcharts.chart('graficoDescargasRC', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Número de Descargas - Rendición de Cuentas'
+        },
+        xAxis: {
+            categories: categories,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            },
+            gridLineWidth: 0
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: '50%',
+                dataLabels: {
+                    enabled: true
+                },
+                groupPadding: 0.1
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: 'var(--highcharts-background-color, #ffffff)',
+            shadow: true
+        },
+        series: valores
+    });
+}

@@ -641,6 +641,9 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/reportes-contador-descargas-opt', [ReportesContadorController::class, 'index_descargas_opt'])->name('reportes-contador-descargas-opt');
     Route::get('/reportes-contador-descargas-lab', [ReportesContadorController::class, 'index_descargas_lab'])->name('reportes-contador-descargas-lab');
     Route::get('/reportes-contador-descargas-ley', [ReportesContadorController::class, 'index_descargas_ley'])->name('reportes-contador-descargas-ley');
+    Route::get('/reportes-contador-descargas-auditoria', [ReportesContadorController::class, 'index_descargas_auditoria'])->name('reportes-contador-descargas-auditoria');
+    Route::get('/reportes-contador-descargas-rendicionc', [ReportesContadorController::class, 'index_descargas_rendicionc'])->name('reportes-contador-descargas-rendicionc');
+    Route::get('/reportes-contador-descargas-lotaipv1', [ReportesContadorController::class, 'index_descargas_lotaipv1'])->name('reportes-contador-descargas-lotaipv1');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {
@@ -1124,6 +1127,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS RENDICION DE CUENTAS
     */
     Route::post('/store-rendicionc', [RendicionCuentasController::class, 'store_rendicionc']);
+    Route::post('/rendicionc-increment', [RendicionCuentasController::class, 'rendicionc_increment']);
 
     /*
     *DOCUMENTOS - PLIEGO TARIFARIO
@@ -1135,6 +1139,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS - AUDITORIA
     */
     Route::post('/store-auditoria', [AuditoriaController::class, 'store_auditoria']);
+    Route::post('/auditoria-increment', [AuditoriaController::class, 'auditoria_increment']);
 
     /*
     *DOCUMENTOS - MEDIOS VERIFICACION

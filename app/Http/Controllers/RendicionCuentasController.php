@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\ContadorHelper;
 
 class RendicionCuentasController extends Controller
 {
@@ -274,6 +275,14 @@ class RendicionCuentasController extends Controller
             abort(404);
         }
         
+    }
+
+    public function rendicionc_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_archivos_rendicion_cuentas', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
      //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR RENDICIÓN DE CUENTAS

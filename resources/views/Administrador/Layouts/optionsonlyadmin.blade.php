@@ -66,5 +66,17 @@
                 <p>Reglamentos</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-rendicionc') }}" class="nav-link {{ setActive('reportes-contador-descargas-rendicionc') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Rendición de Cuentas</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-auditoria') }}" class="nav-link {{ setActive('reportes-contador-descargas-auditoria') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Auditoría</p>
+            </a>
+        </li>
     </ul>
 </li>

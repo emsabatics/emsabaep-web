@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\ContadorHelper;
 
 class AuditoriaController extends Controller
 {
@@ -161,6 +162,14 @@ class AuditoriaController extends Controller
             abort(404);
         }
         
+    }
+
+    public function auditoria_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_auditoria', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ABRE LA INTERFAZ PARA ACTUALIZAR EL REGISTRO DE AUDITORIA

@@ -169,7 +169,19 @@ function comeback_playrc(idanio){
 }
 
 function downloadrendicionc(id){
-    window.location='/download-rendicionc/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/rendicionc-increment");
+    setTimeout(() => {
+        window.location='/download-rendicionc/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 /*
 ================================RENDICIÓN DE CUENTAS================================================
@@ -337,7 +349,21 @@ function comeback_listdocaud(){
 }
 
 function downloaddocaud(id){
-    window.location='/download-auditoria/'+id;
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+
+    sendIncrementReglamento(data, token, "/auditoria-increment");
+    
+    setTimeout(() => {
+        window.location='/download-auditoria/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 /*
 ================================DOCUMENTACIÓN AUDITORIA================================================
