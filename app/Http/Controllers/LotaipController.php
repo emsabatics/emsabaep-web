@@ -532,9 +532,6 @@ class LotaipController extends Controller
     public function download_lotaip($id){
         $id = desencriptarNumero($id);
 
-        //Incrementar contador de descargas (llamada limpia y segura)
-        ContadorHelper::incrementarDescarga('tab_lotaip', $id);
-
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_lotaip WHERE id=?', [$id]);
 
         $archivo='';
@@ -557,6 +554,14 @@ class LotaipController extends Controller
             abort(404);
         }
         
+    }
+
+    public function lotaipv1_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_lotaip', $id);
+        //return response()->json(['resultado'=>true]);
     }
 
     //FUNCION QUE ACTUALIZA EL LOTAIP EN LA BASE DE DATOS

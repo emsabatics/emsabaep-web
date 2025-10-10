@@ -749,7 +749,7 @@ class ReportesContadorController extends Controller
 
             /*------------------------------------------------------------------------------------ */
 
-            $seriesData = $getFilesRC
+            /*$seriesData = $getFilesRC
                 ->flatMap(function ($anioData) {
                     return collect($anioData['meses'])->map(function ($tipoData) use ($anioData) {
                         return [
@@ -770,10 +770,32 @@ class ReportesContadorController extends Controller
                 })
                 ->values();
 
-            $categories = $getFilesRC->pluck('anio')->values();
+            $categories = $getFilesRC->pluck('anio')->values();*/
+            
+            $totalByYear = $getFilesRC
+            ->map(function($anioData){
+                $totalAnual = collect($anioData['meses'])->sum('total');
+                return [
+                    'anio' => $anioData['anio'],
+                    'total_anual' => (int) $totalAnual
+                ];
+            });
 
-            return view('Administrador.reportesContador.reportescontadordescargasrendicionc', ['resultado'=> $getFilesRC, 'totalGeneral'=> $sumGeneral, 'seriesData' => $seriesData,
-                    'categories' => $categories]);
+            $seriestochart = $getFilesRC
+            ->map(function($anioData){
+                return [
+                    'name' => $anioData['anio'],
+                    'data' => collect($anioData['meses'])->pluck('total')
+                ];
+            });
+            //return $getFilesRC;
+            //return $totalByYear;
+            //return $sumGeneral;
+            //return $categories;
+            //return $seriestochart;
+
+            return view('Administrador.reportesContador.reportescontadordescargaslotaip', ['resultado'=> $getFilesRC, 'totalGeneral'=> $sumGeneral,
+                'totalByYear'=> $totalByYear, 'datatochart'=> $seriestochart]);
         }else{
             return redirect('/loginadmineep');
         }

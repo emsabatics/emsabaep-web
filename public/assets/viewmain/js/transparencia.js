@@ -138,7 +138,19 @@ function downloadOtherFile(id){
 }
 
 function downloadlotaipv1(id){
-    window.location='/download-lotaip/'+id;
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/lotaipv1-increment");
+    setTimeout(() => {
+        window.location='/download-lotaip/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
 }
 
 /*

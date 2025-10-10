@@ -1097,6 +1097,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     *DOCUMENTOS LOTAIP
     */
     Route::post('/store-lotaip', [LotaipController::class, 'store_lotaip']);
+    Route::post('/lotaipv1-increment', [LotaipController::class, 'lotaipv1_increment']);
 
     /*
     *DOCUMENTOS LOTAIP V2

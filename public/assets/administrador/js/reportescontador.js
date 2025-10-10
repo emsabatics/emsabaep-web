@@ -590,3 +590,53 @@ function loadDataRC(categories, valores ) {
         series: valores
     });
 }
+
+function loadDatLotaip(valores ) {
+    Highcharts.chart('graficoDescargasLotaip', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - LOTAIP'
+        },
+        xAxis: {
+            categories: ['Enero', 'Febrero','Marzo',
+                    'Abril','Mayo','Junio','Julio',
+                    'Agosto', 'Septiembre','Octubre',
+                    'Noviembre','Diciembre'
+                ],
+            crosshair: true,
+            accessibility: {
+                description: 'Meses'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año:</b> ${this.series.name}<br><b>Mes: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: valores
+    });
+}

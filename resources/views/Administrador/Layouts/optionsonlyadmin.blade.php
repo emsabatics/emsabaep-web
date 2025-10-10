@@ -73,6 +73,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-lotaipv1') }}" class="nav-link {{ setActive('reportes-contador-descargas-lotaipv1') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>LOTAIP</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ url('reportes-contador-descargas-auditoria') }}" class="nav-link {{ setActive('reportes-contador-descargas-auditoria') }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Auditoría</p>
