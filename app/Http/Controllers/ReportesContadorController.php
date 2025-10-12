@@ -800,4 +800,133 @@ class ReportesContadorController extends Controller
             return redirect('/loginadmineep');
         }
     }
+
+    public function index_descargas_lotaipv2()
+    {
+        if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
+            $mesesReferencia = [
+                1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+                5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+                9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+            ];
+
+            /**
+             * DOCUMENTACION LOTAIP
+            */
+            $cont_lotaip2 = DB::connection('mysql')
+            ->table('tab_lotaip_v2 as tl')
+            ->join('tab_anio as anio', 'tl.id_anio', '=', 'anio.id')
+            ->select('tl.id_anio', 
+                'anio.nombre as anio', 
+                DB::raw('SUM(tl.contador_descargas) as total'), 
+                DB::raw('SUM(tl.contador_descargas_cdatos) as total_cdatos'),
+                DB::raw('SUM(tl.contador_descargas_mdatos) as total_mdatos'),
+                DB::raw('SUM(tl.contador_descargas_ddatos) as total_ddatos')
+            )
+            ->where('tl.estado', '=', '1')
+            ->groupBy('tl.id_anio', 'anio.nombre')
+            ->get()
+            ->map(function ($items) {
+                return [
+                    'anio' => $items->anio,
+                    'total' =>  (int) $items->total + (int) $items->total_cdatos + + (int) $items->total_mdatos + + (int) $items->total_ddatos
+                ];
+            })
+            ->values();
+
+            $sumGeneral = 0;
+            foreach($cont_lotaip2 as $rc){
+                $sumGeneral += $rc['total']; 
+            }
+
+            $getFilesRC = DB::connection('mysql')
+            ->table('tab_lotaip_v2 as lt')
+            ->join('tab_meses as m', 'lt.id_mes', '=', 'm.id')
+            ->join('tab_anio as anio', 'lt.id_anio', '=', 'anio.id')
+            ->join('tab_art_lotaip as alt', 'lt.id_art_lotaip', '=', 'alt.id')
+            ->join('tab_item_lotaip as ilt', 'lt.id_item_lotaip', '=', 'ilt.id')
+            ->select(
+                'anio.nombre as anio',
+                'm.id as num_mes',
+                'm.mes',
+                'alt.descripcion as articulo',
+                'ilt.literal',
+                'ilt.descripcion',
+                'lt.contador_descargas',
+                'lt.contador_descargas_cdatos as total_cdatos',
+                'lt.contador_descargas_mdatos as total_mdatos',
+                'lt.contador_descargas_ddatos as total_ddatos'
+            )
+            ->where('lt.estado', '=', '1')
+            ->orderBy('anio.nombre', 'asc')
+            ->orderBy('m.id', 'asc')
+            ->orderBy('ilt.id', 'asc')
+            ->get()
+            ->groupBy('anio')
+            ->map(function($porAnio, $anio) use ($mesesReferencia){
+                // Agrupar los meses con datos
+                $meses = $porAnio->groupBy('num_mes')->map(function($items){
+                    $primer = $items->first();
+                    return [
+                        'mes' => $primer->mes,
+                        'total' => (int) $items->sum('contador_descargas') + (int) $items->sum('total_cdatos') + (int) $items->sum('total_mdatos') + (int) $items->sum('total_ddatos'),
+                        'archivos' => $items->map(function($i){
+                            return [
+                                'articulo' => $i->articulo,
+                                'titulo' => $i->literal.' - '.$i->descripcion,
+                                'contador' => (int) $i->contador_descargas + (int) $i->total_cdatos + (int) $i->total_mdatos + (int) $i->total_ddatos,
+                            ];
+                        })->values()
+                    ];
+                });
+
+                // Agregar meses sin datos con total 0
+                foreach ($mesesReferencia as $num => $nombreMes) {
+                    if (!isset($meses[$num])) {
+                        $meses[$num] = [
+                            'mes' => $nombreMes,
+                            'total' => 0,
+                            'archivos' => []
+                        ];
+                    }
+                }
+
+                // Ordenar por número de mes (usando sortKeys)
+                $meses = $meses->sortKeys()->values();
+
+                return [
+                    'anio' => $anio,
+                    'meses' => $meses
+                ];
+            })
+            ->values();
+
+            $totalByYear = $getFilesRC
+            ->map(function($anioData){
+                $totalAnual = collect($anioData['meses'])->sum('total');
+                return [
+                    'anio' => $anioData['anio'],
+                    'total_anual' => (int) $totalAnual
+                ];
+            });
+
+            $seriestochart = $getFilesRC
+            ->map(function($anioData){
+                return [
+                    'name' => $anioData['anio'],
+                    'data' => collect($anioData['meses'])->pluck('total')
+                ];
+            });
+
+            //return $cont_lotaip2;
+            //return $sumGeneral;
+            //return $totalByYear;
+            //return $seriestochart;
+
+            return view('Administrador.reportesContador.reportescontadordescargaslotaipv2', ['resultado'=> $getFilesRC, 'totalGeneral'=> $sumGeneral,
+                'totalByYear'=> $totalByYear, 'datatochart'=> $seriestochart]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
 }

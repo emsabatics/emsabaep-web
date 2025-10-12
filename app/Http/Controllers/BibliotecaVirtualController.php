@@ -27,8 +27,9 @@ class BibliotecaVirtualController extends Controller
             $getCatBiblioteca= DB::connection('mysql')->table('tab_bv_categoria')->get();
             foreach($getCatBiblioteca as $c){
                 $arsubcat= array();
-                $arfile= array();
+                //$arfile= array();
                 $idcat= $c->id;
+                $tipocat = $c->tipo;
                 $getSubcatBiblioteca= DB::connection('mysql')->select('SELECT id, descripcion, estado FROM tab_bv_subcategoria 
                     WHERE id_bv_categoria=?', [$idcat]);
                 
@@ -39,11 +40,20 @@ class BibliotecaVirtualController extends Controller
                     $idsubcat= $sc->id;
                     $arfilesubcat= array();
 
-                    $getFileBiblioteca= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_archivos 
-                    WHERE id_bv_categoria=? AND id_bv_subcategoria=?', [$idcat, $idsubcat]);
-                    foreach($getFileBiblioteca as $fc){
-                        $arfilesubcat[] = array('idfile'=> $fc->id, 'archivo'=> $fc->archivo, 'estado'=> $fc->estado);
+                    if($tipocat == 'galeria'){
+                        $getFileBiblioteca= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_galeria 
+                        WHERE id_bv_categoria=? AND id_bv_subcategoria=?', [$idcat, $idsubcat]);
+                        foreach($getFileBiblioteca as $fc){
+                            $arfilesubcat[] = array('archivo'=> $fc->archivo, 'estado'=> $fc->estado);
+                        }
+                    }else{
+                        $getFileBiblioteca= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_archivos 
+                        WHERE id_bv_categoria=? AND id_bv_subcategoria=?', [$idcat, $idsubcat]);
+                        foreach($getFileBiblioteca as $fc){
+                            $arfilesubcat[] = array('archivo'=> $fc->archivo, 'estado'=> $fc->estado);
+                        }
                     }
+                    
 
                     $arsubcat[]= array('idsubcat'=> $idsubcat, 'descripcionsubcat'=> $sc->descripcion, 'estadosubcat'=> $sc->estado, 'archivossubcat'=> $arfilesubcat);
                     unset($arfilesubcat);
@@ -51,15 +61,15 @@ class BibliotecaVirtualController extends Controller
                 /* GET SUBCATEGORIA */
 
                 /* GET ARCHIVOS SIN SUBCATEGORIA */
-                $getFileBv= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_archivos 
+                /*$getFileBv= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_archivos 
                     WHERE id_bv_categoria=? AND id_bv_subcategoria IS NULL', [$idcat]);
                 foreach($getFileBv as $fc){
                     $arfile[] = array('idfile'=> $fc->id, 'archivo'=> $fc->archivo, 'estado'=> $fc->estado);
-                }
+                }*/
                 /* GET ARCHIVOS SIN SUBCATEGORIA */
 
-                $arcat[]= array('idcat'=> $idcat, 'descripcioncat'=> $c->descripcion, 'estadocat'=> $c->estado, 'subcategoria'=> $arsubcat, 'archivos'=> $arfile);
-                unset($arfile);
+                $arcat[]= array('idcat'=> $idcat, 'descripcioncat'=> $c->descripcion, 'tipo'=> $c->tipo,'estadocat'=> $c->estado, 'subcategoria'=> $arsubcat);
+                //unset($arfile);
                 unset($arsubcat);
             }
 
@@ -75,7 +85,7 @@ class BibliotecaVirtualController extends Controller
 
     //FUNCION QUE OBTIENE NOMBRE DE LA CATEGORÍA
     public function get_namecat($id){
-        $sql= DB::connection('mysql')->select('SELECT descripcion, estado FROM tab_bv_categoria WHERE id=?',[$id]);
+        $sql= DB::connection('mysql')->select('SELECT descripcion, tipo, estado FROM tab_bv_categoria WHERE id=?',[$id]);
 
         return $sql;
     }
@@ -83,11 +93,12 @@ class BibliotecaVirtualController extends Controller
     //FUNCION QUE REGISTRA LA CATEGORIA DE LA BIBLIOTECA VIRTUAL
     public function registro_categoria(Request $r){
         $categoria= $r->categoria;
+        $tipocat = $r->tipocat;
         $date= now();
 
         $sql_insert = DB::connection('mysql')->insert('insert into tab_bv_categoria (
-            descripcion, created_at
-        ) values (?,?)', [$categoria, $date]);
+            descripcion, tipo, created_at
+        ) values (?,?,?)', [$categoria, $tipocat, $date]);
         
         if($sql_insert){
             return response()->json(["resultado"=> true]);
@@ -96,22 +107,44 @@ class BibliotecaVirtualController extends Controller
         }
     }
 
+    private function get_datacat($id){
+        $gettipo= DB::connection('mysql')->table('tab_bv_categoria')
+        ->where('id', '=',$id)
+        ->value('tipo');
+
+        if($gettipo=='galeria'){
+            $sql= DB::connection('mysql')->table('tab_bv_galeria')->where('id_bv_categoria', '=', $id)->count();
+        }else{
+            $sql= DB::connection('mysql')->table('tab_bv_archivos')->where('id_bv_categoria', '=', $id)->count();
+        }
+        
+        return $sql;
+    }
+
     //FUNCION QUE ACTUALIZA LA CATEGORIA DE LA BIBLIOTECA VIRTUAL
     public function actualizar_categoria(Request $r){
         $idcategoria= $r->idcategoria;
         $categoria= $r->categoria;
+        $tipocat = $r->tipocat;
         $estado= $r->estadocategoria;
         $date= now();
 
-        $sql_update= DB::connection('mysql')->table('tab_bv_categoria')
-        ->where('id', $idcategoria)
-        ->update(['descripcion'=> $categoria, 'estado' => $estado, 'updated_at'=> $date]);
-        
-        if($sql_update){
-            return response()->json(["resultado"=> true]);
-        }else{
-            return response()->json(["resultado"=> false]);
+        $validacion = $this->get_datacat($idcategoria);
+
+        if($validacion==0){
+            $sql_update= DB::connection('mysql')->table('tab_bv_categoria')
+            ->where('id', $idcategoria)
+            ->update(['descripcion'=> $categoria, 'tipo'=> $tipocat, 'estado' => $estado, 'updated_at'=> $date]);
+            
+            if($sql_update){
+                return response()->json(["resultado"=> true]);
+            }else{
+                return response()->json(["resultado"=> false]);
+            }
+        }else if($validacion>0){
+            return response()->json(["resultado"=> 'con_data']);
         }
+        
     }
 
     //FUNCION QUE REGISTRA LA SUBCATEGORIA DE LA BIBLIOTECA VIRTUAL
@@ -136,11 +169,22 @@ class BibliotecaVirtualController extends Controller
         }
     }
 
-    public function doc_virtual_register($idcat, $idsubcat, $tipo){
+    public function docs_virtual_register($idcat, $idsubcat, $tipo){
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
             $sql= DB::connection('mysql')->select('SELECT descripcion FROM tab_bv_categoria WHERE id=?',[$idcat]);
             $getSubCat= DB::connection('mysql')->table('tab_bv_subcategoria')->where('id_bv_categoria', $idcat)->get();
-            return response()->view('Administrador.Documentos.virtual.registrar_docfilevirtual', ['code'=>$idcat, 'categoria'=> $sql, 'idsubcat'=> $idsubcat, 'subcategoria'=> $getSubCat]);
+            //return $getSubCat;
+            return response()->view('Administrador.Documentos.virtual.registrar_docsvirtual', ['code'=>$idcat, 'categoria'=> $sql, 'idsubcat'=> $idsubcat, 'subcategoria'=> $getSubCat]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    public function galeria_virtual_register($idcat, $idsubcat, $tipo){
+        if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            $sql= DB::connection('mysql')->select('SELECT descripcion FROM tab_bv_categoria WHERE id=?',[$idcat]);
+            $getSubCat= DB::connection('mysql')->table('tab_bv_subcategoria')->where('id_bv_categoria', $idcat)->get();
+            return response()->view('Administrador.Documentos.virtual.registrar_filegalleryvirtual', ['code'=>$idcat, 'categoria'=> $sql, 'idsubcat'=> $idsubcat, 'subcategoria'=> $getSubCat]);
         }else{
             return redirect('/loginadmineep');
         }
@@ -180,6 +224,7 @@ class BibliotecaVirtualController extends Controller
             $subcategoria = $r->subcategoria;
             $aliasfiledbv= $r->inputAliasFileDocBiVir;
             $nombredocbv= $r->inputNameDocBiVir;
+            $descripcionbv = $r->descipcionfile;
             /*$typefile= $r->typefile;
             $lengfile= $r->lengfile;*/
 
@@ -196,12 +241,12 @@ class BibliotecaVirtualController extends Controller
                 if($storepoa){
                     if($subcategoria==0){
                         $sql_insert = DB::connection('mysql')->insert('insert into tab_bv_archivos (
-                            id_bv_categoria, titulo, archivo, created_at
-                        ) values (?,?,?,?)', [$categoria, $nombredocbv, $newnamebv, $date]);
+                            id_bv_categoria, titulo, descripcion, archivo, created_at
+                        ) values (?,?,?,?,?)', [$categoria, $nombredocbv, $descripcionbv, $newnamebv, $date]);
                     }else{
                         $sql_insert = DB::connection('mysql')->insert('insert into tab_bv_archivos (
-                            id_bv_categoria, id_bv_subcategoria, titulo, archivo, created_at
-                        ) values (?,?,?,?,?)', [$categoria, $subcategoria, $nombredocbv, $newnamebv, $date]);
+                            id_bv_categoria, id_bv_subcategoria, titulo, descripcion, archivo, created_at
+                        ) values (?,?,?,?,?,?)', [$categoria, $subcategoria, $nombredocbv, $descripcionbv, $newnamebv, $date]);
                     }
                     
     
@@ -218,6 +263,71 @@ class BibliotecaVirtualController extends Controller
             }
         }else{
             return response()->json(['resultado'=> false]);
+        }
+    }
+
+    //FUNCION QUE REALIZA EL INGRESO CORRESPONDIENTE DE LAS IMAGENES EN LA BD
+    public function store_files_bibliovirtual(Request $r){
+        if ($r->hasFile('file') ) {
+            $idcategoria= $r->input('idcategoriadoc');
+            $idsubcategoria= $r->input('idsubcat');
+            $objeto= $r->objeto;
+            $date= now();
+
+            $filesgallerybv  = $r->file('file'); //obtengo el archivo MEDIOS VERIFICACION
+            //$res= $objeto->getContent();
+            $array = json_decode($objeto, true);
+            $longcadena= sizeof($array);
+            $date= now();
+            $j=0;
+
+            for($i=0; $i<$longcadena; $i++){
+                $titulofile= $array[$i]['titulo'];
+                $descipcionfile= $array[$i]['descripcion'];
+
+                $contentfilegallerybv= $filesgallerybv[$i];
+                $filenamegallerybv= $filesgallerybv[$i]->getClientOriginalName();
+                $fileextensiongallerybv= $filesgallerybv[$i]->getClientOriginalExtension();
+
+                $newnamegallerybv= $filenamegallerybv.".".$fileextensiongallerybv;
+
+                if($fileextensiongallerybv== $this->validarFilesGallery($fileextensiongallerybv)){
+                    $storemediosv= Storage::disk('galeria_virtual')->put($newnamegallerybv,  \File::get($contentfilegallerybv));
+                    if($storemediosv){
+                        $sql_insert_file_gallery_bv = DB::connection('mysql')->insert('insert into tab_bv_galeria (
+                            id_bv_categoria, id_bv_subcategoria, archivo, titulo, descripcion, created_at
+                        ) values (?,?,?,?,?,?)', [$idcategoria, $idsubcategoria, $newnamegallerybv, $titulofile, $descipcionfile, $date]);
+                
+                        if($sql_insert_file_gallery_bv){
+                            $j++;
+                        }else{
+                            Storage::disk('galeria_virtual')->delete($newnamegallerybv);
+                        }
+                    }else{
+                        return response()->json(["resultado"=> false]);
+                    }
+                }else{
+                    return response()->json(['resultado'=> 'nofile']);
+                }
+            }
+
+            if($longcadena==$j){
+                return response()->json(["resultado"=> true]);
+            }else{
+                //DB::table('tab_mediosv')->where('id', '=', $LAST_ID)->delete();
+                return response()->json(["resultado"=> false]);
+            }
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    private function validarFilesGallery($extension){
+        $validar_extension= array("png","jpg","jpeg");
+        if(in_array($extension, $validar_extension)){
+            return true;
+        }else{
+            return false;
         }
     }
 

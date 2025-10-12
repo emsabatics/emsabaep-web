@@ -148,7 +148,8 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                   <td>Opciones Generales</td>
                                   <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
-                                      <a href="javascript:void(0)" onclick="openmodalSubCat({{$b['idcat']}},{{$loop->index}})" class="btn btn-success" title="Subcategoría"><i class="fas fa-plus"></i></a>
+                                      <a href="javascript:void(0)" onclick="openmodalSubCat({{$b['idcat']}},{{$loop->index}})" class="btn btn-info" title="Subcategoría"><i class="fas fa-plus"></i></a>
+                                      <a href="javascript:void(0)" onclick="registerFileCat({{$b['idcat']}})" class="btn btn-success" title="Documentos"><i class="fas fa-folder-plus"></i></a>
                                       <a href="javascript:void(0)" onclick="editarCat({{$b['idcat']}}, {{$loop->index}})" class="btn btn-primary" title="Editar"><i class="fas fa-edit"></i></a>
                                     </div>
                                   </td>
@@ -191,11 +192,7 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                       @else
                                       <a href="javascript:void(0)" class="btn btn-secondary" title="Activar Subcategoría" onclick="activarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye"></i></a>
                                       @endif
-                                      @if($b['tipo']=='galeria')
-                                      <a href="javascript:void(0)" onclick="registerFileGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Imágenes"><i class="fas fa-folder-plus"></i></a>
-                                      @else
                                       <a href="javascript:void(0)" onclick="registerFileSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Documentos"><i class="fas fa-folder-plus"></i></a>
-                                      @endif
                                       <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
                                       <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
                                     </div>
@@ -210,6 +207,43 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                               </tbody>
                             </table>
                             <!-- /TABLE SUBCATEGORIA -->
+                            
+                            <!-- /TABLE ARCHIVOS -->
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>Archivos sin Subcategoría</th>
+                                  <th><span class="float-right badge bg-success">{{count($b['archivos'])}}</span></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @if(count($b['archivos'])>0)
+                                @foreach($b['archivos'] as $f)
+                                <tr id="TrFile{{$loop->index}}OnCat{{$b['idcat']}}">
+                                  <td>{{$f['archivo']}}</td>
+                                  <td class="text-right py-0 align-middle">
+                                    <div class="btn-group btn-group-sm">
+                                      @if($f['estado']=='1')
+                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar" onclick="inactivarFileOnlyCat({{$f['idfile']}}, {{$b['idcat']}}, {{$loop->index}}, 'nosc')"><i class="fas fa-eye-slash"></i></a>
+                                      @else
+                                        <a href="javascript:void(0)" class="btn btn-secondary" title="Activar" onclick="activarFileOnlyCat({{$f['idfile']}}, {{$b['idcat']}}, {{$loop->index}}, 'nosc')"><i class="fas fa-eye"></i></a>
+                                      @endif
+                                      <a href="javascript:void(0)" class="btn btn-primary" title="Editar" onclick="editFileOnlyCat({{$f['idfile']}}, 'nosc')"><i class="fas fa-edit"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Ver Documento" onclick="vistaFileOnlyCat({{$f['idfile']}})"><i class="fas fa-folder"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-success" title="Descargar Documento" onclick="downloadFileOnlyCat('{{encriptarNumero($f['idfile'])}}')"><i class="fas fas fa-download"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar" onclick="eliminarFileOnlyCat({{$f['idfile']}}, {{$loop->index}}, 'nosc')"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                @endforeach
+                                @else
+                                  <tr>
+                                    <td style="text-align: center;" colspan="2">Sin Archivos</td>
+                                  </tr>
+                                @endif
+                              </tbody>
+                            </table>
+                            <!-- /TABLE ARCHIVOS -->
                           </div>
                           <!-- /.card-body -->
                         </div>
@@ -246,19 +280,6 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         autocomplete="off" maxlength="270"></textarea>
                     </div>
                     </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="form-group mb-3">
-                      <label for="">Tipo:</label>
-                      <select class="form-control" name="seltipocategoria" id="seltipocategoria">
-                        <option value="0">-Seleccione una Opción</option>
-                        <option value="galeria">Galería</option>
-                        <option value="educativa">Educativa</option>
-                        <option value="campaña">Campaña</option>
-                      </select>
-                    </div>
-                  </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -300,19 +321,6 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         </div>
                       </div>
                     </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="form-group mb-3">
-                      <label for="">Tipo:</label>
-                      <select class="form-control" name="seltipocategoriaedit" id="seltipocategoriaedit">
-                        <option value="0">-Seleccione una Opción</option>
-                        <option value="galeria">Galería</option>
-                        <option value="educativa">Educativa</option>
-                        <option value="campaña">Campaña</option>
-                      </select>
-                    </div>
-                  </div>
                 </div>
             </div>
             <div class="modal-footer">

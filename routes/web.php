@@ -644,6 +644,7 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/reportes-contador-descargas-auditoria', [ReportesContadorController::class, 'index_descargas_auditoria'])->name('reportes-contador-descargas-auditoria');
     Route::get('/reportes-contador-descargas-rendicionc', [ReportesContadorController::class, 'index_descargas_rendicionc'])->name('reportes-contador-descargas-rendicionc');
     Route::get('/reportes-contador-descargas-lotaipv1', [ReportesContadorController::class, 'index_descargas_lotaipv1'])->name('reportes-contador-descargas-lotaipv1');
+    Route::get('/reportes-contador-descargas-lotaipv2', [ReportesContadorController::class, 'index_descargas_lotaipv2'])->name('reportes-contador-descargas-lotaipv2');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {
@@ -892,7 +893,8 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     *BIBLIOTECA VIRTUAL
     */
     Route::get('/get-name-categoria/{id}', [BibliotecaVirtualController::class, 'get_namecat']);
-    Route::get('/registrar_doc_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'doc_virtual_register']);
+    Route::get('/registrar_docs_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'docs_virtual_register']);
+    Route::get('/registrar_gallery_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'galeria_virtual_register']);
     Route::get('/view_listdocs_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'listdoc_virtual_subcat']);
     Route::get('/get-name-subcategoria/{id}', [BibliotecaVirtualController::class, 'get_namesubcat']);
     Route::get('/edit_doc_subcatvirtual/{idf}/{opcion}/{tipo}', [BibliotecaVirtualController::class, 'edit_virtual_filesubcat']);
@@ -1180,6 +1182,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     Route::post('/registro-categoria', [BibliotecaVirtualController::class, 'registro_categoria']);
     Route::post('/registro-subcategoria', [BibliotecaVirtualController::class, 'registro_subcategoria']);
     Route::post('/store-doc-bibliovirtual', [BibliotecaVirtualController::class, 'store_doc_bibliovirtual']);
+    Route::post('/store-files-bibliovirtual', [BibliotecaVirtualController::class, 'store_files_bibliovirtual']);
 
     /*
     *LOGO INSTITUCIONAL

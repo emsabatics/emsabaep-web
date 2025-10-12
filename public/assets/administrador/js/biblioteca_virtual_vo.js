@@ -1,7 +1,3 @@
-var datos= [];
-var objeto= {};
-var contarCampos=0;
-
 function urlregistrarcate(){
     $('#modalAggCatBiV').modal('show');
 }
@@ -9,19 +5,14 @@ function urlregistrarcate(){
 function guardarCategoriaBiV(){
     var token= $('#token').val();
     var categoria= $('#inputCategoria').val();
-    var tipocat= $('#seltipocategoria').val();
 
     if(categoria==''){
         $('#inputCategoria').focus();
         swal('Ingrese una categoría','','warning');
-    }else if(tipocat=='0'){
-        $('#seltipocategoria').focus();
-        swal('Seleccione un tipo de categoría','','warning');
     }else{
         if(puedeGuardarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("categoria", categoria);
-        formData.append("tipocat", tipocat);
 
         var element = document.querySelector('.savecatbv');
         element.setAttribute("disabled", "");
@@ -277,7 +268,6 @@ function guardarDocVirtual(){
     var subcategoria = $("#selSubCategoria :selected").val();
     var nombredoc= $('#inputNameDocBiVir').val();
     var aliasfile = $("#inputAliasFileDocBiVir").val();
-    var descp = $('#inputDescpDocBiVir').val();
     var lengimg = fileInput.files.length;
     var typefile= fileInput.files[0].type;
 
@@ -287,9 +277,6 @@ function guardarDocVirtual(){
     } else if (aliasfile == "") {
         $("#inputAliasFileDocBiVir").focus();
         swal("No se ha generado el alias del documento", "", "warning");
-    } else if (descp.length == 0) {
-        $("#inputDescpDocBiVir").focus();
-        swal("No se ha ingresado una descripción del documento", "", "warning");
     } else if (lengimg == 0 ) {
         swal("No ha seleccionado un archivo", "", "warning");
     } else if (lengimg > 1) {
@@ -300,7 +287,6 @@ function guardarDocVirtual(){
             swal('Revise el alias del documento','','warning');
         }else{
             if(puedeGuardarM(nameInterfaz) === 'si'){
-            descp = descp.replace(/(\r\n|\n|\r)/gm, "//");
             var element = document.querySelector('.savedocvirtual');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
@@ -309,12 +295,11 @@ function guardarDocVirtual(){
 
             var data = new FormData(formDocBiVirtual);
             data.append("subcategoria", subcategoria);
-            data.append("descipcionfile", descp);
             /*data.append("typefile", typefile);
             data.append("lengfile", lengimg);*/
 
             setTimeout(() => {
-                sendNewDocBibliotecaVirtual(token, data, "/store-doc-bibliovirtual", element,'otro'); 
+                sendNewDocBibliotecaVirtual(token, data, "/store-doc-bibliovirtual", element); 
             }, 700);
             }else{
                 swal('No tiene permiso para guardar','','error');
@@ -323,85 +308,8 @@ function guardarDocVirtual(){
     }
 }
 
-function guardarImagenesDocvi(){
-    //e.preventDefault();
-    let fileInput = document.getElementById("file");
-    var idsubcat = $("#selSubCategoria :selected").val();
-
-    var lengimg = fileInput.files.length;
-    var token= $('#token').val();
-    if (lengimg == 0) {
-        swal("No ha seleccionado imágenes", "", "warning");
-    } else {
-        if(puedeGuardarM(nameInterfaz) === 'si'){
-        $('#modalFullSend').modal('show');
-        var element = document.querySelector('.savedocvirtual');
-        element.setAttribute("disabled", "");
-        element.style.pointerEvents = "none";
-
-        setTimeout(() => {
-            var getresult= getvalues(element);
-            if(getresult){
-                var data = new FormData(formDocBiVirtual);
-                data.append("idsubcat", idsubcat);
-                data.append("objeto", JSON.stringify(objeto));
-                setTimeout(() => {
-                    sendNewDocBibliotecaVirtual(token, data, "/store-files-bibliovirtual", element, 'galeria');
-                }, 900);
-            }else{
-                element.removeAttribute("disabled");
-                element.style.removeProperty("pointer-events");
-                $('#modalFullSend').modal('hide');
-                swal('Por favor, verifique que todos los campos se encuentren con datos','','warning');
-                return;
-            }
-        }, 900);
-        }else{
-            swal('No tiene permiso para guardar','','error');
-        }
-    }
-}
-
-function getvalues(el){
-    var inps = document.getElementsByName('inputFilebv[]');
-    var txts = document.getElementsByName('textFilebv[]');
-    
-    for (var i = 0; i <inps.length; i++) {
-        var inp=inps[i];
-        if(inp.value!='' && txts[i].value.length > 0){
-            let sinaccent= removeAccents(inp.value);
-            let minuscula= sinaccent.toLowerCase();
-            let cadenasinpoint= minuscula.replaceAll(/[.,/-]/g,"");
-            let cadena= cadenasinpoint.replaceAll(" ","_");
-
-            let cadenatxt = txts[i].value;
-            cadenatxt = cadenatxt.replace(/(\r\n|\n|\r)/gm, "//");
-            cadena= cadena.trim();
-            cadenatxt= cadenatxt.trim();
-            
-            datos.push({
-                "titulo" : cadena,
-                "descripcion" : cadenatxt
-            })
-            contarCampos++;
-        }else{
-            el.removeAttribute("disabled");
-            el.style.removeProperty("pointer-events");
-            swal('Por favor ingrese el título del documento','','warning');
-            return;
-        }
-    }
-
-    if(contarCampos==inps.length){
-        objeto= datos;
-        return true;
-    }else{
-        return false;
-    }
-}
-
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
-function sendNewDocBibliotecaVirtual(token, data, url, el, tipo){
+function sendNewDocBibliotecaVirtual(token, data, url, el){
     var contentType = "application/x-www-form-urlencoded;charset=utf-8";
     var xr = new XMLHttpRequest();
     xr.open('POST', url, true);
@@ -415,26 +323,16 @@ function sendNewDocBibliotecaVirtual(token, data, url, el, tipo){
             el.removeAttribute("disabled");
             el.style.removeProperty("pointer-events");
             if(myArr.resultado==true){
-                if(tipo=='galeria'){
-                    swal({
-                        title:'Excelente!',
-                        text:'Imágenes Registradas',
-                        type:'success',
-                        showConfirmButton: false,
-                        timer: 1700
-                    });
-                }else{
-                    swal({
-                        title:'Excelente!',
-                        text:'Documento Registrado',
-                        type:'success',
-                        showConfirmButton: false,
-                        timer: 1700
-                    });
-                }
+                swal({
+                    title:'Excelente!',
+                    text:'Documento Registrado',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
 
                 setTimeout(function(){
-                    window.location='/registrar_docs_virtual/'+currLoc+'/'+currSubc+'/v1';
+                    window.location='/registrar_doc_virtual/'+currLoc+'/'+currSubc+'/v1';
                 },1500);
                 
             } else if (myArr.resultado == "nofile") {
@@ -472,7 +370,6 @@ function editarCat(id, index){
             var myArr = JSON.parse(this.responseText);
             $(myArr).each(function(i,v){
                 $('#inputUpCategoria').val(v.descripcion);
-                $('#seltipocategoriaedit').val(v.tipo);
                 if(v.estado=='0'){
                     $("#customSwitchCat").prop('checked',false);
                     $('#estadoCategoria').html('Inactivo');
@@ -521,20 +418,15 @@ function actualizarCategoriaBiV(){
     var idcategoria= $('#idgetcategoria').val();
     var categoria= $('#inputUpCategoria').val();
     var estadocategoria= getSelectEstadoCheck();
-    var tipocat= $('#seltipocategoriaedit').val();
 
     if(categoria==''){
         $('#inputUpCategoria').focus();
         swal('Ingrese una Categoría','','warning');
-    }else if(tipocat=='0'){
-        $('#seltipocategoriaedit').focus();
-        swal('Seleccione un tipo de categoría','','warning');
     }else{
         if(puedeActualizarM(nameInterfaz) === 'si'){
         var formData= new FormData();
         formData.append("idcategoria", idcategoria);
         formData.append("categoria", categoria);
-        formData.append("tipocat", tipocat);
         formData.append("estadocategoria", estadocategoria);
 
         var element = document.querySelector('.updatecatbv');
@@ -576,10 +468,6 @@ function actualizarCategoriaBiV(){
                     element.removeAttribute("disabled");
                     element.style.removeProperty("pointer-events");
                     swal('No se pudo guardar el registro','','error');
-                }else if(myArr.resultado=='con_data'){
-                    element.removeAttribute("disabled");
-                    element.style.removeProperty("pointer-events");
-                    swal('No se pudo guardar el registro ya que contiene archivos almacenados en esta categoría','','error');
                 }
             }else if(xr.status === 400){
                 element.removeAttribute("disabled");
@@ -816,11 +704,7 @@ function actualizarSubCategoriaBiV(){
 }
 
 function registerFileSubCat(idcat, idsubcat){
-    window.location='/registrar_docs_virtual/'+idcat+'/'+idsubcat+'/v1';
-}
-
-function registerFileGallerySubCat(idcat, idsubcat){
-    window.location='/registrar_gallery_virtual/'+idcat+'/'+idsubcat+'/v1';
+    window.location='/registrar_doc_virtual/'+idcat+'/'+idsubcat+'/v1';
 }
 
 //FUNCION QUE DIRIGE A LA INTERFAZ QUE ENLISTA LOS DOCUMENTOS DE LA SUBCATEGORIA
