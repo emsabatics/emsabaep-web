@@ -896,10 +896,12 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/registrar_docs_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'docs_virtual_register']);
     Route::get('/registrar_gallery_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'galeria_virtual_register']);
     Route::get('/view_listdocs_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'listdoc_virtual_subcat']);
+    Route::get('/view_galleryfiles_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'galleryfiles_virtual_subcat']);
     Route::get('/get-name-subcategoria/{id}', [BibliotecaVirtualController::class, 'get_namesubcat']);
     Route::get('/edit_doc_subcatvirtual/{idf}/{opcion}/{tipo}', [BibliotecaVirtualController::class, 'edit_virtual_filesubcat']);
     Route::get('/download-docvirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'download_doc_virtual']);
     Route::get('/view-docfilevirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'view_doc_filevirtual']);
+    Route::get('/get-txt-img/{id}', [BibliotecaVirtualController::class, 'get_txt_img']);
 
     /*
     *LOGO INSTITUCIONAL
@@ -1432,6 +1434,8 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     Route::post('/actualizar-categoria', [BibliotecaVirtualController::class, 'actualizar_categoria']);
     Route::post('/update-docvirtual', [BibliotecaVirtualController::class, 'update_doc_virtual']);
     Route::post('/actualizar-subcategoria', [BibliotecaVirtualController::class, 'actualizar_subcategoria']);
+    Route::post('/update-files-bibliovirtual', [BibliotecaVirtualController::class, 'update_files_bibliovirtual']);
+    Route::post('/update-txtfiles-bibliovirtual', [BibliotecaVirtualController::class, 'update_txtfiles_bibliovirtual']);
 
     /*
     *LOGO INSTITUCIONAL
@@ -1689,6 +1693,8 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     Route::post('/in-activar-subcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_subcategoria']);
     Route::post('/in-activar-filesubcategoria', [BibliotecaVirtualController::class, 'inactivar_doc_filesubcategoria']);
     Route::post('/delete-file-oncat', [BibliotecaVirtualController::class, 'delete_file_oncat']);
+    Route::post('/in-activar-filegaleria', [BibliotecaVirtualController::class, 'inactivar_filegaleria']);
+    Route::post('/delete-file-galeria', [BibliotecaVirtualController::class, 'delete_file_galeria']);
 
     /*
     *LOGO INSTITUCIONAL

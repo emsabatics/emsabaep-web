@@ -186,18 +186,25 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                   </td>
                                   <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
-                                      @if($sc['estadosubcat']=='1')
-                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
-                                      @else
-                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Activar Subcategoría" onclick="activarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye"></i></a>
-                                      @endif
                                       @if($b['tipo']=='galeria')
-                                      <a href="javascript:void(0)" onclick="registerFileGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Imágenes"><i class="fas fa-folder-plus"></i></a>
+                                        @if($sc['estadosubcat']=='1')
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCatGallery({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
+                                        @else
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Activar Subcategoría" onclick="activarSubCatGallery({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye"></i></a>
+                                        @endif
+                                        <a href="javascript:void(0)" onclick="registerFileGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Imágenes"><i class="fas fa-folder-plus"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
                                       @else
-                                      <a href="javascript:void(0)" onclick="registerFileSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Documentos"><i class="fas fa-folder-plus"></i></a>
+                                        @if($sc['estadosubcat']=='1')
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
+                                        @else
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Activar Subcategoría" onclick="activarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye"></i></a>
+                                        @endif
+                                        <a href="javascript:void(0)" onclick="registerFileSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Documentos"><i class="fas fa-folder-plus"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
                                       @endif
-                                      <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
-                                      <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
                                     </div>
                                   </td>
                                 </tr>

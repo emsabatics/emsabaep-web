@@ -105,6 +105,9 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                   <div class="card-body">
                     <div class="row">
                       <div class="col-6">
+                        <div class="m-2">
+                          <span class="spanlabel">Contenido solo de lectura</span>
+                        </div>
                         <div class="form-group noevent">
                           @foreach($categoria as $c)
                             <div class="form-group noevent">
@@ -129,8 +132,22 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                             </optgroup>
                           </select>
                         </div>
+                        <div class="form-group mt-3 noevent">
+                          <label for="inputNameDocBiVir">Nombre del Documento: </label>
+                          <textarea class="form-control text-justify" id="inputNameDocBiVir" name="inputNameDocBiVir" placeholder="Ingrese un nombre"
+                            maxlength="250">{{ $archivos[0]->titulo }}</textarea>
+                        </div>
                       </div>
                       <div class="col-6">
+                        <div class="form-group mt-3 noevent">
+                          <label for="inputDescpDocBiVir">Descipción del Documento: </label>
+                          <textarea class="form-control text-justify" id="inputDescpDocBiVir" name="inputDescpDocBiVir" placeholder="Ingrese un contenido..."
+                            rows="7" cols="30"  maxlength="500">{{ str_replace('//', "\n", $archivos[0]->descripcion) }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
                         <!-- /TABLE ARCHIVOS -->
                         <table class="table table-responsive">
                           <thead>
@@ -153,14 +170,14 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                 <td class="text-right py-0 align-middle">
                                   <div class="btn-group btn-group-sm">
                                     @if($f->estado=='1')
-                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar" onclick="inactivarFileSubCat({{$f->id}}, {{$loop->index}}, 'withsc')"><i class="fas fa-eye-slash"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar" onclick="inactivarFileSubCat('{{encriptarNumero($f->id)}}', {{$loop->index}}, 'withsc')"><i class="fas fa-eye-slash"></i></a>
                                     @else
-                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Activar" onclick="activarFileSubCat({{$f->id}}, {{$loop->index}}, 'withsc')"><i class="fas fa-eye"></i></a>
+                                      <a href="javascript:void(0)" class="btn btn-secondary" title="Activar" onclick="activarFileSubCat('{{encriptarNumero($f->id)}}', {{$loop->index}}, 'withsc')"><i class="fas fa-eye"></i></a>
                                     @endif
-                                    <a href="javascript:void(0)" class="btn btn-primary" title="Editar" onclick="editFileSubCat({{$f->id}}, 'withsc')"><i class="fas fa-edit"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-secondary" title="Ver Documento" onclick="vistaFileSubCat({{$f->id}})"><i class="fas fa-folder"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-success" title="Descargar Documento" onclick="downloadFileSubCat({{$f->id}})"><i class="fas fas fa-download"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar" onclick="eliminarFileSubCat({{$f->id}}, {{$loop->index}}, 'withsc')"><i class="fas fa-trash"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-primary" title="Editar" onclick="editFileSubCat('{{encriptarNumero($f->id)}}', 'withsc')"><i class="fas fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-secondary" title="Ver Documento" onclick="vistaFileSubCat('{{encriptarNumero($f->id)}}')"><i class="fas fa-folder"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-success" title="Descargar Documento" onclick="downloadFileSubCat('{{encriptarNumero($f->id)}}')"><i class="fas fas fa-download"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar" onclick="eliminarFileSubCat('{{encriptarNumero($f->id)}}', {{$loop->index}}, 'withsc')"><i class="fas fa-trash"></i></a>
                                   </div>
                                 </td>
                               </tr>
@@ -171,12 +188,12 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                             </tr>
                           @endif
                         </tbody>
-                      </table>
-                      <!-- /TABLE ARCHIVOS -->
+                        </table>
+                        <!-- /TABLE ARCHIVOS -->
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
           </div>
       </div>
   </div>
@@ -209,11 +226,14 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
 <script src="{{asset('assets/administrador/js/biblioteca_virtual.js')}}"></script>
 <script src="{{asset('assets/administrador/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 
 <script>
   $('.select2').select2({
     theme: 'bootstrap4',
   });
+
+  const nameInterfaz = "Biblioteca Virtual";
 
   toastr.options = {
       "closeButton": false,

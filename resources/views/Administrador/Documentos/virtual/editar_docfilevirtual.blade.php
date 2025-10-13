@@ -140,17 +140,26 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                 maxlength="255">{{$p->titulo}}</textarea>
                               <input type="hidden" name="inputoriginalname" id="inputoriginalname" value="{{$p->titulo}}">
                             </div>
+                            @endforeach
+                          </div>
+                          <div class="col-6"> 
                             <div class="form-group">
                               <label for="inputAliasFileDocBiVirEdit">Alias del Documento: </label>
                               <div class="input-group mb-3">
                                 <button class="btn btn-outline-primary" type="button" onclick="generarAliasE()">Generar</button>
                                 <textarea id="inputAliasFileDocBiVirEdit" name="inputAliasFileDocBiVirEdit" class="form-control text-justify noevent" placeholder="Ingrese un alias" aria-label="Example" 
                                 aria-describedby="button-addon1">{{substr($p->archivo, 0, -4)}}</textarea>
-                                
                               </div>
                             </div>
-                            @endforeach
+                            <div class="form-group mt-3">
+                              <label for="inputDescpDocBiViredit">Descipción del Documento: <span class="spanlabel">500 caracteres máximo</span></label>
+                              <textarea class="form-control text-justify" id="inputDescpDocBiViredit" name="inputDescpDocBiViredit" placeholder="Ingrese un contenido..."
+                                rows="7" cols="30"  maxlength="500"> {{ str_replace('//', "\n", $p->descripcion) }}</textarea>
+                            </div>
                           </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-3"></div>
                           <div class="col-6">
                             @foreach($archivos as $p)
                             <div class="card-list grid-card-list" id="cardListDocVirtual">
@@ -185,6 +194,7 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                               </div>
                             </div>
                           </div>
+                          <div class="col-3"></div>
                         </div>
                         <div class="row">
                           <div class="col-lg-12 mt-4 d-flex justify-content-end">

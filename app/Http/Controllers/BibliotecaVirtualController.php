@@ -21,6 +21,9 @@ class BibliotecaVirtualController extends Controller
             $countCat= DB::connection('mysql')->table('tab_bv_categoria')->count();
             $countSucCat= DB::connection('mysql')->table('tab_bv_subcategoria')->count();
             $countFileCat= DB::connection('mysql')->table('tab_bv_archivos')->count();
+            $countFileGalleryCat= DB::connection('mysql')->table('tab_bv_galeria')->count();
+
+            $totalArchivos= (int) $countFileCat + (int) $countFileGalleryCat;
 
             $arcat= array();
 
@@ -77,7 +80,7 @@ class BibliotecaVirtualController extends Controller
             json_encode($arcat);
             //return $arcat;
             return response()->view('Administrador.Documentos.virtual.virtual', ['biblioteca'=> $arcat, 'totalC'=> $countCat, 
-                'totalSC'=> $countSucCat, 'totalFC'=> $countFileCat]);
+                'totalSC'=> $countSucCat, 'totalFC'=> $totalArchivos]);
         }else{
             return redirect('/loginadmineep');
         }
@@ -289,19 +292,19 @@ class BibliotecaVirtualController extends Controller
                 $filenamegallerybv= $filesgallerybv[$i]->getClientOriginalName();
                 $fileextensiongallerybv= $filesgallerybv[$i]->getClientOriginalExtension();
 
-                $newnamegallerybv= $filenamegallerybv.".".$fileextensiongallerybv;
+                //$newnamegallerybv= $filenamegallerybv.".".$fileextensiongallerybv;
 
                 if($fileextensiongallerybv== $this->validarFilesGallery($fileextensiongallerybv)){
-                    $storemediosv= Storage::disk('galeria_virtual')->put($newnamegallerybv,  \File::get($contentfilegallerybv));
+                    $storemediosv= Storage::disk('galeria_virtual')->put($filenamegallerybv,  \File::get($contentfilegallerybv));
                     if($storemediosv){
                         $sql_insert_file_gallery_bv = DB::connection('mysql')->insert('insert into tab_bv_galeria (
                             id_bv_categoria, id_bv_subcategoria, archivo, titulo, descripcion, created_at
-                        ) values (?,?,?,?,?,?)', [$idcategoria, $idsubcategoria, $newnamegallerybv, $titulofile, $descipcionfile, $date]);
+                        ) values (?,?,?,?,?,?)', [$idcategoria, $idsubcategoria, $filenamegallerybv, $titulofile, $descipcionfile, $date]);
                 
                         if($sql_insert_file_gallery_bv){
                             $j++;
                         }else{
-                            Storage::disk('galeria_virtual')->delete($newnamegallerybv);
+                            Storage::disk('galeria_virtual')->delete($filenamegallerybv);
                         }
                     }else{
                         return response()->json(["resultado"=> false]);
@@ -322,12 +325,130 @@ class BibliotecaVirtualController extends Controller
         }
     }
 
+    //FUNCION QUE REALIZA EL INGRESO CORRESPONDIENTE DE LAS IMAGENES EN LA BD
+    public function update_files_bibliovirtual(Request $r){
+        if ($r->hasFile('file') ) {
+            $files  = $r->file('file'); //obtengo el archivo
+            $idfile= $r->input('idfile');
+            $idfile = desencriptarNumero($idfile);
+            $date= now();
+
+            $this->deletepreviousimg($idfile);
+            
+            $j=0;
+
+            foreach($files as $file){
+                // here is your file object
+                $filename= $file->getClientOriginalName();
+                $fileextension= $file->getClientOriginalExtension();
+
+                if($fileextension== $this->validarFilesGallery($fileextension)){
+                    $storeimg= Storage::disk('galeria_virtual')->put($filename,  \File::get($file));
+                    if($storeimg){
+                        $sql_update= DB::table('tab_bv_galeria')
+                        ->where('id', $idfile)
+                        ->update(['archivo' => $filename, 'updated_at'=> $date]);
+                        if($sql_update){
+                           return response()->json(["resultado"=> true, 'nombreimg'=> $filename]);
+                        }else{
+                            Storage::disk('galeria_virtual')->delete($filename);
+                            return response()->json(["resultado"=> false]);
+                        }
+                    }else{
+                        return response()->json(["resultado"=>"nocopy"]);
+                    }
+                }
+            }
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    private function deletepreviousimg($id){
+        $getimg = DB::connection('mysql')->table('tab_bv_galeria')->where('id','=', $id)->value('archivo');
+
+        Storage::disk('galeria_virtual')->delete($getimg);
+    }
+
     private function validarFilesGallery($extension){
         $validar_extension= array("png","jpg","jpeg");
         if(in_array($extension, $validar_extension)){
             return true;
         }else{
             return false;
+        }
+    }
+
+    public function get_txt_img($id){
+        $id = desencriptarNumero($id);
+
+        $sql_data = DB::connection('mysql')->table('tab_bv_galeria')->select('titulo','descripcion')
+        ->where('id','=', $id)
+        ->first();
+
+        return response()->json($sql_data);
+    }
+
+    public function update_txtfiles_bibliovirtual(Request $r){
+        $idfile = $r->input('idfile');
+        $titulo = $r->input('titulo');
+        $descripcion = $r->input('descripcion');
+        $date = now();
+
+        $idfile = desencriptarNumero($idfile);
+        
+        $sql_update= DB::table('tab_bv_galeria')
+            ->where('id', $idfile)
+            ->update(['titulo' => $titulo, 'descripcion'=> $descripcion, 'updated_at'=> $date]);
+        if($sql_update){
+            return response()->json(["resultado"=> true]);
+        }else{
+            return response()->json(["resultado"=> false]);
+        }
+    }
+
+    //FUNCION QUE ACTIVA/INACTIVA EL REGISTO DE LA TABLA BV ARCHIVOS
+    public function inactivar_filegaleria(Request $request){
+        $id= $request->input('id');
+        $estado= $request->input('estado');
+        $id = desencriptarNumero($id);
+        $date= now();
+        //return response()->json(['id'=> $id,'estado'=> $estado]);
+
+        $sql_update= DB::connection('mysql')->table('tab_bv_galeria')
+                ->where('id', $id)
+                ->update(['estado' => $estado, 'updated_at'=> $date]);
+
+        if($sql_update){
+            return response()->json(['resultado'=> true]);
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    //FUNCION PARA ELIMINAR DEFINITIVAMENTE EL ARCHIVO
+    public function delete_file_galeria(Request $request){
+        $id= $request->input('id');
+        $estado= $request->input('estado');
+
+        $id = desencriptarNumero($id);
+
+        $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_bv_galeria WHERE id=?', [$id]);
+        $archivo='';
+        foreach ($sql_dato as $key) {
+            $archivo= $key->archivo;
+        }
+
+        $subpath = 'documentos/biblioteca_virtual_galeria/'.$archivo;
+        $path = storage_path('app/'.$subpath);
+        Storage::disk('galeria_virtual')->delete($archivo);
+
+        $deleted = DB::table('tab_bv_galeria')->where('id', '=', $id)->delete();
+
+        if($deleted){
+            return response()->json(['resultado'=> true]);
+        }else{
+            return response()->json(['resultado'=> false]);
         }
     }
 
@@ -387,6 +508,7 @@ class BibliotecaVirtualController extends Controller
     public function inactivar_doc_filesubcategoria(Request $request){
         $id= $request->input('id');
         $estado= $request->input('estado');
+        $id = desencriptarNumero($id);
         $date= now();
         //return response()->json(['id'=> $id,'estado'=> $estado]);
 
@@ -404,6 +526,7 @@ class BibliotecaVirtualController extends Controller
     //FUNCION QUE DESPLIEGA LA VISTA PARA EDITAR DOCUMENTO DE LA SUBCATEGORIA
     public function edit_virtual_filesubcat($idf, $opcion, $tipo){
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            $idf = desencriptarNumero($idf);
             $getFile= DB::connection('mysql')->table('tab_bv_archivos')->where('id', $idf)->get();
             $idcat='';
             $idsubcat='0';
@@ -428,12 +551,41 @@ class BibliotecaVirtualController extends Controller
         }
     }
 
+    //FUNCION QUE DESPLIEGA LA VISTA PARA EDITAR GALERIAS DE LA SUBCATEGORIA
+    public function galleryfiles_virtual_subcat($idcat, $idsubcat, $tipo){
+        if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            //$idcat = desencriptarNumero($idcat);
+            //$idsubcat = desencriptarNumero($idsubcat);
+            $getFile= DB::connection('mysql')->table('tab_bv_galeria')
+                ->where('id_bv_categoria', $idcat)
+                ->where('id_bv_subcategoria','=', $idsubcat)
+                ->get();
+
+            $getCategoria = DB::connection('mysql')->table('tab_bv_categoria')->where('id','=', $idcat)->value('descripcion');
+            $getSubCategoria = DB::connection('mysql')->table('tab_bv_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+            
+            $getonlyimg = $getFile
+            ->map(function($item){
+                return [
+                    'id_imagen' => $item->id,
+                    'imagen' => $item->archivo
+                ];
+            });
+
+            return response()->view('Administrador.Documentos.virtual.editar_galleryfilevirtual', ['idcat'=>$idcat, 'categoria'=> $getCategoria, 'idsubcat'=> $idsubcat, 
+                'subcategoria'=> $getSubCategoria, 'idfilesubcat'=> $idsubcat, 'archivos'=> $getFile, 'getonlyimg'=> $getonlyimg]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
     //FUNCION QUE ACTUALIZA LA DOCUMENTACION ADMINISTRATIVA EN LA BASE DE DATOS
     public function update_doc_virtual(Request $r){
         $date= now();
         $idfile= $r->idfilevirtual;
         $tituloDocVirtual= $r->inputNameDocBiVirEdit;
         $aliasfiledocvirtual= $r->inputAliasFileDocBiVirEdit;
+        $descripcion = $r->descipcionfile;
         $isDocVirtual= $r->isDocVirtual;
 
         if($isDocVirtual=="false"){
@@ -460,7 +612,7 @@ class BibliotecaVirtualController extends Controller
                     if($storedocvirtual){
                         $sql_update= DB::table('tab_bv_archivos')
                             ->where('id',$idfile)
-                            ->update(['titulo'=> $tituloDocVirtual, 'archivo'=> $newnamedocvirtual, 'updated_at'=> $date]);
+                            ->update(['titulo'=> $tituloDocVirtual, 'descripcion'=> $descripcion, 'archivo'=> $newnamedocvirtual, 'updated_at'=> $date]);
     
                         if($sql_update){
                             return response()->json(["resultado"=> true]);
@@ -483,7 +635,7 @@ class BibliotecaVirtualController extends Controller
 
             $sql_update= DB::table('tab_bv_archivos')
                 ->where('id',$idfile)
-                ->update(['titulo'=> $tituloDocVirtual, 'archivo'=> $newnamedocvirtual, 'updated_at'=> $date]);
+                ->update(['titulo'=> $tituloDocVirtual, 'descripcion'=> $descripcion, 'archivo'=> $newnamedocvirtual, 'updated_at'=> $date]);
     
             if($sql_update){
                 return response()->json(["resultado"=> true]);
@@ -510,6 +662,8 @@ class BibliotecaVirtualController extends Controller
     public function delete_file_oncat(Request $request){
         $id= $request->input('id');
         $estado= $request->input('estado');
+
+        $id = desencriptarNumero($id);
 
         $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_bv_archivos WHERE id=?', [$id]);
         $archivo='';
@@ -560,6 +714,7 @@ class BibliotecaVirtualController extends Controller
     //FUNCION QUE ABRE LA INTERFAZ PARA VISUALIZAR EL DOC VIRTUAL
     public function view_doc_filevirtual($idf, $opcion){
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            $idf= desencriptarNumero($idf);
             $filedocvirtual= DB::connection('mysql')
             ->select('SELECT id_bv_categoria, id_bv_subcategoria, titulo, archivo FROM tab_bv_archivos WHERE id=?', [$idf]);
 
