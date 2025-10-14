@@ -6,6 +6,31 @@
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/collapse.css')}}">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/inner-list.css')}}">
 <link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
+<!-- Toastr -->
+<link rel="stylesheet" href="{{asset('assets/administrador/plugins/toastr/toastr.min.css')}}">
+<style>
+    .testimonial .testimonial-item .testimonial-img {
+        position: relative;
+        width: 100px; 
+        height: 100px; 
+        top: 0; left: 50%; 
+        transform: translate(-50%, -50%);
+        border: 3px solid var(--bs-primary); 
+        border-style: dotted;
+        border-radius: 50%;
+    }
+    .testimonial .testimonial-item .testimonial-comment {
+        background: var(--bs-primary) !important;
+        color: var(--bs-white);
+        transition: 0.5s;
+    }
+
+    .testimonial .testimonial-item .testimonial-img {
+        border: 3px solid var(--bs-white); 
+        border-style: dotted;
+        transition: 0.5s;
+    }
+</style>
 @endsection
 
 
@@ -30,6 +55,7 @@
 @endsection
 
 @section('home')
+<input type="hidden" name="csrf-token" value="{{csrf_token()}}" id="token">
 <!-- Header Start -->
 <div class="container-fluid bg-breadcrumb p-0">
     <div class="container text-center py-5" style="max-width: 300px;">
@@ -39,33 +65,32 @@
 <!-- Header End -->
 
 <!-- Vision Start -->
-<div class="container-fluid contact bg-light py-5">
+<div class="container-fluid testimonial py-5">
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
             <h5 class="section-title px-3">
                 BIBLIOTECA VIRTUAL
             </h5>
+            <h1 class="mt-2 mb-4">{{ $namesubcat }}</h1>
         </div>
-        @if(count($bibliotecav)>0)
+        @if(count($bibliotecafiles)>0)
         <div class="row g-4 align-items-center mb-2">
-            <div class="col-lg-12 main-container">
-                <div class="cards">
-                    @foreach ($bibliotecav as $cat)
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">{{ $cat->descripcion }}</h2>
-                        <p class="card__apply">
-                            @if ($cat->tipo=='galeria')
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatgallery('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @else
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatother('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @endif
-                        </p>
+            @foreach ($bibliotecafiles as $bf)
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-item text-center rounded pb-4">
+                    <div class="testimonial-comment bg-light rounded p-4">
+                        <p class="text-center mb-2">{!! str_replace('//', '<br>', $bf->titulo) !!}</p>
+                        <p class="text-center mb-5">{!! str_replace('//', '<br>', $bf->descripcion) !!}</p>
                     </div>
-                    @endforeach
+                    <div class="testimonial-img p-1">
+                        <img src="{{ asset('assets/viewmain/img/web/pdf.png') }}" class="img-fluid rounded-circle" alt="Image">
+                    </div>
+                    <div style="margin-top: -35px;">
+                        <a href="javascript:void(0)" class="btn btn-primary rounded-pill py-2 px-4 btnlistop" onclick="downloadFileBv('{{ encriptarNumero($bf->id) }}')">Descargar</a>
+                    </div>
                 </div>
             </div>
+            @endforeach
         </div>
         @else
             <div class="row nonews">
@@ -77,6 +102,13 @@
                 </div>
             </div> 
         @endif
+        <div class="row g-4 mt-4 align-items-center">
+            <div class="co-lg-12">
+                <div class="btn-group">
+                    <button class="btn-p btn-intermediate" onclick="comeback_subcat_files()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -121,8 +153,30 @@
 @section('js')
 <!-- jQuery -->
 <script src="{{asset('assets/administrador/plugins/jquery/jquery.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('assets/administrador/plugins/toastr/toastr.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('assets/administrador/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
 <script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
+<script>
+    var idcat = @json($nidcat);
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "1800",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+</script>
 @endsection

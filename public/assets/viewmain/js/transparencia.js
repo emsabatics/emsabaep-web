@@ -585,6 +585,51 @@ function comeback_administrativo(){
 */
 
 //========================BIBLIOTECA VIRTUAL========================
+function view_subcatgallery(idcat){
+    window.location='/biblioteca-virtual-gallery-subcat/'+idcat;
+}
+
+function view_open_gallery(idsubcat){
+    window.location='/biblioteca-virtual/gallery/'+idcat+'/'+idsubcat;
+}
+
+function comeback_subcat_gallery(){
+    window.location='/biblioteca-virtual-gallery-subcat/'+idcat;
+}
+
+
+function view_subcatother(idcat){
+    window.location='/biblioteca-virtual-subcat/'+idcat;
+}
+
+function view_open_archivos(idsubcat){
+    window.location='/biblioteca-virtual/archivos/'+idcat+'/'+idsubcat;
+}
+
+function downloadFileBv(idfile){
+    var element = document.querySelector('.btnlistop');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", idfile);
+    sendIncrementLotaip(data, token, "/filebibliovir-increment");
+    setTimeout(() => {
+        window.location='/download-filebibliovirtual/'+idfile;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
+}
+
+function comeback_subcat_files(){
+    window.location= '/biblioteca-virtual-subcat/'+idcat
+}
+
+function comeback_cat_biblioteca(){
+    window.location='/biblioteca-virtual';
+}
+
 function comeback_listyearmediosv(){
     window.location='/biblioteca-transparencia/doc-administrativa/mediosv/v1';
 }

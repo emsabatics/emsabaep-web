@@ -609,7 +609,7 @@ class BibliotecaTransparenciaController extends Controller
         return response()->view('Viewmain.Transparencia.doc_administrativa.list_docpac_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'pac'=> $resultado]);
     }
 
-    public function view_biblioteca_virtual(){
+    public function view_biblioteca_virtual_original(){
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
@@ -660,5 +660,92 @@ class BibliotecaTransparenciaController extends Controller
         //return $arcat;
         return response()->view('Viewmain.Transparencia.biblioteca_virtual.list_bibliotecav', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
             'bibliotecav'=> $arcat]);
+    }
+
+    public function view_biblioteca_virtual(){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $estado='1';
+        $getCatBiblioteca= DB::connection('mysql')->table('tab_bv_categoria')->where('estado', $estado)->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.list_bibliotecav', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecav'=> $getCatBiblioteca]);
+    }
+
+    public function get_subcat_gallery_biblioteca_virtual($id){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $idcat = desencriptarNumero($id);
+
+        $estado='1';
+        $getSubCatBiblioteca= DB::connection('mysql')->table('tab_bv_subcategoria')
+        ->select('id', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('estado', $estado)
+        ->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.list_bibliotecavsubcatgallery', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecav'=> $getSubCatBiblioteca, 'categoria'=> $id]);
+    }
+
+    public function show_gallery_biblioteca_virtual($idcat, $idsubcat){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+        $nidcat = $idcat;
+        $idcat = desencriptarNumero($idcat);
+        $idsubcat = desencriptarNumero($idsubcat);
+
+        $namesubcat = DB::connection('mysql')->table('tab_bv_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+
+        $estado='1';
+        $getgallerybiblioteca= DB::connection('mysql')->table('tab_bv_galeria')
+        ->select('archivo', 'titulo', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('id_bv_subcategoria','=', $idsubcat)
+        ->where('estado', $estado)
+        ->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.viewopengallery', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecagallery'=> $getgallerybiblioteca, 'namesubcat' => $namesubcat, 'nidcat'=> $nidcat]);
+    }
+
+    public function get_subcat_biblioteca_virtual($id){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $idcat = desencriptarNumero($id);
+
+        $estado='1';
+        $getSubCatBiblioteca= DB::connection('mysql')->table('tab_bv_subcategoria')
+        ->select('id', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('estado', $estado)
+        ->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.list_bibliotecavsubcat', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecav'=> $getSubCatBiblioteca, 'categoria'=> $id]);
+    }
+
+    public function show_archivos_biblioteca_virtual($idcat, $idsubcat){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+        $nidcat = $idcat;
+        $idcat = desencriptarNumero($idcat);
+        $idsubcat = desencriptarNumero($idsubcat);
+
+        $namesubcat = DB::connection('mysql')->table('tab_bv_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+
+        $estado='1';
+        $getarchivosbiblioteca= DB::connection('mysql')->table('tab_bv_archivos')
+        ->select('id','archivo', 'titulo', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('id_bv_subcategoria','=', $idsubcat)
+        ->where('estado', $estado)
+        ->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.viewopenarchivos', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecafiles'=> $getarchivosbiblioteca, 'namesubcat' => $namesubcat, 'nidcat'=> $nidcat]);
     }
 }

@@ -48,24 +48,81 @@
         </div>
         @if(count($bibliotecav)>0)
         <div class="row g-4 align-items-center mb-2">
-            <div class="col-lg-12 main-container">
-                <div class="cards">
-                    @foreach ($bibliotecav as $cat)
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">{{ $cat->descripcion }}</h2>
-                        <p class="card__apply">
-                            @if ($cat->tipo=='galeria')
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatgallery('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @else
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatother('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @endif
-                        </p>
+            <div class="col-2"></div>
+            <div class="col-8">
+                @foreach ($bibliotecav as $cat)
+                <div id="accordion" class="myaccordion">
+                    <div class="card mt-2">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$loop->index}}-{{$cat['idcat']}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}-{{$cat['idcat']}}">
+                                    {{$cat['descripcioncat']}}
+                                  <span class="fa-stack fa-sm">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+                                  </span>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse-{{$loop->index}}-{{$cat['idcat']}}" class="collapse" aria-labelledby="heading-{{$loop->index}}-{{$cat['idcat']}}" data-parent="#accordion">
+                            <div class="card-body">
+                                <ul class="accordionul">
+                                    @if(count($cat['subcategoria'])>0)
+                                        @foreach ($cat['subcategoria'] as $subcat)
+                                        <li>
+                                            <p class="nest">{{$subcat['descripcionsubcat']}}</p>
+                                            @if(count($subcat['archivossubcat'])>0)
+                                                <ul class="inner">
+                                                    @foreach ($subcat['archivossubcat'] as $f)
+                                                        <li>
+                                                            <p class="nest">{{$f['titulo']}}</p>
+                                                            <ul class="inner">
+                                                                <div class="options-list">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual('{{encriptarNumero($f['idfile'])}}', 1)">
+                                                                        <i class="fas fa-download mr-3"></i> Descargar
+                                                                    </button>
+                                                                </div>
+                                                            </ul>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                            <ul class="inner">
+                                                <div class="options-list">
+                                                    <p class="nest">Sin Datos</p>
+                                                </div>
+                                            </ul>
+                                            @endif
+                                        </li>
+                                        @endforeach
+                                    @endif
+                                    @if(count($cat['archivos'])>0)
+                                        @foreach ($cat['archivos'] as $fc)
+                                            <li>
+                                                <p class="nest">{{$fc['titulo']}}</p>
+                                                <ul class="inner">
+                                                    <div class="options-list">
+                                                        <button type="button" class="btn btn-primary btn-sm mr-3 btnlistop" title="Descargar" onclick="downloadfilevirtual('{{encriptarNumero($fc['idfile'])}}', 2)">
+                                                            <i class="fas fa-download mr-3"></i> Descargar
+                                                        </button>
+                                                    </div>
+                                                </ul>
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                    @if(count($cat['subcategoria'])==0 && count($cat['archivos'])==0)
+                                    <li>
+                                        <p class="nest">Sin Datos</p> 
+                                    </li>
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
+            <div class="col-2"></div>
         </div>
         @else
             <div class="row nonews">

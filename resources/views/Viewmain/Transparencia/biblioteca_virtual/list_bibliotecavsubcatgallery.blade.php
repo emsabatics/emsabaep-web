@@ -43,24 +43,20 @@
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
             <h5 class="section-title px-3">
-                BIBLIOTECA VIRTUAL
+                BIBLIOTECA VIRTUAL - GALERÍA
             </h5>
         </div>
         @if(count($bibliotecav)>0)
         <div class="row g-4 align-items-center mb-2">
             <div class="col-lg-12 main-container">
                 <div class="cards">
-                    @foreach ($bibliotecav as $cat)
+                    @foreach ($bibliotecav as $subcat)
                     <div class="card card-emsaba">
                         <div class="card__icon"><i class="fas fa-tint"></i></div>
                         <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">{{ $cat->descripcion }}</h2>
+                        <h2 class="card__title">{{ $subcat->descripcion }}</h2>
                         <p class="card__apply">
-                            @if ($cat->tipo=='galeria')
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatgallery('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @else
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatother('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @endif
+                            <a class="card__link" href="javascript:void(0)" onclick="view_open_gallery('{{ encriptarNumero($subcat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                         </p>
                     </div>
                     @endforeach
@@ -77,6 +73,13 @@
                 </div>
             </div> 
         @endif
+        <div class="row g-4 mt-4 align-items-center bg-light">
+            <div class="co-lg-12">
+                <div class="btn-group">
+                    <button class="btn-p btn-intermediate" onclick="comeback_cat_biblioteca()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -125,4 +128,7 @@
 <script src="{{asset('assets/administrador/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
 <script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
+<script>
+    var idcat = @json($categoria);
+</script>
 @endsection

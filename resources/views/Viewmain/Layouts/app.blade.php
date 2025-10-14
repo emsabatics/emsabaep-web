@@ -122,9 +122,6 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Transparencia</a>
                             <div class="dropdown-menu m-0">
-                                <a href="{{url('transp-lotaip')}}" class="dropdown-item">LOTAIP</a>
-                                <a href="{{url('transp-lotaip2')}}" class="dropdown-item">LOTAIP 2.0</a>
-                                <a href="{{url('/transparencia/rendicion-cuenta')}}" class="dropdown-item">Rendición de Cuentas</a>
                                 <a href="{{url('biblioteca-virtual')}}" class="dropdown-item">Biblioteca Virtual</a>
                                 <a href="{{url('biblioteca-transparencia')}}" class="dropdown-item">Biblioteca de Transparencia</a>
                             </div>

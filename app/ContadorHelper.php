@@ -16,6 +16,7 @@ class ContadorHelper
                 'tab_archivos_rendicion_cuentas',
                 'tab_auditoria',
                 'tab_bv_archivos',
+                'tab_bv_galeria',
                 'tab_doc_administrativo',
                 'tab_doc_financiero',
                 'tab_doc_laboral',

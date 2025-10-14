@@ -5,6 +5,7 @@
 <link href="{{asset('assets/viewmain/css/stylebutton.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/collapse.css')}}">
 <link rel="stylesheet" href="{{asset('assets/viewmain/css/inner-list.css')}}">
+<link rel="stylesheet" href="{{asset('assets/viewmain/css/gallerystyle.css')}}">
 <link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 @endsection
 
@@ -39,33 +40,32 @@
 <!-- Header End -->
 
 <!-- Vision Start -->
-<div class="container-fluid contact bg-light py-5">
+<div class="container-fluid blog py-5">
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
             <h5 class="section-title px-3">
-                BIBLIOTECA VIRTUAL
+                BIBLIOTECA VIRTUAL - GALERÍA
             </h5>
+            <h1 class="mt-2 mb-4">{{ $namesubcat }}</h1>
         </div>
-        @if(count($bibliotecav)>0)
-        <div class="row g-4 align-items-center mb-2">
-            <div class="col-lg-12 main-container">
-                <div class="cards">
-                    @foreach ($bibliotecav as $cat)
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">{{ $cat->descripcion }}</h2>
-                        <p class="card__apply">
-                            @if ($cat->tipo=='galeria')
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatgallery('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @else
-                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatother('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                            @endif
-                        </p>
+        @if(count($bibliotecagallery)>0)
+        <div class="row g-4 justify-content-center mb-2">
+            @foreach ($bibliotecagallery as $bg)
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <div class="blog-img destination-img">
+                            <img class="img-fluid w-100" src="/galeria-bibliotecavirtual/{{ $bg->archivo }}" alt="">
+                            <div class="search-icon">
+                                <a href="/galeria-bibliotecavirtual/{{ $bg->archivo }}" data-lightbox="galeria-{{ $loop->iteration }}"><i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i></a>
+                            </div>
+                        </div>
+                        <div class="blog-content border border-top-0 rounded-bottom p-4">
+                            <p class="titulop text-justify mb-3">{{ $bg->titulo }}</p>
+                            <p class="descripcionp text-justify my-3">{!! str_replace('//', '<br>', $bg->descripcion) !!}</p>
+                        </div>
                     </div>
-                    @endforeach
                 </div>
-            </div>
+            @endforeach
         </div>
         @else
             <div class="row nonews">
@@ -77,6 +77,13 @@
                 </div>
             </div> 
         @endif
+        <div class="row g-4 mt-4 align-items-center">
+            <div class="co-lg-12">
+                <div class="btn-group">
+                    <button class="btn-p btn-intermediate" onclick="comeback_subcat_gallery()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -125,4 +132,7 @@
 <script src="{{asset('assets/administrador/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
 <script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
+<script>
+    var idcat = @json($nidcat);
+</script>
 @endsection

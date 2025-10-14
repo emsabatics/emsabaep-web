@@ -214,7 +214,11 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     *BIBLIOTECA TRANSPARENCIA VISTA PRINCIPAL LOTAIP
     */
     Route::get('/biblioteca-virtual', [BibliotecaTransparenciaController::class, 'view_biblioteca_virtual'])->name('biblioteca-virtual');
+    Route::get('/biblioteca-virtual-gallery-subcat/{id}', [BibliotecaTransparenciaController::class, 'get_subcat_gallery_biblioteca_virtual']);
+    Route::get('/biblioteca-virtual/gallery/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'show_gallery_biblioteca_virtual']);
 
+    Route::get('/biblioteca-virtual-subcat/{id}', [BibliotecaTransparenciaController::class, 'get_subcat_biblioteca_virtual']);
+    Route::get('/biblioteca-virtual/archivos/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'show_archivos_biblioteca_virtual']);
 });
 
 /*===================================================================================================================================/
@@ -902,6 +906,7 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/download-docvirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'download_doc_virtual']);
     Route::get('/view-docfilevirtual/{idf}/{opcion}', [BibliotecaVirtualController::class, 'view_doc_filevirtual']);
     Route::get('/get-txt-img/{id}', [BibliotecaVirtualController::class, 'get_txt_img']);
+    Route::get('/download-filebibliovirtual/{idf}', [BibliotecaVirtualController::class, 'download_file_bibliovirtual']);
 
     /*
     *LOGO INSTITUCIONAL
@@ -1185,6 +1190,7 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     Route::post('/registro-subcategoria', [BibliotecaVirtualController::class, 'registro_subcategoria']);
     Route::post('/store-doc-bibliovirtual', [BibliotecaVirtualController::class, 'store_doc_bibliovirtual']);
     Route::post('/store-files-bibliovirtual', [BibliotecaVirtualController::class, 'store_files_bibliovirtual']);
+    Route::post('/filebibliovir-increment', [BibliotecaVirtualController::class, 'filebibliovir_increment']);
 
     /*
     *LOGO INSTITUCIONAL

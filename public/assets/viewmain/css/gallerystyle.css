@@ -1,0 +1,63 @@
+.blog .blog-item .destination-img  {
+    position: relative;
+    overflow: hidden;
+    /*border-radius: 10px;*/
+    z-index: 1;
+}
+
+.blog .blog-item .destination-img img {
+    transition: 0.5s;
+}
+
+.blog .blog-item .destination-img .search-icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: end;
+    padding: 20px 20px 0 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.blog .blog-item .destination-img .search-icon a i {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.blog .blog-item .destination-img:hover .search-icon {
+    background: rgba(19, 53, 123, 0.4);
+}
+
+.blog .blog-item .destination-img:hover .destination-overlay {
+    bottom: 0;
+}
+
+.blog .blog-item .destination-img:hover .search-icon a i {
+    opacity: 1;
+}
+
+.blog .blog-item .destination-img img {
+    transition: 0.5s;
+}
+
+.blog .blog-item .destination-img:hover img {
+    transform: scale(1.2);
+}
+
+.blog .blog-item .blog-content .titulop{
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: 500;
+    color: #000;
+}
+
+.blog .blog-item .blog-content .descripcionp{
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 500;
+    color: #000;
+}

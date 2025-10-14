@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\ContadorHelper;
 
 class BibliotecaVirtualController extends Controller
 {
@@ -722,5 +723,41 @@ class BibliotecaVirtualController extends Controller
         }else{
             return redirect('/loginadmineep');
         }
+    }
+
+    //FUNCION PARA DESCARGAR LOS FILES
+    public function download_file_bibliovirtual($id){
+        $id = desencriptarNumero($id);
+        
+        $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_bv_archivos WHERE id=?', [$id]);
+
+        $archivo='';
+        foreach ($sql_dato as $key) {
+            $archivo= $key->archivo;
+        }
+
+        $subpath = 'documentos/biblioteca_virtual/'.$archivo;
+        $path = storage_path('app/'.$subpath);
+        //$url = public_path("/storage/app/img_banner/" . $archivo);
+        $url = public_path("/storage/doc-bibliotecavirtual/" . $archivo);
+        //verificamos si el archivo existe y lo retornamos
+        if (Storage::disk('biblioteca_virtual')->exists($archivo))
+        {
+            //return Storage::disk('img_banner')->download($url);
+            return response()->download($path);
+        }else{
+            //return response()->json(['DATO: '=> 'no existe']);
+            //si no se encuentra lanzamos un error 404.
+            abort(404);
+        }
+    }
+
+    public function filebibliovir_increment(Request $r){
+        $id = $r->input('idfile');
+        $id = desencriptarNumero($id);
+
+        //Incrementar contador de descargas (llamada limpia y segura)
+        ContadorHelper::incrementarDescarga('tab_bv_archivos', $id);
+        //return response()->json(['resultado'=>true]);
     }
 }
