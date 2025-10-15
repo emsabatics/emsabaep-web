@@ -760,4 +760,137 @@ class BibliotecaVirtualController extends Controller
         ContadorHelper::incrementarDescarga('tab_bv_archivos', $id);
         //return response()->json(['resultado'=>true]);
     }
+
+    public function delete_gallery_sure_subcategoria(Request $r){
+        $idcat = $r->input('idcat');
+        $idsubcat = $r->input('idsubcat');
+
+        $sqlfiles = DB::connection('mysql')->table('tab_bv_galeria')->where('id_bv_categoria','=',$idcat)->where('id_bv_subcategoria','=',$idsubcat)->get();
+
+        $i=0; $j=0;
+        foreach ($sqlfiles as $f) {
+            $archivo = $f->archivo;
+            $filedel = Storage::disk('galeria_virtual')->delete($archivo);
+            if($filedel){
+                $i++;
+                $deleted = DB::table('tab_bv_galeria')->where('id', '=', $f->id)->delete();
+                if($deleted){
+                    $j++;
+                }
+            }
+        }
+
+        if($i==$j){
+            $deletedsc = DB::table('tab_bv_subcategoria')->where('id', '=', $idsubcat)->delete();
+
+            if($deletedsc){
+                return response()->json(['resultado'=> true]);
+            }else{
+                return response()->json(['resultado'=> false]);
+            }
+        }else{
+            return response()->json(['resultado'=> 'no_all_delete']);
+        }
+    }
+
+    public function delete_file_sure_subcategoria(Request $r){
+        $idcat = $r->input('idcat');
+        $idsubcat = $r->input('idsubcat');
+
+        $sqlfiles = DB::connection('mysql')->table('tab_bv_archivos')->where('id_bv_categoria','=',$idcat)->where('id_bv_subcategoria','=',$idsubcat)->get();
+
+        $i=0; $j=0;
+        foreach ($sqlfiles as $f) {
+            $archivo = $f->archivo;
+            $filedel = Storage::disk('biblioteca_virtual')->delete($archivo);
+            if($filedel){
+                $i++;
+                $deleted = DB::table('tab_bv_archivos')->where('id', '=', $f->id)->delete();
+                if($deleted){
+                    $j++;
+                }
+            }
+        }
+
+        if($i==$j){
+            $deletedsc = DB::table('tab_bv_subcategoria')->where('id', '=', $idsubcat)->delete();
+
+            if($deletedsc){
+                return response()->json(['resultado'=> true]);
+            }else{
+                return response()->json(['resultado'=> false]);
+            }
+        }else{
+            return response()->json(['resultado'=> 'no_all_delete']);
+        }
+    }
+
+    public function videos_virtual_register($idcat, $idsubcat, $tipo){
+        if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            $sql= DB::connection('mysql')->select('SELECT descripcion FROM tab_bv_categoria WHERE id=?',[$idcat]);
+            $getSubCat= DB::connection('mysql')->table('tab_bv_subcategoria')->where('id_bv_categoria', $idcat)->get();
+            return response()->view('Administrador.Documentos.virtual.registrar_filevideosvirtual', ['code'=>$idcat, 'categoria'=> $sql, 'idsubcat'=> $idsubcat, 'subcategoria'=> $getSubCat]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    //FUNCION QUE REALIZA EL INGRESO CORRESPONDIENTE DE LAS IMAGENES EN LA BD
+    public function store_videos_bibliovirtual(Request $r){
+        if ($r->hasFile('file') ) {
+            $idcategoria= $r->input('idcategoriadoc');
+            $idsubcategoria= $r->input('idsubcat');
+            $date= now();
+
+            $filesgallerybv  = $r->file('file'); //obtengo el archivo MEDIOS VERIFICACION
+            $longcadena= sizeof($filesgallerybv);
+            $date= now();
+            $j=0;
+
+            for($i=0; $i<$longcadena; $i++){
+                $contentfilegallerybv= $filesgallerybv[$i];
+                $filenamegallerybv= $filesgallerybv[$i]->getClientOriginalName();
+                $fileextensiongallerybv= $filesgallerybv[$i]->getClientOriginalExtension();
+
+                //$newnamegallerybv= $filenamegallerybv.".".$fileextensiongallerybv;
+
+                if($fileextensiongallerybv== $this->validarFileVideo($fileextensiongallerybv)){
+                    $storemediosv= Storage::disk('videos_virtual')->put($filenamegallerybv,  \File::get($contentfilegallerybv));
+                    if($storemediosv){
+                        $sql_insert_file_gallery_bv = DB::connection('mysql')->insert('insert into tab_bv_videos (
+                            id_bv_categoria, id_bv_subcategoria, archivo, created_at
+                        ) values (?,?,?,?)', [$idcategoria, $idsubcategoria, $filenamegallerybv, $date]);
+                
+                        if($sql_insert_file_gallery_bv){
+                            $j++;
+                        }else{
+                            Storage::disk('videos_virtual')->delete($filenamegallerybv);
+                        }
+                    }else{
+                        return response()->json(["resultado"=> false]);
+                    }
+                }else{
+                    return response()->json(['resultado'=> 'nofile']);
+                }
+            }
+
+            if($longcadena==$j){
+                return response()->json(["resultado"=> true]);
+            }else{
+                //DB::table('tab_mediosv')->where('id', '=', $LAST_ID)->delete();
+                return response()->json(["resultado"=> false]);
+            }
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    private function validarFileVideo($extension){
+        $validar_extension= array("mp4");
+        if(in_array($extension, $validar_extension)){
+            return $extension;
+        }else{
+            return "0";
+        }
+    }
 }

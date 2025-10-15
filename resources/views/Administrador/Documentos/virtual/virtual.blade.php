@@ -187,6 +187,7 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                   <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
                                       @if($b['tipo']=='galeria')
+                                        <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar SubCategoría" onclick="deleteGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-trash"></i></a>
                                         @if($sc['estadosubcat']=='1')
                                           <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCatGallery({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
                                         @else
@@ -195,7 +196,18 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                                         <a href="javascript:void(0)" onclick="registerFileGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Imágenes"><i class="fas fa-folder-plus"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesGallerySubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
+                                      @elseif($b['tipo']=='video')
+                                        <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar SubCategoría" onclick="deleteVideoSubCat({{$b['idcat']}}, {{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-trash"></i></a>
+                                        @if($sc['estadosubcat']=='1')
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCatVideo({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
+                                        @else
+                                          <a href="javascript:void(0)" class="btn btn-secondary" title="Activar Subcategoría" onclick="activarSubCatVideo({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye"></i></a>
+                                        @endif
+                                        <a href="javascript:void(0)" onclick="registerFileVideoSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})" class="btn btn-success" title="Agregar Imágenes"><i class="fas fa-folder-plus"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-primary" title="Editar Subcategoría" onclick="editSubCat({{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-info" title="Editar Documentos SubCategoría" onclick="viewListFilesVideoSubCat({{$b['idcat']}}, {{$sc['idsubcat']}})"><i class="fas fa-file-signature"></i></a>
                                       @else
+                                        <a href="javascript:void(0)" class="btn btn-danger" title="Eliminar SubCategoría" onclick="deleteFileSubCat({{$b['idcat']}}, {{$sc['idsubcat']}}, {{$loop->index}})"><i class="fas fa-trash"></i></a>
                                         @if($sc['estadosubcat']=='1')
                                           <a href="javascript:void(0)" class="btn btn-secondary" title="Inactivar Subcategoría" onclick="inactivarSubCat({{$sc['idsubcat']}}, {{$b['idcat']}}, {{$loop->index}})"><i class="fas fa-eye-slash"></i></a>
                                         @else
@@ -263,6 +275,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         <option value="galeria">Galería</option>
                         <option value="educativa">Educativa</option>
                         <option value="campaña">Campaña</option>
+                        <option value="video">Videos</option>
                       </select>
                     </div>
                   </div>
@@ -317,6 +330,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                         <option value="galeria">Galería</option>
                         <option value="educativa">Educativa</option>
                         <option value="campaña">Campaña</option>
+                        <option value="video">Videos</option>
                       </select>
                     </div>
                   </div>
@@ -349,6 +363,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" data-bs-focus="f
                       <div class="form-group mb-3 noevent">
                         <input type="hidden" name="indexselsubcat" id="indexselsubcat">
                         <input type="hidden" name="idcategoria" id="idcategoria">
+                        <input type="hidden" name="tipocategoria" id="tipocategoria">
                         <label for="inputviewcategoria">Categoría: </label>
                         <textarea name="inputviewcategoria" class="form-control text-justify" id="inputviewcategoria" cols="30" rows="5" placeholder="Categoría" 
                         autocomplete="off" maxlength="270"></textarea>

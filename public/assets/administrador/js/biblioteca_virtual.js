@@ -85,6 +85,7 @@ function openmodalSubCat(id, index){
             $('#idcategoria').val(id);
             $(myArr).each(function(i,v){
                 $('#inputviewcategoria').val(v.descripcion);
+                $('#tipocategoria').val(v.tipo);
             })
             setTimeout(() => {
                 $('#modalAggSubCatBiV').modal('show');
@@ -106,6 +107,7 @@ function guardarSubCategoriaBiV(){
     var idcategoria= $('#idcategoria').val();
     var subcategoria= $('#inputSubcategoria').val();
     var itemselection= $('#indexselsubcat').val();
+    var tipocat = $('#tipocategoria').val();
     var html="";
     let filas = $('#TableSubCat'+itemselection).find('tbody tr').length;
 
@@ -140,18 +142,50 @@ function guardarSubCategoriaBiV(){
                     });
     
                     setTimeout(function(){
-                        html+="<tr id='TrSub"+myArr.ID+"Cat"+filas+"'>"+
-                            "<td>"+subcategoria+"</td>"+
-                            "<td>"+myArr.totalfile+"</td>"+
-                            "<td class='text-right py-0 align-middle'>"+
-                                "<div class='btn-group btn-group-sm'>"+
-                                    "<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar Subcategoría' onclick='inactivarSubCat("+myArr.ID+","+idcategoria+","+filas+")'><i class='fas fa-eye-slash'></i></a>"+
-                                    "<a href='javascript:void(0)' onclick='registerFileSubCat("+idcategoria+", "+myArr.ID+")' class='btn btn-success' title='Agregar Documentos'><i class='fas fa-folder-plus'></i></a>"+
-                                    "<a href='javascript:void(0)' class='btn btn-primary' title='Editar Subcategoría' onclick='editSubCat("+myArr.ID+","+filas+")'><i class='fas fa-edit'></i></a>"+
-                                    "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesSubCat("+idcategoria+","+myArr.ID+")'><i class='fas fa-file-signature'></i></a>"+
-                                "</div>"+
-                            "</td>"+
-                        "</tr>";
+                        if(tipocat=='galeria'){
+                            html+="<tr id='TrSub"+myArr.ID+"Cat"+filas+"'>"+
+                                "<td>"+subcategoria+"</td>"+
+                                "<td>Sin Archivos</td>"+
+                                "<td class='text-right py-0 align-middle'>"+
+                                    "<div class='btn-group btn-group-sm'>"+
+                                        "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteGallerySubCat("+idcategoria+", "+myArr.ID+", "+filas+")'><i class='fas fa-trash'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar Subcategoría' onclick='inactivarSubCatGallery("+myArr.ID+","+idcategoria+","+filas+")'><i class='fas fa-eye-slash'></i></a>"+
+                                        "<a href='javascript:void(0)' onclick='registerFileGallerySubCat("+idcategoria+", "+myArr.ID+")' class='btn btn-success' title='Agregar Imágenes'><i class='fas fa-folder-plus'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-primary' title='Editar Subcategoría' onclick='editSubCat("+myArr.ID+","+filas+")'><i class='fas fa-edit'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesGallerySubCat("+idcategoria+","+myArr.ID+")'><i class='fas fa-file-signature'></i></a>"+
+                                    "</div>"+
+                                "</td>"+
+                            "</tr>";
+                        }else if(tipocat=='video'){
+                            html+="<tr id='TrSub"+myArr.ID+"Cat"+filas+"'>"+
+                                "<td>"+subcategoria+"</td>"+
+                                "<td>Sin Archivos</td>"+
+                                "<td class='text-right py-0 align-middle'>"+
+                                    "<div class='btn-group btn-group-sm'>"+
+                                        "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteVideoSubCat("+idcategoria+", "+myArr.ID+", "+filas+")'><i class='fas fa-trash'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar Subcategoría' onclick='inactivarSubCatVideo("+myArr.ID+","+idcategoria+","+filas+")'><i class='fas fa-eye-slash'></i></a>"+
+                                        "<a href='javascript:void(0)' onclick='registerFileVideoSubCat("+idcategoria+", "+myArr.ID+")' class='btn btn-success' title='Agregar Imágenes'><i class='fas fa-folder-plus'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-primary' title='Editar Subcategoría' onclick='editSubCat("+myArr.ID+","+filas+")'><i class='fas fa-edit'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesVideoSubCat("+idcategoria+","+myArr.ID+")'><i class='fas fa-file-signature'></i></a>"+
+                                    "</div>"+
+                                "</td>"+
+                            "</tr>";
+                        }else{
+                            html+="<tr id='TrSub"+myArr.ID+"Cat"+filas+"'>"+
+                                "<td>"+subcategoria+"</td>"+
+                                "<td>Sin Archivos</td>"+
+                                "<td class='text-right py-0 align-middle'>"+
+                                    "<div class='btn-group btn-group-sm'>"+
+                                        "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteFileSubCat("+idcategoria+", "+myArr.ID+", "+filas+")'><i class='fas fa-trash'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar Subcategoría' onclick='inactivarSubCat("+myArr.ID+","+idcategoria+","+filas+")'><i class='fas fa-eye-slash'></i></a>"+
+                                        "<a href='javascript:void(0)' onclick='registerFileSubCat("+idcategoria+", "+myArr.ID+")' class='btn btn-success' title='Agregar Documentos'><i class='fas fa-folder-plus'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-primary' title='Editar Subcategoría' onclick='editSubCat("+myArr.ID+","+filas+")'><i class='fas fa-edit'></i></a>"+
+                                        "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesSubCat("+idcategoria+","+myArr.ID+")'><i class='fas fa-file-signature'></i></a>"+
+                                    "</div>"+
+                                "</td>"+
+                            "</tr>";
+                        }
+                        
                         if ( $("#nodatacat"+idcategoria)[0] ) {
                             // hacer algo aquí si el elemento existe
                             $("#nodatacat"+idcategoria)[0].remove();
@@ -646,7 +680,8 @@ function inactivarSubCat(idsubcat, idcat, index){
                     
                     setTimeout(function () {
 
-                    html+="<div class='btn-group btn-group-sm'>";
+                    html+="<div class='btn-group btn-group-sm'>"+
+                        "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteFileSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
                     if(estado=="1"){
                         html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCat("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
                     }else if(estado=="0"){
@@ -697,7 +732,8 @@ function activarSubCat(idsubcat, idcat, index){
             });
             
             setTimeout(function () {
-                html+="<div class='btn-group btn-group-sm'>";
+                html+="<div class='btn-group btn-group-sm'>"+
+                        "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteFileSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
                 if(estado=="1"){
                     html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCat("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
                 }else if(estado=="0"){
@@ -763,7 +799,8 @@ function inactivarSubCatGallery(idsubcat, idcat, index){
                     
                     setTimeout(function () {
 
-                    html+="<div class='btn-group btn-group-sm'>";
+                    html+="<div class='btn-group btn-group-sm'>"+
+                    "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteFileSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
                     if(estado=="1"){
                         html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCatGallery("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
                     }else if(estado=="0"){
@@ -814,7 +851,8 @@ function activarSubCatGallery(idsubcat, idcat, index){
             });
             
             setTimeout(function () {
-                html+="<div class='btn-group btn-group-sm'>";
+                html+="<div class='btn-group btn-group-sm'>"+
+                    "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteFileSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
                 if(estado=="1"){
                     html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCatGallery("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
                 }else if(estado=="0"){
@@ -1966,4 +2004,360 @@ function eliminarfileongaleria(id, i) {
 
 function urlbacktosubcgallery(){
     window.location= '/library-externo';
+}
+
+function deleteGallerySubCat(idcat, idsubcat, index){
+    var token= $('#token').val();
+
+    let urlActual = window.location.href;
+
+    if(puedeEliminarM(nameInterfaz) === 'si'){
+    Swal.fire({
+      title: "<strong>¡Aviso!</strong>",
+      type: "warning",
+      html: "¿Está seguro que desea eliminar esta subcategoría y sus archivos?",
+      showCloseButton: false,
+      showCancelButton: true,
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusCancel: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+      confirmButtonAriaLabel: "Thumbs up, Si",
+      cancelButtonText: '<i class="fa fa-close"></i> No',
+      cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: "/delete-gallery-sure-subcategoria",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                idcat: idcat,
+                idsubcat: idsubcat
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Eliminado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        $('#TrSub'+idsubcat+'Cat'+index).remove();
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Eliminar", "", "error");
+                } else if (res.resultado == 'no_all_delete') {
+                    swal("No se pudo Eliminar todos los registros", "", "error");
+                }
+            },
+            statusCode:{
+                400: function(){
+                    Swal.fire({
+                        title: 'Ha ocurrido un Error',
+                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                            'Intente nuevamente</p>',
+                        type: 'error'
+                    });
+                }
+            }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
+}
+
+function deleteFileSubCat(idcat, idsubcat, index){
+    var token= $('#token').val();
+
+    let urlActual = window.location.href;
+
+    if(puedeEliminarM(nameInterfaz) === 'si'){
+    Swal.fire({
+      title: "<strong>¡Aviso!</strong>",
+      type: "warning",
+      html: "¿Está seguro que desea eliminar esta subcategoría y sus archivos?",
+      showCloseButton: false,
+      showCancelButton: true,
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusCancel: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+      confirmButtonAriaLabel: "Thumbs up, Si",
+      cancelButtonText: '<i class="fa fa-close"></i> No',
+      cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: "/delete-file-sure-subcategoria",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                idcat: idcat,
+                idsubcat: idsubcat
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Eliminado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        $('#TrSub'+idsubcat+'Cat'+index).remove();
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Eliminar", "", "error");
+                } else if (res.resultado == 'no_all_delete') {
+                    swal("No se pudo Eliminar todos los registros", "", "error");
+                }
+            },
+            statusCode:{
+                400: function(){
+                    Swal.fire({
+                        title: 'Ha ocurrido un Error',
+                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                            'Intente nuevamente</p>',
+                        type: 'error'
+                    });
+                }
+            }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
+}
+
+/* ================================================================================================================== */
+/*                                     ARCHIVOS VIDEOS                                                               */
+/* ================================================================================================================== */
+
+/* FUNCION PARA INACTIVAR SUBCATEGORIA GALERIA*/
+function inactivarSubCatVideo(idsubcat, idcat, index){
+    var token=$('#token').val();
+    var estado = "0";
+    var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
+    Swal.fire({
+        title: "<strong>¡Aviso!</strong>",
+        type: "warning",
+        html: "¿Está seguro que desea inactivar este registro?",
+        showCloseButton: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        focusConfirm: false,
+        focusCancel: true,
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+        confirmButtonAriaLabel: "Thumbs up, Si",
+        cancelButtonText: '<i class="fa fa-close"></i> No',
+        cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+            url: "/in-activar-subcategoria",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                id: idsubcat,
+                estado: estado
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Inactivado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+
+                    html+="<div class='btn-group btn-group-sm'>"+
+                    "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteVideoSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
+                    if(estado=="1"){
+                        html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCatVideo("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
+                    }else if(estado=="0"){
+                        html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Activar' onclick='activarSubCatVideo("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye'></i></a>";
+                    }
+                    html+="<a href='javascript:void(0)' onclick='registerFileVideoSubCat("+idcat+", "+idsubcat+")' class='btn btn-success' title='Agregar Imágenes'><i class='fas fa-folder-plus'></i></a>"+
+                    "<a href='javascript:void(0)' class='btn btn-primary' title='Editar' onclick='editSubCat("+idsubcat+","+index+")'><i class='fas fa-edit'></i></a>"+
+                    "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesVideoSubCat("+idcat+","+idsubcat+")'><i class='fas fa-file-signature'></i></a>";
+                    html+="</div>";
+                    var element= document.getElementById('TrSub'+idsubcat+'Cat'+index).cells[2];
+                    $(element).html(html);
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Inactivar", "", "error");
+                }
+            },
+            });
+        }
+    });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
+}
+
+/* FUNCION PARA ACTIVAR SUBCATEGORIA GALERIA*/
+function activarSubCatVideo(idsubcat, idcat, index){
+    var token=$('#token').val();
+    var estado = "1";
+    var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
+    $.ajax({
+      url: "/in-activar-subcategoria",
+      type: "POST",
+      dataType: "json",
+      headers: {'X-CSRF-TOKEN': token},
+      data: {
+        id: idsubcat,
+        estado: estado
+      },
+      success: function (res) {
+        if (res.resultado == true) {
+            swal({
+                title: "Excelente!",
+                text: "Registro Activado",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1600,
+            });
+            
+            setTimeout(function () {
+                html+="<div class='btn-group btn-group-sm'>"+
+                    "<a href='javascript:void(0)' class='btn btn-danger' title='Eliminar SubCategoría' onclick='deleteVideoSubCat("+idcat+", "+idsubcat+", "+index+")'><i class='fas fa-trash'></i></a>";
+                if(estado=="1"){
+                    html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Inactivar' onclick='inactivarSubCatVideo("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye-slash'></i></a>";
+                }else if(estado=="0"){
+                    html+="<a href='javascript:void(0)' class='btn btn-secondary' title='Activar' onclick='activarSubCatVideo("+idsubcat+", "+idcat+", "+index+")'><i class='fas fa-eye'></i></a>";
+                }
+                html+="<a href='javascript:void(0)' onclick='registerFileVideoSubCat("+idcat+", "+idsubcat+")' class='btn btn-success' title='Agregar Imágenes'><i class='fas fa-folder-plus'></i></a>"+
+                    "<a href='javascript:void(0)' class='btn btn-primary' title='Editar' onclick='editSubCat("+idsubcat+","+index+")'><i class='fas fa-edit'></i></a>"+
+                    "<a href='javascript:void(0)' class='btn btn-info' title='Editar Documentos SubCategoría' onclick='viewListFilesVideoSubCat("+idcat+","+idsubcat+")'><i class='fas fa-file-signature'></i></a>";
+                html+="</div>";
+                var element= document.getElementById('TrSub'+idsubcat+'Cat'+index).cells[2];
+                $(element).html(html);
+            }, 1500);
+        } else if (res.resultado == false) {
+            swal("No se pudo Inactivar", "", "error");
+        }
+      },
+    });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
+}
+
+function registerFileVideoSubCat(idcat, idsubcat){
+    window.location='/registrar_videos_virtual/'+idcat+'/'+idsubcat+'/v1';
+}
+
+function guardarVideosDocvi(){
+    let fileInput = document.getElementById("file");
+    var idsubcat = $("#selSubCategoria :selected").val();
+
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('uploadProgress');
+    const progressText = document.getElementById('progressText');
+    const resultDiv = document.getElementById('uploadResult');
+
+    var lengimg = fileInput.files.length;
+    var token= $('#token').val();
+    if (lengimg == 0) {
+        swal("No ha seleccionado imágenes", "", "warning");
+    } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
+            //$('#modalFullSend').modal('show');
+            var element = document.querySelector('.savedocvirtual');
+            /*element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";*/
+
+            progressContainer.style.display = 'block';
+            progressBar.value = 0;
+            progressText.textContent = '0%';
+
+            setTimeout(() => {
+                var data = new FormData(formVideoBiVirtual);
+                data.append('idsubcat', currSubc);
+                setTimeout(() => {
+                    sendNewVideoBibliotecaBv(token, data, "/store-videos-bibliovirtual", element);
+                }, 900);
+            }, 900);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
+    }
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
+function sendNewVideoBibliotecaBv(token, data, url){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader('X-CSRF-TOKEN', token);
+
+    xr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            progressBar.value = percent;
+            progressText.textContent = percent + '%';
+        }
+    });
+
+    xr.onload = function(){
+        if(xr.status === 200){
+            //console.log(this.responseText);
+            var myArr = JSON.parse(this.responseText);
+            $('#modalFullSend').modal('hide');
+            if(myArr.resultado==true){
+                swal({
+                    title:'Excelente!',
+                    text:'Video Registrado',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+
+                setTimeout(function(){
+                    window.location='/registrar_videos_virtual/'+currLoc+'/'+currSubc+'/v1';
+                },1500);
+                
+            } else if (myArr.resultado == "nofile") {
+                swal("Formato de Archivo no válido", "", "error");
+            } else if (myArr.resultado == "nocopy") {
+                swal("Error al copiar los archivos", "", "error");
+            } else if (myArr.resultado == false) {
+                swal("No se pudo Guardar", "", "error");
+            }
+        }else if(xr.status === 400){
+            $('#modalFullSend').modal('hide');
+            Swal.fire({
+                title: 'Ha ocurrido un Error',
+                html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                    'Intente nuevamente</p>',
+                type: 'error'
+            });
+        }
+    };
+    xr.send(data);
 }
