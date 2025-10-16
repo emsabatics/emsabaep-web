@@ -58,6 +58,8 @@
                         <p class="card__apply">
                             @if ($cat->tipo=='galeria')
                             <a class="card__link" href="javascript:void(0)" onclick="view_subcatgallery('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
+                            @elseif ($cat->tipo=='video')
+                            <a class="card__link" href="javascript:void(0)" onclick="view_subcatvideo('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                             @else
                             <a class="card__link" href="javascript:void(0)" onclick="view_subcatother('{{ encriptarNumero($cat->id) }}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                             @endif

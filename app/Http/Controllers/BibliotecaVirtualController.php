@@ -23,8 +23,9 @@ class BibliotecaVirtualController extends Controller
             $countSucCat= DB::connection('mysql')->table('tab_bv_subcategoria')->count();
             $countFileCat= DB::connection('mysql')->table('tab_bv_archivos')->count();
             $countFileGalleryCat= DB::connection('mysql')->table('tab_bv_galeria')->count();
+            $countFileVideosCat= DB::connection('mysql')->table('tab_bv_videos')->count();
 
-            $totalArchivos= (int) $countFileCat + (int) $countFileGalleryCat;
+            $totalArchivos= (int) $countFileCat + (int) $countFileGalleryCat + (int) $countFileVideosCat;
 
             $arcat= array();
 
@@ -46,6 +47,12 @@ class BibliotecaVirtualController extends Controller
 
                     if($tipocat == 'galeria'){
                         $getFileBiblioteca= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_galeria 
+                        WHERE id_bv_categoria=? AND id_bv_subcategoria=?', [$idcat, $idsubcat]);
+                        foreach($getFileBiblioteca as $fc){
+                            $arfilesubcat[] = array('archivo'=> $fc->archivo, 'estado'=> $fc->estado);
+                        }
+                    }else if($tipocat == 'video'){
+                        $getFileBiblioteca= DB::connection('mysql')->select('SELECT id, archivo, estado FROM tab_bv_videos 
                         WHERE id_bv_categoria=? AND id_bv_subcategoria=?', [$idcat, $idsubcat]);
                         foreach($getFileBiblioteca as $fc){
                             $arfilesubcat[] = array('archivo'=> $fc->archivo, 'estado'=> $fc->estado);
@@ -334,7 +341,7 @@ class BibliotecaVirtualController extends Controller
             $idfile = desencriptarNumero($idfile);
             $date= now();
 
-            $this->deletepreviousimg($idfile);
+            $this->deletepreviousimg($idfile, 'tab_bv_galeria', 'galeria');
             
             $j=0;
 
@@ -365,10 +372,13 @@ class BibliotecaVirtualController extends Controller
         }
     }
 
-    private function deletepreviousimg($id){
-        $getimg = DB::connection('mysql')->table('tab_bv_galeria')->where('id','=', $id)->value('archivo');
-
-        Storage::disk('galeria_virtual')->delete($getimg);
+    private function deletepreviousimg($id, $table, $tipo){
+        $getimg = DB::connection('mysql')->table($table)->where('id','=', $id)->value('archivo');
+        if($tipo=='galeria'){
+            Storage::disk('galeria_virtual')->delete($getimg);
+        }else if($tipo=='video'){
+            Storage::disk('videos_virtual')->delete($getimg);
+        }
     }
 
     private function validarFilesGallery($extension){
@@ -840,6 +850,8 @@ class BibliotecaVirtualController extends Controller
         if ($r->hasFile('file') ) {
             $idcategoria= $r->input('idcategoriadoc');
             $idsubcategoria= $r->input('idsubcat');
+            $titulo = $r->input('titulo');
+            $descripcion = $r->input('descripcion');
             $date= now();
 
             $filesgallerybv  = $r->file('file'); //obtengo el archivo MEDIOS VERIFICACION
@@ -858,8 +870,8 @@ class BibliotecaVirtualController extends Controller
                     $storemediosv= Storage::disk('videos_virtual')->put($filenamegallerybv,  \File::get($contentfilegallerybv));
                     if($storemediosv){
                         $sql_insert_file_gallery_bv = DB::connection('mysql')->insert('insert into tab_bv_videos (
-                            id_bv_categoria, id_bv_subcategoria, archivo, created_at
-                        ) values (?,?,?,?)', [$idcategoria, $idsubcategoria, $filenamegallerybv, $date]);
+                            id_bv_categoria, id_bv_subcategoria, archivo, titulo, descripcion, created_at
+                        ) values (?,?,?,?,?,?)', [$idcategoria, $idsubcategoria, $filenamegallerybv, $titulo, $descripcion, $date]);
                 
                         if($sql_insert_file_gallery_bv){
                             $j++;
@@ -891,6 +903,178 @@ class BibliotecaVirtualController extends Controller
             return $extension;
         }else{
             return "0";
+        }
+    }
+
+    public function delete_video_sure_subcategoria(Request $r){
+        $idcat = $r->input('idcat');
+        $idsubcat = $r->input('idsubcat');
+
+        $sqlfiles = DB::connection('mysql')->table('tab_bv_videos')->where('id_bv_categoria','=',$idcat)->where('id_bv_subcategoria','=',$idsubcat)->get();
+
+        $i=0; $j=0;
+        foreach ($sqlfiles as $f) {
+            $archivo = $f->archivo;
+            $filedel = Storage::disk('videos_virtual')->delete($archivo);
+            if($filedel){
+                $i++;
+                $deleted = DB::table('tab_bv_videos')->where('id', '=', $f->id)->delete();
+                if($deleted){
+                    $j++;
+                }
+            }
+        }
+
+        if($i==$j){
+            $deletedsc = DB::table('tab_bv_subcategoria')->where('id', '=', $idsubcat)->delete();
+
+            if($deletedsc){
+                return response()->json(['resultado'=> true]);
+            }else{
+                return response()->json(['resultado'=> false]);
+            }
+        }else{
+            return response()->json(['resultado'=> 'no_all_delete']);
+        }
+    }
+
+    //FUNCION QUE DESPLIEGA LA VISTA PARA EDITAR GALERIAS DE LA SUBCATEGORIA
+    public function videosfiles_virtual_subcat($idcat, $idsubcat, $tipo){
+        if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            //$idcat = desencriptarNumero($idcat);
+            //$idsubcat = desencriptarNumero($idsubcat);
+            $getFile= DB::connection('mysql')->table('tab_bv_videos')
+                ->where('id_bv_categoria', $idcat)
+                ->where('id_bv_subcategoria','=', $idsubcat)
+                ->get();
+
+            $getCategoria = DB::connection('mysql')->table('tab_bv_categoria')->where('id','=', $idcat)->value('descripcion');
+            $getSubCategoria = DB::connection('mysql')->table('tab_bv_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+            
+            $getonlyimg = $getFile
+            ->map(function($item){
+                return [
+                    'id_video' => $item->id,
+                    'video' => $item->archivo
+                ];
+            });
+
+            return response()->view('Administrador.Documentos.virtual.editar_videofilevirtual', ['idcat'=>$idcat, 'categoria'=> $getCategoria, 'idsubcat'=> $idsubcat, 
+                'subcategoria'=> $getSubCategoria, 'idfilesubcat'=> $idsubcat, 'archivos'=> $getFile, 'getonlyvideo'=> $getonlyimg]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    //FUNCION QUE ACTIVA/INACTIVA EL REGISTO DE LA TABLA BV VIDEOS
+    public function inactivar_filevideo(Request $request){
+        $id= $request->input('id');
+        $estado= $request->input('estado');
+        $id = desencriptarNumero($id);
+        $date= now();
+        //return response()->json(['id'=> $id,'estado'=> $estado]);
+
+        $sql_update= DB::connection('mysql')->table('tab_bv_videos')
+                ->where('id', $id)
+                ->update(['estado' => $estado, 'updated_at'=> $date]);
+
+        if($sql_update){
+            return response()->json(['resultado'=> true]);
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    public function get_txt_video($id){
+        $id = desencriptarNumero($id);
+
+        $sql_data = DB::connection('mysql')->table('tab_bv_videos')->select('titulo','descripcion')
+        ->where('id','=', $id)
+        ->first();
+
+        return response()->json($sql_data);
+    }
+
+    public function update_txtvideo_bibliovirtual(Request $r){
+        $idfile = $r->input('idfile');
+        $titulo = $r->input('titulo');
+        $descripcion = $r->input('descripcion');
+        $date = now();
+
+        $idfile = desencriptarNumero($idfile);
+        
+        $sql_update= DB::table('tab_bv_videos')
+            ->where('id', $idfile)
+            ->update(['titulo' => $titulo, 'descripcion'=> $descripcion, 'updated_at'=> $date]);
+        if($sql_update){
+            return response()->json(["resultado"=> true]);
+        }else{
+            return response()->json(["resultado"=> false]);
+        }
+    }
+
+    //FUNCION QUE REALIZA EL INGRESO CORRESPONDIENTE DE LAS IMAGENES EN LA BD
+    public function update_videofile_bibliovirtual(Request $r){
+        if ($r->hasFile('file') ) {
+            $files  = $r->file('file'); //obtengo el archivo
+            $idfile= $r->input('idfile');
+            $idfile = desencriptarNumero($idfile);
+            $date= now();
+
+            $this->deletepreviousimg($idfile, 'tab_bv_videos', 'video');
+            
+            $j=0;
+
+            foreach($files as $file){
+                // here is your file object
+                $filename= $file->getClientOriginalName();
+                $fileextension= $file->getClientOriginalExtension();
+
+                if($fileextension== $this->validarFileVideo($fileextension)){
+                    $storeimg= Storage::disk('videos_virtual')->put($filename,  \File::get($file));
+                    if($storeimg){
+                        $sql_update= DB::table('tab_bv_videos')
+                        ->where('id', $idfile)
+                        ->update(['archivo' => $filename, 'updated_at'=> $date]);
+                        if($sql_update){
+                           return response()->json(["resultado"=> true, 'nombrevideo'=> $filename]);
+                        }else{
+                            Storage::disk('videos_virtual')->delete($filename);
+                            return response()->json(["resultado"=> false]);
+                        }
+                    }else{
+                        return response()->json(["resultado"=>"nocopy"]);
+                    }
+                }
+            }
+        }else{
+            return response()->json(['resultado'=> false]);
+        }
+    }
+
+    //FUNCION PARA ELIMINAR DEFINITIVAMENTE EL ARCHIVO
+    public function delete_file_video(Request $request){
+        $id= $request->input('id');
+        $estado= $request->input('estado');
+
+        $id = desencriptarNumero($id);
+
+        $sql_dato= DB::connection('mysql')->select('SELECT archivo FROM tab_bv_videos WHERE id=?', [$id]);
+        $archivo='';
+        foreach ($sql_dato as $key) {
+            $archivo= $key->archivo;
+        }
+
+        $subpath = 'documentos/biblioteca_virtual_videos/'.$archivo;
+        $path = storage_path('app/'.$subpath);
+        Storage::disk('videos_virtual')->delete($archivo);
+
+        $deleted = DB::table('tab_bv_videos')->where('id', '=', $id)->delete();
+
+        if($deleted){
+            return response()->json(['resultado'=> true]);
+        }else{
+            return response()->json(['resultado'=> false]);
         }
     }
 }

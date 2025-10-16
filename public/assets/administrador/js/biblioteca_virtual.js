@@ -1771,6 +1771,7 @@ function guardarTxtGallery(token, data, url, pos, titulo, desc){
 
                     let pdesc = document.getElementById('pdescp' + pos);
                     pdesc.innerHTML = desc.replace('//', "<br>");
+                    pdesc.classList.add('text-justify');
                 },1500);
             } else if(myArr.resultado==false){
                 $('#btnuptxtimg').removeClass('btndisable');
@@ -2274,6 +2275,8 @@ function registerFileVideoSubCat(idcat, idsubcat){
 function guardarVideosDocvi(){
     let fileInput = document.getElementById("file");
     var idsubcat = $("#selSubCategoria :selected").val();
+    var titulo = $('#inputNameVideoBiVir').val();
+    var descripcion= $('#inputDescpVideoBiVir').val();
 
     const progressContainer = document.getElementById('progressContainer');
     const progressBar = document.getElementById('uploadProgress');
@@ -2282,14 +2285,21 @@ function guardarVideosDocvi(){
 
     var lengimg = fileInput.files.length;
     var token= $('#token').val();
-    if (lengimg == 0) {
-        swal("No ha seleccionado imágenes", "", "warning");
+    if (titulo == "") {
+        $("#inputNameVideoBiVir").focus();
+        swal("No se ha ingresado un título al video", "", "warning");
+    } else if (descripcion.length == 0) {
+        $("#inputDescpVideoBiVir").focus();
+        swal("No se ha ingresado una descripción al video", "", "warning");
+    } else if (lengimg == 0) {
+        swal("No ha seleccionado video", "", "warning");
     } else {
         if(puedeGuardarM(nameInterfaz) === 'si'){
             //$('#modalFullSend').modal('show');
             var element = document.querySelector('.savedocvirtual');
-            /*element.setAttribute("disabled", "");
-            element.style.pointerEvents = "none";*/
+            element.setAttribute("disabled", "");
+            element.style.pointerEvents = "none";
+            descripcion = descripcion.replace(/(\r\n|\n|\r)/gm, "//");
 
             progressContainer.style.display = 'block';
             progressBar.value = 0;
@@ -2298,8 +2308,10 @@ function guardarVideosDocvi(){
             setTimeout(() => {
                 var data = new FormData(formVideoBiVirtual);
                 data.append('idsubcat', currSubc);
+                data.append('titulo', titulo);
+                data.append('descripcion', descripcion);
                 setTimeout(() => {
-                    sendNewVideoBibliotecaBv(token, data, "/store-videos-bibliovirtual", element);
+                    sendNewVideoBibliotecaBv(token, data, "/store-videos-bibliovirtual", element, progressBar, progressText);
                 }, 900);
             }, 900);
         }else{
@@ -2309,7 +2321,7 @@ function guardarVideosDocvi(){
 }
 
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
-function sendNewVideoBibliotecaBv(token, data, url){
+function sendNewVideoBibliotecaBv(token, data, url, el, progressBar, progressText){
     var contentType = "application/x-www-form-urlencoded;charset=utf-8";
     var xr = new XMLHttpRequest();
     xr.open('POST', url, true);
@@ -2329,6 +2341,8 @@ function sendNewVideoBibliotecaBv(token, data, url){
             //console.log(this.responseText);
             var myArr = JSON.parse(this.responseText);
             $('#modalFullSend').modal('hide');
+            el.removeAttribute("disabled");
+            el.style.removeProperty("pointer-events");
             if(myArr.resultado==true){
                 swal({
                     title:'Excelente!',
@@ -2343,13 +2357,21 @@ function sendNewVideoBibliotecaBv(token, data, url){
                 },1500);
                 
             } else if (myArr.resultado == "nofile") {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
                 swal("Formato de Archivo no válido", "", "error");
             } else if (myArr.resultado == "nocopy") {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
                 swal("Error al copiar los archivos", "", "error");
             } else if (myArr.resultado == false) {
+                el.removeAttribute("disabled");
+                el.style.removeProperty("pointer-events");
                 swal("No se pudo Guardar", "", "error");
             }
         }else if(xr.status === 400){
+            el.removeAttribute("disabled");
+            el.style.removeProperty("pointer-events");
             $('#modalFullSend').modal('hide');
             Swal.fire({
                 title: 'Ha ocurrido un Error',
@@ -2360,4 +2382,535 @@ function sendNewVideoBibliotecaBv(token, data, url){
         }
     };
     xr.send(data);
+}
+
+function deleteVideoSubCat(idcat, idsubcat, index){
+    var token= $('#token').val();
+
+    let urlActual = window.location.href;
+
+    if(puedeEliminarM(nameInterfaz) === 'si'){
+    Swal.fire({
+      title: "<strong>¡Aviso!</strong>",
+      type: "warning",
+      html: "¿Está seguro que desea eliminar esta subcategoría y sus archivos?",
+      showCloseButton: false,
+      showCancelButton: true,
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusCancel: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+      confirmButtonAriaLabel: "Thumbs up, Si",
+      cancelButtonText: '<i class="fa fa-close"></i> No',
+      cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: "/delete-video-sure-subcategoria",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                idcat: idcat,
+                idsubcat: idsubcat
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Eliminado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        $('#TrSub'+idsubcat+'Cat'+index).remove();
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Eliminar", "", "error");
+                } else if (res.resultado == 'no_all_delete') {
+                    swal("No se pudo Eliminar todos los registros", "", "error");
+                }
+            },
+            statusCode:{
+                400: function(){
+                    Swal.fire({
+                        title: 'Ha ocurrido un Error',
+                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                            'Intente nuevamente</p>',
+                        type: 'error'
+                    });
+                }
+            }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
+}
+
+function viewListFilesVideoSubCat(idcat, idsubcat){
+    window.location='/view_videosfiles_subcatvirtual/'+idcat+'/'+idsubcat+'/v1';
+}
+
+/* FUNCION PARA INACTIVAR SUBCATEGORIA ARCHIVO VIDEOS*/
+function inactivarfilevideo(idfile, index){
+    var token=$('#token').val();
+    var estado = "0";
+    var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
+    Swal.fire({
+        title: "<strong>¡Aviso!</strong>",
+        type: "warning",
+        html: "¿Está seguro que desea inactivar este registro?",
+        showCloseButton: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        focusConfirm: false,
+        focusCancel: true,
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+        confirmButtonAriaLabel: "Thumbs up, Si",
+        cancelButtonText: '<i class="fa fa-close"></i> No',
+        cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+            url: "/in-activar-filevideo",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                id: idfile,
+                estado: estado
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Inactivado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        let idEncriptado = "'"+idfile+"'";
+                        if(estado=="1"){
+                            html = $('<a>', {
+                                href: 'javascript:void(0)',
+                                class: 'btn btn-secondary btn-sm',
+                                html: '<i class="fas fa-eye-slash"></i>', // contenido HTML del <a>
+                                click: function() {
+                                    inactivarfilevideo(idEncriptado, index);
+                                }
+                            });
+                            $('#pestado'+index).html("Activo");
+                        }else if(estado=="0"){
+                            html = $('<a>', {
+                                href: 'javascript:void(0)',
+                                class: 'btn btn-secondary btn-sm',
+                                html: '<i class="fas fa-eye"></i>', // contenido HTML del <a>
+                                click: function() {
+                                    activarfilevideo(idEncriptado, index);
+                                }
+                            });
+                            $('#pestado'+index).html("Inactivo");
+                        }
+                        // Insertar al inicio del contenedor con clase text-right
+                        $('#footerCard'+index).prepend(html);
+                        // Eliminar el enlace que estaba primero antes de agregar el nuevo
+                        $('#footerCard'+index+' a').eq(1).remove(); // eq(1) porque ahora el nuevo es eq(0)
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Inactivar", "", "error");
+                }
+            },
+            });
+        }
+    });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
+}
+
+/* FUNCION PARA ACTIVAR SUBCATEGORIA GALERIA*/
+function activarfilevideo(idfile, index){
+    var token=$('#token').val();
+    var estado = "1";
+    var html="";
+    if(puedeActualizarM(nameInterfaz) === 'si'){
+    $.ajax({
+      url: "/in-activar-filevideo",
+      type: "POST",
+      dataType: "json",
+      headers: {'X-CSRF-TOKEN': token},
+      data: {
+        id: idfile,
+        estado: estado
+      },
+      success: function (res) {
+        if (res.resultado == true) {
+            swal({
+                title: "Excelente!",
+                text: "Registro Activado",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1600,
+            });
+            
+            setTimeout(function () {
+                let idEncriptado = "'"+idfile+"'";
+                if(estado=="1"){
+                    html = $('<a>', {
+                        href: 'javascript:void(0)',
+                        class: 'btn btn-secondary btn-sm',
+                        html: '<i class="fas fa-eye-slash"></i>', // contenido HTML del <a>
+                        click: function() {
+                            inactivarfilevideo(idEncriptado, index);
+                        }
+                    });
+                    $('#pestado'+index).html("Activo");
+                }else if(estado=="0"){
+                    html = $('<a>', {
+                        href: 'javascript:void(0)',
+                        class: 'btn btn-secondary btn-sm',
+                        html: '<i class="fas fa-eye"></i>', // contenido HTML del <a>
+                        click: function() {
+                            activarfilevideo(idEncriptado, index);
+                        }
+                    });
+                    $('#pestado'+index).html("Inactivo");
+                }
+                // Insertar al inicio del contenedor con clase text-right
+                $('#footerCard'+index).prepend(html);
+                // Eliminar el enlace que estaba primero antes de agregar el nuevo
+                $('#footerCard'+index+' a').eq(1).remove(); // eq(1) porque ahora el nuevo es eq(0)
+            }, 1500);
+        } else if (res.resultado == false) {
+            swal("No se pudo Inactivar", "", "error");
+        }
+      },
+    });
+    }else{
+        swal('No tiene permiso para actualizar','','error');
+    }
+}
+
+/* FUNCION CARGAR IMÁGEN SELECCIONADA */
+function viewopenvideo(i){
+    const container = document.getElementById('divShowImgBanner');
+    container.innerHTML= '';
+
+    var htmlspan= "<span class='spanshowdescpimg'>"+arrayVideo[i]+"</span>";
+    $('#divShowSpanBanner').html(htmlspan);
+
+    // URL del video (puedes pasarla desde Blade)
+    const videoUrl = "/videos-bibliotecavirtual/"+arrayVideo[i];
+    // Crear el elemento <video>
+    const video = document.createElement('video');
+
+    // Asignar atributos
+    video.src = videoUrl;
+    video.width = 640;   // opcional
+    video.height = 360;  // opcional
+    video.controls = true; // muestra los controles
+    video.controlsList = "nodownload"; // oculta el botón de descarga
+    video.preload = "metadata";
+    video.classList.add('rounded', 'shadow', 'my-3'); // Tailwind o clases propias
+    // También puedes evitar clic derecho (opcional)
+    video.addEventListener('contextmenu', e => e.preventDefault());
+
+    
+    // Crear el contenedor donde irá el video
+    container.appendChild(video);
+
+    setTimeout(() => {
+        $('#modal-view-video').modal('show');
+    }, 400);
+}
+
+function updatetxtvideo(index, idfile){
+    $('#idindex').val(index);
+    $('#idfile').val(idfile);
+
+    var url= "/get-txt-video/"+idfile;
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('GET', url, true);
+
+    xr.onload = function(){
+        if(xr.status === 200){
+            var myArr = JSON.parse(this.responseText);
+            $(myArr).each(function(i,v){
+                $('#inputtitulovideo').val(v.titulo);
+                $('#inputdescripcionvideo').val(v.descripcion);
+            });
+            setTimeout(() => {
+                $('#modal-update-txtvideo').modal('show');
+            }, 300);
+        }else if(xr.status === 400){
+            //console.log('ERROR CONEXION');
+            setTimeout(function () {
+                Swal.fire({
+                    title: 'Ha ocurrido un Error',
+                    html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                        'Intente nuevamente</p>',
+                    type: 'error'
+                });
+            }, 500);
+        }
+    }
+
+    xr.send(null);
+}
+
+function actualizarRegistroVideo(){
+    var token = $('#token').val()
+    var pos = $('#idindex').val();
+    var idvideo = $('#idfile').val();
+    var titulo = $('#inputtitulovideo').val();
+    var descp = $('#inputdescripcionvideo').val();
+
+    if(titulo.length == 0){
+        $('#inputtitulovideo').focus();
+        swal("No ha ingresado un título", "", "warning");
+    }else if(descp.length == 0){
+        $('#inputdescripcionvideo').focus();
+        swal("No ha ingresado una descripción", "", "warning");
+    }else{
+        if(puedeGuardarM(nameInterfaz) === 'si'){
+            $('#btnuptxtvideo').addClass('btndisable');
+            descp = descp.replace(/(\r\n|\n|\r)/gm, "//");
+
+            var formData = new FormData();
+            formData.append('idfile', idvideo);
+            formData.append('titulo', titulo);
+            formData.append('descripcion', descp);
+
+            guardarTxtVideo(token, formData, '/update-txtvideo-bibliovirtual', pos, titulo, descp);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
+    }
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
+function guardarTxtVideo(token, data, url, pos, titulo, desc){
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader('X-CSRF-TOKEN', token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //console.log(this.responseText);
+            var myArr = JSON.parse(this.responseText);
+            if(myArr.resultado==true){
+                $('#btnuptxtvideo').removeClass('btndisable');
+                swal({
+                    title:'Excelente!',
+                    text:'Información Actualizada',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+
+                setTimeout(function(){
+                    $('#idindex').val('');
+                    $('#idfile').val('');
+                    $('#modal-update-txtvideo').modal('hide');
+                    let ptitulo = document.getElementById('ptitulo' + pos);
+                    ptitulo.innerHTML = titulo;
+
+                    let pdesc = document.getElementById('pdescp' + pos);
+                    pdesc.innerHTML = desc.replace('//', "<br>");
+                    pdesc.classList.add('text-justify');
+                },1500);
+            } else if(myArr.resultado==false){
+                $('#btnuptxtvideo').removeClass('btndisable');
+                swal('No se pudo guardar los registros','','error');
+            }
+        }else if(xr.status === 400){
+            $('#btnuptxtvideo').removeClass('btndisable');
+            Swal.fire({
+                title: 'Ha ocurrido un Error',
+                html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                    'Intente nuevamente</p>',
+                type: 'error'
+            });
+        }
+    };
+    xr.send(data);
+}
+
+function updateimggallery(index, idfile){
+    $('#idindex').val(index);
+    $('#idfile').val(idfile);
+    $('#modal-update-video').modal('show');
+}
+
+//FUNCION CERRAR MODAL UPDATE IMAGEN
+function cerrarModalVideo(){
+    $('#modal-update-video').modal('hide');
+    $('#images').html('');
+    const file = document.querySelector('#file');
+    file.value = '';
+
+    numOfFIles.textContent = `- Ningún archivo seleccionado -`;
+}
+
+function guardarVideoGaleria(){
+    var token = $('#token').val()
+    var pos = $('#idindex').val();
+    var idvideo = $('#idfile').val();
+    let fileInput = document.getElementById("file");
+
+    var lengimg = fileInput.files.length;
+
+    if (lengimg == 0) {
+        swal("No ha seleccionado un Video", "", "warning");
+    } else if(lengimg>=2){
+        swal("Sólo debe seleccionar un Video", "", "warning");
+    } else {
+        if(puedeGuardarM(nameInterfaz) === 'si'){
+            var formData = new FormData(formVideoGaleria);
+            $('#btnAgendar').addClass('btndisable');
+            guardarNewVideoGallery(token, formData, '/update-videofile-bibliovirtual', pos);
+        }else{
+            swal('No tiene permiso para guardar','','error');
+        }
+    }
+}
+
+/* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
+function guardarNewVideoGallery(token, data, url, pos){
+    var urlActual = window.location.href;
+    var contentType = "application/x-www-form-urlencoded;charset=utf-8";
+    var xr = new XMLHttpRequest();
+    xr.open('POST', url, true);
+    //xr.setRequestHeader('Content-Type', contentType);
+    xr.setRequestHeader('X-CSRF-TOKEN', token);
+    xr.onload = function(){
+        if(xr.status === 200){
+            //console.log(this.responseText);
+            var myArr = JSON.parse(this.responseText);
+            if(myArr.resultado==true){
+                $('#btnAgendar').removeClass('btndisable');
+                swal({
+                    title:'Excelente!',
+                    text:'Imagen Actualizada',
+                    type:'success',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+
+                setTimeout(function(){
+                    $('#images').html('');
+                    $('#idindex').val('');
+                    $('#idfile').val('');
+                    $('#modal-update-imagen').modal('hide');
+                    arrayVideo[pos] = myArr.nombrevideo;
+                    limpiarFile();
+                    window.location = urlActual;
+                },1500);
+            } else if (myArr.resultado == "noimagen") {
+                $('#btnAgendar').removeClass('btndisable');
+                swal("Formato de Imagen no válido", "", "error");
+            } else if (myArr.resultado == "nocopy") {
+                $('#btnAgendar').removeClass('btndisable');
+                swal("Error al copiar los archivos", "", "error");
+            } else if(myArr.resultado==false){
+                $('#btnAgendar').removeClass('btndisable');
+                swal('No se pudo guardar la imagen','','error');
+            }
+        }else if(xr.status === 400){
+            $('#btnAgendar').removeClass('btndisable');
+            Swal.fire({
+                title: 'Ha ocurrido un Error',
+                html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                    'Intente nuevamente</p>',
+                type: 'error'
+            });
+        }
+    };
+    xr.send(data);
+}
+
+function updateHtmlVideo(){
+    const container = document.getElementById('divShowImgBanner');
+    container.innerHTML= '';
+}
+
+/* FUNCION PARA ELIMINAR BANNER */
+function eliminarfileonvideo(id, i) {
+    var estado = "0";
+    var token= $('#token').val();
+
+    let urlActual = window.location.href;
+
+    if(puedeEliminarM(nameInterfaz) === 'si'){
+    Swal.fire({
+      title: "<strong>¡Aviso!</strong>",
+      type: "warning",
+      html: "¿Está seguro que desea eliminar este registro?",
+      showCloseButton: false,
+      showCancelButton: true,
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusCancel: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<i class="fa fa-check-circle"></i> Sí',
+      confirmButtonAriaLabel: "Thumbs up, Si",
+      cancelButtonText: '<i class="fa fa-close"></i> No',
+      cancelButtonAriaLabel: "Thumbs down",
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: "/delete-file-video",
+            type: "POST",
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {
+                id: id,
+                estado: estado,
+            },
+            success: function (res) {
+                if (res.resultado == true) {
+                    swal({
+                        title: "Excelente!",
+                        text: "Registro Eliminado",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1600,
+                    });
+                    
+                    setTimeout(function () {
+                        window.location= urlActual;
+                    }, 1500);
+                } else if (res.resultado == false) {
+                    swal("No se pudo Eliminar", "", "error");
+                }
+            },
+            statusCode:{
+                400: function(){
+                    Swal.fire({
+                        title: 'Ha ocurrido un Error',
+                        html: '<p>Al momento no hay conexión con el <strong>Servidor</strong>.<br>'+
+                            'Intente nuevamente</p>',
+                        type: 'error'
+                    });
+                }
+            }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+    }else{
+        swal('No tiene permiso para realizar esta acción','','error');
+    }
 }

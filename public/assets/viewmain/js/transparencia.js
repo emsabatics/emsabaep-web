@@ -642,6 +642,14 @@ function downloadfilevirtual(idf, opcion){
         window.location='/download-docvirtual/'+idf+'/nosc';
     }
 }
+
+function view_subcatvideo(idcat){
+    window.location='/biblioteca-virtual-video-subcat/'+idcat;
+}
+
+function view_open_video(idsubcat){
+    window.location='/biblioteca-virtual/video/'+idcat+'/'+idsubcat;
+}
 //========================BIBLIOTECA VIRTUAL========================
 
 function utf8_to_b64( str ) {
@@ -664,4 +672,42 @@ function sendIncrementGeneral(data, token, url){
         }
     };
     xr.send(data);
+}
+
+function openmodalvideo(i){
+    const container = document.getElementById('div_videoinfo');
+    container.innerHTML= '';
+
+    // URL del video (puedes pasarla desde Blade)
+    const videoUrl = "/videos-bibliotecavirtual/"+arrayVideo[i];
+    // Crear el elemento <video>
+    const video = document.createElement('video');
+
+    // Asignar atributos
+    video.src = videoUrl;
+    /*video.width = 640;   // opcional
+    video.height = 360;  // opcional*/
+    video.controls = true; // muestra los controles
+    video.controlsList = "nodownload"; // oculta el botón de descarga
+    video.preload = "metadata";
+    video.classList.add('responsive-video', 'rounded-lg', 'shadow-md')
+    // También puedes evitar clic derecho (opcional)
+    video.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Crear el contenedor donde irá el video
+    container.appendChild(video);
+
+    setTimeout(() => {
+        $('#modal_info_video').modal('show');
+    }, 900);
+}
+
+function cerrarModalVideo(){
+    $('#modal_info_video').modal('hide');
+    const container = document.getElementById('div_videoinfo');
+    container.innerHTML= '';
+}
+
+function comeback_subcat_video(){
+    window.location='/biblioteca-virtual-video-subcat/'+idcat;
 }

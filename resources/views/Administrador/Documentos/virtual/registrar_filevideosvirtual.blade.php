@@ -122,6 +122,22 @@ Admin | Bib. Virtual {{getNameInstitucion()}}
                             </div>
                           </div>
                           <div class="row">
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <label for="inputNameVideoBiVir">Título del Video: <span class="spanlabel">250 caracteres máximo</span></label>
+                                <textarea class="form-control text-justify" id="inputNameVideoBiVir" name="inputNameVideoBiVir" placeholder="Ingrese un título"
+                                  maxlength="250"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-group mt-3">
+                                <label for="inputDescpVideoBiVir">Descipción del Video: <span class="spanlabel">500 caracteres máximo</span></label>
+                                <textarea class="form-control text-justify" id="inputDescpVideoBiVir" name="inputDescpVideoBiVir" placeholder="Ingrese un contenido..."
+                                 rows="7" cols="30"  maxlength="500"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
                             <div class="col-lg-12">
                               <div class="form-group mb-3">
                                 <div class="container">

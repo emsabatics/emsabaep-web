@@ -748,4 +748,49 @@ class BibliotecaTransparenciaController extends Controller
         return response()->view('Viewmain.Transparencia.biblioteca_virtual.viewopenarchivos', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
             'bibliotecafiles'=> $getarchivosbiblioteca, 'namesubcat' => $namesubcat, 'nidcat'=> $nidcat]);
     }
+
+    public function get_subcat_gallery_video_virtual($id){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $idcat = desencriptarNumero($id);
+
+        $estado='1';
+        $getSubCatBiblioteca= DB::connection('mysql')->table('tab_bv_subcategoria')
+        ->select('id', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('estado', $estado)
+        ->get();
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.list_bibliotecavsubcatvideo', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecav'=> $getSubCatBiblioteca, 'categoria'=> $id]);
+    }
+
+    public function show_video_biblioteca_virtual($idcat, $idsubcat){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+        $nidcat = $idcat;
+        $idcat = desencriptarNumero($idcat);
+        $idsubcat = desencriptarNumero($idsubcat);
+
+        $namesubcat = DB::connection('mysql')->table('tab_bv_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+
+        $estado='1';
+        $getgallerybiblioteca= DB::connection('mysql')->table('tab_bv_videos')
+        ->select('archivo', 'titulo', 'descripcion')
+        ->where('id_bv_categoria','=', $idcat)
+        ->where('id_bv_subcategoria','=', $idsubcat)
+        ->where('estado', $estado)
+        ->get();
+
+        $getonlyimg = $getgallerybiblioteca
+            ->map(function($item){
+                return [
+                    'video' => $item->archivo
+                ];
+            });
+        
+        return response()->view('Viewmain.Transparencia.biblioteca_virtual.viewopenvideo', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 
+            'bibliotecagallery'=> $getgallerybiblioteca, 'namesubcat' => $namesubcat, 'nidcat'=> $nidcat, 'getonlyvideo'=> $getonlyimg]);
+    }
 }

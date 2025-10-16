@@ -216,9 +216,11 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     Route::get('/biblioteca-virtual', [BibliotecaTransparenciaController::class, 'view_biblioteca_virtual'])->name('biblioteca-virtual');
     Route::get('/biblioteca-virtual-gallery-subcat/{id}', [BibliotecaTransparenciaController::class, 'get_subcat_gallery_biblioteca_virtual']);
     Route::get('/biblioteca-virtual/gallery/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'show_gallery_biblioteca_virtual']);
+    Route::get('/biblioteca-virtual-video-subcat/{id}', [BibliotecaTransparenciaController::class, 'get_subcat_gallery_video_virtual']);
 
     Route::get('/biblioteca-virtual-subcat/{id}', [BibliotecaTransparenciaController::class, 'get_subcat_biblioteca_virtual']);
     Route::get('/biblioteca-virtual/archivos/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'show_archivos_biblioteca_virtual']);
+    Route::get('/biblioteca-virtual/video/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'show_video_biblioteca_virtual']);
 });
 
 /*===================================================================================================================================/
@@ -908,6 +910,8 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/get-txt-img/{id}', [BibliotecaVirtualController::class, 'get_txt_img']);
     Route::get('/download-filebibliovirtual/{idf}', [BibliotecaVirtualController::class, 'download_file_bibliovirtual']);
     Route::get('/registrar_videos_virtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'videos_virtual_register']);
+    Route::get('/view_videosfiles_subcatvirtual/{idcat}/{idsubcat}/{tipo}', [BibliotecaVirtualController::class, 'videosfiles_virtual_subcat']);
+    Route::get('/get-txt-video/{id}', [BibliotecaVirtualController::class, 'get_txt_video']);
 
     /*
     *LOGO INSTITUCIONAL
@@ -1444,6 +1448,8 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     Route::post('/actualizar-subcategoria', [BibliotecaVirtualController::class, 'actualizar_subcategoria']);
     Route::post('/update-files-bibliovirtual', [BibliotecaVirtualController::class, 'update_files_bibliovirtual']);
     Route::post('/update-txtfiles-bibliovirtual', [BibliotecaVirtualController::class, 'update_txtfiles_bibliovirtual']);
+    Route::post('/update-txtvideo-bibliovirtual', [BibliotecaVirtualController::class, 'update_txtvideo_bibliovirtual']);
+    Route::post('/update-videofile-bibliovirtual', [BibliotecaVirtualController::class, 'update_videofile_bibliovirtual']);
 
     /*
     *LOGO INSTITUCIONAL
@@ -1705,6 +1711,9 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     Route::post('/delete-file-galeria', [BibliotecaVirtualController::class, 'delete_file_galeria']);
     Route::post('/delete-gallery-sure-subcategoria', [BibliotecaVirtualController::class, 'delete_gallery_sure_subcategoria']);
     Route::post('/delete-file-sure-subcategoria', [BibliotecaVirtualController::class, 'delete_file_sure_subcategoria']);
+    Route::post('/delete-video-sure-subcategoria', [BibliotecaVirtualController::class, 'delete_video_sure_subcategoria']);
+    Route::post('/in-activar-filevideo', [BibliotecaVirtualController::class, 'inactivar_filevideo']);
+    Route::post('/delete-file-video', [BibliotecaVirtualController::class, 'delete_file_video']);
 
     /*
     *LOGO INSTITUCIONAL
