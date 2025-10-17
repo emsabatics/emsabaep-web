@@ -72,6 +72,29 @@ class BannerAlcaldiaController extends Controller
         }
     }
 
+    //FUNCION QUE ACTUALIZA LA IMG EN LA BD
+    private function updateImgBanner($name, $pos, $date){
+        $sql_dato= DB::connection('mysql')->select('SELECT id FROM tab_img_banner_alcaldia WHERE imagen=?', [$name]);
+
+        $get_id='';
+        foreach ($sql_dato as $key) {
+            $get_id= $key->id;
+        }
+
+        $estado= "1";
+        $observacion="no_eliminado";
+
+        $sql_update= DB::table('tab_img_banner_alcaldia')
+            ->where('id', $get_id)
+            ->update([ 'orden'=> $pos, 'observacion'=> $observacion, 'estado'=> $estado, 'updated_at'=> $date]);
+        
+        if($sql_update){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //FUNCION QUE VALIDA SI ES UNA IMAGEN
     private function validarImg($extension){
         $validar_extension= array("png","jpg","jpeg");

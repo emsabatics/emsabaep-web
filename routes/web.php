@@ -651,6 +651,7 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/reportes-contador-descargas-rendicionc', [ReportesContadorController::class, 'index_descargas_rendicionc'])->name('reportes-contador-descargas-rendicionc');
     Route::get('/reportes-contador-descargas-lotaipv1', [ReportesContadorController::class, 'index_descargas_lotaipv1'])->name('reportes-contador-descargas-lotaipv1');
     Route::get('/reportes-contador-descargas-lotaipv2', [ReportesContadorController::class, 'index_descargas_lotaipv2'])->name('reportes-contador-descargas-lotaipv2');
+    Route::get('/reportes-contador-descargas-bvirtual', [ReportesContadorController::class, 'index_descargas_bvirtual'])->name('reportes-contador-descargas-bvirtual');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {

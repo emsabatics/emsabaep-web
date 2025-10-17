@@ -929,4 +929,154 @@ class ReportesContadorController extends Controller
             return redirect('/loginadmineep');
         }
     }
+
+    public function index_descargas_bvirtual()
+    {
+        if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
+            /**
+             * DOCUMENTACION BIBLIOTECA VIRTUAL
+            */
+            $arrayGeneral = array();
+            $arrayContador = array();
+
+            //TABLA GALERIA
+            $getIdCategoriaGaleria = DB::connection('mysql')->table('tab_bv_categoria')
+                ->where('estado','=','1')->where('tipo','=','galeria')
+                ->get()->first();
+
+            $getIdSubCatGaleria = DB::connection('mysql')->table('tab_bv_subcategoria')
+            ->where('estado','=','1')->where('id_bv_categoria','=', $getIdCategoriaGaleria->id)
+            ->get();
+
+            foreach ($getIdSubCatGaleria as $scg) {
+                $arrayArchivos= array();
+
+                $getTotalContador = DB::connection('mysql')->table('tab_bv_galeria')
+                ->where('id_bv_categoria','=', $getIdCategoriaGaleria->id)
+                ->where('id_bv_subcategoria','=', $scg->id)
+                ->where('estado','=','1')
+                ->sum('contador_descargas');
+
+                $getTitulo = DB::connection('mysql')->table('tab_bv_galeria')
+                ->select('titulo', 'contador_descargas')
+                ->where('id_bv_categoria','=', $getIdCategoriaGaleria->id)
+                ->where('id_bv_subcategoria','=', $scg->id)
+                ->where('estado','=','1')
+                ->get();
+
+                foreach ($getTitulo as $gt) {
+                    $arrayArchivos[] = array('titulo'=> $gt->titulo, 'total_contador'=> $gt->contador_descargas);
+                }
+
+                $arrayContador[] = array('subcategoria'=>$scg->descripcion, 'total'=> (int) ($getTotalContador ?? 0), 'archivos'=> $arrayArchivos);
+                unset($arrayArchivos);
+            }
+            $arrayGeneral[] = array('categoria'=> $getIdCategoriaGaleria->descripcion, 'tipo'=> $getIdCategoriaGaleria->tipo, 'subcategorias'=> $arrayContador);
+            unset($arrayContador);
+
+
+            //TABLA VIDEOS
+            $getIdCategoriaVideo = DB::connection('mysql')->table('tab_bv_categoria')
+                ->where('estado','=','1')->where('tipo','=','video')
+                ->get()->first();
+
+            $getIdSubCatVideo = DB::connection('mysql')->table('tab_bv_subcategoria')
+            ->where('estado','=','1')->where('id_bv_categoria','=', $getIdCategoriaVideo->id)
+            ->get();
+
+            foreach ($getIdSubCatVideo as $scg) {
+                $arrayArchivos= array();
+
+                $getTotalContador = DB::connection('mysql')->table('tab_bv_videos')
+                ->where('id_bv_categoria','=', $getIdCategoriaVideo->id)
+                ->where('id_bv_subcategoria','=', $scg->id)
+                ->where('estado','=','1')
+                ->sum('contador_descargas');
+
+                $getTitulo = DB::connection('mysql')->table('tab_bv_videos')
+                ->select('titulo', 'contador_descargas')
+                ->where('id_bv_categoria','=', $getIdCategoriaVideo->id)
+                ->where('id_bv_subcategoria','=', $scg->id)
+                ->where('estado','=','1')
+                ->get();
+
+                foreach ($getTitulo as $gt) {
+                    $arrayArchivos[] = array('titulo'=> $gt->titulo, 'total_contador'=> $gt->contador_descargas);
+                }
+
+                $arrayContador[] = array('subcategoria'=>$scg->descripcion, 'total'=> (int) ($getTotalContador ?? 0), 'archivos'=> $arrayArchivos);
+                unset($arrayArchivos);
+            }
+            $arrayGeneral[] = array('categoria'=> $getIdCategoriaVideo->descripcion, 'tipo'=> $getIdCategoriaVideo->tipo, 'subcategorias'=> $arrayContador);
+            unset($arrayContador);
+
+
+            //TABLA OTROS
+            $getIdCategoriaOtros = DB::connection('mysql')->table('tab_bv_categoria')
+                ->where('estado','=','1')->where('tipo','!=','video')->where('tipo','!=','galeria')
+                ->get();
+
+            foreach ($getIdCategoriaOtros as $cat) {
+                $getIdSubCatOtros = DB::connection('mysql')->table('tab_bv_subcategoria')
+                ->where('estado','=','1')->where('id_bv_categoria','=', $cat->id)
+                ->get();
+
+                foreach ($getIdSubCatOtros as $scg) {
+                    $arrayArchivos= array();
+
+                    $getTotalContador = DB::connection('mysql')->table('tab_bv_archivos')
+                    ->where('id_bv_categoria','=', $cat->id)
+                    ->where('id_bv_subcategoria','=', $scg->id)
+                    ->where('estado','=','1')
+                    ->sum('contador_descargas');
+
+                    $getTitulo = DB::connection('mysql')->table('tab_bv_archivos')
+                    ->select('titulo', 'contador_descargas')
+                    ->where('id_bv_categoria','=', $cat->id)
+                    ->where('id_bv_subcategoria','=', $scg->id)
+                    ->where('estado','=','1')
+                    ->get();
+
+                    foreach ($getTitulo as $gt) {
+                        $arrayArchivos[] = array('titulo'=> $gt->titulo, 'total_contador'=> $gt->contador_descargas);
+                    }
+
+                    $arrayContador[] = array('subcategoria'=>$scg->descripcion, 'total'=> (int) ($getTotalContador ?? 0), 'archivos'=> $arrayArchivos);
+                    unset($arrayArchivos);
+                }
+                $arrayGeneral[] = array('categoria'=> $cat->descripcion, 'tipo'=> $cat->tipo, 'subcategorias'=> $arrayContador);
+                unset($arrayContador);
+            }
+
+            //return $arrayGeneral;
+
+            $resultado = [];
+            $totalGeneralDatos = 0;
+
+            foreach ($arrayGeneral as $k) {
+                $totalGeneral = 0;
+
+                foreach ($k['subcategorias'] as $j) {
+                    $totalGeneral += (int) $j['total'];
+                }
+
+                $totalGeneralDatos += $totalGeneral;
+
+                $resultado[] = array('categoria'=> $k['categoria'], 'total'=> $totalGeneral);
+            }
+
+            //return $resultado;
+
+            $categorias = collect($resultado)->pluck('categoria');
+            $totales = collect($resultado)->pluck('total'); 
+
+            //return $categorias;
+            //return $totales;
+
+            return view('Administrador.reportesContador.reportescontadordescargasbvirtual', ['resultado'=> $arrayGeneral, 'resbycat'=> $resultado, 'totalGeneral'=> $totalGeneralDatos,
+                    'categories' => $categorias, 'totales'=> $totales]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
 }

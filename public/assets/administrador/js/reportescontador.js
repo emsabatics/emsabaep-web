@@ -690,3 +690,54 @@ function loadDatLotaipv2(valores ) {
         series: valores
     });
 }
+
+function loadDataBiblioVirtual(categoria, valores ) {
+    Highcharts.chart('graficoDescargasBibliotecaVirtual', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas -  Biblioteca Virtual'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Categorías'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Categoría: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Categorías',
+                data: valores
+            }
+        ]
+    });
+}

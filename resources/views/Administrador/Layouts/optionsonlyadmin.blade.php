@@ -90,5 +90,11 @@
                 <p>Auditoría Interna</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-bvirtual') }}" class="nav-link {{ setActive('reportes-contador-descargas-bvirtual') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Biblioteca Virtual</p>
+            </a>
+        </li>
     </ul>
 </li>
