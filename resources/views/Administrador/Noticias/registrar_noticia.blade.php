@@ -172,6 +172,11 @@ Admin | Noticias {{getNameInstitucion()}}
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group mb-3">
+                                      <label for="inputUrlVideo">Url: <span class="spanlabel">Opcional</span></label>
+                                      <textarea class="form-control text-justify" id="inputUrlVideo"
+                                          placeholder="https://..." rows="2" cols="5"></textarea>
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="inputDesc">Descripción:</label>
                                         <textarea class="form-control text-justify" id="inputDesc"
                                           placeholder="Ingrese el contenido de la noticia" rows="15" cols="5"></textarea>

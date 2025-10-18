@@ -1,5 +1,7 @@
 @extends('Viewmain.Layouts.app')
-
+@php
+    use App\VideoHelper;
+@endphp
 @section('css')
 <!--<link
   rel="stylesheet"
@@ -54,6 +56,53 @@
         border-radius: 25px;
         background: white;
     }
+
+    .video-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .noticia-video {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        max-width: 500px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #f2f2f2;
+    }
+
+    .noticia-video img.logo-principal {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .btn-ver-video {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease;
+    }
+
+    .btn-ver-video:hover {
+        filter: brightness(1.1);
+    }
+
+    .logo-plataforma {
+        width: 22px;
+        height: 22px;
+    }
 </style>
 @endsection
 
@@ -97,7 +146,7 @@
                         <span class="fecha"><i class="fa fa-calendar"></i> {{$tx['fecha']}}</span>
                     </div>
                 @endforeach
-                
+                @if(strlen($tx['url']) == 0)
                     <div class="noti-slide-img mt-4">
                         <div class="swiper mySwiper">
                             <div class="swiper-wrapper">
@@ -112,6 +161,7 @@
                             <div class="swiper-pagination"></div>
                         </div>
                     </div>
+                @endif
                 @foreach ($texto as $tx)
                     <div class="noti-content mt-4">
                         @foreach($tx['descripcion'] as $key => $dato)
@@ -122,6 +172,20 @@
                         @endforeach
                     </div>
                 @endforeach
+                @if(strlen($tx['url']) > 0)
+                    @php
+                        $videoData = VideoHelper::getPlatformData($tx['url']);
+                    @endphp
+                    <div class="noticia-video mt-4">
+                        <img src="/files-img/logo-emsaba-nuevo.png" alt="Logo Empresa" class="logo-principal">
+
+                        <button class="btn-ver-video" style="background: {{ $videoData['color'] }};"
+                            onclick="verVideo('{{ $tx['url'] }}')" title="Ver Vídeo de {{getNameInstitucion()}}">
+                        <img src="{{ $videoData['logo'] }}" alt="{{ $videoData['name'] }}" class="logo-plataforma">
+                            Ver video en {{ $videoData['name'] }}
+                        </button>
+                    </div>
+                @endif
             </div>
             <div class="col-lg-4">
                 <div class="row cabecera-logo-row">
@@ -137,13 +201,18 @@
                             <div class="media">
                                 <div class="media-left media-middle">
                                     <a href="javascript:void(0)" onclick="viewnew({{$ln->id}})">
-                                        <img src="/noticias-img/{{$ln->imagen}}" alt="Noticia" width="100" height="70"
-                                            class="media-object" style="width: 100px;height: 68px;">
+                                        @if (strlen($ln->url) > 0)
+                                        <img src="{{ asset('assets/viewmain/img/logos_socialmedia/video-agua.png') }}" alt="Noticia" width="100" height="70"
+                                                class="media-object" style="width: 68px;height: 68px;margin-left: 22px;margin-right: 14px;">
+                                        @else
+                                            <img src="/noticias-img/{{$ln->imagen}}" alt="Noticia" width="100" height="70"
+                                                class="media-object" style="width: 100px;height: 68px;">
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">
-                                        <a href="javascript:void(0)" onclick="viewnew({{$ln->id}})">
+                                        <a href="javascript:void(0)" onclick="viewnew('{{encriptarNumero($ln->id)}}')">
                                             {{$ln->lugar}} | {{$ln->titulo}}
                                         </a>
                                     </h4>
@@ -219,6 +288,19 @@
         },
         autoplay: {
             delay: 4500,
+        }
+    });
+
+    const video = document.getElementById('miVideo');
+
+    video.addEventListener('loadedmetadata', () => {
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+
+        if (width > height) {
+            video.classList.add('horizontal');
+        } else {
+            video.classList.add('vertical');
         }
     });
 </script>

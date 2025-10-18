@@ -34,6 +34,99 @@ class NoticiasController extends Controller
     }
 
     public function store_noticia(Request $r){
+        $files  = $r->file('file'); //obtengo el archivo
+
+        $lugar= $r->lugar;
+        $titulo= $r->titulo;
+        $descpshort= $r->descripcioncorta;
+        $descripcion= $r->descripcion;
+        $fecha= $r->fecha;
+        $hashtag= $r->hashtag;
+        $num_img= $r->num_img;
+        $urlvideo = $r->url;
+        $date= now();
+        $hora= $date->format('H:i:s');
+        $LAST_ID = '';
+
+        if(strlen($urlvideo) > 0 && $num_img == 0){
+            $sql_insert = DB::connection('mysql')->table('tab_noticias')->insertGetId(
+                ['lugar'=> $lugar, 'titulo'=> $titulo, 'descripcion_corta'=> $descpshort, 'descripcion'=>$descripcion,
+                'hashtag'=>$hashtag, 'fecha'=>$fecha, 'hora'=> $hora, 'url'=> $urlvideo, 'created_at'=> $date]
+            );
+                
+            if($sql_insert){
+                return response()->json(["resultado"=> true]);
+            }else{
+                return response()->json(["resultado"=> false]);
+            }
+        }else if(strlen($urlvideo) == 0 && $num_img > 0){
+            if ($r->hasFile('file')) {
+                $cont_noformat=0;
+
+                $sql_insert = DB::connection('mysql')->table('tab_noticias')->insertGetId(
+                    ['lugar'=> $lugar, 'titulo'=> $titulo, 'descripcion_corta'=> $descpshort, 'descripcion'=>$descripcion,
+                    'hashtag'=>$hashtag, 'fecha'=>$fecha, 'hora'=> $hora, 'created_at'=> $date]
+                );
+                $LAST_ID= $sql_insert;
+                $contar=0;
+                if($sql_insert){
+                    //return response()->json(["resultado"=> true]);
+                    foreach($files as $file){
+                        // here is your file object
+                        $filename= $file->getClientOriginalName();
+                        $fileextension= $file->getClientOriginalExtension();
+                        //$filesize= $file->getSize();//
+                        $data = getimagesize($file->getRealPath());
+                        $width = $data[0];
+                        $height = $data[1];
+        
+                        if($fileextension== $this->validarImg($fileextension)){
+                                $storeimg= Storage::disk('img_noticias')->put($filename,  \File::get($file));
+                                if($storeimg){
+                                    $sql_insert_img= DB::connection('mysql')->table('tab_img_noticias')->insertGetId(
+                                        ['id_noticia'=> $LAST_ID, 'imagen'=> $filename]
+                                    );
+                                    if($sql_insert_img){
+                                        $contar++;
+                                    }
+                                }else{
+                                    return response()->json(['resultado'=>false]);
+                                }
+                            /*if($width < 1900 && $height < 1080){
+                                $cont_noformat++;
+                            }else{
+                                $storeimg= Storage::disk('img_noticias')->put($filename,  \File::get($file));
+                                if($storeimg){
+                                    $sql_insert_img= DB::connection('mysql')->table('tab_img_noticias')->insertGetId(
+                                        ['id_noticia'=> $LAST_ID, 'imagen'=> $filename,  'created_at'=> $date]
+                                    );
+                                    if($sql_insert_img){
+                                        $contar++;
+                                    }
+                                }else{
+                                    return response()->json(['resultado'=>false]);
+                                }
+                            }*/
+                        }else{
+                            return response()->json(['resultado'=> 'noimagen']);
+                        }
+                    }
+
+                    if($contar==$num_img){
+                        return response()->json(["resultado"=> true]);
+                    }else{
+                        return response()->json(["resultado"=> false]);
+                    }
+                }else{
+                    return response()->json(["resultado"=> false]);
+                }
+            }else{
+                return response()->json(['resultado'=> 'noimagen']);
+            }
+        }
+    }
+
+    public function store_noticia_original(Request $r){
         if ($r->hasFile('file')) {
             $files  = $r->file('file'); //obtengo el archivo
 
@@ -197,6 +290,34 @@ class NoticiasController extends Controller
     }
 
     public function actualizar_noticia_texto(Request $r){
+        $id= $r->id;
+        $lugar= $r->lugar;
+        $titulo= $r->titulo;
+        $descpshort= $r->descripcioncorta;
+        $descripcion= $r->descripcion;
+        $fecha= $r->fecha;
+        $hashtag= $r->hashtag;
+        $num_img= $r->num_img;
+        $urlvideo = $r->url;
+        $date= now();
+
+        if(strlen($urlvideo)==0){
+            $urlvideo= '';
+        }
+
+        $sql_update= DB::table('tab_noticias')
+            ->where('id', $id)
+            ->update(['lugar'=> $lugar, 'titulo'=> $titulo, 'descripcion_corta'=> $descpshort, 'descripcion'=>$descripcion,
+            'hashtag'=>$hashtag, 'fecha'=>$fecha, 'url'=>$urlvideo, 'updated_at'=> $date]);
+        
+        if($sql_update){
+            return response()->json(["resultado"=> true]);
+        }else{
+            return response()->json(["resultado"=> false]);
+        }
+    }
+
+    public function actualizar_noticia_texto_original(Request $r){
         $id= $r->id;
         $lugar= $r->lugar;
         $titulo= $r->titulo;

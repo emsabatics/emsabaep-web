@@ -570,6 +570,25 @@ class BibliotecaTransparenciaController extends Controller
             $item++;
         }
 
+        //return $resultado;
+        return response()->view('Viewmain.Transparencia.doc_administrativa.list_docpoa_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'poa'=> $resultado]);
+    }
+
+    public function view_desc_docpoa_original($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $resultado= array();
+        $idpoa= ''; $item=1; $itemref=1;
+
+        $poa= DB::connection('mysql')->table('tab_poa')->where('id_anio','=',$idanio)->where('estado','=','1')->get();
+        foreach($poa as $p){
+            $idpoa= $p->id;
+            $resultado[] = array('item'=> $item, 'id'=> $p->id, 'titulo'=> $p->titulo, 'archivo'=> $p->archivo, 'tipor'=>'noref');
+            $item++;
+        }
+
         $poah= DB::connection ('mysql')->table('tab_poa_history')->where('id_poa','=',$idpoa)->where('estado','=','1')->get();
         foreach($poah as $p){
             $resultado[] = array('item'=> $item, 'itemref'=> $itemref, 'id'=> $p->id, 'titulo'=> $p->titulo, 'archivo'=> $p->archivo, 'tipor'=>'ref');
@@ -582,6 +601,26 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     public function view_desc_docpac($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $resultado= array();
+        $idpac= ''; $item=1; $itemref=1;
+
+        $pac= DB::connection('mysql')->table('tab_pac')->where('id_anio','=',$idanio)->where('estado','=','1')->get();
+        foreach($pac as $p){
+            $idpac= $p->id;
+            $resultado[] = array('item'=> $item, 'id'=> $p->id, 'titulo'=> $p->titulo, 'archivo'=> $p->archivo, 
+                'resol_admin'=> $p->resol_admin, 'archivo_resoladmin'=> $p->archivo_resoladmin, 'tipor'=>'noref');
+            $item++;
+        }
+
+        //return $resultado;
+        return response()->view('Viewmain.Transparencia.doc_administrativa.list_docpac_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'pac'=> $resultado]);
+    }
+
+    public function view_desc_docpac_original($tipo, $idanio){
         $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();

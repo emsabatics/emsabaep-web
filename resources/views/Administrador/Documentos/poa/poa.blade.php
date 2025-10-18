@@ -95,6 +95,7 @@ Admin | POA {{getNameInstitucion()}}
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body table-responsive p-4" id="divPoa">
+                    <input type="hidden" name="id_encriptado" id="id_encriptado" value="{{$codeid}}">
                     <table class="table datatables" id="tablaPOA">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
@@ -135,10 +136,12 @@ Admin | POA {{getNameInstitucion()}}
                               <i class="fas fa-folder mr-3"></i>
                               Ver
                             </a>
+                            @if($item->reforma != 0)
                             <a class="btn btn-warning btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="viewopenRefPOA({{$item->id}})">
                               <i class="fas fa-folder mr-3"></i>
                               Ver Reformas
                             </a>
+                            @endif
                             <a class="btn btn-info btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="interfaceupdatePOA({{$item->id}})">
                               <i class="far fa-edit mr-3"></i>
                               Actualizar
@@ -198,6 +201,9 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   const nameInterfaz = "POA";
+  const reformaPOA = @json('reforma');
+  var code = $('#id_encriptado').val();
+  code = "'"+code+"'";
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {

@@ -11,6 +11,7 @@ function guardarNoticia(){
     var fecha = $("#drgpickerFecha").val();
     var descripcion = $("#inputDesc").val();
     var lengimg = fileInput.files.length;
+    var urlvideo = $("#inputUrlVideo").val();
 
     if (lugar == "") {
         $("#inputLugar").focus();
@@ -27,8 +28,10 @@ function guardarNoticia(){
     } else if (descripcion == "") {
         $("#inputDesc").focus();
         swal("Ingrese una descripción de la noticia", "", "warning");
-    } else if (lengimg == 0) {
+    } else if (lengimg == 0 && urlvideo.length==0) {
         swal("No ha seleccionado alguna imagen para la noticia", "", "warning");
+    } else if (lengimg > 0 && urlvideo.length > 0) {
+        swal("Solo puede seleccionar subir una imagen ó agregar una URL", "", "warning");
     } else {
 
         if(puedeGuardarSM(nameInterfaz) === 'si'){
@@ -46,6 +49,7 @@ function guardarNoticia(){
             data.append("descripcion", descripcion);
             data.append("hashtag",arrayHash.toString());
             data.append("num_img", lengimg);
+            data.append("url", urlvideo);
             setTimeout(() => {
                 sendNuevaNoticia(token, data, "/registrar-noticia"); 
             }, 700);
@@ -229,6 +233,7 @@ function cargarNoticiaIn(texto, imagen){
         $('#inputELugar').val(v.lugar);
         $('#drgpickerFechaE').val(v.fecha);
         $('#inputETitulo').val(v.titulo);
+        $('#inputUrlVideoEdit').val(v.url);
         //$('#inputEDescShort').val(v.descripcion_corta);
         replaceCaracter(v.descripcion_corta, '#inputEDescShort');
         replaceCaracter(v.descripcion, '#inputEDesc');
@@ -407,6 +412,10 @@ function updateonlytextnews(){
     var descpshort = $("#inputEDescShort").val();
     var fecha = $("#drgpickerFechaE").val();
     var descripcion = $("#inputEDesc").val();
+    var urlvideo = $("#inputUrlVideoEdit").val();
+
+    let fileInput = document.getElementById("file");
+    var lengimg = fileInput.files.length;
 
     if (lugar == "") {
         $("#inputELugar").focus();
@@ -423,6 +432,8 @@ function updateonlytextnews(){
     } else if (descripcion == "") {
         $("#inputEDesc").focus();
         swal("Ingrese una descripción de la noticia", "", "warning");
+    } else if (lengimg > 0 && urlvideo.length > 0) {
+        swal("Solo puede seleccionar subir una imagen ó agregar una URL", "", "warning");
     } else {
         if(puedeActualizarSM(nameInterfaz) === 'si'){
             $('#modalFullSendEdit').modal('show');
@@ -436,6 +447,7 @@ function updateonlytextnews(){
             data.append("fecha", fecha);
             data.append("descripcion", descripcion);
             data.append("hashtag",arrayHashedit.toString());
+            data.append("url", urlvideo);
             //console.log(idnoti, lugar, descpshort, titulo, fecha, descripcion, arrayHashedit.toString());
             setTimeout(() => {
                 sendUpdateNoticia(token, data, "/actualizar-noticia-texto");

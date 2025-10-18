@@ -329,12 +329,14 @@ function inactivarPOA(id, i){
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPOA("+id+")'>"+
                         "<i class='fas fa-folder mr-3'></i>"+
                         "Ver"+
-                    "</a>"+
-                    "<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPOA("+id+")'>"+
+                    "</a>";
+                    if(reformaPOA > 0){
+                    html+="<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPOA("+id+")'>"+
                         "<i class='fas fa-folder mr-3'></i>"+
                         "Ver Reformas"+
-                    "</a>"+
-                    "<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePOA("+id+")'>"+
+                    "</a>";
+                    }
+                    html+="<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePOA("+id+")'>"+
                         "<i class='far fa-edit mr-3'></i>"+
                         "Actualizar"+
                     "</a>";
@@ -349,7 +351,7 @@ function inactivarPOA(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPOA("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar POA"+
                     "</a>"; 
@@ -404,12 +406,14 @@ function activarPOA(id, i){
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPOA("+id+")'>"+
                 "<i class='fas fa-folder mr-3'></i>"+
                 "Ver"+
-            "</a>"+
-            "<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPOA("+id+")'>"+
+            "</a>";
+            if(reformaPOA > 0){
+            html+="<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPOA("+id+")'>"+
                 "<i class='fas fa-folder mr-3'></i>"+
                 "Ver Reformas"+
-            "</a>"+
-            "<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePOA("+id+")'>"+
+            "</a>";
+            }
+            html+="<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePOA("+id+")'>"+
                 "<i class='far fa-edit mr-3'></i>"+
                 "Actualizar"+
             "</a>";
@@ -424,7 +428,7 @@ function activarPOA(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPOA("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar POA"+
             "</a>"; 

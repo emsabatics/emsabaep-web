@@ -47,7 +47,11 @@
                 <div class="blog-item">
                     <div class="blog-img">
                         <div class="blog-img-inner" style="height: 225px;">
+                            @if (strlen($nt['url']) == 0)
                             <img class="img-fluid w-100 rounded-top" src="/noticias-img/{{$nt['imagen']}}" alt="Image" style="object-fit: cover;height: 100%;">
+                            @else
+                            <img class="img-fluid w-100 rounded-top" src="/files-img/logo-emsaba-nuevo.png" alt="Image" style="object-fit: cover;height: 100%;">
+                            @endif
                         </div>
                     </div>
                     <div class="blog-content border border-top-0 rounded-bottom p-4">
@@ -55,7 +59,7 @@
                         <a href="javascrip:void(0)" class="h4">{{$nt['titulo']}}</a>
                         <p class="my-3 text-justify">{{$nt['descripcion']}}</p>
                         <div class="divRowCardNews">
-                            <a onclick="viewnew({{$nt['id']}})" class="btn btn-primary rounded-pill py-2 px-4">Leer más</a>
+                            <a onclick="viewnew('{{encriptarNumero($nt['id'])}}')" class="btn btn-primary rounded-pill py-2 px-4">Leer más</a>
                             <div class="divIconWater">
                                 <img src="assets/viewmain/img/web/gota_agua.svg" alt="EMSABA EP">
                             </div>

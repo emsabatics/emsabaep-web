@@ -58,6 +58,10 @@ function inactivarRefPAC(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+
+    var code = $('#id_encriptado_item'+i).val();
+    //code = "'"+code+"'";
+
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -96,7 +100,7 @@ function inactivarRefPAC(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[4];
+                    var elementState= document.getElementById('Tr'+i).cells[5];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
@@ -118,15 +122,15 @@ function inactivarRefPAC(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadRefPAC("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPAC('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar PAC"+
                     "</a>"+
-                    "<a class='btn btn-danger btn-sm mt-2 mr-3' onclick='downloadRefRA("+id+")' >"+
+                    '<a class="btn btn-danger btn-sm mt-2 mr-3" onclick="downloadRefRA('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Resolución"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[5];
+                    var element= document.getElementById('Tr'+i).cells[6];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -149,6 +153,10 @@ function activarRefPAC(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+
+    var code = $('#id_encriptado_item'+i).val();
+    //code = "'"+code+"'";
+
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pac",
@@ -171,7 +179,7 @@ function activarRefPAC(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[4];
+            var elementState= document.getElementById('Tr'+i).cells[5];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
@@ -193,15 +201,15 @@ function activarRefPAC(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadRefPAC("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPAC('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar PAC"+
             "</a>"+
-            "<a class='btn btn-danger btn-sm mt-2 mr-3' onclick='downloadRefRA("+id+")' >"+
+            '<a class="btn btn-danger btn-sm mt-2 mr-3" onclick="downloadRefRA('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Resolución"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[5];
+            var element= document.getElementById('Tr'+i).cells[6];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

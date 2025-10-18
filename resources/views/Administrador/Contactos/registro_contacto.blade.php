@@ -16,8 +16,10 @@ Admin | Contactos {{getNameInstitucion()}}
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/select2/css/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+<!--<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />-->
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet"/>
 
 <style>
     .mapboxgl-popup {
@@ -206,7 +208,6 @@ Admin | Contactos {{getNameInstitucion()}}
         theme: 'bootstrap4',
     });
 
-    /*mapboxgl.accessToken = 'pk.eyJ1IjoiamNsb3BlejE0IiwiYSI6ImNqemE2cjI4ZzAwbmEzamxveXU1OG8za3UifQ.BadDhjV5YpOq3cG4c7sTbw';*/
     mapboxgl.accessToken = 'pk.eyJ1IjoiamVhbmNsIiwiYSI6ImNtMGZpbmpjazA0YzAybHBucWhzOWluNnkifQ.DPKfnyD9t1DbHroX-OJ1Fg';
     var map=null;
     var marker;
@@ -234,7 +235,7 @@ Admin | Contactos {{getNameInstitucion()}}
 
         map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            style: 'mapbox://styles/mapbox/standard', // style URL
             center: coordenadas, // starting position [lng, lat]
             zoom: 15, // starting zoom
         });

@@ -102,6 +102,7 @@ Admin | POA {{getNameInstitucion()}}
                           <th>Año</th>
                           <th>Área</th>
                           <th>Descripción</th>
+                          <th>N° Reforma</th>
                           <th>Estado</th>
                           <th>Opciones</th>
                         </tr>
@@ -123,6 +124,14 @@ Admin | POA {{getNameInstitucion()}}
                             @endif
                           </td>
                           <td>{{$item->titulo}}</td>
+                          <td>
+                            <input type="hidden" name="id_encriptado_item{{$loop->index}}" id="id_encriptado_item{{$loop->index}}" value="'{{encriptarNumero($item->id)}}'">
+                            @if($item->reforma == 0 )
+                            <span class="badge badge-secondary">Original</span>
+                            @else
+                            <span class="badge badge-secondary">{{$item->reforma}}</span>
+                            @endif
+                          </td>
                           <td>
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>
@@ -150,7 +159,7 @@ Admin | POA {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPOA({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPOA('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar POA
                             </a>

@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use File;
 use App\ContadorHelper;
+use Illuminate\Support\Collection; //SE AGREGO
 
 class DocumentosController extends Controller
 {
-    //INDEX PÁGINA PRINCIPAL PAC
+    //INDEX PÁGINA PRINCIPAL PAC REESTRUCTURADO
     public function pac_index()
     {
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
@@ -21,7 +22,9 @@ class DocumentosController extends Controller
             ->select('tab_pac.*', 'tab_anio.nombre')
             ->get();
 
-            return response()->view('Administrador.Documentos.pac.pac', ['pac'=> $pac]);
+            $reforma = $pac->pluck('reforma')->first();
+
+            return response()->view('Administrador.Documentos.pac.pac', ['pac'=> $pac, 'reforma'=> $reforma]);
         }else{
             return redirect('/loginadmineep');
         }
@@ -342,7 +345,7 @@ class DocumentosController extends Controller
         //return response()->json(['resultado'=>true]);
     }
 
-    //FUNCION QUE ACTUALIZA EL PAC EN LA BASE DE DATOS
+    //FUNCION QUE ACTUALIZA EL PAC EN LA BASE DE DATOS REESTRUCTURADO
     public function update_pac(Request $r){
         $date= now();
         $id= $r->idpac;
@@ -371,6 +374,7 @@ class DocumentosController extends Controller
                 $archivo_resoladmin= $it->archivo_resoladmin;
                 $oldnamefilepac= $archivo;
                 $oldnamefileresolpac= $archivo_resoladmin;
+                $num_reforma= $it->reforma;
             }
 
             //$setdate= $date->toDateTimeString();
@@ -385,8 +389,8 @@ class DocumentosController extends Controller
             $setdate= str_replace('-','_', $setdate);
             //$setdate= str_replace(':','_', $setdate);
 
-            $newnamedocpac= substr($oldnamefilepac,0,-4).'_res_'.$setdate.".pdf";
-            $newnamedocresolpac= substr($oldnamefileresolpac,0,-4).'_res_'.$setdate.".pdf";
+            $newnamedocpac= substr($oldnamefilepac,0,-4).'_reforma_'.$num_reforma.'_'.$setdate.".pdf";
+            $newnamedocresolpac= substr($oldnamefileresolpac,0,-4).'_reforma_'.$num_reforma.'_'.$setdate.".pdf";
             
             if(Storage::disk('doc_pac')->exists($oldnamefilepac)){
                 Storage::disk('doc_pac')->copy($oldnamefilepac, $newnamedocpac);
@@ -397,10 +401,14 @@ class DocumentosController extends Controller
             }
 
             $sql_insert = DB::connection('mysql')->insert('insert into tab_pac_history (
-                id_pac, id_anio, titulo, observacion, archivo, resol_admin, archivo_resoladmin,
+                id_pac, id_anio, titulo, observacion, archivo, resol_admin, archivo_resoladmin, reforma,
                 created_at
-            ) values (?,?,?,?,?,?,?,?)', [$id, $id_anio, $titulopac, $observacionpac, $newnamedocpac, $resol_admin, $newnamedocresolpac, $date]);
+            ) values (?,?,?,?,?,?,?,?,?)', [$id, $id_anio, $titulopac, $observacionpac, $newnamedocpac, $resol_admin, $newnamedocresolpac, $num_reforma, $date]);
         }
+
+        DB::connection('mysql')->table('tab_pac')->where('id', '=', $id)->increment('reforma');
+
+        $cont_reforma = DB::connection('mysql')->table('tab_pac')->where('id', '=', $id)->value('reforma');
 
         if($ispac=="false" && $isra=="false"){
            //print_r('AMBOS FALSOS');
@@ -457,7 +465,7 @@ class DocumentosController extends Controller
                             $sql_update= DB::table('tab_pac')
                             ->where('id', $id)
                             ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion, 'archivo'=> $newnamepac, 
-                                'resol_admin'=> $resadmin, 'archivo_resoladmin' => $newnamera, 'updated_at'=> $date]);
+                                'resol_admin'=> $resadmin, 'archivo_resoladmin' => $newnamera, 'reforma'=> $cont_reforma, 'updated_at'=> $date]);
     
                             if($sql_update){
                                 return response()->json(["resultado"=> true]);
@@ -506,7 +514,7 @@ class DocumentosController extends Controller
                         $sql_update= DB::table('tab_pac')
                         ->where('id', $id)
                         ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion, 'archivo'=> $newnamepac, 
-                            'resol_admin'=> $resadmin, 'updated_at'=> $date]);
+                            'resol_admin'=> $resadmin, 'reforma'=> $cont_reforma, 'updated_at'=> $date]);
 
                         if($sql_update){
                             return response()->json(["resultado"=> true]);
@@ -548,7 +556,7 @@ class DocumentosController extends Controller
                         $sql_update= DB::table('tab_pac')
                         ->where('id', $id)
                         ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion, 
-                            'resol_admin'=> $resadmin, 'archivo_resoladmin' => $newnamera, 'updated_at'=> $date]);
+                            'resol_admin'=> $resadmin, 'archivo_resoladmin' => $newnamera, 'reforma'=> $cont_reforma, 'updated_at'=> $date]);
 
                         if($sql_update){
                             return response()->json(["resultado"=> true]);
@@ -565,7 +573,7 @@ class DocumentosController extends Controller
             $sql_update= DB::table('tab_pac')
                 ->where('id', $id)
                 ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion,  
-                    'resol_admin'=> $resadmin, 'updated_at'=> $date]);
+                    'resol_admin'=> $resadmin, 'reforma'=> $cont_reforma, 'updated_at'=> $date]);
     
             if($sql_update){
                 return response()->json(["resultado"=> true]);
@@ -765,7 +773,7 @@ class DocumentosController extends Controller
     /*--------------------------------------------------------------------------------------------------*/
     //POA
     /*--------------------------------------------------------------------------------------------------*/
-    //INDEX PÁGINA PRINCIPAL POA
+    //INDEX PÁGINA PRINCIPAL POA REESTRUCTURADO
     public function poa_index()
     {
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
@@ -777,7 +785,10 @@ class DocumentosController extends Controller
             return response()->view('Administrador.Documentos.poa.poa', ['poa'=> $poa]);*/
             $poa= DB::connection('mysql')->select('SELECT p.*, y.nombre as year FROM tab_poa p, tab_anio y WHERE p.id_anio=y.id ORDER BY p.id_anio DESC');
             $direccion = DB::table('tab_direccion_dep')->where('estado','1')->get();
-            return response()->view('Administrador.Documentos.poa.poa', ['poa'=> $poa, 'direccion'=> $direccion]);
+            $reforma = collect($poa)->pluck('reforma')->first();
+            $getid= collect($poa)->pluck('id')->first();
+            $getid= encriptarNumero($getid);
+            return response()->view('Administrador.Documentos.poa.poa', ['poa'=> $poa, 'direccion'=> $direccion, 'reforma'=> $reforma, 'codeid'=> $getid]);
         }else{
             return redirect('/loginadmineep');
         }
@@ -1167,7 +1178,7 @@ class DocumentosController extends Controller
         //return response()->json(['resultado'=>true]);
     }
 
-    //FUNCION QUE ACTUALIZA EL POA EN LA BASE DE DATOS
+    //FUNCION QUE ACTUALIZA EL POA EN LA BASE DE DATOS REESTRUCTURADO
     public function update_poa(Request $r){
         $date= now();
         $id= $r->idpoa;
@@ -1191,6 +1202,7 @@ class DocumentosController extends Controller
                 $observacionpoa= $it->observacion;
                 $archivo= $it->archivo;
                 $oldnamefilepoa= $archivo;
+                $num_reforma = $it->reforma;
             }
 
             $setdate= $date->toDateTimeString();
@@ -1206,7 +1218,7 @@ class DocumentosController extends Controller
             $setdate= str_replace('-','', $setdate);
             $setdate= str_replace(':','', $setdate);
 
-            $newnamedocpoa= substr($oldnamefilepoa,0,-4).'_res_'.$setdate.".pdf";
+            $newnamedocpoa= substr($oldnamefilepoa,0,-4).'_reforma_'.$num_reforma.'_'.$setdate.".pdf";
             
             if(Storage::disk('doc_poa')->exists($oldnamefilepoa)){
                 /*if(Storage::disk('doc_poa')->exists($newnamedocpoa)){
@@ -1216,9 +1228,13 @@ class DocumentosController extends Controller
             }
 
             $sql_insert = DB::connection('mysql')->insert('insert into tab_poa_history (
-                id_poa, id_anio, tipo_sel, titulo, archivo, observacion, created_at
-            ) values (?,?,?,?,?,?,?)', [$id, $id_anio, $tipo_sel, $titulopoa, $newnamedocpoa, $observacionpoa, $date]);
+                id_poa, id_anio, tipo_sel, titulo, archivo, observacion, reforma, created_at
+            ) values (?,?,?,?,?,?,?,?)', [$id, $id_anio, $tipo_sel, $titulopoa, $newnamedocpoa, $observacionpoa, $num_reforma, $date]);
         }
+
+        DB::connection('mysql')->table('tab_poa')->where('id', '=', $id)->increment('reforma');
+
+        $cont_reforma = DB::connection('mysql')->table('tab_poa')->where('id', '=', $id)->value('reforma');
 
         if($ispoa=="false"){
             if ($r->hasFile('fileEdit')) {
@@ -1244,7 +1260,7 @@ class DocumentosController extends Controller
                     if($storepoa){
                         $sql_update= DB::table('tab_poa')
                             ->where('id', $id)
-                            ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion, 'archivo'=> $newnamepoa, 
+                            ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'observacion' => $observacion, 'archivo'=> $newnamepoa, 'reforma'=> $cont_reforma, 
                                 'updated_at'=> $date]);
     
                         if($sql_update){
@@ -1278,7 +1294,7 @@ class DocumentosController extends Controller
             if($storepoa){
                 $sql_update= DB::table('tab_poa')
                     ->where('id', $id)
-                    ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'archivo'=> $newnamepoa, 'observacion' => $observacion,  
+                    ->update(['id_anio'=> $anio, 'titulo'=> $titulo, 'archivo'=> $newnamepoa, 'observacion' => $observacion, 'reforma'=> $cont_reforma,  
                         'updated_at'=> $date]);
         
                 if($sql_update){

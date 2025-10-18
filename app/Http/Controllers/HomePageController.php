@@ -409,7 +409,7 @@ class HomePageController extends Controller
         foreach($mariaDbec as $not){
             $id= $not->id;
             $imagen= $this->getImagen($id);
-            $arnew[]= array('id'=>$id, 'lugar'=> $not->lugar, 'titulo'=> $not->titulo, 'descripcion'=> substr($not->descripcion_corta,0, 100)."...", 'fecha'=> $not->fecha, 'imagen'=> $imagen);
+            $arnew[]= array('id'=>$id, 'lugar'=> $not->lugar, 'titulo'=> $not->titulo, 'descripcion'=> substr($not->descripcion_corta,0, 100)."...", 'fecha'=> $not->fecha, 'imagen'=> $imagen, 'url'=> $not->url);
         }
 
         return response()->view('Viewmain.Noticias.noticia', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia,'noticias'=> $arnew]);
@@ -417,27 +417,61 @@ class HomePageController extends Controller
 
     public function ver_noticia($idn, $opcion){
         $estado='1';
-        $idn= base64_decode($idn);
+        //$idn= base64_decode($idn);
+        $idn = desencriptarNumero($idn);
 
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
-        $countlist = DB::connection('mysql')->table('tab_noticias')->where('estado', $estado)->get()->count();
+        $countlist = DB::connection('mysql')->table('tab_noticias')->where('estado', '=',$estado)->get()->count();
         if($countlist <= 3 ){
-            $listnewf = DB::connection('mysql')->table('tab_noticias')
+            /*$listnewf = DB::connection('mysql')->table('tab_noticias')
             ->join('tab_img_noticias', 'tab_noticias.id', '=', 'tab_img_noticias.id_noticia')
             ->select('tab_noticias.*', 'tab_img_noticias.imagen')
             ->where('tab_noticias.estado', $estado)
             ->where('tab_img_noticias.estado', $estado)
             ->offset(0)->limit($countlist)
+            ->get();*/
+            $listnewf = DB::connection('mysql')->table('tab_noticias')
+            ->leftJoin(DB::raw('(
+                SELECT t1.id_noticia, t1.imagen
+                FROM tab_img_noticias t1
+                WHERE t1.estado = 1
+                AND t1.id = (
+                    SELECT MAX(t2.id)
+                    FROM tab_img_noticias t2
+                    WHERE t2.id_noticia = t1.id_noticia AND t2.estado = 1
+                )
+            ) AS img'), 'tab_noticias.id', '=', 'img.id_noticia')
+            ->select('tab_noticias.id', 'tab_noticias.lugar', 'tab_noticias.titulo', 'tab_noticias.fecha', 'tab_noticias.url', 'img.imagen')
+            ->where('tab_noticias.estado', 1)
+            ->orderBy('tab_noticias.id', 'desc')
+            ->limit($countlist)
             ->get();
         }else{
-            $listnewf = DB::connection('mysql')->table('tab_noticias')
+            /*$listnewf = DB::connection('mysql')->table('tab_noticias')
             ->join('tab_img_noticias', 'tab_noticias.id', '=', 'tab_img_noticias.id_noticia')
             ->select('tab_noticias.*', 'tab_img_noticias.imagen')
             ->where('tab_noticias.estado', $estado)
             ->where('tab_img_noticias.estado', $estado)
             ->offset(0)->limit(4)
+            ->get();*/
+
+            $listnewf = DB::connection('mysql')->table('tab_noticias')
+            ->leftJoin(DB::raw('(
+                SELECT t1.id_noticia, t1.imagen
+                FROM tab_img_noticias t1
+                WHERE t1.estado = 1
+                AND t1.id = (
+                    SELECT MAX(t2.id)
+                    FROM tab_img_noticias t2
+                    WHERE t2.id_noticia = t1.id_noticia AND t2.estado = 1
+                )
+            ) AS img'), 'tab_noticias.id', '=', 'img.id_noticia')
+            ->select('tab_noticias.id', 'tab_noticias.lugar', 'tab_noticias.titulo', 'tab_noticias.fecha', 'tab_noticias.url', 'img.imagen')
+            ->where('tab_noticias.estado', 1)
+            ->orderBy('tab_noticias.id', 'desc')
+            ->limit(4)
             ->get();
         }
         
@@ -450,7 +484,7 @@ class HomePageController extends Controller
             $arrhashtag = explode(",", $nt->hashtag);
             $arrdescrip= explode("//", $nt->descripcion);
             $arnoticia[]= array('lugar'=> $nt->lugar, 'titulo'=> $nt->titulo, 'descripcion'=> $arrdescrip, 'hashtag'=> $arrhashtag, 
-                'fecha'=> $fecha, 'hora'=> $nt->hora);
+                'fecha'=> $fecha, 'hora'=> $nt->hora, 'url'=> $nt->url);
             unset($arrdescrip);
             unset($arrhashtag);
         }

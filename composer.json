@@ -44,7 +44,8 @@
         "files" : [
             "app/helpers.php",
             "app/ContactHelper.php",
-            "app/ContadorHelper.php"
+            "app/ContadorHelper.php",
+            "app/VideoHelper.php"
         ]
     },
     "autoload-dev": {

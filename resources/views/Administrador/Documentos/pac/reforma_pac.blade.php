@@ -102,6 +102,7 @@ Admin | PAC {{getNameInstitucion()}}
                           <th>Año</th>
                           <th>Descripción</th>
                           <th>Información Adicional</th>
+                          <th>N° Reforma</th>
                           <th>Estado</th>
                           <th>Opciones</th>
                         </tr>
@@ -113,6 +114,14 @@ Admin | PAC {{getNameInstitucion()}}
                           <td>{{$item->nombre}}</td>
                           <td>{{$item->titulo}}</td>
                           <td>{{$item->resol_admin}}</td>
+                          <td>
+                            <input type="hidden" name="id_encriptado_item{{$loop->index}}" id="id_encriptado_item{{$loop->index}}" value="'{{encriptarNumero($item->id)}}'">
+                            @if($item->reforma == 0 )
+                            <span class="badge badge-secondary">Original</span>
+                            @else
+                            <span class="badge badge-secondary">{{$item->reforma}}</span>
+                            @endif
+                          </td>
                           <td>
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>

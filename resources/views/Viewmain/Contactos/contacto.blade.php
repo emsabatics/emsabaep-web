@@ -5,8 +5,10 @@
 <link href="{{asset('assets/viewmain/css/cardatencioncliente.css')}}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.css')}}">
 <script type="text/javascript" src="{{asset('assets/administrador/plugins/sweetalert/sweetalert2.min.js')}}" ></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+<!--<link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>-->
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet"/>
 <style>
     #map { top: 0; bottom: 0; width: 100%;  height: 450px;}
     /*https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg*/
@@ -360,6 +362,7 @@ aria-hidden="true" data-backdrop="static" data-keyboard="false" style="display: 
 
             const map = new mapboxgl.Map({
                 container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/standard', // style URL
                 center: [longitud, latitud], // starting position [lng, lat]. Note that lat must be set between -90 and 90
                 zoom: 13 // starting zoom
             });

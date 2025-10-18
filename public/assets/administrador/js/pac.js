@@ -257,12 +257,14 @@ function inactivarPAC(id, i){
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPAC("+id+")'>"+
                         "<i class='fas fa-folder mr-3'></i>"+
                         "Ver"+
-                    "</a>"+
-                    "<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
+                    "</a>";
+                    if(reformaPAC > 0){
+                    html+="<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
                         "<i class='fas fa-folder mr-3'></i>"+
                         "Ver Reformas"+
-                    "</a>"+
-                    "<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePAC("+id+")'>"+
+                    "</a>";
+                    }
+                    html+="<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePAC("+id+")'>"+
                         "<i class='far fa-edit mr-3'></i>"+
                         "Actualizar"+
                     "</a>";
@@ -336,12 +338,14 @@ function activarPAC(id, i){
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPAC("+id+")'>"+
                 "<i class='fas fa-folder mr-3'></i>"+
                 "Ver"+
-            "</a>"+
-            "<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
+            "</a>";
+            if(reformaPAC > 0){
+            html+="<a class='btn btn-warning btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
                 "<i class='fas fa-folder mr-3'></i>"+
                 "Ver Reformas"+
-            "</a>"+
-            "<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePAC("+id+")'>"+
+            "</a>";
+            }
+            html+="<a class='btn btn-info btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='interfaceupdatePAC("+id+")'>"+
                 "<i class='far fa-edit mr-3'></i>"+
                 "Actualizar"+
             "</a>";

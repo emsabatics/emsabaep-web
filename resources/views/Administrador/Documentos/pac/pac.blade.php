@@ -125,10 +125,12 @@ Admin | PAC {{getNameInstitucion()}}
                               <i class="fas fa-folder mr-3"></i>
                               Ver
                             </a>
+                            @if($item->reforma != 0)
                             <a class="btn btn-warning btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="viewopenRefPAC({{$item->id}})">
                               <i class="fas fa-folder mr-3"></i>
                               Ver Reformas
                             </a>
+                            @endif
                             <a class="btn btn-info btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="interfaceupdatePAC({{$item->id}})">
                               <i class="far fa-edit mr-3"></i>
                               Actualizar
@@ -192,6 +194,7 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
   const nameInterfaz = "PAC";
+  const reformaPAC = @json('reforma');
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {
