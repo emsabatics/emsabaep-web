@@ -59,7 +59,7 @@
                         <div class="card-header" id="headingOne">
                             <h2 class="mb-0">
                                 <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}">
-                                    {{$item->nombre_archivo}}
+                                    {{ $loop->iteration }}.- {{$item->nombre_archivo}}
                                     <span class="fa-stack fa-sm">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fas fa-plus fa-stack-1x fa-inverse"></i>

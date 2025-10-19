@@ -2,6 +2,7 @@
 
 @section('css')
 <link href="{{asset('assets/viewmain/css/servicestyle.css')}}" rel="stylesheet">
+<link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 @endsection
 
 @section('social-media')

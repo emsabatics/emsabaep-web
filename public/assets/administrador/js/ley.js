@@ -25,9 +25,14 @@ function showInfoLey(){
                 },
                 sProcessing: "Procesando...",
             },
+            autoWidth: false,
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
+                { width: 15, targets: 0, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4] },
+                { width: 130, targets: 1 },    // Descripción
+                { width: 130, targets: 2 },    // Archivo
+                { width: 40, targets: 3 },    // Estado
+                { width: 200, targets: 4 }     // Opciones
             ],
         });
 }

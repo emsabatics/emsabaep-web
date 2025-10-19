@@ -414,7 +414,9 @@ class BibliotecaTransparenciaController extends Controller
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
-        return response()->view('Viewmain.Transparencia.doc_administrativa.docadministrativa', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia]);
+        $url_sercop = DB::connection('mysql')->table('tab_proceso_contratacion')->where('estado','=','1')->value('enlace');
+
+        return response()->view('Viewmain.Transparencia.doc_administrativa.docadministrativa', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'url_sercop'=> $url_sercop]);
     }
 
     public function view_ley_transparencia(){

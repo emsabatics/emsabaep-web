@@ -102,10 +102,12 @@
                 </div>
             </div>-->
         </div>
+        @if(count($noticias)>0)
         <nav aria-label="Page navigation example" class="mt-40 mb-0">
             <ul class="pagination justify-content-center">
             </ul>
         </nav>
+        @endif
     </div>
 </div>
 @endsection

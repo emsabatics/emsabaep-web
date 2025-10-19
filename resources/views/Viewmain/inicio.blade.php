@@ -93,41 +93,42 @@
             <h5 class="section-title px-3">Servicios</h5>
             <h1 class="mb-0">Nuestros Servicios</h1>
         </div>
-        <div class="row g-4 tarj-content">
-            @if(count($servicios)>0)
-            @foreach ($servicios as $nt)
-            <div class="tarj justify-content-center">
-                <div class="blog-item animate">
-                    <div class="blog-img">
-                        <div class="blog-img-inner">
-                            <img class="img-fluid w-100 rounded-top" src="/servicios-img/{{$nt->imagen}}" alt="Image">
-                        </div>
-                    </div>
-                    <div class="blog-content border border-top-0 rounded-bottom p-4" style="background: #fff;">
-                        <div class="height-card-body-title">
-                            <a href="javascrip:void(0)" class="h4">{{$nt->titulo}}</a>
-                        </div>
-                        <p class="my-3 text-justify"></p>
-                        <div class="height-card-body-detail">
-                            {{$nt->descripcion_corta}}
-                        </div>
-                        <div class="icon-end">
-                            <div class="divLinkExterno">
-                                @if ($nt->tipo=='externo')
-                                    <a href="{{$nt->enlace}}" target="_BLANK" class="btn btn-primary rounded-pill py-2 px-4">Ir</a>
-                                @else
-                                    <a href="javascript:void(0)" onclick="redirecttosubservice({{$nt->id}})"class="btn btn-primary rounded-pill py-2 px-4">Ver más</a>
-                                @endif
+        @if(count($servicios)>0)
+            <div class="row g-4 tarj-content">
+                @foreach ($servicios as $nt)
+                <div class="tarj justify-content-center">
+                    <div class="blog-item animate">
+                        <div class="blog-img">
+                            <div class="blog-img-inner">
+                                <img class="img-fluid w-100 rounded-top" src="/servicios-img/{{$nt->imagen}}" alt="Image">
                             </div>
-                            <div class="div-cont-img">
-                                <img class="img-service" src="/servicios-img/{{$nt->icon}}" alt="Image">
+                        </div>
+                        <div class="blog-content border border-top-0 rounded-bottom p-4" style="background: #fff;">
+                            <div class="height-card-body-title">
+                                <a href="javascrip:void(0)" class="h4">{{$nt->titulo}}</a>
+                            </div>
+                            <p class="my-3 text-justify"></p>
+                            <div class="height-card-body-detail">
+                                {{$nt->descripcion_corta}}
+                            </div>
+                            <div class="icon-end">
+                                <div class="divLinkExterno">
+                                    @if ($nt->tipo=='externo')
+                                        <a href="{{$nt->enlace}}" target="_BLANK" class="btn btn-primary rounded-pill py-2 px-4">Ir</a>
+                                    @else
+                                        <a href="javascript:void(0)" onclick="redirecttosubservice({{$nt->id}})"class="btn btn-primary rounded-pill py-2 px-4">Ver más</a>
+                                    @endif
+                                </div>
+                                <div class="div-cont-img">
+                                    <img class="img-service" src="/servicios-img/{{$nt->icon}}" alt="Image">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
-            @else
+        @else
             <div class="row nonews">
                 <div class="col-lg-12 no-data">
                     <div class="imgadvice">
@@ -136,8 +137,7 @@
                     <span class="mensaje-noticia mt-4 mb-4">No hay <strong>servicios</strong> disponibles por el momento...</span>
                 </div>
             </div> 
-            @endif
-        </div>
+        @endif
     </div>
 </div>
 

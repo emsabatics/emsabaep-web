@@ -19,6 +19,14 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/datatables/data-tables/dataTables.bootstrap4.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/datatables/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/datatables/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<style>
+  td.truncate {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
 @endsection
 
 @section('navbar')
@@ -100,7 +108,7 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                         <tr style="pointer-events:none;">
                           <th>N°</th>
                           <th>Descripción</th>
-                          <th>Archivo</th>
+                          <th class="truncate">Archivo</th>
                           <th>Estado</th>
                           <th>Opciones</th>
                         </tr>
@@ -110,7 +118,7 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                         <tr id="Tr{{$loop->index}}">
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->nombre_archivo}}</td>
-                          <td>{{$item->archivo}}</td>
+                          <td class="truncate">{{$item->archivo}}</td>
                           <td>
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>

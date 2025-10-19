@@ -158,4 +158,7 @@
 
 @section('js')
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
+<script>
+    var url_sercop = @json($url_sercop);
+</script>
 @endsection

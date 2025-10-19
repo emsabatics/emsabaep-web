@@ -142,16 +142,16 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                           <div class="col-md-6" id="divfiletext">
                             <input type="hidden" name="idfile" id="idfile" value="{{$p->id}}">
                             <div class="form-group">
-                              <label for="inputEName">Nombre del Documento: <span class="spanlabel">70 caracteres máximo</span></label>
+                              <label for="inputEName">Nombre del Documento: <span class="spanlabel">200 caracteres máximo</span></label>
                               <textarea class="form-control text-justify" id="inputEName" name="inputEName" placeholder="Ingrese un nombre"
-                                  maxlength="70">{{$p->nombre_archivo}}</textarea>
+                                  maxlength="200">{{$p->nombre_archivo}}</textarea>
                             </div>
                             <div class="form-group mr-3 mt-3">
-                              <label for="inputAliasFileLeyE">Alias del Documento: <span class="spanlabel">70 caracteres máximo</span></label>
+                              <label for="inputAliasFileLeyE">Alias del Documento: <span class="spanlabel">200 caracteres máximo</span></label>
                               <div class="input-group mb-3">
                                 <button class="btn btn-outline-primary" type="button" onclick="generarAliasE()">Generar</button>
                                 <textarea id="inputAliasFileLeyE" name="inputAliasFileLeyE" class="form-control text-justify noevent" placeholder="Ingrese un alias" 
-                                  aria-label="Example" aria-describedby="button-addon1" maxlength="70">{{substr($p->archivo, 0, -4);}}</textarea>
+                                  aria-label="Example" aria-describedby="button-addon1" maxlength="200">{{substr($p->archivo, 0, -4);}}</textarea>
                               </div>
                             </div>
                             <div class="card-list grid-card-list" id="cardListLey">

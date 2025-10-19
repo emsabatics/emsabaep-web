@@ -399,7 +399,8 @@ function view_docadmin(option){
     }else if(option=='pliego_t'){
         window.location='/biblioteca-transparencia/doc-administrativa/pliegot/v1';
     }else if(option=='proceso_s'){
-        window.location='/biblioteca-transparencia/doc-administrativa/procesos/v1';
+        //window.location='/biblioteca-transparencia/doc-administrativa/procesos/v1';
+        window.open(url_sercop, '_blank');
     }else if(option=='other_d'){
         window.location='/biblioteca-transparencia/doc-administrativa/other_d/v1';
     }

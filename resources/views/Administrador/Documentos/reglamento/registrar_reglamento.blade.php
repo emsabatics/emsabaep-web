@@ -134,15 +134,15 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="inputName">Nombre del Documento: <span class="spanlabel">70 caracteres máximo</span></label>
+                                <label for="inputName">Nombre del Documento: <span class="spanlabel">200 caracteres máximo</span></label>
                                 <textarea class="form-control text-justify" id="inputName" name="inputName" placeholder="Ingrese un nombre"
-                                  maxlength="70"></textarea>
+                                  maxlength="200"></textarea>
                               </div>
                               <div class="form-group mr-3 mt-3">
-                                <label for="inputAliasFileLey">Alias del Documento: <span class="spanlabel">70 caracteres máximo</span></label>
+                                <label for="inputAliasFileLey">Alias del Documento: <span class="spanlabel">200 caracteres máximo</span></label>
                                 <div class="input-group mb-3">
                                   <button class="btn btn-outline-primary" type="button" onclick="generarAlias()">Generar</button>
-                                  <textarea id="inputAliasFileLey" name="inputAliasFileLey" class="form-control text-justify noevent" placeholder="Ingrese un alias" aria-label="Example" aria-describedby="button-addon1" maxlength="70"></textarea>
+                                  <textarea id="inputAliasFileLey" name="inputAliasFileLey" class="form-control text-justify noevent" placeholder="Ingrese un alias" aria-label="Example" aria-describedby="button-addon1" maxlength="200"></textarea>
                                 </div>
                               </div>
                             </div>
