@@ -8,6 +8,11 @@
 <link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 <!-- Toastr -->
 <link rel="stylesheet" href="{{asset('assets/administrador/plugins/toastr/toastr.min.css')}}">
+<style>
+    .posleft{
+        text-align: left;
+    }
+</style>
 @endsection
 
 
@@ -50,16 +55,21 @@
             </h5>
         </div>
         <div class="row g-4 align-items-center mb-2">
-            <div class="col-2"></div>
-            <div class="col-8">
+            <div class="col-1"></div>
+            <div class="col-10">
                 @if(count($reglamento)>0)
                 <div id="accordion" class="myaccordion">
                     @foreach ($reglamento as $item)
                     <div class="card mt-2">
                         <div class="card-header" id="headingOne">
                             <h2 class="mb-0">
+                                @if(strlen($item->nombre_archivo) >= 100)
+                                <button class="d-flex align-items-center justify-content-between btn btn-link posleft" data-toggle="collapse" data-target="#collapse-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}">
+                                {{ $loop->iteration }}.- {{$item->nombre_archivo}}
+                                @else
                                 <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$loop->index}}">
-                                    {{ $loop->iteration }}.- {{$item->nombre_archivo}}
+                                {{ $loop->iteration }}.- {{$item->nombre_archivo}}
+                                @endif
                                     <span class="fa-stack fa-sm">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
@@ -88,7 +98,7 @@
                     </div>
                 @endif
             </div>
-            <div class="col-2"></div>
+            <div class="col-1"></div>
         </div>
         <div class="row g-4 bg-light align-items-center mt-2">
             <div class="co-lg-12">

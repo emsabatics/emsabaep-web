@@ -107,4 +107,25 @@
             return base64_decode($datoBase64);
         }
     }
+
+    function cortar_texto($texto, $limite = 100)
+    {
+        if (strlen($texto) <= $limite) return $texto;
+
+        $vocales = ['a','e','i','o','u','á','é','í','ó','ú'];
+        $anterior = strtolower($texto[$limite - 1] ?? '');
+        $actual = strtolower($texto[$limite] ?? '');
+
+        // Si el corte cae entre dos vocales (posible diptongo o hiato)
+        if (in_array($anterior, $vocales) && in_array($actual, $vocales)) {
+            $limite = strpos($texto, ' ', $limite) ?: $limite;
+        } elseif ($texto[$limite] !== ' ' && $texto[$limite + 1] !== ' ') {
+            $limite = strpos($texto, ' ', $limite) ?: $limite;
+        }
+
+        $parte1 = substr($texto, 0, $limite) . '-';
+        $parte2 = ltrim(substr($texto, $limite));
+
+        return $parte1 . '<br>' . $parte2;
+    }
 ?>

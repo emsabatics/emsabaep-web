@@ -282,7 +282,15 @@ class BibliotecaTransparenciaController extends Controller
 
         if($tipo=='v1'){
             $nameyear= $this->get_name_year($idanio);
-            $financiero= DB::connection('mysql')->select('SELECT id, titulo, archivo FROM tab_doc_financiero WHERE id_anio=? AND estado=? ORDER BY titulo ASC', [$idanio, '1']);
+            //$financiero= DB::connection('mysql')->select('SELECT id, titulo, archivo, id_mes FROM tab_doc_financiero WHERE id_anio=? AND estado=? ORDER BY titulo ASC', [$idanio, '1']);
+            $financiero = DB::connection('mysql')->select('SELECT id, titulo, archivo, id_mes FROM tab_doc_financiero
+            WHERE id_anio = ? AND estado = ?
+            ORDER BY 
+                CASE WHEN id_mes IS NULL THEN 1 ELSE 0 END, 
+                id_mes ASC, 
+                titulo ASC',
+            [$idanio, '1']
+            );
             $documentos= array();
 
             foreach($financiero as $f){
