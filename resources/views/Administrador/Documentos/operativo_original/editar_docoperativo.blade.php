@@ -70,7 +70,7 @@ Admin | Doc Operativa {{getNameInstitucion()}}
 @section('container-header')
 <div class="row mb-2">
   <div class="col-sm-12">
-    <h1>Actualizar Documentación Operativa</h1>
+    <h1>Actualizar Doc. Operativa</h1>
   </div>
 </div>
 @endsection
@@ -84,15 +84,13 @@ Admin | Doc Operativa {{getNameInstitucion()}}
           <div class="col-12">
               <div class="card card-default">
                   <div class="card-header">
-                      <h3 class="card-title">{{ $categoria }} \ {{ $subcategoria }}</h3>
+                      <h3 class="card-title">Actualizar Documentación Operativa</h3>
                       <div class="card-tools" id="card-tools">
-                        <button type="button" class="btn btn-primary btn-block" onclick="urlbacklistdocs('{{encriptarNumero($idcat)}}', '{{encriptarNumero($idsubcat)}}')"><i
+                        <button type="button" class="btn btn-primary btn-block" onclick="urlback()"><i
                             class="fas fa-arrow-left mr-2"></i> Regresar</button>
                     </div>
                   </div>
                   <div class="card-body">
-                    <input type="hidden" name="idcategoria" id="idcategoria" value="{{encriptarNumero($idcat)}}">
-                    <input type="hidden" name="idsubcategoria" id="idsubcategoria" value="{{encriptarNumero($idsubcat)}}">
                       <form id="formdocoperativoe" action="" method="POST" enctype="multipart/form-data">
                         @foreach ($filedocoper as $p)
                           <div class="row">

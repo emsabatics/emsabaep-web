@@ -114,7 +114,7 @@ Admin | Doc Operativa {{getNameInstitucion()}}
 @section('container-header')
 <div class="row mb-2">
   <div class="col-sm-12">
-    <h1>Registrar Documentación Operativa</h1>
+    <h1>Doc. Operativa</h1>
   </div>
 </div>
 @endsection
@@ -128,22 +128,15 @@ Admin | Doc Operativa {{getNameInstitucion()}}
           <div class="col-12">
               <div class="card card-default">
                   <div class="card-header">
-                      <h3 class="card-title">{{ $categoria }} \ {{ $subcategoria }}</h3>
+                      <h3 class="card-title">Registrar Documentación Operativa</h3>
                       <div class="card-tools" id="card-tools">
-                        @if ($opcion === 'op1')
                         <button type="button" class="btn btn-primary btn-block" onclick="urlback()"><i
                             class="fas fa-arrow-left mr-2"></i> Regresar</button>
-                        @elseif ($opcion === 'op2')
-                          <button type="button" class="btn btn-primary btn-block" onclick="urlbacklistdocs('{{encriptarNumero($code)}}', '{{encriptarNumero($idsubcat)}}')"><i
-                            class="fas fa-arrow-left mr-2"></i> Regresar</button>
-                        @endif
                     </div>
                   </div>
                   <div class="card-body">
                       <form id="formDocOper" action="" method="POST" enctype="multipart/form-data">
                           <div class="row">
-                            <input type="hidden" name="idcatdoc" id="idcatdoc" value="{{ $code }}">
-                            <input type="hidden" name="idsubcatdoc" id="idsubcatdoc" value="{{ $idsubcat }}">
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label>Año:</label>
@@ -243,10 +236,6 @@ Admin | Doc Operativa {{getNameInstitucion()}}
     theme: 'bootstrap4',
   });
   const nameInterfaz = "Doc. Operativa";
-
-  const idcat = $('#idcatdoc').val();
-  const idsubcat = $('#idsubcatdoc').val();
-
   toastr.options = {
       "closeButton": false,
       "debug": false,

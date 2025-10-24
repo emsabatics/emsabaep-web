@@ -3,10 +3,8 @@
 @section('css')
 <link href="{{asset('assets/viewmain/css/bibliotecat.css')}}" rel="stylesheet">
 <link href="{{asset('assets/viewmain/css/stylebutton.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="{{asset('assets/viewmain/css/collapse.css')}}">
-<link rel="stylesheet" href="{{asset('assets/viewmain/css/inner-list.css')}}">
-<!-- Toastr -->
-<link rel="stylesheet" href="{{asset('assets/administrador/plugins/toastr/toastr.min.css')}}">
+<link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
+<link href="{{asset('assets/administrador/css/styletarjetasdoc.css')}}" rel="stylesheet">
 @endsection
 
 
@@ -31,7 +29,6 @@
 @endsection
 
 @section('home')
-<input type="hidden" name="csrf-token" value="{{csrf_token()}}" id="token">
 <!-- Header Start -->
 <div class="container-fluid bg-breadcrumb p-0">
     <div class="container text-center py-5" style="max-width: 300px;">
@@ -44,54 +41,46 @@
 <div class="container-fluid contact bg-light py-5">
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
-            @foreach ($docopt as $i)
             <h5 class="section-title px-3">
-                DOCUMENTACIÓN OPERATIVA - AÑO {{$i['anio']}}
+                BIBLIOTECA DE TRANSPARENCIA - DOCUMENTACIÓN OPERATIVA
             </h5>
-            <h2 class="mt-2 mb-0">{{ $categoria }} \ {{ $subcategoria }} \ {{ $anio }}</h2>
-            @endforeach
+            <h2 class="mt-2 mb-0">{{ $categoria }}</h2>
         </div>
-        <div class="row g-4 align-items-center mb-2">
-            <div class="col-2">
-                <input type="hidden" name="codecategoria" id="codecategoria" value='{{encriptarNumero($codecat)}}'>
-                <input type="hidden" name="codesubcategoria" id="codesubcategoria" value='{{encriptarNumero($codesubcat)}}'>
-            </div>
-            <div class="col-8">
-                @foreach ($docopt as $i)
-                <div id="accordion" class="myaccordion">
-                    @if($i['longitud']>0)
-                        @foreach($i['documentos'] as $doc)
-                        <div class="card mt-2">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="d-flex align-items-center justify-content-between btn btn-link" data-toggle="collapse" data-target="#collapse-{{$i['anio']}}-{{$loop->index}}" aria-expanded="true" aria-controls="collapse-{{$i['anio']}}-{{$loop->index}}">
-                                        {{$doc['titulo']}}
-                                    <span class="fa-stack fa-sm">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapse-{{$i['anio']}}-{{$loop->index}}" class="collapse" aria-labelledby="heading-{{$i['anio']}}-{{$loop->index}}" data-parent="#accordion">
-                                <div class="card-body">
-                                    <button type="button" style="color: white;padding: 5px;font-size: 17px;width: 25%;" class="btn btn-primary btn-sm mr-3 btntable" title="Descargar" onclick="downloaddocopt('{{encriptarNumero($doc['id'])}}')">
-                                        <i class="fas fa-download mr-3"></i> Descargar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    @endif
+        @if(count($subcategoria)>0)
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-12 main-container">
+                <input type="hidden" name="codecategoria" id="codecategoria" value="{{ $idcat }}">
+                <div class="cards">
+                    @foreach ($subcategoria as $y)
+                    <div class="card card-emsaba">
+                        <div class="card__icon"><i class="fas fa-tint"></i></div>
+                        <p class="card__exit"><i class="fas fa-times"></i></p>
+                        <h2 class="card__title">{{$y->descripcion}}</h2>
+                        <p class="card__apply">
+                          <a class="card__link" href="javascript:void(0)" onclick="view_listdocopt('{{encriptarNumero($y->id)}}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
+                        </p>
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
-            <div class="col-2"></div>
         </div>
-        <div class="row g-4 bg-light align-items-center mt-2">
+        @else
+            <div class="row nonews">
+                <div class="col-lg-12 no-data">
+                    <div class="imgadvice">
+                        <img src="{{asset('assets/administrador/img/icons/info-no-encontrada.png')}}" alt="Construccion">
+                    </div>
+                    <span class="mensaje-noticia mt-4 mb-4">No hay <strong>información</strong> disponible por el momento...</span>
+                </div>
+            </div> 
+        @endif
+        <div class="row g-4 bg-light align-items-center">
             <div class="co-lg-12">
+                <!--<div class="button-container">
+                    <button class="cool-button btn-2" onclick="comeback()"><i class="fas fa-arrow-left mr-4"></i>Regresar</button>
+                </div>-->
                 <div class="btn-group">
-                    <button class="btn-p btn-intermediate" onclick="comeback_years()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                    <button class="btn-p btn-intermediate" onclick="comeback_listopt()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
                 </div>
             </div>
         </div>
@@ -137,31 +126,20 @@
 @endsection
 
 @section('js')
-<!-- jQuery -->
-<script src="{{asset('assets/administrador/plugins/jquery/jquery.min.js')}}"></script>
-<!-- Toastr -->
-<script src="{{asset('assets/administrador/plugins/toastr/toastr.min.js')}}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('assets/administrador/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
-<script src="{{asset('assets/administrador/js/inner-list.js')}}"></script>
 <script>
-    toastr.options = {
-      "closeButton": false,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": false,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "1800",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+    $('.toggle-tickets').click(function() {
+        $tickets = $(this).parent().siblings('.collapse');
+        
+        if ($tickets.hasClass('in')) {
+            $tickets.collapse('hide');
+            $(this).html('Mostrar Listado');
+            $(this).closest('.ticket-card').removeClass('active');
+        } else {
+            $tickets.collapse('show');
+            $(this).html('Mostrar Listado');
+            $(this).closest('.ticket-card').addClass('active');
+        }
+    });
 </script>
 @endsection

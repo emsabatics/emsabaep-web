@@ -306,7 +306,7 @@ class BibliotecaTransparenciaController extends Controller
     }
 
     //FALTA CHECK
-    public function doc_operativa(){
+    public function doc_operativa_original(){
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
 
@@ -316,16 +316,86 @@ class BibliotecaTransparenciaController extends Controller
         return response()->view('Viewmain.Transparencia.doc_operativa.docoperativa_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'anio_docopt'=> $getYearDocOpt]);
     }
 
-    public function view_desc_docopt($tipo, $idanio){
+    public function doc_operativa(){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $getCategoria = DB::connection('mysql')->table('tab_doc_operativo_categoria')->where('estado', '=', '1')->select('id', 'descripcion')->get();
+
+        //return $getYearDocOpt;
+        return response()->view('Viewmain.Transparencia.doc_operativa.docoperativa_categoria', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'categoria'=> $getCategoria]);
+    }
+
+    public function doc_operativa_subcategoria($idcategoria){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $setId= $idcategoria;
+
+        $idcategoria = desencriptarNumero($idcategoria);
+
+        $getNameCat = DB::connection('mysql')->table('tab_doc_operativo_categoria')->where('id','=', $idcategoria)->value('descripcion');
+
+        $getSubCategoria = DB::connection('mysql')->table('tab_doc_operativo_subcategoria')->where('id_do_categoria', '=', $idcategoria)->where('estado','=','1')->select('id', 'descripcion')->get();
+
+        //return $getYearDocOpt;
+        return response()->view('Viewmain.Transparencia.doc_operativa.docoperativa_subcategoria', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'subcategoria'=> $getSubCategoria, 'categoria'=> $getNameCat, 'idcat'=> $setId]);
+    }
+
+    public function doc_operativa_years($idcat, $idsubcat){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $idcat = desencriptarNumero($idcat);
+        $idsubcat = desencriptarNumero($idsubcat);
+
+        $getNameCat = DB::connection('mysql')->table('tab_doc_operativo_categoria')->where('id','=', $idcat)->value('descripcion');
+        $getNameSubCat = DB::connection('mysql')->table('tab_doc_operativo_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
+
+
+        //return $idcat.' '.$idsubcat;
+
+        /*$getYearDocOpt= DB::connection('mysql')->select('SELECT DISTINCT rc.id_anio as code, y.nombre as anio FROM tab_doc_operativo_archivos rc, tab_anio y 
+            WHERE rc.id_anio=y.id AND rc.id_do_categoria=? AND rc.id_do_subcategoria=? AND rc.estado=?', [$idcat, $idsubcat, '1']);*/
+        $getYearDocOpt = DB::connection('mysql')->table('tab_doc_operativo_archivos as rc')
+        ->join('tab_anio as y', 'rc.id_anio', '=', 'y.id')
+        ->where('rc.id_do_categoria', $idcat)
+        ->where('rc.id_do_subcategoria', $idsubcat)
+        ->where('rc.estado', '1')
+        ->select('rc.id_anio as code', 'y.nombre as anio')
+        ->distinct()
+        ->get();
+
+        //return $getYearDocOpt;
+        return response()->view('Viewmain.Transparencia.doc_operativa.docoperativa_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'anio_docopt'=> $getYearDocOpt,
+            'categoria'=> $getNameCat, 'subcategoria'=> $getNameSubCat, 'codecat'=> $idcat, 'codesubcat'=> $idsubcat]);
+    }
+
+    public function view_desc_docopt($tipo, $idanio, $idcat, $idsubcat){
         $idanio = desencriptarNumero($idanio);
         $contactos= $this->getAllContacts();
         $socialmedia= $this->getAllSocialMedia();
+
+        $idcat = desencriptarNumero($idcat);
+        $idsubcat = desencriptarNumero($idsubcat);
+
+        //return $idanio.' '.$idcat.' '.$idsubcat;
+
+        $getNameYear = DB::connection('mysql')->table('tab_anio')->where('id','=', $idanio)->value('nombre');
+        $getNameCat = DB::connection('mysql')->table('tab_doc_operativo_categoria')->where('id','=', $idcat)->value('descripcion');
+        $getNameSubCat = DB::connection('mysql')->table('tab_doc_operativo_subcategoria')->where('id','=', $idsubcat)->value('descripcion');
         
         $resultado= array();
 
         if($tipo=='v1'){
             $nameyear= $this->get_name_year($idanio);
-            $operativo= DB::connection('mysql')->select('SELECT id, titulo, archivo FROM tab_doc_operativo WHERE id_anio=? ORDER BY titulo ASC', [$idanio]);
+            $operativo = DB::table('tab_doc_operativo_archivos')
+            ->where('id_anio', '=',$idanio)
+            ->where('id_do_categoria', '=',$idcat)
+            ->where('id_do_subcategoria', '=',$idsubcat)
+            ->orderBy('titulo', 'ASC')
+            ->select('id', 'titulo', 'archivo')
+            ->get();
             $documentos= array();
 
             foreach($operativo as $f){
@@ -336,7 +406,8 @@ class BibliotecaTransparenciaController extends Controller
             unset($documentos);
             
             //return $resultado;
-            return response()->view('Viewmain.Transparencia.doc_operativa.list_docopt', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'docopt'=> $resultado]);
+            return response()->view('Viewmain.Transparencia.doc_operativa.list_docopt', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'docopt'=> $resultado,
+                    'categoria'=> $getNameCat, 'subcategoria'=> $getNameSubCat, 'codecat'=> $idcat, 'codesubcat'=> $idsubcat, 'anio'=> $getNameYear]);
         }
     }
 

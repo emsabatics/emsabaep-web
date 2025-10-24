@@ -102,7 +102,7 @@ Admin | Doc Operativa {{getNameInstitucion()}}
                   <div class="card-header">
                       <h3 class="card-title p-2"><i class="fas fa-file-contract mr-3"></i> Vista Documentación Operativa</h3>
                       <div class="card-tools" id="card-tools">
-                          <button type="button" class="btn btn-primary btn-block" onclick="urlbacklistdocs('{{encriptarNumero($idcat)}}', '{{encriptarNumero($idsubcat)}}')"><i
+                          <button type="button" class="btn btn-primary btn-block" onclick="urlback()"><i
                               class="fas fa-arrow-left mr-2"></i> Regresar</button>
                       </div>
                   </div>

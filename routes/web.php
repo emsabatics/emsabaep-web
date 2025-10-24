@@ -172,7 +172,9 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     *BIBLIOTECA TRANSPARENCIA VISTA PRINCIPAL DOCUMENTACION OPERATIVA
     */
     Route::get('/transparencia/doc-operativa', [BibliotecaTransparenciaController::class, 'doc_operativa']);
-    Route::get('/view-desc-docopt/{tipo}/{anio}', [BibliotecaTransparenciaController::class, 'view_desc_docopt']);
+    Route::get('/transparencia/doc-operativa/subcategoria/{id}', [BibliotecaTransparenciaController::class, 'doc_operativa_subcategoria']);
+    Route::get('/transparencia/doc-operativa/years/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'doc_operativa_years']);
+    Route::get('/view-desc-docopt/{tipo}/{anio}/{idcat}/{idsubcat}', [BibliotecaTransparenciaController::class, 'view_desc_docopt']);
 
     /*
     *BIBLIOTECA TRANSPARENCIA VISTA PRINCIPAL DOCUMENTACION LABORAL
@@ -889,6 +891,11 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/edit-docoperativo/{id}', [DocOperativoController::class, 'edit_doc_operativo']);
     Route::get('/download-docoperativo/{id}', [DocOperativoController::class, 'download_doc_operativo']);
 
+    Route::get('/get-name-categoria-docop/{id}', [DocOperativoController::class, 'get_namecat_docop']);
+    Route::get('/registrar_docs_operativo/{idcat}/{idsubcat}/{op}', [DocOperativoController::class, 'docs_operativo_register']);
+    Route::get('/get-docop-name-subcategoria/{id}', [DocOperativoController::class, 'get_docop_namesubcat']);
+    Route::get('/view_listdocsop_subcat/{idcat}/{idsubcat}/{tipo}', [DocOperativoController::class, 'listdocop_subcat']);
+
     /*
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
@@ -1183,6 +1190,10 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     Route::post('/store-doc-operativo', [DocOperativoController::class, 'store_doc_operativo']);
     Route::post('/docoperativo-increment', [DocOperativoController::class, 'docoperativo_increment']);
 
+    Route::post('/registro-categoria-operativo', [DocOperativoController::class, 'registro_categoria_operativo']);
+    Route::post('/registro-subcategoria-operativo', [DocOperativoController::class, 'registro_subcategoria_operativo']);
+    Route::get('/get-data-table-docop/{idcat}/{idsubcat}', [DocOperativoController::class, 'get_table_datos']);
+
     /*
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
@@ -1435,6 +1446,8 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     *DOCUMENTACIÓN - DOCUMENTOS OPERATIVA
     */
     Route::post('/update-docoperativo', [DocOperativoController::class, 'update_doc_operativo']);
+    Route::post('/actualizar-categoria-operativo', [DocOperativoController::class, 'actualizar_categoria_operativo']);
+    Route::post('/actualizar-subcategoria-operativo', [DocOperativoController::class, 'actualizar_subcategoria_operativo']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
@@ -1695,6 +1708,9 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     */
     Route::post('/in-activar-docoperativo', [DocOperativoController::class, 'inactivar_doc_operativo']);
     Route::post('/delete-docoperativo', [DocOperativoController::class, 'delete_doc_operativo']);
+
+    Route::post('/in-activar-subcat-docop', [DocOperativoController::class, 'inactivar_docop_subcategoria']);
+    Route::post('/delete-filedocop-sure-subcategoria', [DocOperativoController::class, 'delete_filedocop_sure_subcategoria']);
 
     /*
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL

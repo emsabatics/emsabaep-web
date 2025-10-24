@@ -239,12 +239,27 @@ function comeback_docopt(){
     window.location='/biblioteca-transparencia';
 }
 
-function view_docopt(idanio){
-    window.location='/view-desc-docopt/v1/'+idanio;
+function view_docopt(idanio, idcat, idsubcat){
+    window.location='/view-desc-docopt/v1/'+idanio+'/'+idcat+'/'+idsubcat;
 }
 
 function comeback_listopt(){
     window.location='/transparencia/doc-operativa';
+}
+
+function view_subcatdocopt(idcat){
+    window.location='/transparencia/doc-operativa/subcategoria/'+idcat;
+}
+
+function view_listdocopt(idsubcat){
+    var codecat = $('#codecategoria').val();
+    window.location='/transparencia/doc-operativa/years/'+codecat+'/'+idsubcat;
+}
+
+function comeback_years(){
+    var codecat = $('#codecategoria').val();
+    var codesubcat = $('#codesubcategoria').val();
+    window.location='/transparencia/doc-operativa/years/'+codecat+'/'+codesubcat;
 }
 
 function downloaddocopt(id){

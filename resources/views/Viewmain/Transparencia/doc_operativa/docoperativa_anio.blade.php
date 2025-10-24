@@ -43,6 +43,7 @@
             <h5 class="section-title px-3">
                 BIBLIOTECA DE TRANSPARENCIA - DOCUMENTACIÓN OPERATIVA
             </h5>
+            <h2 class="mt-2 mb-0">{{ $categoria }} \ {{ $subcategoria }}</h2>
         </div>
         @if(count($anio_docopt)>0)
         <div class="row g-4 align-items-center">
@@ -54,7 +55,7 @@
                         <p class="card__exit"><i class="fas fa-times"></i></p>
                         <h2 class="card__title">Año {{$y->anio}}</h2>
                         <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docopt('{{encriptarNumero($y->code)}}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
+                          <a class="card__link" href="javascript:void(0)" onclick="view_docopt('{{encriptarNumero($y->code)}}', '{{encriptarNumero($codecat)}}', '{{encriptarNumero($codesubcat)}}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                         </p>
                     </div>
                     @endforeach
@@ -77,7 +78,7 @@
                     <button class="cool-button btn-2" onclick="comeback()"><i class="fas fa-arrow-left mr-4"></i>Regresar</button>
                 </div>-->
                 <div class="btn-group">
-                    <button class="btn-p btn-intermediate" onclick="comeback_docopt()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                    <button class="btn-p btn-intermediate" onclick="view_subcatdocopt('{{encriptarNumero($codecat)}}')"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
                 </div>
             </div>
         </div>

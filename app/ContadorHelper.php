@@ -27,7 +27,8 @@ class ContadorHelper
                 'tab_poa_history',
                 'tab_reglamentos',
                 'tab_subservicio_files',
-                'tab_pliego_tarifario'
+                'tab_pliego_tarifario',
+                'tab_doc_operativo_archivos'
             ];
 
             if (!in_array($tabla, $permitidas)) {
