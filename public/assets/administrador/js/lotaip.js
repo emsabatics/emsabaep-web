@@ -715,6 +715,7 @@ function inactivarLOTAIP(id, i, anio, mes){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i+'_'+anio+'_'+mes).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -770,7 +771,7 @@ function inactivarLOTAIP(id, i, anio, mes){
                                 "<i class='fas fa-eye'></i>"+
                             "</button>";
                     }
-                    html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar LOTAIP' onclick='downloadLOTAIP("+id+")' >"+
+                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('+code+')" >'+
                         "<i class='fas fa-download'></i>"+
                     "</button>"; 
                     var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];
@@ -795,6 +796,7 @@ function activarLOTAIP(id, i, anio, mes){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i+'_'+anio+'_'+mes).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-lotaip",
@@ -834,7 +836,7 @@ function activarLOTAIP(id, i, anio, mes){
                     "<i class='fas fa-eye'></i>"+
                 "</button>";
             }
-            html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar LOTAIP' onclick='downloadLOTAIP("+id+")' >"+
+            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('+code+')" >'+
                 "<i class='fas fa-download'></i>"+
             "</button>";
             var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];

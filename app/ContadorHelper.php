@@ -28,7 +28,8 @@ class ContadorHelper
                 'tab_reglamentos',
                 'tab_subservicio_files',
                 'tab_pliego_tarifario',
-                'tab_doc_operativo_archivos'
+                'tab_doc_operativo_archivos',
+                'tab_doc_remision_interes'
             ];
 
             if (!in_array($tabla, $permitidas)) {

@@ -91,6 +91,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ url('reportes-contador-descargas-remisioni') }}" class="nav-link {{ setActive('reportes-contador-descargas-remisioni') }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Remisión de Intereses</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ url('reportes-contador-descargas-bvirtual') }}" class="nav-link {{ setActive('reportes-contador-descargas-bvirtual') }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Biblioteca Virtual</p>

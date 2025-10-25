@@ -161,6 +161,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-{{$mes['idmes']}}">
                                       <td class="celdaAsignado">{{$f['literal']}}.- {{$f['descripcion']}}</td>
                                       <td>
+                                        <input type="hidden" name="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
                                         @if ($f['estado']=='0')
                                         <span class="badge badge-secondary">No Visible</span>
                                         @else
@@ -228,6 +229,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-{{$mes['idmes']}}">
                                       <td class="celdaAsignado">{{$f['literal']}}.- {{$f['descripcion']}}</td>
                                       <td>
+                                        <input type="hidden" name="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
                                         @if ($f['estado']=='0')
                                         <span class="badge badge-secondary">No Visible</span>
                                         @else

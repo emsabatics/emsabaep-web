@@ -223,6 +223,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'remision_intereses' => [
+            'driver' => 'local',
+            'root' => storage_path('app/documentos/remision_intereses'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -272,6 +279,7 @@ return [
         public_path('banner-alcaldia-img')=> storage_path('app/img_banner_alcaldia'),
         public_path('galeria-bibliotecavirtual')=> storage_path('app/documentos/biblioteca_virtual_galeria'),
         public_path('videos-bibliotecavirtual')=> storage_path('app/documentos/biblioteca_virtual_videos'),
+        public_path('doc-remision')=> storage_path('app/documentos/remision_intereses'),
     ],
 
 ];

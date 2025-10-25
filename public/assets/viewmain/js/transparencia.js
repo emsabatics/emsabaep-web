@@ -396,6 +396,38 @@ function downloaddocaud(id){
 ================================DOCUMENTACIÓN AUDITORIA================================================
 */
 /*
+================================DOCUMENTACIÓN REMISION DE INTERESES================================================
+*/
+function comeback_remisioni(){
+    window.location='/transparencia/doc-administrativa';
+}
+
+function view_remisioni(idanio){
+    window.location='/view-desc-remisioni/v1/'+idanio;
+}
+
+function comeback_listremisioni(){
+    window.location='/transparencia/remision-intereses/v1';
+}
+
+function downloadremisioni(id){
+    var element = document.querySelector('.btntable');
+    element.setAttribute("disabled", "");
+    element.style.pointerEvents = "none";
+    showToastInfo();
+    var token = $('#token').val();
+    var data = new FormData();
+    data.append("idfile", id);
+    sendIncrementGeneral(data, token, "/remisioni-increment");
+    setTimeout(() => {
+         window.location='/download-docremisioni/'+id;
+        element.removeAttribute("disabled");
+        element.style.removeProperty("pointer-events"); 
+    }, 2000);
+}
+/*
+================================DOCUMENTACIÓN REMISION DE INTERESES================================================
+/*
 ================================DOCUMENTACIÓN ADMINISTRATIVA================================================
 */
 function comeback_docadmin(){
@@ -418,6 +450,8 @@ function view_docadmin(option){
         window.open(url_sercop, '_blank');
     }else if(option=='other_d'){
         window.location='/biblioteca-transparencia/doc-administrativa/other_d/v1';
+    }else if(option=='remision_i'){
+        window.location='/transparencia/remision-intereses/v1';
     }
 }
 

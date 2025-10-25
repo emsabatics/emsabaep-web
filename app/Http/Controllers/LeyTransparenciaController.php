@@ -15,12 +15,15 @@ class LeyTransparenciaController extends Controller
     public function index()
     {
         if(Session::get('usuario') && (Session::get('tipo_usuario')!='comunicacion')){
+            $transparencia = DB::connection('mysql')->table('tab_ley_transparencia')->get();
+            /*
             $transparencia = DB::table('tab_ley_transparencia')->where('estado','1')->get();
             if($transparencia->isEmpty()){
                 return redirect()->to('/add-ley-transparencia');
             }else{
                 return response()->view('Administrador.Documentos.transparencia.transparencia', ['transparencia' => $transparencia]);
-            }
+            }*/
+            return response()->view('Administrador.Documentos.transparencia.transparencia', ['transparencia' => $transparencia]);
         }else{
             return redirect('/loginadmineep');
         }

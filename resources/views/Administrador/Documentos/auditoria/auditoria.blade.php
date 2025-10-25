@@ -112,6 +112,7 @@ Admin | AUDITORIA {{getNameInstitucion()}}
                           <td>{{$item->year}}</td>
                           <td>{{$item->titulo}}</td>
                           <td>
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>
                             @else

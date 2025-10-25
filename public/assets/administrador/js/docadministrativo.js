@@ -253,6 +253,7 @@ function inactivarDocAdmin(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -312,7 +313,7 @@ function inactivarDocAdmin(id, i){
                                 "Activar"+
                             "</button>";
                     }
-                    html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadDocAdmin("+id+")' >"+
+                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocAdmin('+code+')" >'+
                         "<i class='fas fa-download mr-2'></i>"+
                         "Descargar Documento"+
                     "</button>"; 
@@ -338,6 +339,7 @@ function activarDocAdmin(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-docadministrativo",
@@ -381,7 +383,7 @@ function activarDocAdmin(id, i){
                 "Activar"+
             "</button>";
             }
-            html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadDocAdmin("+id+")' >"+
+            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocAdmin('+code+')" >'+
                 "<i class='fas fa-download mr-2'></i>"+
                 "Descargar Documento"+
             "</button>";

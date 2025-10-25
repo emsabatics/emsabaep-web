@@ -3,6 +3,7 @@
 @section('css')
 <link href="{{asset('assets/viewmain/css/bibliotecat.css')}}" rel="stylesheet">
 <link href="{{asset('assets/viewmain/css/stylebutton.css')}}" rel="stylesheet">
+<link href="{{asset('assets/administrador/css/no-data-load.css')}}" rel="stylesheet">
 @endsection
 
 
@@ -40,86 +41,43 @@
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px;">
             <h5 class="section-title px-3">
-                BIBLIOTECA DE TRANSPARENCIA - DOCUMENTACIÓN ADMINISTRATIVA
+                BIBLIOTECA DE TRANSPARENCIA - REMISIÓN DE INTERESES
             </h5>
         </div>
+        @if(count($anio_docfin)>0)
         <div class="row g-4 align-items-center">
             <div class="col-lg-12 main-container">
                 <div class="cards">
+                    @foreach ($anio_docfin as $y)
                     <div class="card card-emsaba">
                         <div class="card__icon"><i class="fas fa-tint"></i></div>
                         <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Ley de Transparencia</h2>
+                        <h2 class="card__title">Año {{$y->anio}}</h2>
                         <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('ley_t')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
+                          <a class="card__link" href="javascript:void(0)" onclick="view_remisioni('{{encriptarNumero($y->code)}}')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
                         </p>
                     </div>
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">PAC</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('pac')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">POA</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('poa')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
-                    <!--<div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Medios de Verificación</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('medios_v')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>-->
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Pliego Tarifario</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('pliego_t')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Remisión de Intereses</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('remision_i')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Procesos SERCOP</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('proceso_s')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
-                    <div class="card card-emsaba">
-                        <div class="card__icon"><i class="fas fa-tint"></i></div>
-                        <p class="card__exit"><i class="fas fa-times"></i></p>
-                        <h2 class="card__title">Otros Documentos</h2>
-                        <p class="card__apply">
-                          <a class="card__link" href="javascript:void(0)" onclick="view_docadmin('other_d')">Ver más <i class="fas fa-arrow-right ml-4"></i></a>
-                        </p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+        @else
+            <div class="row nonews">
+                <div class="col-lg-12 no-data">
+                    <div class="imgadvice">
+                        <img src="{{asset('assets/administrador/img/icons/info-no-encontrada.png')}}" alt="Construccion">
+                    </div>
+                    <span class="mensaje-noticia mt-4 mb-4">No hay <strong>información</strong> disponible por el momento...</span>
+                </div>
+            </div> 
+        @endif
         <div class="row g-4 bg-light align-items-center">
             <div class="co-lg-12">
                 <!--<div class="button-container">
                     <button class="cool-button btn-2" onclick="comeback()"><i class="fas fa-arrow-left mr-4"></i>Regresar</button>
                 </div>-->
                 <div class="btn-group">
-                    <button class="btn-p btn-intermediate" onclick="comeback_docadmin()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
+                    <button class="btn-p btn-intermediate" onclick="comeback_remisioni()"><i class="fas fa-arrow-left mr-4"></i> Regresar</button>
                 </div>
             </div>
         </div>
@@ -166,7 +124,4 @@
 
 @section('js')
 <script src="{{asset('assets/viewmain/js/transparencia.js')}}"></script>
-<script>
-    var url_sercop = @json($url_sercop);
-</script>
 @endsection

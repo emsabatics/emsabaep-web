@@ -331,7 +331,7 @@ class ReportesContadorController extends Controller
         }
     }
 
-    public function index_descargas_opt()
+    public function index_descargas_opt_original()
     {
         if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
             /**
@@ -387,6 +387,84 @@ class ReportesContadorController extends Controller
             ];*/
             //return $getFilesDO;
             return view('Administrador.reportesContador.reportescontadordescargasoperativo', ['resultado'=> $getFilesDO, 'totalGeneral'=> $totalDocOpt]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    public function index_descargas_opt()
+    {
+        if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
+            /**
+             * DOCUMENTACION BIBLIOTECA VIRTUAL
+            */
+            $arrayGeneral = array();
+            $arrayContador = array();
+
+            //TABLA OTROS
+            $getIdCategoriaOtros = DB::connection('mysql')->table('tab_doc_operativo_categoria')
+                ->where('estado','=','1')
+                ->get();
+
+            foreach ($getIdCategoriaOtros as $cat) {
+                $getIdSubCatOtros = DB::connection('mysql')->table('tab_doc_operativo_subcategoria')
+                ->where('estado','=','1')->where('id_do_categoria','=', $cat->id)
+                ->get();
+
+                foreach ($getIdSubCatOtros as $scg) {
+                    $arrayArchivos= array();
+
+                    $getTotalContador = DB::connection('mysql')->table('tab_doc_operativo_archivos')
+                    ->where('id_do_categoria','=', $cat->id)
+                    ->where('id_do_subcategoria','=', $scg->id)
+                    ->where('estado','=','1')
+                    ->sum('contador_descargas');
+
+                    $getTitulo = DB::connection('mysql')->table('tab_doc_operativo_archivos')
+                    ->select('titulo', 'contador_descargas')
+                    ->where('id_do_categoria','=', $cat->id)
+                    ->where('id_do_subcategoria','=', $scg->id)
+                    ->where('estado','=','1')
+                    ->get();
+
+                    foreach ($getTitulo as $gt) {
+                        $arrayArchivos[] = array('titulo'=> $gt->titulo, 'total_contador'=> $gt->contador_descargas);
+                    }
+
+                    $arrayContador[] = array('subcategoria'=>$scg->descripcion, 'total'=> (int) ($getTotalContador ?? 0), 'archivos'=> $arrayArchivos);
+                    unset($arrayArchivos);
+                }
+                $arrayGeneral[] = array('categoria'=> $cat->descripcion, 'subcategorias'=> $arrayContador);
+                unset($arrayContador);
+            }
+
+            //return $arrayGeneral;
+
+            $resultado = [];
+            $totalGeneralDatos = 0;
+
+            foreach ($arrayGeneral as $k) {
+                $totalGeneral = 0;
+
+                foreach ($k['subcategorias'] as $j) {
+                    $totalGeneral += (int) $j['total'];
+                }
+
+                $totalGeneralDatos += $totalGeneral;
+
+                $resultado[] = array('categoria'=> $k['categoria'], 'total'=> $totalGeneral);
+            }
+
+            //return $resultado;
+
+            $categorias = collect($resultado)->pluck('categoria');
+            $totales = collect($resultado)->pluck('total'); 
+
+            //return $categorias;
+            //return $totales;
+
+            return view('Administrador.reportesContador.reportescontadordescargasoperativo', ['resultado'=> $arrayGeneral, 'resbycat'=> $resultado, 'totalGeneral'=> $totalGeneralDatos,
+                    'categories' => $categorias, 'totales'=> $totales]);
         }else{
             return redirect('/loginadmineep');
         }
@@ -1075,6 +1153,67 @@ class ReportesContadorController extends Controller
 
             return view('Administrador.reportesContador.reportescontadordescargasbvirtual', ['resultado'=> $arrayGeneral, 'resbycat'=> $resultado, 'totalGeneral'=> $totalGeneralDatos,
                     'categories' => $categorias, 'totales'=> $totales]);
+        }else{
+            return redirect('/loginadmineep');
+        }
+    }
+
+    public function index_descargas_remisioni()
+    {
+        if(Session::get('usuario') && (Session::get('tipo_usuario')=='administrador')){
+            /**
+             * DOCUMENTACION FINANCIERA
+            */
+            $cont_docfin = DB::connection('mysql')
+            ->table('tab_doc_remision_interes')
+            ->select(DB::raw('SUM(contador_descargas) as total'))
+            ->where('estado', '=', '1')
+            ->first();
+            $totalDF = $cont_docfin->total;
+
+            /*$getFilesDF = DB::connection('mysql')
+            ->table('tab_doc_remision_interes as tf')
+            ->join('tab_anio as ta', 'tf.id_anio', '=', 'ta.id')
+            ->select('ta.nombre as anio','tf.titulo', 'tf.contador_descargas')
+            ->where('tf.estado', '=', '1')
+            ->orderBy('tf.id_anio', 'asc')
+            ->get();*/
+
+            $getFilesDF = DB::connection('mysql')
+            ->table('tab_doc_remision_interes as tf')
+            ->join('tab_anio as ta', 'tf.id_anio', '=', 'ta.id')
+            ->select('ta.nombre as anio', 'tf.titulo', 'tf.contador_descargas')
+            ->where('tf.estado', '=', '1')
+            ->orderBy('tf.id_anio', 'asc')
+            ->get()
+            ->groupBy('anio')
+            ->map(function ($items, $anio) {
+                return [
+                    'anio' => $anio,
+                    'total' => $items->sum('contador_descargas'),
+                    'archivos' => $items->map(function ($item) {
+                        return [
+                            'titulo' => $item->titulo,
+                            'contador_descargas' => $item->contador_descargas
+                        ];
+                    })->values()
+                ];
+            })
+            ->values();
+
+            /*------------------------------------------------------------------------------------ */
+
+            $totalDocFin = $totalDF;
+
+            /*$resultado = [
+                [
+                    'tabla'=> 'Documentación Financiera',
+                    'total'=> (int) $totalDF,
+                    'informacion'=> $getFilesDF
+                ]
+            ];*/
+            //return $getFilesDF;
+            return view('Administrador.reportesContador.reportescontadordescargasremision', ['resultado'=> $getFilesDF, 'totalGeneral'=> $totalDocFin]);
         }else{
             return redirect('/loginadmineep');
         }

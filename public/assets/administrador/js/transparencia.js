@@ -608,6 +608,7 @@ function inactivarTransparencia(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -667,7 +668,7 @@ function inactivarTransparencia(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadTransparencia("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadTransparencia('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Documento"+
                     "</a>"; 
@@ -693,6 +694,7 @@ function activarTransparencia(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-leytransparencia",
@@ -736,7 +738,7 @@ function activarTransparencia(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadTransparencia("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadTransparencia('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Documento"+
             "</a>"; 

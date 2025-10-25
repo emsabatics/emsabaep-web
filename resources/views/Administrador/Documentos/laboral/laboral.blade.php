@@ -111,6 +111,7 @@ Admin | Doc Laboral {{getNameInstitucion()}}
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->anio}}</td>
                           <td>
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
                             @if($item->id_mes!=null || $item->id_mes!='')
                             @foreach ($mes as $m)
                               @if($m->id==$item->id_mes)

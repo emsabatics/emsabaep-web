@@ -27,6 +27,7 @@ use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\PliegoTarifarioController;
 use App\Http\Controllers\LotaipController;
 use App\Http\Controllers\LeyTransparenciaController;
+use App\Http\Controllers\RemisionIntereses;
 use App\Http\Controllers\RendicionCuentasController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\MediosVerificacionController;
@@ -181,6 +182,12 @@ Route::middleware(['throttle:cont_user_vistas'])->group(function () {
     */
     Route::get('/transparencia/doc-laboral', [BibliotecaTransparenciaController::class, 'doc_laboral']);
     Route::get('/view-desc-doclab/{tipo}/{anio}', [BibliotecaTransparenciaController::class, 'view_desc_doclab']);
+
+    /*
+    *BIBLIOTECA TRANSPARENCIA VISTA PRINCIPAL REMISION INTERESES
+    */
+    Route::get('/transparencia/remision-intereses/{tipo}', [BibliotecaTransparenciaController::class, 'doc_remisioni']);
+    Route::get('/view-desc-remisioni/{tipo}/{anio}', [BibliotecaTransparenciaController::class, 'view_desc_remisioni']);
 
     /*
     *BIBLIOTECA TRANSPARENCIA VISTA PRINCIPAL DOCUMENTACION ADMINISTRATIVA
@@ -381,6 +388,11 @@ Route::middleware(['checkruta', 'throttle:limit_admin_view'])->group(function ()
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
     Route::get('/doclaboral', [DocLaboralController::class, 'index'])->name('doclaboral');
+
+    /*
+    *DOCUMENTACIÓN - REMISION INTERESES
+    */
+    Route::get('/remision-intereses', [RemisionIntereses::class, 'index'])->name('remision-intereses');
 
     /*
     *BIBLIOTECA VIRTUAL
@@ -605,6 +617,11 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/registrar_doc_laboral', [DocLaboralController::class, 'doc_laboral_register']);
 
     /*
+    *DOCUMENTACIÓN - REMISION INTERESES
+    */
+    Route::get('/registrar_doc_remisioni', [RemisionIntereses::class, 'doc_remisioni_register']);
+
+    /*
     *USUARIOS
     */
     Route::get('/registrar-new-usuario', [UsuariosController::class, 'registrar_usuario']);
@@ -654,6 +671,7 @@ Route::middleware(['throttle:limit_admin_view'])->group(function () {
     Route::get('/reportes-contador-descargas-lotaipv1', [ReportesContadorController::class, 'index_descargas_lotaipv1'])->name('reportes-contador-descargas-lotaipv1');
     Route::get('/reportes-contador-descargas-lotaipv2', [ReportesContadorController::class, 'index_descargas_lotaipv2'])->name('reportes-contador-descargas-lotaipv2');
     Route::get('/reportes-contador-descargas-bvirtual', [ReportesContadorController::class, 'index_descargas_bvirtual'])->name('reportes-contador-descargas-bvirtual');
+    Route::get('/reportes-contador-descargas-remisioni', [ReportesContadorController::class, 'index_descargas_remisioni'])->name('reportes-contador-descargas-remisioni');
 });
 
 Route::middleware(['throttle:limit_admin_select'])->group(function () {
@@ -902,6 +920,13 @@ Route::middleware(['throttle:limit_admin_select'])->group(function () {
     Route::get('/view-doclaboral/{id}', [DocLaboralController::class, 'view_doc_laboral']);
     Route::get('/edit-doclaboral/{id}', [DocLaboralController::class, 'edit_doc_laboral']);
     Route::get('/download-doclaboral/{id}', [DocLaboralController::class, 'download_doc_laboral']);
+
+    /*
+    *DOCUMENTACIÓN - REMISION INTERESES
+    */
+    Route::get('/view-docremisioni/{id}', [RemisionIntereses::class, 'view_doc_remisioni']);
+    Route::get('/edit-docremisioni/{id}', [RemisionIntereses::class, 'edit_doc_remisioni']);
+    Route::get('/download-docremisioni/{id}', [RemisionIntereses::class, 'download_doc_remisioni']);
 
     /*
     *BIBLIOTECA VIRTUAL
@@ -1201,6 +1226,12 @@ Route::middleware(['throttle:limit_admin_insert'])->group(function () {
     Route::post('/doclaboral-increment', [DocLaboralController::class, 'doclaboral_increment']);
 
     /*
+    *DOCUMENTACIÓN - REMISION INTERESES
+    */
+    Route::post('/store-doc-remisioni', [RemisionIntereses::class, 'store_doc_remisioni']);
+    Route::post('/remisioni-increment', [RemisionIntereses::class, 'remisioni_increment']);
+
+    /*
     *BIBLIOTECA VIRTUAL
     */
     Route::post('/registro-categoria', [BibliotecaVirtualController::class, 'registro_categoria']);
@@ -1453,6 +1484,11 @@ Route::middleware(['throttle:limit_admin_update'])->group(function () {
     *DOCUMENTACIÓN - DOCUMENTOS LABORAL
     */
     Route::post('/update-doclaboral', [DocLaboralController::class, 'update_doc_laboral']);
+
+    /*
+    *DOCUMENTACIÓN - REMISION INTERESES
+    */
+    Route::post('/update-docremisioni', [RemisionIntereses::class, 'update_doc_remisioni']);
 
     /*
     *BIBLIOTECA VIRTUAL
@@ -1717,6 +1753,12 @@ Route::middleware(['throttle:limit_admin_delete'])->group(function () {
     */
     Route::post('/in-activar-doclaboral', [DocLaboralController::class, 'inactivar_doc_laboral']);
     Route::post('/delete-doclaboral', [DocLaboralController::class, 'delete_doc_laboral']);
+
+    /*
+    *DOCUMENTACIÓN - REMISIÓN DE INTERESES
+    */
+    Route::post('/in-activar-remisioni', [RemisionIntereses::class, 'inactivar_doc_remisioni']);
+    Route::post('/delete-docremision', [RemisionIntereses::class, 'delete_doc_remision']);
 
     /*
     *BIBLIOTECA VIRTUAL

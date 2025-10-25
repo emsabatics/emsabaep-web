@@ -63,10 +63,10 @@ Admin | Contador {{getNameInstitucion()}}
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title p-2"><i class="fas fa-file-contract mr-3"></i> Documentación Operativa</h3>
+            <h3 class="card-title p-2"><i class="fas fa-file-contract mr-3"></i> Remisión de Intereses</h3>
             <div class="card-tools" id="card-tools"></div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-4" id="divDocOperativo">
+            <div class="card-body table-responsive p-4" id="divDocVirtual">
               <div class="row">
                 <div class="col-lg-3 col-6">
                   <!-- small card -->
@@ -81,22 +81,6 @@ Admin | Contador {{getNameInstitucion()}}
                   </div>
                 </div>
               </div>
-              <div class="row">
-                @foreach ($resbycat as $r)
-                  <div class="col-md-4 col-sm-6 col-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-download"></i></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">{{$r['categoria']}}</span>
-                        <span class="info-box-number">{{$r['total']}}</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                @endforeach
-              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -109,7 +93,7 @@ Admin | Contador {{getNameInstitucion()}}
           <div class="card-body">
             <div class="d-flex">
               <!-- Contenedor del gráfico -->
-              <div id="graficoDescargasDocOperativa" style="width:100%; height:400px;"></div>
+              <div id="graficoDescargasDocRemision" style="width:100%; height:400px;"></div>
             </div>
           </div>
         </div>
@@ -128,7 +112,7 @@ Admin | Contador {{getNameInstitucion()}}
                 <tr data-widget="expandable-table" aria-expanded="false">
                   <td>
                     <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
-                    {{$res['categoria']}}
+                    {{$res['anio']}}
                   </td>
                 </tr>
                 <tr class="expandable-body">
@@ -136,45 +120,15 @@ Admin | Contador {{getNameInstitucion()}}
                     <div class="p-0">
                       <table class="table table-hover">
                         <tbody>
-                          @foreach ($res['subcategorias'] as $sc)
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td>
-                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
-                                {{$sc['subcategoria']}}
-                              </td>
-                            </tr>
-                            <tr class="expandable-body">
-                              <td>
-                                <div class="p-0">
-                                  <table class="table table-hover">
-                                    <tbody>
-                                      <tr>
-                                        <td><b>Título</b></td>
-                                        <td><b>Descargas</b></td>
-                                      </tr>
-                                      @if (count($sc['archivos'])  > 0)
-                                      @foreach ($sc['archivos'] as $rfile)
-                                        <tr>
-                                          <td>{{$rfile['titulo']}}</td>
-                                          <td>{{$rfile['total_contador']}}</td>
-                                        </tr>
-                                      @endforeach                                        
-                                      @else
-                                          <tr>
-                                            <td> - </td>
-                                            <td> - </td>
-                                            <td> - </td>
-                                          </tr>
-                                      @endif
-                                      <tr>
-                                        <td><b>Total</b></td>
-                                        <td><b>{{$sc['total']}}</b></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </td>
-                            </tr>
+                          <tr>
+                            <td><b>Título</b></td>
+                            <td><b>Descargas</b></td>
+                          </tr>
+                          @foreach ($res['archivos'] as $ar)
+                          <tr>
+                            <td>{{$ar['titulo']}}</td>
+                            <td>{{$ar['contador_descargas']}}</td>
+                          </tr>
                           @endforeach
                         </tbody>
                       </table>
@@ -221,15 +175,16 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/js/reportescontador.js')}}"></script>
 
 <script>
+  const datos = @json($resultado);
   // Extraer nombres y totales
-  const categorias = @json($categories);
-  const valores = @json($totales);
+  const categorias = datos.map(item => item.anio);
+  const valores = datos.map(item => item.total);
 
   $(document).ready(function () {
     configChart();
     $('#modalCargando').modal('show');
     setTimeout(() => {
-      loadDataDocOpt(categorias,valores);
+      loadDataRemisionI(categorias,valores);
       $('#modalCargando').modal('hide');
     }, 3000);
   });

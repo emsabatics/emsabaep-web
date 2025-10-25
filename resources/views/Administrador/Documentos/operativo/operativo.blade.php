@@ -174,7 +174,7 @@ Admin | Doc Operativa {{getNameInstitucion()}}
                                 @if(count($b['subcategoria'])>0)
                                 @include('Administrador.Documentos.operativo.tabla', ['subcategoria' => $b['subcategoria']])
                                 @else
-                                  <tr id="nodatacat{{$b->idcat}}">
+                                  <tr id="nodatacat{{$b['idcat']}}">
                                     <td style="text-align: center;" colspan="3">Sin Datos</td>
                                   </tr>
                                 @endif

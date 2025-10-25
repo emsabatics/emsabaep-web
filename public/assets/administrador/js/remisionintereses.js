@@ -1,6 +1,6 @@
-function showInfoFinanciero(){
+function showInfoRemisionI(){
     $('#modalCargando').modal('hide');
-    $("#tablaDocFin")
+    $("#tablaDocRemision")
         .removeAttr("width")
         .DataTable({
             autoWidth: true,
@@ -32,12 +32,12 @@ function showInfoFinanciero(){
         });
 }
 
-function urlregistrardocfinanciero(){
-    window.location='/registrar_doc_financiero';
+function urlregistrarremisioni(){
+    window.location='/registrar_doc_remisioni';
 }
 
 function urlback(){
-    window.location='/docfinanciero';
+    window.location='/remision-intereses';
 }
 
 const removeAccents = (str) => {
@@ -45,10 +45,10 @@ const removeAccents = (str) => {
 }
 
 function getAliasInput(){
-    var year= $('#selYearDocFin').select2('data')[0].text;
+    var year= $('#selYearDocRemision').select2('data')[0].text;
     if(year!='-Seleccione una Opción-'){
-        if($('#inputNameDocFin').val()!=''){
-            var val= $('#inputNameDocFin').val();
+        if($('#inputNameDocRemisionI').val()!=''){
+            var val= $('#inputNameDocRemisionI').val();
             let sinaccent= removeAccents(val);
             let minuscula= sinaccent.toLowerCase();
             //let cadenasinpoint= minuscula.replaceAll(".","");
@@ -64,47 +64,47 @@ function getAliasInput(){
 }
 
 function generarAlias(){
-    var year= $('#selYearDocFin').select2('data')[0].text;
+    var year= $('#selYearDocRemision').select2('data')[0].text;
     if(year!='-Seleccione una Opción-'){
-        if($('#inputNameDocFin').val()!=''){
-            var val= $('#inputNameDocFin').val();
+        if($('#inputNameDocRemisionI').val()!=''){
+            var val= $('#inputNameDocRemisionI').val();
             let sinaccent= removeAccents(val);
             let minuscula= sinaccent.toLowerCase();
             //let cadenasinpoint= minuscula.replaceAll(".","");
             let cadenasinpoint= minuscula.replaceAll(/[.,/-]/g,"");
             let cadena= cadenasinpoint.replaceAll(" ","_");
-            $('#inputAliasFileDocFin').val(year+"_"+cadena);
+            $('#inputAliasFileDocRemisionI').val(year+"_"+cadena);
         }else{
-            $('#inputNameDocFin').focus();
+            $('#inputNameDocRemisionI').focus();
             toastr.info("Debe ingresar el título correspondiente...", "!Aviso!");
         }
     }else{
-        $('#selYearDocFin').focus();
+        $('#selYearDocRemision').focus();
         toastr.info("Debe elegir Año correspondiente...", "!Aviso!");
-        $('#inputAliasFileDocFin').val('');
+        $('#inputAliasFileDocRemisionI').val('');
     }
 }
 
-function guardarDocFin(){
+function guardarRemisionI(){
     var token= $('#token').val();
 
     let fileInput = document.getElementById("file");
-    var year = $("#selYearDocFin :selected").val();
+    var year = $("#selYearDocRemision :selected").val();
     var mes = $("#selMes :selected").val();
-    var nombredoc= $('#inputNameDocFin').val();
-    var aliasfile = $("#inputAliasFileDocFin").val();
+    var nombredoc= $('#inputNameDocRemisionI').val();
+    var aliasfile = $("#inputAliasFileDocRemisionI").val();
     var lengimg = fileInput.files.length;
     var typefile= fileInput.files[0].type;
     //var titulo= $('#inputDocTitle').val();
 
     if (year == "0") {
-        $("#selYearDocFin").focus();
+        $("#selYearDocRemision").focus();
         swal("Seleccione el Año", "", "warning");
     } else if (nombredoc == "") {
-        $('#inputNameDocFin').focus();
+        $('#inputNameDocRemisionI').focus();
         swal("Ingrese el nombre del documento", "", "warning");
     } else if (aliasfile == "") {
-        $("#inputAliasFileDocFin").focus();
+        $("#inputAliasFileDocRemisionI").focus();
         swal("No se ha generado el alias del documento", "", "warning");
     } else if (lengimg == 0 ) {
         swal("No ha seleccionado un archivo", "", "warning");
@@ -116,20 +116,20 @@ function guardarDocFin(){
             swal('Revise el alias del documento','','warning');
         }else{
             if(puedeGuardarM(nameInterfaz) === 'si'){
-            var element = document.querySelector('.savedocfin');
+            var element = document.querySelector('.savedocadmin');
             element.setAttribute("disabled", "");
             element.style.pointerEvents = "none";
 
             $('#modalFullSend').modal('show');
 
-            var data = new FormData(formDocFin);
+            var data = new FormData(formDocAdmin);
             data.append("anio", year);
             data.append("mes", mes);
             /*data.append("typefile", typefile);
             data.append("lengfile", lengimg);*/
 
             setTimeout(() => {
-                sendNewDocFinanciero(token, data, "/store-doc-financiero", element); 
+                sendNewRemisionI(token, data, "/store-doc-remisioni", element); 
             }, 700);
             }else{
                 swal('No tiene permiso para guardar','','error');
@@ -139,7 +139,7 @@ function guardarDocFin(){
 }
 
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
-function sendNewDocFinanciero(token, data, url, el){
+function sendNewRemisionI(token, data, url, el){
     var contentType = "application/x-www-form-urlencoded;charset=utf-8";
     var xr = new XMLHttpRequest();
     xr.open('POST', url, true);
@@ -163,7 +163,7 @@ function sendNewDocFinanciero(token, data, url, el){
 
                 setTimeout(function(){
                     //urlback();
-                    window.location='/registrar_doc_financiero';
+                    window.location='/registrar_doc_remisioni';
                 },1500);
                 
             } else if (myArr.resultado == "nofile") {
@@ -188,18 +188,18 @@ function sendNewDocFinanciero(token, data, url, el){
     xr.send(data);
 }
 
-function viewopenDocFin(id){
-    window.location='/view-docfinanciero/'+utf8_to_b64(id);
+function viewopenRemisionI(id){
+    window.location='/view-docremisioni/'+utf8_to_b64(id);
 }
 
-/* FUNCION PARA INACTIVAR Documentación Financiera */
-function inactivarDocFin(id, i){
+/* FUNCION PARA INACTIVAR Documentación Administrativa */
+function inactivarRemisionI(id, i){
     var token=$('#token').val();
     var estado = "0";
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
-    var code = $('#iddocumento'+i).val();
+    var code = $('#id_docremision'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -218,7 +218,7 @@ function inactivarDocFin(id, i){
       }).then((result) => {
         if (result.value) {
             $.ajax({
-            url: "/in-activar-docfinanciero",
+            url: "/in-activar-remisioni",
             type: "POST",
             dataType: "json",
             headers: {'X-CSRF-TOKEN': token},
@@ -240,26 +240,26 @@ function inactivarDocFin(id, i){
                     var elementState= document.getElementById('Tr'+i).cells[3];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
-                    html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenDocFin("+id+")'>"+
+                    html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenRemisionI("+id+")'>"+
                         "<i class='fas fa-folder mr-2'></i>"+
                         "Ver"+
                     "</button>"+
-                    "<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateDocFin("+id+")'>"+
+                    "<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateRemisionI("+id+")'>"+
                         "<i class='far fa-edit mr-2'></i>"+
                         "Actualizar"+
                     "</button>";
                     if(estado=="1"){
-                        html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarDocFin("+id+", "+i+")'>"+
+                        html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarRemisionI("+id+", "+i+")'>"+
                             "<i class='fas fa-eye-slash mr-2'></i>"+
                             "Inactivar"+
                         "</button>";
                     }else if(estado=="0"){
-                            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarDocFin("+id+", "+i+")'>"+
+                            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarRemisionI("+id+", "+i+")'>"+
                                 "<i class='fas fa-eye mr-2'></i>"+
                                 "Activar"+
                             "</button>";
                     }
-                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocFin('+code+')" >'+
+                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadRemisionI('+code+')" >'+
                         "<i class='fas fa-download mr-2'></i>"+
                         "Descargar Documento"+
                     "</button>"; 
@@ -279,16 +279,16 @@ function inactivarDocFin(id, i){
 }
 
 /* FUNCION PARA ACTIVAR Documentación Financiera */
-function activarDocFin(id, i){
+function activarRemisionI(id, i){
     var token=$('#token').val();
     var estado = "1";
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
-    var code = $('#iddocumento'+i).val();
+    var code = $('#id_docremision'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
-      url: "/in-activar-docfinanciero",
+      url: "/in-activar-remisioni",
       type: "POST",
       dataType: "json",
       headers: {'X-CSRF-TOKEN': token},
@@ -310,26 +310,26 @@ function activarDocFin(id, i){
             var elementState= document.getElementById('Tr'+i).cells[3];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
-            html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenDocFin("+id+")'>"+
+            html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenRemisionI("+id+")'>"+
                 "<i class='fas fa-folder mr-2'></i>"+
                 "Ver"+
             "</button>"+
-            "<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateDocFin("+id+")'>"+
+            "<button type='button' class='btn btn-info btn-sm mr-3 btntable' title='Actualizar' onclick='interfaceupdateRemisionI("+id+")'>"+
                 "<i class='far fa-edit mr-2'></i>"+
                 "Actualizar"+
             "</button>";
             if(estado=="1"){
-            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarDocFin("+id+", "+i+")'>"+
+            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarRemisionI("+id+", "+i+")'>"+
                 "<i class='fas fa-eye-slash mr-2'></i>"+
                 "Inactivar"+
             "</button>";
             }else if(estado=="0"){
-            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarDocFin("+id+", "+i+")'>"+
+            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarRemisionI("+id+", "+i+")'>"+
                 "<i class='fas fa-eye mr-2'></i>"+
                 "Activar"+
             "</button>";
             }
-            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocFin('+code+')" >'+
+            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadRemisionI('+code+')" >'+
                 "<i class='fas fa-download mr-2'></i>"+
                 "Descargar Documento"+
             "</button>";
@@ -346,21 +346,21 @@ function activarDocFin(id, i){
     }
 }
 
-function downloadDocFin(id){
+function downloadRemisionI(id){
     if(puedeDescargarM(nameInterfaz) === 'si'){
-    window.location='/download-docfinanciero/'+id;
+    window.location='/download-docremisioni/'+id;
     }else{
         swal('No tiene permiso para realizar esta acción','','error');
     }
 }
 
-function interfaceupdateDocFin(id){
-    window.location= '/edit-docfinanciero/'+utf8_to_b64(id);
+function interfaceupdateRemisionI(id){
+    window.location= '/edit-docremisioni/'+utf8_to_b64(id);
 }
 
 function generarAliasE(){
     //toastr.info("No se permite generar el Alias...", "!Aviso!");
-    var year= $('#selYearEditDocFin').select2('data')[0].text;
+    var year= $('#selYearEditRemisionI').select2('data')[0].text;
     if(year!='-Seleccione una Opción-'){
         if($('#inputEDocTitle').val()!=''){
             var val= $('#inputEDocTitle').val();
@@ -375,14 +375,14 @@ function generarAliasE(){
             toastr.info("Debe ingresar el título correspondiente...", "!Aviso!");
         }
     }else{
-        $('#selYearEditDocFin').focus();
+        $('#selYearEditRemisionI').focus();
         toastr.info("Debe elegir Año correspondiente...", "!Aviso!");
         $('#inputEAliasFile').val('');
     }
 }
 
 function getAliasE(){
-    var year= $('#selYearEditDocFin').select2('data')[0].text;
+    var year= $('#selYearEditRemisionI').select2('data')[0].text;
     if(year!='-Seleccione una Opción-'){
         if($('#inputEDocTitle').val()!=''){
             var val= $('#inputEDocTitle').val();
@@ -402,24 +402,24 @@ function getAliasE(){
 
 function eliminarFile(e){
     e.preventDefault();
-    var element= document.getElementById('divfiledocfin');
-    var eldivfile= document.getElementById('cardListDocFin');
+    var element= document.getElementById('divfiledocadmin');
+    var eldivfile= document.getElementById('cardListDocAdmin');
     if(element.classList.contains('noshow')){
         element.classList.remove('noshow');
         eldivfile.classList.add('noshow');
-        isDocFinanciero= false;
+        isDocRemision= false;
     }
 }
 
-function actualizardocfin(){
+function actualizardocremision(){
     var token= $('#token').val();
 
-    var id= $('#iddocfinanciero').val();
+    var id= $('#iddocremisioni').val();
     let fileInput = document.getElementById("fileEdit");
     let aliasFileE= $('#inputEAliasFile').val();
     var lengimg = fileInput.files.length;
 
-    if(isDocFinanciero==false){
+    if(isDocRemision==false){
         if (lengimg == 0 ) {
             swal("No ha seleccionado un archivo", "", "warning");
         } else if (lengimg > 1) {
@@ -427,10 +427,10 @@ function actualizardocfin(){
         } else {
             if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
-            var data = new FormData(formdocfincancieroe);
-            data.append("isDocFinanciero", isDocFinanciero);
+            var data = new FormData(formdocadministrativoe);
+            data.append("isDocRemisionI", isDocRemision);
             setTimeout(() => {
-                sendUpdateDocFinanciero(token, data, "/update-docfinanciero"); 
+                sendUpdateRemisionI(token, data, "/update-docremisioni"); 
             }, 700);
             }else{
                 swal('No tiene permiso para actualizar','','error');
@@ -442,10 +442,10 @@ function actualizardocfin(){
         }else{
             if(puedeActualizarM(nameInterfaz) === 'si'){
             $('#modalFullSend').modal('show');
-            var data = new FormData(formdocfincancieroe);
-            data.append("isDocFinanciero", isDocFinanciero);
+            var data = new FormData(formdocadministrativoe);
+            data.append("isDocRemisionI", isDocRemision);
             setTimeout(() => {
-                sendUpdateDocFinanciero(token, data, "/update-docfinanciero");
+                sendUpdateRemisionI(token, data, "/update-docremisioni");
             }, 700);
             }else{
                 swal('No tiene permiso para actualizar','','error');
@@ -455,7 +455,7 @@ function actualizardocfin(){
 }
 
 /* FUNCION QUE ENVIA LOS DATOS AL SERVIDOR PARA EL REGISTRO */
-function sendUpdateDocFinanciero(token, data, url){
+function sendUpdateRemisionI(token, data, url){
     var contentType = "application/x-www-form-urlencoded;charset=utf-8";
     var xr = new XMLHttpRequest();
     xr.open('POST', url, true);
@@ -499,10 +499,10 @@ function sendUpdateDocFinanciero(token, data, url){
     xr.send(data);
 }
 
-/* FUNCION PARA ELIMINAR PERMANENTEMENTE Documentación Financiera */
-function eliminarpermdocfin(){
+/* FUNCION PARA ELIMINAR PERMANENTEMENTE*/
+function eliminarpermremision(){
     var token=$('#token').val();
-    var id= $('#iddocfinanciero').val();
+    var id= $('#iddocremisioni').val();
     if(puedeEliminarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -521,7 +521,7 @@ function eliminarpermdocfin(){
       }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "/delete-docfinanciero",
+                url: "/delete-docremision",
                 type: "POST",
                 dataType: "json",
                 headers: {'X-CSRF-TOKEN': token},

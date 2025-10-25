@@ -1,11 +1,11 @@
 @extends('Administrador.Layouts.app')
 
 @section('icon-app')
-<link rel="shortcut icon" type="image/png" href="{{asset('assets/administrador/img/icons/doc-financiera.png')}}">
+<link rel="shortcut icon" type="image/png" href="{{asset('assets/administrador/img/icons/doc-administrativa.png')}}">
 @endsection
 
 @section('title-page')
-Admin | Doc Financiera {{getNameInstitucion()}}
+Admin | Remisión Intereses {{getNameInstitucion()}}
 @endsection
 
 @section('css')
@@ -73,7 +73,7 @@ Admin | Doc Financiera {{getNameInstitucion()}}
 @section('container-header')
 <div class="row mb-2">
   <div class="col-sm-12">
-    <h1>Doc. Financiera</h1>
+    <h1>Remisión Intereses</h1>
   </div>
 </div>
 @endsection
@@ -87,15 +87,15 @@ Admin | Doc Financiera {{getNameInstitucion()}}
           <div class="col-12">
               <div class="card">
                   <div class="card-header">
-                      <h3 class="card-title p-2"><i class="fas fa-file-contract mr-3"></i> Documentación Financiera</h3>
+                      <h3 class="card-title p-2"><i class="fas fa-file-contract mr-3"></i> Documentación Remisión Intereses</h3>
                       <div class="card-tools" id="card-tools">
-                          <button type="button" class="btn btn-primary btn-block" onclick="urlregistrardocfinanciero()"><i
+                          <button type="button" class="btn btn-primary btn-block" onclick="urlregistrarremisioni()"><i
                               class="far fa-plus-square mr-2"></i> Agregar</button>
                       </div>
                   </div>
                   <!-- /.card-header -->
-                  <div class="card-body table-responsive p-4" id="divDocFin">
-                    <table class="table datatables" id="tablaDocFin">
+                  <div class="card-body table-responsive p-4" id="divDocRemision">
+                    <table class="table datatables" id="tablaDocRemision">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
                           <th>N°</th>
@@ -106,21 +106,21 @@ Admin | Doc Financiera {{getNameInstitucion()}}
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($financiero as $item)
+                        @foreach ($remisioni as $item)
                         <tr id="Tr{{$loop->index}}">
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->anio}}</td>
                           <td>
-                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                            <input type="hidden" name="id_docremision{{ $loop->index }}" id="id_docremision{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
                             @if($item->id_mes!=null || $item->id_mes!='')
-                              @foreach ($mes as $m)
-                                @if($m->id==$item->id_mes)
-                                  <strong>{{$m->mes}}</strong><br/>
-                                  {{$item->titulo}}
-                                @endif
-                              @endforeach
+                            @foreach ($mes as $m)
+                              @if($m->id==$item->id_mes)
+                                <strong>{{$m->mes}}</strong><br/>
+                                {{$item->titulo}}
+                              @endif
+                            @endforeach
                             @else
-                              {{$item->titulo}}
+                            {{$item->titulo}}
                             @endif
                           </td>
                           <td>
@@ -131,26 +131,26 @@ Admin | Doc Financiera {{getNameInstitucion()}}
                             @endif
                           </td>
                           <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="viewopenDocFin({{$item->id}})">
+                            <a class="btn btn-primary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="viewopenRemisionI({{$item->id}})">
                               <i class="fas fa-folder mr-2"></i>
                               Ver
                             </a>
-                            <a class="btn btn-info btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="interfaceupdateDocFin({{$item->id}})">
+                            <a class="btn btn-info btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="interfaceupdateRemisionI({{$item->id}})">
                               <i class="far fa-edit mr-2"></i>
                               Actualizar
                             </a>
                             @if ($item->estado=='1')
-                            <a class="btn btn-secondary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="inactivarDocFin({{$item->id}}, {{$loop->index}})">
+                            <a class="btn btn-secondary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="inactivarRemisionI({{$item->id}}, {{$loop->index}})">
                               <i class="fas fa-eye-slash mr-2"></i>
                               Inactivar
                             </a>
                             @else
-                            <a class="btn btn-secondary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="activarDocFin({{$item->id}}, {{$loop->index}})">
+                            <a class="btn btn-secondary btn-sm mt-2 mr-3" href="javascript:void(0)" onclick="activarRemisionI({{$item->id}}, {{$loop->index}})">
                               <i class="fas fa-eye mr-2"></i>
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadDocFin('{{encriptarNumero($item->id)}}')">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRemisionI('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-2"></i>
                               Descargar Documento
                             </a>
@@ -184,7 +184,7 @@ data-backdrop="static" data-keyboard="false">
 
 <script src="{{asset('assets/administrador/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/funciones.js')}}"></script>
-<script src="{{asset('assets/administrador/js/docfinanciero.js')}}"></script>
+<script src="{{asset('assets/administrador/js/remisionintereses.js')}}"></script>
 
 <!-- DataTables  & Plugins -->
 <script src="{{asset('assets/administrador/plugins/datatables/datatables/jquery.dataTables.min.js')}}"></script>
@@ -193,11 +193,11 @@ data-backdrop="static" data-keyboard="false">
 <script src="{{asset('assets/administrador/plugins/datatables/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/administrador/js/validacion.js')}}"></script>
 <script>
-  const nameInterfaz = "Doc. Financiera";
+  const nameInterfaz = "Remisión de Intereses";
   $(document).ready(function () {
     $('#modalCargando').modal('show');
     setTimeout(() => {
-      showInfoFinanciero();
+      showInfoRemisionI();
     }, 1500);
   });
 </script>

@@ -223,7 +223,7 @@ function loadDatafromfilter(start, end, labelfil, infodato) {
     });
 }
 
-function loadDataDocAdmin(categoria, valores ) {
+function loadDataDocAdmin(categoria, valores) {
     Highcharts.chart('graficoDescargasDocAdmin', {
         chart: {
             type: 'column'
@@ -274,7 +274,7 @@ function loadDataDocAdmin(categoria, valores ) {
     });
 }
 
-function loadDataDocFin(categoria, valores ) {
+function loadDataDocFin(categoria, valores) {
     Highcharts.chart('graficoDescargasDocFin', {
         chart: {
             type: 'column'
@@ -325,7 +325,7 @@ function loadDataDocFin(categoria, valores ) {
     });
 }
 
-function loadDataDocOpt(categoria, valores ) {
+function loadDataDocOpt2(categoria, valores) {
     Highcharts.chart('graficoDescargasDocOpt', {
         chart: {
             type: 'column'
@@ -376,7 +376,58 @@ function loadDataDocOpt(categoria, valores ) {
     });
 }
 
-function loadDataDocLab(categoria, valores ) {
+function loadDataDocOpt(categoria, valores) {
+    Highcharts.chart('graficoDescargasDocOperativa', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas -  Doc. Operativa'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Categorías'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Categoría: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Categorías',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataDocLab(categoria, valores) {
     Highcharts.chart('graficoDescargasDocLab', {
         chart: {
             type: 'column'
@@ -427,7 +478,7 @@ function loadDataDocLab(categoria, valores ) {
     });
 }
 
-function loadDataLey(categoria, valores ) {
+function loadDataLey(categoria, valores) {
     Highcharts.chart('graficoDescargasLey', {
         chart: {
             type: 'column'
@@ -478,7 +529,7 @@ function loadDataLey(categoria, valores ) {
     });
 }
 
-function loadDataDocAudt(categoria, valores ) {
+function loadDataDocAudt(categoria, valores) {
     Highcharts.chart('graficoDescargasDocAud', {
         chart: {
             type: 'column'
@@ -529,7 +580,7 @@ function loadDataDocAudt(categoria, valores ) {
     });
 }
 
-function loadDataRC(categories, valores ) {
+function loadDataRC(categories, valores) {
     Highcharts.chart('graficoDescargasRC', {
         chart: {
             type: 'bar'
@@ -591,7 +642,7 @@ function loadDataRC(categories, valores ) {
     });
 }
 
-function loadDatLotaip(valores ) {
+function loadDatLotaip(valores) {
     Highcharts.chart('graficoDescargasLotaip', {
         chart: {
             type: 'column'
@@ -641,7 +692,7 @@ function loadDatLotaip(valores ) {
     });
 }
 
-function loadDatLotaipv2(valores ) {
+function loadDatLotaipv2(valores) {
     Highcharts.chart('graficoDescargasLotaip', {
         chart: {
             type: 'column'
@@ -691,7 +742,7 @@ function loadDatLotaipv2(valores ) {
     });
 }
 
-function loadDataBiblioVirtual(categoria, valores ) {
+function loadDataBiblioVirtual(categoria, valores) {
     Highcharts.chart('graficoDescargasBibliotecaVirtual', {
         chart: {
             type: 'column'
@@ -736,6 +787,57 @@ function loadDataBiblioVirtual(categoria, valores ) {
         series: [
             {
                 name: 'Categorías',
+                data: valores
+            }
+        ]
+    });
+}
+
+function loadDataRemisionI(categoria, valores) {
+    Highcharts.chart('graficoDescargasDocRemision', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Número de Descargas - Remisión Intereses'
+        },
+        xAxis: {
+            categories: categoria,
+            crosshair: true,
+            accessibility: {
+                description: 'Años'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Número de Descargas'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>Año: </b>${this.category}<br><b>Descargas: </b>${this.y}`;
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        series: [
+            {
+                name: 'Años',
                 data: valores
             }
         ]

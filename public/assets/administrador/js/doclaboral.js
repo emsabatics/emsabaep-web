@@ -199,6 +199,7 @@ function inactivarDocLab(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -258,7 +259,7 @@ function inactivarDocLab(id, i){
                                 "Activar"+
                             "</button>";
                     }
-                    html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadDocLab("+id+")' >"+
+                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocLab('+code+')" >'+
                         "<i class='fas fa-download mr-2'></i>"+
                         "Descargar Documento"+
                     "</button>"; 
@@ -284,6 +285,7 @@ function activarDocLab(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-doclaboral",
@@ -327,7 +329,7 @@ function activarDocLab(id, i){
                 "Activar"+
             "</button>";
             }
-            html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadDocLab("+id+")' >"+
+            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadDocLab('+code+')" >'+
                 "<i class='fas fa-download mr-2'></i>"+
                 "Descargar Documento"+
             "</button>";

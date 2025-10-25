@@ -305,6 +305,49 @@ class BibliotecaTransparenciaController extends Controller
         }
     }
 
+
+    public function doc_remisioni(){
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+
+        $getYearDocFin= DB::connection('mysql')->select('SELECT DISTINCT rc.id_anio as code, y.nombre as anio FROM tab_doc_remision_interes rc, tab_anio y WHERE rc.id_anio=y.id AND rc.estado=1;');
+
+        //return $getYearDocFin;
+        return response()->view('Viewmain.Transparencia.remision_intereses.remisioni_anio', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'anio_docfin'=> $getYearDocFin]);
+    }
+
+    public function view_desc_remisioni($tipo, $idanio){
+        $idanio = desencriptarNumero($idanio);
+        $contactos= $this->getAllContacts();
+        $socialmedia= $this->getAllSocialMedia();
+        
+        $resultado= array();
+
+        if($tipo=='v1'){
+            $nameyear= $this->get_name_year($idanio);
+            //$financiero= DB::connection('mysql')->select('SELECT id, titulo, archivo, id_mes FROM tab_doc_remision_interes WHERE id_anio=? AND estado=? ORDER BY titulo ASC', [$idanio, '1']);
+            $financiero = DB::connection('mysql')->select('SELECT id, titulo, archivo, id_mes FROM tab_doc_remision_interes
+            WHERE id_anio = ? AND estado = ?
+            ORDER BY 
+                CASE WHEN id_mes IS NULL THEN 1 ELSE 0 END, 
+                id_mes ASC, 
+                titulo ASC',
+            [$idanio, '1']
+            );
+            $documentos= array();
+
+            foreach($financiero as $f){
+                $documentos[]= array('id'=> $f->id, 'titulo'=> $f->titulo, 'archivo'=> $f->archivo); 
+            }
+
+            $resultado[]= array('anio'=> $nameyear, 'longitud'=> sizeof($documentos), 'documentos'=> $documentos);
+            unset($documentos);
+            
+            //return $resultado;
+            return response()->view('Viewmain.Transparencia.remision_intereses.list_remisioni', ['contactos'=> $contactos, 'socialmedia'=> $socialmedia, 'docfin'=> $resultado]);
+        }
+    }
+
     //FALTA CHECK
     public function doc_operativa_original(){
         $contactos= $this->getAllContacts();
