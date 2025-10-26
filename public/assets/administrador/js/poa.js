@@ -30,8 +30,9 @@ function showInfoPoa(){
                 sProcessing: "Procesando...",
             },
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
+                { width: 40, targets: 1, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4, 5] },
+                { width: 1, targets: 0 },
             ],
         });
 }
@@ -285,6 +286,7 @@ function inactivarPOA(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -351,7 +353,7 @@ function inactivarPOA(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA('+code+')" >'+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPOA('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar POA"+
                     "</a>"; 
@@ -378,6 +380,7 @@ function activarPOA(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-poa",
@@ -428,7 +431,7 @@ function activarPOA(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+='<a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadPOA('+code+')" >'+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPOA('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar POA"+
             "</a>"; 

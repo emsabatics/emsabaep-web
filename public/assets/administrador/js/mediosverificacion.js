@@ -77,8 +77,9 @@ function cargar_mediosv(name){
                     sProcessing: "Procesando...",
                 },
                 columnDefs: [
-                    { width: 40, targets: 0, className: "text-center" },
+                    { width: 40, targets: 1, className: "text-center" },
                     { className: "dt-head-center", targets: [1, 2, 3, 4] },
+                    { width: 1, targets: 0 },
                 ],
             });
     },1000);
@@ -332,7 +333,7 @@ function sendNewMediosV(token, data, url, el, modalname, tipo){
         if(xr.status === 200){
             //console.log(this.responseText);
             var myArr = JSON.parse(this.responseText);
-            $(modalname).modal('show');
+            $(modalname).modal('hide');
             if(myArr.resultado==true){
                 swal({
                     title:'Excelente!',
@@ -352,6 +353,7 @@ function sendNewMediosV(token, data, url, el, modalname, tipo){
                         var url = window.location.href;
                         window.location=url;
                     }else if(tipo=='updatefile'){
+                        var url = window.location.href;
                         window.location=url;
                     }
                 },1500);
@@ -377,7 +379,7 @@ function sendNewMediosV(token, data, url, el, modalname, tipo){
                 swal("No se pudo Guardar", "El Registro ya se encuentra registrado.", "error");
             }
         }else if(xr.status === 400){
-            $(modalname).modal('show');
+            $(modalname).modal('hide');
             el.removeAttribute("disabled");
             el.style.removeProperty("pointer-events");
             cleanObject();

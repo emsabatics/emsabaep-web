@@ -106,6 +106,7 @@ Admin | Ley de Transparencia {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaTrans">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Descripción</th>
                           <th class="truncate">Archivo</th>
@@ -116,11 +117,13 @@ Admin | Ley de Transparencia {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($transparencia as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->nombre_archivo}}</td>
                           <td class="truncate">{{$item->archivo}}</td>
                           <td>
-                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>
                             @else

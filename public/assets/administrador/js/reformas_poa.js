@@ -30,8 +30,9 @@ function showInfoRefPoa(){
                 sProcessing: "Procesando...",
             },
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
+                { width: 40, targets: 1, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4, 5] },
+                { width: 1, targets: 0 },
             ],
         });
 }

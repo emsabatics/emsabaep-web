@@ -332,7 +332,7 @@ data-backdrop="static" data-keyboard="false">
       "hideMethod": "fadeOut"
   }
 
-  var isFiles= '<?php echo $isFiles ?>';
+  var isFiles = @json($isFiles);
   var contadorHash = 0;
 
   function val_data(){

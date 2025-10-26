@@ -472,9 +472,9 @@ class LotaipController extends Controller
         return $resultado;
     }
 
-    //FUNCION QUE VALIDA SI ES UN PDF
+    //FUNCION QUE VALIDA SI ES UN PDF/CSV
     private function validarFile($extension){
-        $validar_extension= array("pdf");
+        $validar_extension= array("pdf","csv");
         if(in_array($extension, $validar_extension)){
             return true;
         }else{
@@ -1155,6 +1155,8 @@ class LotaipController extends Controller
         $aliasfilelotaip= $r->inputAliasEFile;
         $islotaip= $r->islotaip;
         $tiposel= $r->tipopcion;
+        $estado = $r->estadodocumento;
+        $estado = strval($estado);
 
         if($islotaip=="false"){
             if ($r->hasFile('fileEdit')) {
@@ -1181,15 +1183,15 @@ class LotaipController extends Controller
                         if($tiposel=='cd'){
                             $sql_update= DB::table('tab_lotaip_v2')
                                 ->where('id', $id)
-                                ->update(['archivo_cdatos'=> $newnamelotaip, 'updated_at'=> $date]);
+                                ->update(['archivo_cdatos'=> $newnamelotaip, 'estado'=> $estado, 'updated_at'=> $date]);
                         }else if($tiposel=='md'){
                             $sql_update= DB::table('tab_lotaip_v2')
                                 ->where('id', $id)
-                                ->update(['archivo_mdatos'=> $newnamelotaip, 'updated_at'=> $date]);
+                                ->update(['archivo_mdatos'=> $newnamelotaip, 'estado'=> $estado, 'updated_at'=> $date]);
                         }else if($tiposel=='dd'){
                             $sql_update= DB::table('tab_lotaip_v2')
                                 ->where('id', $id)
-                                ->update(['archivo_ddatos'=> $newnamelotaip, 'updated_at'=> $date]);
+                                ->update(['archivo_ddatos'=> $newnamelotaip, 'estado'=> $estado, 'updated_at'=> $date]);
                         }else if($tiposel=='art23'){
                             $sql_update= DB::table('tab_lotaip_v2')
                                 ->where('id', $id)
@@ -1213,7 +1215,14 @@ class LotaipController extends Controller
                 }
             }
         }else{
-            return response()->json(["resultado"=> true]);
+            $sql_update= DB::table('tab_lotaip_v2')
+                ->where('id', $id)
+                ->update(['estado'=> $estado, 'updated_at'=> $date]);
+            if($sql_update){
+                return response()->json(["resultado"=> true]);
+            }else{
+                return response()->json(["resultado"=> false]);
+            }
         }
     }
 }

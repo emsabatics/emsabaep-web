@@ -95,10 +95,10 @@ Admin | POA {{getNameInstitucion()}}
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body table-responsive p-4" id="divPoa">
-                    <input type="hidden" name="id_encriptado" id="id_encriptado" value="{{$codeid}}">
                     <table class="table datatables" id="tablaPOA">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Año</th>
                           <th>Área</th>
@@ -110,6 +110,9 @@ Admin | POA {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($poa as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->year}}</td>
                           <td>
@@ -202,7 +205,6 @@ data-backdrop="static" data-keyboard="false">
 <script>
   const nameInterfaz = "POA";
   const reformaPOA = @json('reforma');
-  var code = $('#id_encriptado').val();
   code = "'"+code+"'";
   $(document).ready(function () {
     $('#modalCargando').modal('show');

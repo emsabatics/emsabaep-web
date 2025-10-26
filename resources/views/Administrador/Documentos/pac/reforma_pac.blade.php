@@ -98,6 +98,7 @@ Admin | PAC {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaRefPAC">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Año</th>
                           <th>Descripción</th>
@@ -110,12 +111,14 @@ Admin | PAC {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($pac as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="id_encriptado_item{{ $loop->index }}" id="id_encriptado_item{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->nombre}}</td>
                           <td>{{$item->titulo}}</td>
                           <td>{{$item->resol_admin}}</td>
                           <td>
-                            <input type="hidden" name="id_encriptado_item{{$loop->index}}" id="id_encriptado_item{{$loop->index}}" value="'{{encriptarNumero($item->id)}}'">
                             @if($item->reforma == 0 )
                             <span class="badge badge-secondary">Original</span>
                             @else
@@ -149,11 +152,11 @@ Admin | PAC {{getNameInstitucion()}}
                               Activar
                             </a>
                             @endif
-                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPAC({{$item->id}})">
+                            <a class="btn btn-success btn-sm mt-2 mr-3" onclick="downloadRefPAC('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar PAC
                             </a>
-                            <a class="btn btn-danger btn-sm mt-2" onclick="downloadRefRA({{$item->id}})">
+                            <a class="btn btn-danger btn-sm mt-2" onclick="downloadRefRA('{{encriptarNumero($item->id)}}')">
                               <i class="fas fa-download mr-3"></i>
                               Descargar Resolución
                             </a>

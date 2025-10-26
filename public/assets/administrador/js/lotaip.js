@@ -715,7 +715,7 @@ function inactivarLOTAIP(id, i, anio, mes){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
-    var code = $('#iddocumento'+i+'_'+anio+'_'+mes).val();
+    var code = $('#iddocumento'+id+'_'+anio+'_'+mes).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -753,7 +753,7 @@ function inactivarLOTAIP(id, i, anio, mes){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[1];
+                    var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenLOTAIP("+id+")'>"+
@@ -774,7 +774,7 @@ function inactivarLOTAIP(id, i, anio, mes){
                     html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('+code+')" >'+
                         "<i class='fas fa-download'></i>"+
                     "</button>"; 
-                    var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];
+                    var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[3];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -796,7 +796,7 @@ function activarLOTAIP(id, i, anio, mes){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
-    var code = $('#iddocumento'+i+'_'+anio+'_'+mes).val();
+    var code = $('#iddocumento'+id+'_'+anio+'_'+mes).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-lotaip",
@@ -818,7 +818,7 @@ function activarLOTAIP(id, i, anio, mes){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[1];
+            var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenLOTAIP("+id+")'>"+
@@ -839,7 +839,7 @@ function activarLOTAIP(id, i, anio, mes){
             html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar LOTAIP" onclick="downloadLOTAIP('+code+')" >'+
                 "<i class='fas fa-download'></i>"+
             "</button>";
-            var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[2];
+            var element= document.getElementById('Tr'+i+'-'+anio+'-'+mes).cells[3];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

@@ -27,8 +27,9 @@ function showInfoLey(){
             },
             autoWidth: false,
             columnDefs: [
-                { width: 15, targets: 0, className: "text-center" },
+                { width: 15, targets: 1, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4] },
+                { width: 1, targets: 0 },
                 { width: 130, targets: 1 },    // Descripción
                 { width: 130, targets: 2 },    // Archivo
                 { width: 40, targets: 3 },    // Estado
@@ -281,6 +282,7 @@ function inactivarLey(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -318,7 +320,7 @@ function inactivarLey(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[3];
+                    var elementState= document.getElementById('Tr'+i).cells[4];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenLey("+id+")'>"+
@@ -340,11 +342,11 @@ function inactivarLey(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadLey("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadLey('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Documento"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[4];
+                    var element= document.getElementById('Tr'+i).cells[5];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -366,6 +368,7 @@ function activarLey(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-ley",
@@ -387,7 +390,7 @@ function activarLey(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[3];
+            var elementState= document.getElementById('Tr'+i).cells[4];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenLey("+id+")'>"+
@@ -409,11 +412,11 @@ function activarLey(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadLey("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadLey('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Documento"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[4];
+            var element= document.getElementById('Tr'+i).cells[5];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

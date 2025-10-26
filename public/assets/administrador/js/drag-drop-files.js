@@ -5,6 +5,7 @@ let numOfFIles = document.getElementById("num-of-files");
 const findT= /pdf/;
 const findV= "video/mp4";
 const findSvg= "image/svg+xml";
+const findCsv= "text/csv";
 
 function preview(){
     imageContainer.innerHTML="";
@@ -34,6 +35,11 @@ function preview(){
         }else if(i.type.search(findV)!='-1'){
             let img = document.createElement("img");
             img.setAttribute("src", "/assets/administrador/img/icons/icon-video-color.svg");
+            img.setAttribute("style", "width: 40%;");
+            figure.insertBefore(img, figCap);
+        }else if(i.type.search(findCsv)!='-1'){
+            let img = document.createElement("img");
+            img.setAttribute("src", "/assets/administrador/img/icons/icon-csv.png");
             img.setAttribute("style", "width: 40%;");
             figure.insertBefore(img, figCap);
         }else{

@@ -13,6 +13,7 @@ let imageContainerDD = document.getElementById("imagesDD");
 let numOfFIlesDD = document.getElementById("num-of-filesDD");
 
 const findCT= /pdf/;
+const findformatCsv= "text/csv";
 
 function viewpCCD(){
     imageContainerCD.innerHTML="";
@@ -37,6 +38,11 @@ function viewpCCD(){
         }else if(i.type.search(findV)!='-1'){
             let img = document.createElement("img");
             img.setAttribute("src", "/assets/administrador/img/icons/icon-video-color.svg");
+            img.setAttribute("style", "width: 40%;");
+            figure.insertBefore(img, figCap);
+        }else if(i.type.search(findformatCsv)!='-1'){
+            let img = document.createElement("img");
+            img.setAttribute("src", "/assets/administrador/img/icons/icon-csv.png");
             img.setAttribute("style", "width: 40%;");
             figure.insertBefore(img, figCap);
         }else{
@@ -82,6 +88,11 @@ function viewpMD(){
             img.setAttribute("src", "/assets/administrador/img/icons/icon-video-color.svg");
             img.setAttribute("style", "width: 40%;");
             figure.insertBefore(img, figCap);
+        }else if(i.type.search(findformatCsv)!='-1'){
+            let img = document.createElement("img");
+            img.setAttribute("src", "/assets/administrador/img/icons/icon-csv.png");
+            img.setAttribute("style", "width: 40%;");
+            figure.insertBefore(img, figCap);
         }else{
             reader.onload= () =>{
                 let img = document.createElement("img");
@@ -123,6 +134,11 @@ function viewpDD(){
         }else if(i.type.search(findV)!='-1'){
             let img = document.createElement("img");
             img.setAttribute("src", "/assets/administrador/img/icons/icon-video-color.svg");
+            img.setAttribute("style", "width: 40%;");
+            figure.insertBefore(img, figCap);
+        }else if(i.type.search(findformatCsv)!='-1'){
+            let img = document.createElement("img");
+            img.setAttribute("src", "/assets/administrador/img/icons/icon-csv.png");
             img.setAttribute("style", "width: 40%;");
             figure.insertBefore(img, figCap);
         }else{

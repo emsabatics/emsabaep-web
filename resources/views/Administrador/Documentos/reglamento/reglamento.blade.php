@@ -106,6 +106,7 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaLEY">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Descripción</th>
                           <th class="truncate">Archivo</th>
@@ -116,6 +117,9 @@ Admin | REGLAMENTOS {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($reglamento as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->nombre_archivo}}</td>
                           <td class="truncate">{{$item->archivo}}</td>

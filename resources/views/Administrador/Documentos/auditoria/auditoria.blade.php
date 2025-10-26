@@ -98,6 +98,7 @@ Admin | AUDITORIA {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaAuditoria">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Año</th>
                           <th>Descripción</th>
@@ -108,11 +109,13 @@ Admin | AUDITORIA {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($auditoria as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->year}}</td>
                           <td>{{$item->titulo}}</td>
                           <td>
-                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
                             @if ($item->estado=='0')
                             <span class="badge badge-secondary">No Visible</span>
                             @else

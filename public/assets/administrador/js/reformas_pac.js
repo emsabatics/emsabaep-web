@@ -29,7 +29,8 @@ function showInfoRefPac(){
             },
             columnDefs: [
                 { width: 40, targets: 0, className: "text-center" },
-                { className: "dt-head-center", targets: [1, 2, 3, 4, 5] },
+                { className: "dt-head-center", targets: [1, 2, 3, 4, 5,6] },
+                { width: 1, targets: 0 },
             ],
         });
 }
@@ -100,7 +101,7 @@ function inactivarRefPAC(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[5];
+                    var elementState= document.getElementById('Tr'+i).cells[6];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
@@ -130,7 +131,7 @@ function inactivarRefPAC(id, i){
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Resolución"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[6];
+                    var element= document.getElementById('Tr'+i).cells[7];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -179,7 +180,7 @@ function activarRefPAC(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[5];
+            var elementState= document.getElementById('Tr'+i).cells[6];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenRefPAC("+id+")'>"+
@@ -209,7 +210,7 @@ function activarRefPAC(id, i){
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Resolución"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[6];
+            var element= document.getElementById('Tr'+i).cells[7];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

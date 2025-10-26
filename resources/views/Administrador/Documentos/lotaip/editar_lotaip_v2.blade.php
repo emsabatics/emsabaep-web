@@ -125,6 +125,9 @@ Admin | LOTAIP {{getNameInstitucion()}}
 @endsection
 
 @section('contenido-body')
+@php
+use Illuminate\Support\Str;
+@endphp
 <input type="hidden" name="csrf-token" value="{{csrf_token()}}" id="token">
 
 <section class="content">
@@ -238,6 +241,17 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                     </div>
                                   </div>
                                   <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                      @if ($p->estado=="1")
+                                      <input type="checkbox" class="custom-control-input" id="customSwitchCat" value="activo" checked>
+                                      <label class="custom-control-label" for="customSwitchCat"><span id="estadoLotaip2">Activo</span></label>
+                                      @elseif ($p->estado=="0")
+                                      <input type="checkbox" class="custom-control-input" id="customSwitchCat" value="inactivo">
+                                      <label class="custom-control-label" for="customSwitchCat"><span id="estadoLotaip2">Inactivo</span></label>
+                                      @endif
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
                                     <label>Última modificación: </label> <br/>
                                     <h5><span class="badge badge-info">{{$fechatoshow}} {{$horatoshow}}</span></h5>
                                   </div>
@@ -247,7 +261,27 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                   <div class='item-list grid-item-list' id='divpics'>
                                     <div style='grid-row: 1/2;'>
                                       <div class='avatar' style="text-align: center;height: 78px;">
+                                        @if ($typeop=='cd')
+                                          @if (Str::endsWith($p->archivo_cdatos, '.csv'))
+                                            <img src='/assets/administrador/img/icons/icon-csv.png' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @else
+                                            <img src='/assets/administrador/img/icons/icon-pdf-color.svg' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @endif
+                                        @elseif ($typeop=='md')
+                                          @if (Str::endsWith($p->archivo_mdatos, '.csv'))
+                                            <img src='/assets/administrador/img/icons/icon-csv.png' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @else
+                                            <img src='/assets/administrador/img/icons/icon-pdf-color.svg' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @endif
+                                        @elseif ($typeop=='dd')
+                                          @if (Str::endsWith($p->archivo_ddatos, '.csv'))
+                                            <img src='/assets/administrador/img/icons/icon-csv.png' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @else
+                                            <img src='/assets/administrador/img/icons/icon-pdf-color.svg' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                          @endif
+                                        @else
                                         <img src='/assets/administrador/img/icons/icon-pdf-color.svg' alt='File' class='avatar-img' style="width: 78px;height: 78px;">
+                                        @endif
                                       </div>
                                     </div>
                                     <div style='grid-row: 1/2;'>

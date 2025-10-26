@@ -368,8 +368,9 @@ function showInfoLey(){
                 sProcessing: "Procesando...",
             },
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
+                { width: 40, targets: 1, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4] },
+                { width: 1, targets: 0 },
             ],
         });
 }
@@ -646,7 +647,7 @@ function inactivarTransparencia(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[3];
+                    var elementState= document.getElementById('Tr'+i).cells[4];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenTransparencia("+id+")'>"+
@@ -672,7 +673,7 @@ function inactivarTransparencia(id, i){
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Documento"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[4];
+                    var element= document.getElementById('Tr'+i).cells[5];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -716,7 +717,7 @@ function activarTransparencia(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[3];
+            var elementState= document.getElementById('Tr'+i).cells[4];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenTransparencia("+id+")'>"+
@@ -742,7 +743,7 @@ function activarTransparencia(id, i){
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Documento"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[4];
+            var element= document.getElementById('Tr'+i).cells[5];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

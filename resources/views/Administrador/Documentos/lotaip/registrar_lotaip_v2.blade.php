@@ -193,7 +193,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <div class="form-group mb-3" id="divOpciones" style="display: none;">
                                   <span class="spanlabel m-4">Seleccione solo un archivo</span>
                                   <div class="container">
-                                    <input type="file" name="file[]" id="file" accept="application/pdf" onchange="preview()" multiple>
+                                    <input type="file" name="file[]" id="file" accept="application/pdf, text/csv" onchange="preview()" multiple>
                                     <label for="file">
                                       <i class="fas fa-cloud-upload-alt mr-2"></i> Elija un archivo
                                     </label>
@@ -204,7 +204,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <div class="form-group mb-3" id="divCDatos" style="display: none;">
                                   <span class="spanlabel m-4">Archivo para Conjunto de Datos</span>
                                   <div class="container">
-                                    <input type="file" name="fileCCD[]" id="fileCCD" accept="application/pdf" onchange="viewpCCD()">
+                                    <input type="file" name="fileCCD[]" id="fileCCD" accept="application/pdf, text/csv" onchange="viewpCCD()">
                                     <label for="fileCCD">
                                       <i class="fas fa-cloud-upload-alt mr-2"></i> Elija un archivo
                                     </label>
@@ -215,7 +215,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <div class="form-group mb-3" id="divMDatos" style="display: none;">
                                   <span class="spanlabel m-4">Archivo para Metadatos</span>
                                   <div class="container">
-                                    <input type="file" name="fileMD[]" id="fileMD" accept="application/pdf" onchange="viewpMD()">
+                                    <input type="file" name="fileMD[]" id="fileMD" accept="application/pdf, text/csv" onchange="viewpMD()">
                                     <label for="fileMD">
                                       <i class="fas fa-cloud-upload-alt mr-2"></i> Elija un archivo
                                     </label>
@@ -226,7 +226,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <div class="form-group mb-3" id="divDDatos" style="display: none;">
                                   <span class="spanlabel m-4">Archivo para Diccionario de Datos</span>
                                   <div class="container">
-                                    <input type="file" name="fileDD[]" id="fileDD" accept="application/pdf" onchange="viewpDD()">
+                                    <input type="file" name="fileDD[]" id="fileDD" accept="application/pdf, text/csv" onchange="viewpDD()">
                                     <label for="fileDD">
                                       <i class="fas fa-cloud-upload-alt mr-2"></i> Elija un archivo
                                     </label>

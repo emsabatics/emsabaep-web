@@ -28,8 +28,9 @@ function showInfoPac(){
                 sProcessing: "Procesando...",
             },
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
-                { className: "dt-head-center", targets: [1, 2, 3, 4, 5] },
+                { width: 40, targets: 1, className: "text-center" },
+                { className: "dt-head-center", targets: [1, 2, 3, 4, 5,6] },
+                { width: 1, targets: 0 },
             ],
         });
 }
@@ -213,6 +214,7 @@ function inactivarPAC(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -251,7 +253,7 @@ function inactivarPAC(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[4];
+                    var elementState= document.getElementById('Tr'+i).cells[5];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPAC("+id+")'>"+
@@ -279,15 +281,15 @@ function inactivarPAC(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPAC("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPAC('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar PAC"+
                     "</a>"+
-                    "<a class='btn btn-danger btn-sm mt-2 mr-3' onclick='downloadRA("+id+")' >"+
+                    '<a class="btn btn-danger btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadRA('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Resolución"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[5];
+                    var element= document.getElementById('Tr'+i).cells[6];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -310,6 +312,7 @@ function activarPAC(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pac",
@@ -332,7 +335,7 @@ function activarPAC(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[4];
+            var elementState= document.getElementById('Tr'+i).cells[5];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPAC("+id+")'>"+
@@ -360,15 +363,15 @@ function activarPAC(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPAC("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPAC('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar PAC"+
             "</a>"+
-            "<a class='btn btn-danger btn-sm mt-2 mr-3' onclick='downloadRA("+id+")' >"+
+            '<a class="btn btn-danger btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadRA('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Resolución"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[5];
+            var element= document.getElementById('Tr'+i).cells[6];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

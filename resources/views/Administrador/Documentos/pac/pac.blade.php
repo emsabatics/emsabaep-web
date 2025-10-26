@@ -98,6 +98,7 @@ Admin | PAC {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaPAC">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Año</th>
                           <th>Descripción</th>
@@ -109,6 +110,9 @@ Admin | PAC {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($pac as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->nombre}}</td>
                           <td>{{$item->titulo}}</td>

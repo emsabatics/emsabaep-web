@@ -151,6 +151,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap" id="table-{{$i['anio']}}-{{$mes['idmes']}}">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 45%;text-align: center;">Literal</th>
                                       <th style="width: 15%;text-align: center;">Estado</th>
                                       <th style="width: 40%;text-align: center;">Opciones</th>
@@ -159,9 +160,11 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($mes['archivos'] as $f)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-{{$mes['idmes']}}">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $f['id'] }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $f['id'] }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
+                                      </td>
                                       <td class="celdaAsignado">{{$f['literal']}}.- {{$f['descripcion']}}</td>
                                       <td>
-                                        <input type="hidden" name="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
                                         @if ($f['estado']=='0')
                                         <span class="badge badge-secondary">No Visible</span>
                                         @else
@@ -219,6 +222,7 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap" style="width:100%" id="table-{{$i['anio']}}-{{$mes['idmes']}}">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 45%;text-align: center;">Literal</th>
                                       <th style="width: 15%;text-align: center;">Estado</th>
                                       <th style="width: 40%;text-align: center;">Opciones</th>
@@ -227,9 +231,11 @@ Admin | LOTAIP {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($mes['archivos'] as $f)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-{{$mes['idmes']}}">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $f['id'] }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $f['id'] }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
+                                      </td>
                                       <td class="celdaAsignado">{{$f['literal']}}.- {{$f['descripcion']}}</td>
                                       <td>
-                                        <input type="hidden" name="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" id="iddocumento{{ $loop->index }}_{{$i['anio']}}_{{$mes['idmes']}}" value="'{{encriptarNumero($f['id'])}}'">
                                         @if ($f['estado']=='0')
                                         <span class="badge badge-secondary">No Visible</span>
                                         @else

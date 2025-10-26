@@ -148,6 +148,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap table-responsive" id="table-{{$i['anio']}}-video">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 15%;text-align: center;">Tipo Archivo</th>
                                       <th style="width: 35%;text-align: center;">Archivo</th>
                                       <th style="width: 10%;text-align: center;">Estado</th>
@@ -157,6 +158,9 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($i['archivos_v'] as $f)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-video">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $f['id'] }}_{{$i['anio']}}" id="iddocumento{{ $f['id'] }}_{{$i['anio']}}" value="'{{encriptarNumero($f['id'])}}'">
+                                      </td>
                                       <td style="text-align: center;">
                                         VÍDEO
                                       </td>
@@ -210,6 +214,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap" id="table-{{$i['anio']}}-medio">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 15%;text-align: center;">Tipo Archivo</th>
                                       <th style="width: 35%;text-align: center;">Archivo</th>
                                       <th style="width: 10%;text-align: center;">Estado</th>
@@ -219,6 +224,9 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($i['archivos_m'] as $mv)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-medio">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $mv['id'] }}_{{$i['anio']}}" id="iddocumento{{ $mv['id'] }}_{{$i['anio']}}" value="'{{encriptarNumero($mv['id'])}}'">
+                                      </td>
                                       <td style="text-align: center;">
                                         MEDIOS
                                       </td>
@@ -278,6 +286,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap" id="table-{{$i['anio']}}-video">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 15%;text-align: center;">Tipo Archivo</th>
                                       <th style="width: 35%;text-align: center;">Archivo</th>
                                       <th style="width: 10%;text-align: center;">Estado</th>
@@ -287,6 +296,9 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($i['archivos_v'] as $f)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-video">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $f['id'] }}_{{$i['anio']}}" id="iddocumento{{ $f['id'] }}_{{$i['anio']}}" value="'{{encriptarNumero($f['id'])}}'">
+                                      </td>
                                       <td style="text-align: center;">
                                         VÍDEO
                                       </td>
@@ -340,6 +352,7 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                 <table class="table table-head-fixed text-nowrap" id="table-{{$i['anio']}}-medio">
                                   <thead>
                                     <tr>
+                                      <th style="visibility: collapse;"></th>
                                       <th style="width: 15%;text-align: center;">Tipo Archivo</th>
                                       <th style="width: 35%;text-align: center;">Archivo</th>
                                       <th style="width: 10%;text-align: center;">Estado</th>
@@ -349,6 +362,9 @@ Admin | Rendición de Cuentas {{getNameInstitucion()}}
                                   <tbody>
                                     @foreach ($i['archivos_m'] as $mv)
                                     <tr id="Tr{{$loop->index}}-{{$i['anio']}}-medio">
+                                      <td style="visibility: collapse;">
+                                        <input type="hidden" name="iddocumento{{ $mv['id'] }}_{{$i['anio']}}" id="iddocumento{{ $mv['id'] }}_{{$i['anio']}}" value="'{{encriptarNumero($mv['id'])}}'">
+                                      </td>
                                       <td style="text-align: center;">
                                         MEDIOS
                                       </td>

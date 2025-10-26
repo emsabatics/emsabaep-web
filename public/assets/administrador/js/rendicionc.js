@@ -198,6 +198,14 @@ function inactivarrendicionc(id, i, anio, tipo){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+id+'_'+anio).val();
+    var ntipo='';
+    if(tipo=='medio'){
+        ntipo= 'medio';
+    }else if(tipo=='video'){
+        ntipo='video';
+    }
+    ntipo = "'"+ntipo +"'";
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
         type: "warning",
@@ -234,7 +242,7 @@ function inactivarrendicionc(id, i, anio, tipo){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[2];
+                    var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[3];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenrendicionc("+id+")'>"+
@@ -244,18 +252,18 @@ function inactivarrendicionc(id, i, anio, tipo){
                         "<i class='far fa-edit'></i>"+
                     "</button>";
                     if(estado=="1"){
-                        html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarrendicionc("+id+", "+i+", "+anio+", "+tipo+")'>"+
+                        html+='<button type="button" class="btn btn-secondary btn-sm mr-3 btntable" title="Inactivar" onclick="inactivarrendicionc('+id+', '+i+', '+anio+', '+ntipo+')" >'+
                             "<i class='fas fa-eye-slash'></i>"+
                         "</button>";
                     }else if(estado=="0"){
-                            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarrendicionc("+id+", "+i+", "+anio+", "+tipo+")'>"+
+                            html+='<button type="button" class="btn btn-secondary btn-sm mr-3 btntable" title="Activar" onclick="activarrendicionc('+id+', '+i+', '+anio+', '+ntipo+')" >'+
                                 "<i class='fas fa-eye'></i>"+
                             "</button>";
                     }
-                    html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadrendicionc("+id+")' >"+
+                    html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadrendicionc('+code+')" >'+
                         "<i class='fas fa-download'></i>"+
                     "</button>"; 
-                    var element= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[3];
+                    var element= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[4];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -274,6 +282,14 @@ function activarrendicionc(id, i, anio, tipo){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+id+'_'+anio).val();
+    var ntipo='';
+    if(tipo=='medio'){
+        ntipo= 'medio';
+    }else if(tipo=='video'){
+        ntipo='video';
+    }
+    ntipo = "'"+ntipo +"'";
     $.ajax({
       url: "/in-activar-rendicionc",
       type: "POST",
@@ -294,7 +310,7 @@ function activarrendicionc(id, i, anio, tipo){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[2];
+            var elementState= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[3];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<button type='button' class='btn btn-primary btn-sm mr-3 btntable' title='Ver' onclick='viewopenrendicionc("+id+")'>"+
@@ -304,18 +320,18 @@ function activarrendicionc(id, i, anio, tipo){
                 "<i class='far fa-edit'></i>"+
             "</button>";
             if(estado=="1"){
-            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Inactivar' onclick='inactivarrendicionc("+id+", "+i+", "+anio+", "+tipo+")'>"+
+            html+='<button type="button" class="btn btn-secondary btn-sm mr-3 btntable" title="Inactivar" onclick="inactivarrendicionc('+id+', '+i+', '+anio+', '+ntipo+')" >'+
                 "<i class='fas fa-eye-slash'></i>"+
             "</button>";
             }else if(estado=="0"){
-            html+="<button type='button' class='btn btn-secondary btn-sm mr-3 btntable' title='Activar' onclick='activarrendicionc("+id+", "+i+", "+anio+", "+tipo+")'>"+
+            html+='<button type="button" class="btn btn-secondary btn-sm mr-3 btntable" title="Activar" onclick="activarrendicionc('+id+', '+i+', '+anio+', '+ntipo+')" >'+
                 "<i class='fas fa-eye'></i>"+
             "</button>";
             }
-            html+="<button type='button' class='btn btn-success btn-sm mr-3 btntable' title='Descargar Rendición Cuentas' onclick='downloadrendicionc("+id+")' >"+
+            html+='<button type="button" class="btn btn-success btn-sm mr-3 btntable" title="Descargar Documento" onclick="downloadrendicionc('+code+')" >'+
                 "<i class='fas fa-download'></i>"+
             "</button>";
-            var element= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[3];
+            var element= document.getElementById('Tr'+i+'-'+anio+'-'+tipo).cells[4];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

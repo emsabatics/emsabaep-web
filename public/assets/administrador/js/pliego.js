@@ -27,8 +27,9 @@ function showInfoPliego(){
                 sProcessing: "Procesando...",
             },
             columnDefs: [
-                { width: 40, targets: 0, className: "text-center" },
+                { width: 40, targets: 1, className: "text-center" },
                 { className: "dt-head-center", targets: [1, 2, 3, 4] },
+                { width: 1, targets: 0 },
             ],
         });
 }
@@ -154,6 +155,7 @@ function inactivarPliego(id, i){
     var estadoItem='No Visible';
     var classbadge="badge badge-secondary";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     Swal.fire({
         title: "<strong>¡Aviso!</strong>",
@@ -191,7 +193,7 @@ function inactivarPliego(id, i){
                     });
                     
                     setTimeout(function () {
-                    var elementState= document.getElementById('Tr'+i).cells[3];
+                    var elementState= document.getElementById('Tr'+i).cells[4];
                     $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
                     html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPliego("+id+")'>"+
@@ -213,11 +215,11 @@ function inactivarPliego(id, i){
                                 "Activar"+
                             "</a>";
                     }
-                    html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPliego("+id+")' >"+
+                    html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPliego('+code+')" >'+
                         "<i class='fas fa-download mr-3'></i>"+
                         "Descargar Pliego"+
                     "</a>"; 
-                    var element= document.getElementById('Tr'+i).cells[4];
+                    var element= document.getElementById('Tr'+i).cells[5];
                     $(element).html(html);
                     }, 1500);
                 } else if (res.resultado == false) {
@@ -239,6 +241,7 @@ function activarPliego(id, i){
     var estadoItem='Visible';
     var classbadge="badge badge-success";
     var html="";
+    var code = $('#iddocumento'+i).val();
     if(puedeActualizarSM(nameInterfaz) === 'si'){
     $.ajax({
       url: "/in-activar-pliego",
@@ -260,7 +263,7 @@ function activarPliego(id, i){
             });
             
             setTimeout(function () {
-            var elementState= document.getElementById('Tr'+i).cells[3];
+            var elementState= document.getElementById('Tr'+i).cells[4];
             $(elementState).html("<span class='"+classbadge+"'>"+estadoItem+"</span>");
 
             html+="<a class='btn btn-primary btn-sm mt-2 mr-3' href='javascript:void(0)' onclick='viewopenPliego("+id+")'>"+
@@ -282,11 +285,11 @@ function activarPliego(id, i){
                         "Activar"+
                     "</a>";
             }
-            html+="<a class='btn btn-success btn-sm mt-2 mr-3' onclick='downloadPliego("+id+")' >"+
+            html+='<a class="btn btn-success btn-sm mt-2 mr-3" title="Descargar Documento" onclick="downloadPliego('+code+')" >'+
                 "<i class='fas fa-download mr-3'></i>"+
                 "Descargar Pliego"+
             "</a>"; 
-            var element= document.getElementById('Tr'+i).cells[4];
+            var element= document.getElementById('Tr'+i).cells[5];
             $(element).html(html);
             }, 1500);
         } else if (res.resultado == false) {

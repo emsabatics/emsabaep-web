@@ -98,6 +98,7 @@ Admin | Pliego Tarifario {{getNameInstitucion()}}
                     <table class="table datatables" id="tablaPliego">
                       <thead class="thead-dark">
                         <tr style="pointer-events:none;">
+                          <th style="visibility: collapse;"></th>
                           <th>N°</th>
                           <th>Observación</th>
                           <th>Archivo</th>
@@ -108,6 +109,9 @@ Admin | Pliego Tarifario {{getNameInstitucion()}}
                       <tbody>
                         @foreach ($pliego as $item)
                         <tr id="Tr{{$loop->index}}">
+                          <td style="visibility: collapse;">
+                            <input type="hidden" name="iddocumento{{ $loop->index }}" id="iddocumento{{ $loop->index }}" value="'{{encriptarNumero($item->id)}}'">
+                          </td>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$item->observacion}}</td>
                           <td>{{$item->archivo}}</td>

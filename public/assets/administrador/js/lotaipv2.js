@@ -506,11 +506,31 @@ function generarAliasv2E(){
     toastr.info("No se permite generar el Alias...", "!Aviso!");
 }
 
+$("#customSwitchCat").on('change', function() {
+    if ($(this).is(':checked')) {
+        $(this).attr('value', 'activo');
+        $('#estadoLotaip2').html('Activo');
+    }
+    else {
+       $(this).attr('value', 'inactivo');
+       $('#estadoLotaip2').html('Inactivo');
+    }
+});
+
+function getSelectEstadoCheck(){
+    if( $('#customSwitchCat').prop('checked') ) {
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 function actualizarLotaipv2(){
     var token= $('#token').val();
 
     var id= $('#idlotaipv2').val();
     let fileInput = document.getElementById("fileEdit");
+    var estadodocumento= getSelectEstadoCheck();
     var lengimg = fileInput.files.length;
 
     if(isLotaipv2==false){
@@ -523,6 +543,7 @@ function actualizarLotaipv2(){
             $('#modalFullSend').modal('show');
             var data = new FormData(formLOTAIPv2);
             data.append("islotaip", isLotaipv2);
+            data.append("estadodocumento", estadodocumento);
             setTimeout(() => {
                 sendUpdateLotaipv2(token, data, "/update-lotaipv2"); 
             }, 700);
@@ -535,6 +556,7 @@ function actualizarLotaipv2(){
         $('#modalFullSend').modal('show');
         var data = new FormData(formLOTAIPv2);
         data.append("islotaip", isLotaipv2);
+        data.append("estadodocumento", estadodocumento);
         setTimeout(() => {
             sendUpdateLotaipv2(token, data, "/update-lotaipv2");
         }, 700);
